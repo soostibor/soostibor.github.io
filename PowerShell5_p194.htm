@@ -1,0 +1,2320 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>2.5.10 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><a name="_Ref486186642"></a><a
+name="_Ref486186650"></a><a name="_Toc204716349"></a><a name="_Toc209115892"><span
+style='mso-bookmark:_Toc204716349'><span style='mso-bookmark:_Ref486186650'><span
+style='mso-bookmark:_Ref486186642'>
+<span lang=HU>Dinamikus
+paraméterek</span></span></span></span></a></span></span></span></span></h3>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:
+_Toc197149244'><span lang=HU>Már többször említettem a dinamikus paraméterek
+fogalmát. Ezek olyan paraméterek, amelyek bizonyos feltételek teljesülésekor
+jelennek meg a cmdleteknél, függvényeknél. A leggyakoribb ilyen feltétel, hogy
+a parancs éppen melyik provider környezetében fut. Egy kis rejtvényként
+próbáljuk meg felderíteni az összes olyan cmdletet, amelynek van dinamikus
+paramétere, illetve azt, hogy mely providerek esetében milyen paraméterekre
+kell számítanunk. Első lépésként nézzük meg, hogy hogyan tudunk információkhoz
+jutni ezekről a dinamikus paraméterekről. A help ebben nem segít. Én tudom,
+hogy pl. a </span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>get-content</span></span><span
+lang=HU> cmdletnek egy </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>-delimiter</span></span><span
+lang=HU> dinamikus paramétere, de az alábbi, súgóból származó információ ebben
+nem segít nekünk:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[17] PS C:\&gt; (Get-Help
+Get-Content).parameters.parameter | ForEach-Object {$_.n</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ame}</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Credential</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Exclude</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Filter</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Force</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Include</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>LiteralPath</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Path</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ReadCount</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>TotalCount</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>UseTransaction</span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:
+_Toc197149244'><span lang=HU>Egy másik cmdlettel, a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>get-command</span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'></span></span></span></span>
+<span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:
+_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span lang=HU>-dal is
+fel tudjuk deríteni a paramétereket, méghozzá sokkal precízebben, immár a
+dinamikus paraméterekkel együtt:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[18] PS C:\&gt;
+(Get-Command Get-Content).parameters</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Key<span
+style='mso-spacerun:yes'>                                     </span>Value</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>---<span
+style='mso-spacerun:yes'>                                     </span>-----</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ReadCount<span
+style='mso-spacerun:yes'>                              
+</span>System.Management.Automation.Parame...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>TotalCount<span
+style='mso-spacerun:yes'>                             
+</span>System.Management.Automation.Parame...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Path<span
+style='mso-spacerun:yes'>                                   
+</span>System.Management.Automation.Parame...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>LiteralPath<span
+style='mso-spacerun:yes'>                            
+</span>System.Management.Automation.Parame...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Filter<span
+style='mso-spacerun:yes'>                                 
+</span>System.Management.Automation.Parame...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Include<span
+style='mso-spacerun:yes'>                                
+</span>System.Management.Automation.Parame...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Exclude<span
+style='mso-spacerun:yes'>                                
+</span>System.Management.Automation.Parame...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Force<span
+style='mso-spacerun:yes'>                                  
+</span>System.Management.Automation.Parame...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Credential<span
+style='mso-spacerun:yes'>                             
+</span>System.Management.Automation.Parame...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Verbose<span
+style='mso-spacerun:yes'>                                
+</span>System.Management.Automation.Parame...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Debug<span
+style='mso-spacerun:yes'>                                  
+</span>System.Management.Automation.Parame...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ErrorAction<span
+style='mso-spacerun:yes'>                            
+</span>System.Management.Automation.Parame...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>WarningAction<span
+style='mso-spacerun:yes'>                          
+</span>System.Management.Automation.Parame...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ErrorVariable<span
+style='mso-spacerun:yes'>                          
+</span>System.Management.Automation.Parame...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>WarningVariable<span
+style='mso-spacerun:yes'>                        
+</span>System.Management.Automation.Parame...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>OutVariable<span
+style='mso-spacerun:yes'>                            
+</span>System.Management.Automation.Parame...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>OutBuffer<span
+style='mso-spacerun:yes'>                              
+</span>System.Management.Automation.Parame...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>UseTransaction<span
+style='mso-spacerun:yes'>                         
+</span>System.Management.Automation.Parame...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Delimiter<span
+style='mso-spacerun:yes'>                              
+</span>System.Management.Automation.Parame...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Wait<span
+style='mso-spacerun:yes'>                                   
+</span>System.Management.Automation.Parame...</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Encoding<span
+style='mso-spacerun:yes'>                               
+</span>System.Management.Automation.Parame...</span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:
+_Toc197149244'><span lang=HU>Az a baj, hogy ez hashtáblát ad kimenetként, így
+csőfeldolgozó parancsokkal ezt nem lehet szűrni, feldolgozni, így egy kis
+átalakítást kell végezni ezzel, hogy megvizsgálhassuk, hogy az egyes
+paraméterek dinamikusak-e:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[19] PS C:\&gt; $h_params
+= (Get-Command Get-Content).parameters</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[20] PS C:\&gt;
+$h_params.Keys | where-object {$h_params[$_].IsDynamic} | ForEach-</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Object
+{$h_params[$_].name}</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Delimiter</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Wait</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Encoding</span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:
+_Toc197149244'><span lang=HU>Annyival többet tud a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>get-command</span></span><span
+lang=HU> a </span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>get-help</span></span><span
+lang=HU>-hez képest, hogy átadhatunk neki egy </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>&#8209;ArgumentList</span></span><span
+lang=HU> paraméterben mindenféle paramétert, amelyekkel a cmdlet vizsgálatának
+körülményeit tudjuk modellezni, így pont elő lehet csiholni a dinamikus
+paramétereit. Azaz nézzük meg ugyanennek a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>get-content</span></span><span
+lang=HU>-nek a dinamikus paramétereit akkor, ha épp registry környezetben
+futtatnánk:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[27] PS C:\&gt; $h_params
+= (Get-Command Get-Content -ArgumentList HKLM:).paramete</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>rs</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[28] PS C:\&gt;
+$h_params.Keys | where-object {$h_params[$_].IsDynamic} | ForEach-</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Object
+{$h_params[$_].name}</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[29] PS C:\&gt; </span></span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU>Nem adott semmilyen találatot!
+Azaz abban a környezetben a fájlrendszerben látott dinamikus paraméterek már
+nem léteznek.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU>Ebből kiindulva nézzünk egy
+olyan szkriptet, ami feltérképezi az összes cmdlet összes provider
+környezetében levő dinamikus paramétereit:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:blue'>function</span><span
+lang=HU style='color:black'> converthashtocollection ([</span><span lang=HU
+style='color:teal'>hashtable</span><span lang=HU style='color:black'>] </span><span
+lang=HU style='color:purple'>$h</span><span lang=HU style='color:black'>)<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'>{<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:purple'>$h</span><span
+lang=HU style='color:black'>.keys | <b>ForEach-Object</b> {</span><span
+lang=HU style='color:purple'>$h</span><span lang=HU style='color:black'>[</span><span
+lang=HU style='color:purple'>$_</span><span lang=HU style='color:black'>] | <b>Where-Object</b>
+{</span><span lang=HU style='color:purple'>$_</span><span lang=HU
+style='color:black'>}}<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'>}<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:purple'>$providers</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> <b>get-psdrive</b> | sort-object -unique provider
+| <o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><b><span lang=HU style='color:black;
+mso-color-alt:windowtext'>ForEach-Object</span></b><span lang=HU
+style='color:black'> {</span><span lang=HU style='color:purple'>$_</span><span
+lang=HU style='color:black'>.name}<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:blue'>function</span><span
+lang=HU style='color:black'> Get-DynamicParameter { <o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:blue'>param</span><span
+lang=HU style='color:black'>(<span style='mso-spacerun:yes'>         </span><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>[</span><span lang=HU style='color:teal'>string</span><span
+lang=HU style='color:black'>]</span><span lang=HU style='color:purple'>$command</span><span
+lang=HU style='color:black'>,<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:purple'>$drives</span><span
+lang=HU style='color:black'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>)<span style='mso-spacerun:yes'>  </span><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>        </span><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:purple'>$ph</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> @{}<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:blue'>foreach</span><span
+lang=HU style='color:black'>(</span><span lang=HU style='color:purple'>$d</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:blue'>in</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$drives</span><span
+lang=HU style='color:black'>)<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>{<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>        </span></span><span lang=HU style='color:purple'>$ph</span><span
+lang=HU style='color:black'>[</span><span lang=HU style='color:purple'>$d</span><span
+lang=HU style='color:black'>] </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:blue'>try</span><span
+lang=HU style='color:black'> { converthashtocollection ((<b>Get-Command</b> </span><span
+lang=HU style='color:purple'>$command</span><span lang=HU style='color:black'> <o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-tab-count:3'>                </span>-ArgumentList </span><span
+lang=HU style='color:maroon'>&quot;$($d):&quot;</span><span lang=HU
+style='color:black'>).parameters) | <o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>                </span><b>Where-Object</b> {</span><span
+lang=HU style='color:purple'>$_</span><span lang=HU style='color:black'>.isdynamic}
+| <b>ForEach-Object</b> {</span><span lang=HU style='color:purple'>$_</span><span
+lang=HU style='color:black'>.name} <o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>        </span>}<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>        </span></span><span lang=HU style='color:blue'>catch</span><span
+lang=HU style='color:black'>{}<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>}<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:blue'>if</span><span
+lang=HU style='color:black'>(converthashtocollection </span><span lang=HU
+style='color:purple'>$ph</span><span lang=HU style='color:black'>){</span><span
+lang=HU style='color:purple'>$ph</span><span lang=HU style='color:black'>[</span><span
+lang=HU style='color:maroon'>&quot;name&quot;</span><span lang=HU
+style='color:black'>] </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$command</span><span
+lang=HU style='color:black'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span><b>New-Object</b> <i>-TypeName</i> </span><span
+lang=HU style='color:maroon'>psobject</span><span lang=HU style='color:black'> <i>-Property</i>
+</span><span lang=HU style='color:purple'>$ph</span><span lang=HU
+style='color:black'>}<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'>}<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><b><span lang=HU style='color:black;
+mso-color-alt:windowtext'>Get-Command</span></b><span lang=HU style='color:
+black'> <i>-commandtype</i> </span><span lang=HU style='color:maroon'>cmdlet</span><span
+lang=HU style='color:black'> |<span style='mso-spacerun:yes'>  </span><b>foreach-object</b>
+{<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span>get-dynamicparameter (</span><span lang=HU
+style='color:purple'>$_</span><span lang=HU style='color:black'>.name) </span><span
+lang=HU style='color:purple'>$providers</span><span lang=HU style='color:black'>}
+| <o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black'><span style='mso-spacerun:yes'>    </span><span
+style='mso-tab-count:1'> </span>Format-Table (,</span><span lang=HU
+style='color:maroon'>&quot;name&quot;</span><span lang=HU style='color:red'>+</span><span
+lang=HU style='color:purple'>$providers</span><span lang=HU style='color:black'>)
+-Wrap<o:p></o:p></span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:
+_Toc197149244'><span lang=HU>És nézzük ennek (illetve nem pont ennek, hanem egy
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Out-Gridview</span></span><span
+lang=HU>-re módosított változatának) kimenetét:</span></span></span></span></span></p>
+
+<p class=Kp>
+ <img src="PowerShell5_files/image128.png">
+</p>
+
+<p class=MsoCaption><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'></span></span></span></span>
+<span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><span style='mso-no-proof:yes'>106</span></span></span></span></span></span>
+<span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:
+_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span lang=HU>. ábra
+Dinamikus paraméterek a beépített cmdletekben</span></span></span></span></span></p>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU>Nem mondom, hogy egy perc
+alatt sikerült ezt a szkriptet összeraknom, de nem volt irdatlan nagy munka. A
+kódban látható, hogy segédfüggvényként készítettem egy függvényt, ami egy
+hashtáblából gyűjteményt készít. A </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Get-DynamicParameter</span></span><span
+lang=HU> függvényben végig megyek a lehetséges meghajtókon, és mindegyikre
+megnézem az adott cmdlet paraméterezését. Miután ez némelyik cmdletre hibát ad
+(nem fogadnak elérési út jellegű paramétert), ezért az egész kifejezést egy </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Try</span></span><span
+lang=HU> blokkba ágyaztam, amihez egy üres </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Catch</span></span><span
+lang=HU> részt tartozik, így hibamentesen fut le minden cmdletnél.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU>Az egész adatábrázolást egy
+olyan hashtáblával oldottam meg (</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$ph</span></span><span
+lang=HU>), amelyben az egyes meghajtók a kulcsok, és a dinamikus paraméterek
+tömbje az érték. Ha volt dinamikus paraméter legalább egy is, akkor ezt még
+megtoldom a </span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>name</span></span><span lang=HU>
+kulccsal, ahova a cmdlet nevét töltöm be, és az egész függvény visszatérési
+értéke egy olyan egyedi objektum, amit ebből a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$ph</span></span><span
+lang=HU> hashtáblából generálok, és amelynek tulajdonságai a „</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>name</span></span><span
+lang=HU>” és a meghajtók lesznek és a tulajdonságértékek a dinamikus
+paraméterek tömbje, amit végül szép táblázatosan lehet megjeleníteni.</span></span></span></span></span></p>
+
+<h4 style='mso-list:l1 level4 lfo1'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><a name="_Toc204716350"></a><a
+name="_Toc209115893"><span style='mso-bookmark:_Toc204716350'>
+<span lang=HU>Dinamikus
+paraméter létrehozása függvényben</span></span></a></span></span></span></span></h4>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:
+_Toc197149244'><span lang=HU>Ilyen dinamikus paramétereket mi magunk is tudunk
+létrehozni függvényeinkben. Ez hasonlóan, egy „template” alapján történhet,
+mint ahogy a meglevő cmdleteket kiegészítettük, azzal a különbséggel, hogy
+ehhez nem kapunk segítséget. Ezért álljon mintaként az alábbi példa, amelyben
+egy olyan függvény van, ami kisűri a paraméterként átadott típusú elemeket az
+adott meghajtón. Az egyszerűség kedvéért ezt csak a fájlrendszerre és az Active
+Directory-ra készítettem el. Fájlrendszeren a lehetséges típus, amire szűrni
+lehet a </span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span class=EnglishChar><span
+style='mso-bidi-font-family:"Times New Roman"'>file</span></span><span lang=HU>
+és </span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span class=EnglishChar><span
+style='mso-bidi-font-family:"Times New Roman"'>folder</span></span><span
+lang=HU> vagy minden (*), ActiveDirectory meghajtó esetében </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>user</span></span><span
+lang=HU>, </span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span class=EnglishChar><span
+style='mso-bidi-font-family:"Times New Roman"'>group</span></span><span
+lang=HU>, </span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span class=EnglishChar><span
+style='mso-bidi-font-family:"Times New Roman"'>computer</span></span><span
+lang=HU> vagy minden (*).</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:darkblue'>function</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> get-itemsoftype{</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:darkgray'>[</span><span
+lang=HU style='color:deepskyblue'>cmdletbinding</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'>()</span><span lang=HU
+style='color:darkgray'>]</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp; </span><span lang=HU style='color:darkblue'>Param</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>(</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span lang=HU
+style='color:darkgray'>[</span><span lang=HU style='color:deepskyblue'>parameter</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>(</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Mandatory</span><span lang=HU style='color:darkgray'>=</span><span lang=HU
+style='color:orangered'>$true</span><span lang=HU style='color:darkgray'>,</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ValueFromPipeline</span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:orangered'>$true</span><span lang=HU style='color:darkgray'>,</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ValueFromPipelineByPropertyName </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$true</span><span lang=HU style='color:darkgray'>,</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Position</span><span lang=HU style='color:darkgray'>=</span><span lang=HU
+style='color:purple'>0</span><span lang=HU style='color:darkgray'>,</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ParameterSetName</span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:darkred'>'pset'</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>)</span><span lang=HU style='color:darkgray'>]</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span lang=HU
+style='color:darkgray'>[</span><span lang=HU style='color:teal'>String</span><span
+lang=HU style='color:darkgray'>]</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span lang=HU
+style='color:orangered'>$path</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp; )</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp; </span><span lang=HU style='color:darkblue'>DynamicParam</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>{</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span lang=HU
+style='color:orangered'>$attributes</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:blue'>new-object</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:navy'>-TypeName</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>
+System.Management.Automation.ParameterAttribute</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span lang=HU
+style='color:orangered'>$attributeCollection</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:blue'>new-object</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:navy'>-TypeName</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> System.Collections.ObjectModel.Collection[Attribute]</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span lang=HU
+style='color:orangered'>$paramDictionary</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:blue'>new-object</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:navy'>-TypeName</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>
+System.Management.Automation.RuntimeDefinedParameterDictionary</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span lang=HU
+style='color:orangered'>$attributes</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ParameterSetName </span><span
+lang=HU style='color:darkgray'>=</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkred'>'pset'</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span lang=HU
+style='color:orangered'>$attributes</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Position </span><span
+lang=HU style='color:darkgray'>=</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:purple'>1</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span
+lang=HU style='color:orangered'>$attributes</span><span lang=HU
+style='color:darkgray'>.</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Mandatory </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$false</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span lang=HU
+style='color:darkblue'>if</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> ((</span><span lang=HU style='color:blue'>get-psdrive</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>
+(&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+(</span><span lang=HU style='color:blue'>split-path</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'> (</span><span lang=HU
+style='color:blue'>resolve-path</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:orangered'>$path</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>) </span><span lang=HU
+style='color:navy'>-Qualifier</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>) </span><span lang=HU style='color:darkgray'>-replace</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkred'>&quot;:&quot;</span><span lang=HU style='color:darkgray'>,</span><span
+lang=HU style='color:darkred'>&quot;&quot;</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'>))</span><span lang=HU
+style='color:darkgray'>.</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>provider</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>name </span><span lang=HU
+style='color:darkgray'>-eq</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:darkred'>&quot;FileSystem&quot;</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>){</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+style='mso-spacerun:yes'>     </span></span><span lang=HU style='color:orangered'>$vsa</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:blue'>New-Object</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:navy'>-TypeName</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> System.Management.Automation.ValidateSetAttribute </span><span
+lang=HU style='color:navy'>-ArgumentList</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkred'>&quot;file&quot;</span><span
+lang=HU style='color:darkgray'>,</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkred'>&quot;folder&quot;</span><span
+lang=HU style='color:darkgray'>,</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkred'>&quot;*&quot;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+style='mso-spacerun:yes'>     </span></span><span lang=HU style='color:orangered'>$attributes</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>HelpMessage </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkred'>&quot;Lehetséges értékek: file, folder, *&quot;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } </span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span lang=HU
+style='color:darkblue'>elseif</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> ((</span><span lang=HU style='color:blue'>get-psdrive</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> (</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+(</span><span lang=HU style='color:blue'>split-path</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'> (</span><span lang=HU
+style='color:blue'>resolve-path</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:orangered'>$path</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>) </span><span lang=HU
+style='color:navy'>-Qualifier</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>) </span><span lang=HU style='color:darkgray'>-replace</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkred'>&quot;:&quot;</span><span lang=HU style='color:darkgray'>,</span><span
+lang=HU style='color:darkred'>&quot;&quot;</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'>))</span><span lang=HU
+style='color:darkgray'>.</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>provider</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>name </span><span lang=HU
+style='color:darkgray'>-eq</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:darkred'>&quot;ActiveDirectory&quot;</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>) {</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span lang=HU style='color:orangered'>$vsa</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:blue'>New-Object</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:navy'>-TypeName</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> System.Management.Automation.ValidateSetAttribute </span><span
+lang=HU style='color:navy'>-ArgumentList</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkred'>&quot;user&quot;</span><span
+lang=HU style='color:darkgray'>,</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkred'>&quot;group&quot;</span><span
+lang=HU style='color:darkgray'>,</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkred'>&quot;computer&quot;</span><span
+lang=HU style='color:darkgray'>,</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkred'>&quot;*&quot;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span lang=HU style='color:orangered'>$attributes</span><span lang=HU
+style='color:darkgray'>.</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>HelpMessage </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkred'>&quot;Lehetséges értékek: user, group, computer, *&quot;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span lang=HU
+style='color:orangered'>$attributeCollection</span><span lang=HU
+style='color:darkgray'>.</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Add(</span><span lang=HU style='color:orangered'>$attributes</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>)</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span lang=HU
+style='color:orangered'>$attributeCollection</span><span lang=HU
+style='color:darkgray'>.</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Add(</span><span lang=HU style='color:orangered'>$vsa</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span lang=HU
+style='color:orangered'>$ItemType</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:blue'>new-object</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:navy'>-TypeName</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>
+System.Management.Automation.RuntimeDefinedParameter </span><span lang=HU
+style='color:navy'>-ArgumentList</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkred'>&quot;ItemType&quot;</span><span
+lang=HU style='color:darkgray'>,</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkred'>&quot;string&quot;</span><span
+lang=HU style='color:darkgray'>,</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:orangered'>$attributeCollection</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span lang=HU
+style='color:orangered'>$paramDictionary</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Add(</span><span lang=HU
+style='color:darkred'>&quot;ItemType&quot;</span><span lang=HU
+style='color:darkgray'>,</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:orangered'>$ItemType</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>)</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span lang=HU
+style='color:darkblue'>return</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:orangered'>$paramDictionary</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp; } </span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp; </span><span lang=HU style='color:darkblue'>Process</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>{</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+lang=HU style='color:darkblue'>switch</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>(</span><span lang=HU style='color:orangered'>$ItemType</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>value){</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span lang=HU style='color:darkred'>&quot;User&quot;</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> {</span><span lang=HU
+style='color:orangered'>$filter</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> {</span><span lang=HU
+style='color:orangered'>$_</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>objectclass </span><span
+lang=HU style='color:darkgray'>-eq</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkred'>&quot;user&quot;</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>}}</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span lang=HU style='color:darkred'>&quot;Group&quot;</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> {</span><span lang=HU
+style='color:orangered'>$filter</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> {</span><span lang=HU
+style='color:orangered'>$_</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>objectclass </span><span
+lang=HU style='color:darkgray'>-eq</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkred'>&quot;group&quot;</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>}}</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span lang=HU style='color:darkred'>&quot;Computer&quot;</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> {</span><span lang=HU
+style='color:orangered'>$filter</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> {</span><span lang=HU
+style='color:orangered'>$_</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>objectclass </span><span
+lang=HU style='color:darkgray'>-eq</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkred'>&quot;computer&quot;</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>}}</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+lang=HU style='color:darkred'>&quot;File&quot;</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'> {</span><span lang=HU
+style='color:orangered'>$filter</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> {</span><span lang=HU
+style='color:orangered'>$_</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>psiscontainer </span><span
+lang=HU style='color:darkgray'>-eq</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:orangered'>$false</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>}}</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span lang=HU style='color:darkred'>&quot;Folder&quot;</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> {</span><span lang=HU
+style='color:orangered'>$filter</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> {</span><span lang=HU
+style='color:orangered'>$_</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>psiscontainer </span><span
+lang=HU style='color:darkgray'>-eq</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:orangered'>$true</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>}}</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span lang=HU style='color:darkred'>&quot;*&quot;</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'> {</span><span lang=HU
+style='color:orangered'>$filter</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> {</span><span lang=HU
+style='color:orangered'>$true</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>}}</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+default {</span><span lang=HU style='color:orangered'>$filter</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> {</span><span lang=HU style='color:orangered'>$true</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>}}</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span lang=HU
+style='color:blue'>Get-ChildItem</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:navy'>-Path</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$path</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>|</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:blue'>Where-Object</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:orangered'>$filter</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&nbsp;&nbsp;&nbsp;&nbsp; }</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>} </span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black'><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU>Az egésznek a lényegi része, hogy
+a </span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>[cmdletbinding()]</span></span><span
+lang=HU> paraméterattribútumnak szerepelnie kell és a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>DynamicParam</span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'></span></span></span></span>
+<span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:
+_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span lang=HU><span
+style='mso-spacerun:yes'> </span>szekciót kell használni a dinamikus
+paraméterek létrehozására. Ez csak akkor alkalmazható, ha a függvényben van
+külön </span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Process</span></span><span
+lang=HU> (és esetleg </span></span></span></span></span><span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:
+_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Begin</span></span><span
+lang=HU> és </span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>End</span></span><span lang=HU>)
+szekció is. Ezen szekción belül felépítek egy </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$attributes</span></span><span
+lang=HU> változót, amely a dinamikus paraméter jellemzőit tartalmazza. Ennek az
+objektumnak vannak olyan tulajdonságai, mint például </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>ParameterSetName</span></span><span
+lang=HU>, </span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Position</span></span><span
+lang=HU>, </span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Mandatory</span></span><span
+lang=HU>.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpMiddle><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU>Van ezen kívül egy </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$attributeCollection</span></span><span
+lang=HU> változóm, ami tartalmazza a dinamikus paraméter jellemzőit, úgy mint
+az előbb tárgyalt attribútumokat és ezen kívül a validálási szabályokat.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpMiddle><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU>Ezen kívül van még az </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$ItemType</span></span><span
+lang=HU> változóm, ez maga a dinamikus paraméter, ahol futásidőben felépítem a paraméter
+nevét („</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>ItemType</span></span><span
+lang=HU>”), típusát (</span></span></span></span></span><span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:
+_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>[string]</span></span><span
+lang=HU>), és ehhez biggyesztem hozzá az előbb említett </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$attributeCollection</span></span><span
+lang=HU>-t. De ez még nem elég, ezt a paramétert hozzá kell fűzni a függvény
+dinamikus paramétereihez, ami a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$paramDictionary</span></span><span
+lang=HU> változóban van, és amelyet ez a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>DynamicParam</span></span><span
+lang=HU> szekció ad vissza visszatérési értékként. </span></span></span></span></span></p>
+
+<p class=SzvegCxSpMiddle><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU>Huh! Nem túl egyszerű még csak
+elmagyarázni sem. Szerencsére ezt nem kell fejből tudni, itt a könyv példája,
+mindenki kimásolhatja, és ez alapján építheti fel saját dinamikus paraméterét.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU>De mit is csinál a fenti
+függvény? A meghívásakor a kötelező </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$path</span></span><span
+lang=HU> tartalmát megvizsgálja, hogy vajon a fájlrendszerre vagy az Active
+Directory-ra mutat-e. Ennek megfelelően vagy egy olyan </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>ItemType</span></span><span
+lang=HU> dinamikus paramétert vár, amely a „File” és „Folder” szavakat fogadja
+csak el, vagy egy olyat, ami a „User”, „group”, „computer” és „*” értékek
+valamelyikét fogadja el. A </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Process</span></span><span
+lang=HU> szekcióban ennek megfelelően felépítek egy szűrőt és a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Get-ChildItem</span></span><span
+lang=HU> cmdlet kimenetét ezzel szűröm.</span></span></span></span></span></p>
+
+<p class=Kp>
+ <img src="PowerShell5_files/image129.png">
+</p>
+
+<p class=MsoCaption><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'></span></span></span></span>
+<span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><span style='mso-no-proof:yes'>107</span></span></span></span></span></span>
+<span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:
+_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span lang=HU>. ábra Az
+Intellisense és a dinamikus paraméterek</span></span></span></span></span></p>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU>Természetesen ezt még tovább
+lehetne finomítani, de itt csak az volt a célom, hogy a dinamikus
+paraméterekből egy kis ízelítőt adjak.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU>Egy pillanatra nézzük meg,
+hogyan hivatkoztam a dinamikus paraméter értékére! A </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Process</span></span><span
+lang=HU> szekció </span></span></span></span></span><span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:
+_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>switch</span></span><span
+lang=HU> kifejezésében </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$ItemType.value</span></span><span
+lang=HU>-val hivatkoztam rá, de ez csak annak köszönhető, hogy a dinamikus
+paraméterdefiníció blokkjának a vége felé erre a változónévre hivatkoztam:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>…</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:orangered'>$ItemType</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:blue'>new-object</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:navy'>-TypeName</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> System.Management.Automation.RuntimeDefinedParameter </span><span
+lang=HU style='color:navy'>-ArgumentList</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkred'>&quot;ItemType&quot;</span><span
+lang=HU style='color:darkgray'>,</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkred'>&quot;string&quot;</span><span
+lang=HU style='color:darkgray'>,</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:orangered'>$attributeCollection<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>…</span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:
+_Toc197149244'><span lang=HU>De ez nem feltétlenül szükséges, a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Process</span></span><span
+lang=HU> szekcióban a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$PSBoundParameters</span></span><span
+lang=HU> automatikus hashtáblán keresztül is lehet hivatkozni rá, de fontos
+megjegyezni, hogy semmiképpen sem a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$<i
+style='mso-bidi-font-style:normal'>paraméternév</i></span></span><span lang=HU>
+változón keresztül!</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:double windowtext 5.25pt;
+border-bottom:none;mso-border-top-alt:thin-thick-large-gap windowtext 5.25pt;
+mso-border-left-alt:thin-thick-large-gap windowtext 5.25pt;mso-border-right-alt:
+thin-thick-large-gap windowtext 5.25pt;padding:1.0pt 4.0pt 0cm 4.0pt;
+background:#C6D9F1;mso-background-themecolor:text2;mso-background-themetint:
+51;margin-left:14.2pt;margin-right:14.2pt'>
+
+<p class=Megjegyzs style='margin-top:12.0pt;margin-right:0cm;margin-bottom:
+0cm;margin-left:0cm;margin-bottom:.0001pt;mso-add-space:auto;background:#C6D9F1;
+mso-background-themecolor:text2;mso-background-themetint:51'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Megjegyzés</span></span></span></span></span></p>
+
+</div>
+
+<div style='mso-element:para-border-div;border:double windowtext 5.25pt;
+border-top:none;mso-border-left-alt:thin-thick-large-gap windowtext 5.25pt;
+mso-border-bottom-alt:thin-thick-large-gap windowtext 5.25pt;mso-border-right-alt:
+thin-thick-large-gap windowtext 5.25pt;padding:0cm 4.0pt 1.0pt 4.0pt;
+margin-left:14.2pt;margin-right:14.2pt'>
+
+<p class=Megjegyezs2 style='margin-top:0.0pt;margin-right:0cm;margin-bottom:
+0cm;margin-left:0cm;margin-bottom:.0001pt;mso-add-space:auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU>Sajnos, ha egy „igazi” (nem dinamikus) paraméternek alaphelyzet
+szerinti értéke van, azt akkor még nem veszi fel, amikor a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>DynamicParam</span></span><span
+lang=HU> szekció kiértékelődik, így annak tartalmát sajnos ott nem tudjuk
+vizsgálni. Valószínű ez egy hiba, amit később PowerShell verziókban
+remélhetőleg kijavítanak.</span></span></span></span></span></p>
+
+</div>
+
+<h4 style='mso-list:l1 level4 lfo1'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><a name="_Toc204716351"></a><a
+name="_Toc209115894"><span style='mso-bookmark:_Toc204716351'>
+<span lang=HU>Dinamikus
+paraméter dinamikus értékhalmazzal</span></span></a></span></span></span></span></h4>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU>Az egyik leggyakoribb
+felhasználásai területe a dinamikus paramétereknek, hogy futási időben
+generálhatjuk a paraméter értékeinek lehetséges listáját. Ez a felhasználók
+számára jelentősen megkönnyíti a paraméter használatát, mert akár
+TAB-kiegészítéssel, akár IntelliSense-el elég a lehetséges értékek
+kiválasztása, nem kell gépelni semmit sem.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU>Az alábbi példafüggvényben a
+már betöltött modulok közül lehet újra importálni valamelyiket. Ez jól jön, ha
+éppen fejlesztünk egy modult és szükség van a változtatások után újra importálni,
+a függvény használatával elég a modul nevét kiválasztani az IntelliSense
+segítségével.</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:darkblue'>function</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> reimport-module {</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:darkgray'>[</span><span
+lang=HU style='color:deepskyblue'>CmdletBinding</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'>()</span><span lang=HU
+style='color:darkgray'>]</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>            </span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:darkblue'>param</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> (</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>)<span style='mso-spacerun:yes'>            </span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>            </span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:darkblue'>DynamicParam</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> {<span
+style='mso-spacerun:yes'>            </span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span></span><span lang=HU
+style='color:orangered'>$name</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkred'>&quot;Name&quot;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span></span><span lang=HU
+style='color:orangered'>$Attributes</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:blue'>New-Object</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:navy'>-TypeName</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkred'>'Management.Automation.ParameterAttribute'</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span></span><span lang=HU
+style='color:orangered'>$Attributes</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ParameterSetName </span><span
+lang=HU style='color:darkgray'>=</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkred'>&quot;__AllParameterSets&quot;</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>            </span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span></span><span lang=HU
+style='color:orangered'>$Attributes</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Mandatory </span><span
+lang=HU style='color:darkgray'>=</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:orangered'>$true</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>            </span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>            </span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span></span><span lang=HU
+style='color:orangered'>$AttributeCollection</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:blue'>New-Object</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:navy'>-TypeName</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:darkred'>'Collections.ObjectModel.Collection[Attribute]'</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span></span><span lang=HU
+style='color:orangered'>$AttributeCollection</span><span lang=HU
+style='color:darkgray'>.</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Add(</span><span lang=HU style='color:orangered'>$Attributes</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>)<span
+style='mso-spacerun:yes'>            </span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span></span><span lang=HU
+style='color:orangered'>$arrSet</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:blue'>Get-Module</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>|</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:blue'>Select-Object</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:navy'>-ExpandProperty</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> name</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span></span><span lang=HU
+style='color:orangered'>$ValidateSetAttribute</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:blue'>New-Object</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>
+System.Management.Automation.ValidateSetAttribute </span><span lang=HU
+style='color:navy'>-ArgumentList</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:orangered'>$arrSet</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span></span><span lang=HU
+style='color:orangered'>$AttributeCollection</span><span lang=HU
+style='color:darkgray'>.</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Add(</span><span lang=HU style='color:orangered'>$ValidateSetAttribute</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>)</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                    </span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span></span><span lang=HU
+style='color:orangered'>$Dynamic</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:blue'>New-Object</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:navy'>-TypeName</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkred'>'Management.Automation.RuntimeDefinedParameter'</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:navy'>-ArgumentList</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:orangered'>$Name</span><span
+lang=HU style='color:darkgray'>,</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkred'>'system.string'</span><span
+lang=HU style='color:darkgray'>,</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:orangered'>$AttributeCollection</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                        </span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span></span><span lang=HU
+style='color:orangered'>$ParamDictionary</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:blue'>New-Object</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkred'>'Management.Automation.RuntimeDefinedParameterDictionary'</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span></span><span lang=HU
+style='color:orangered'>$ParamDictionary</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Add(</span><span lang=HU
+style='color:orangered'>$Name</span><span lang=HU style='color:darkgray'>,</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$Dynamic</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>)<span style='mso-spacerun:yes'>            </span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span></span><span lang=HU
+style='color:orangered'>$ParamDictionary</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'><span style='mso-spacerun:yes'>            </span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>}<span style='mso-spacerun:yes'>            </span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:darkblue'>end</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> {</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span></span><span lang=HU
+style='color:orangered'>$name</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$PSBoundParameters</span><span lang=HU
+style='color:darkgray'>.</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Name<span style='mso-spacerun:yes'>                        </span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span></span><span lang=HU
+style='color:darkblue'>if</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>(</span><span lang=HU style='color:orangered'>$name</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>-match</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkred'>&quot;\\&quot;</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>){</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span></span><span lang=HU
+style='color:orangered'>$shortname</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$name</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Split(</span><span
+lang=HU style='color:darkred'>&quot;\&quot;</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'>)</span><span lang=HU
+style='color:darkgray'>[</span><span lang=HU style='color:purple'>-1</span><span
+lang=HU style='color:darkgray'>]</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>-replace</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkred'>&quot;\.(?!.*?\.).*&quot;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>}</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span></span><span lang=HU
+style='color:darkblue'>else</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>{</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span></span><span lang=HU
+style='color:orangered'>$shortname</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$name</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>}</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span></span><span lang=HU
+style='color:orangered'>$module</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:blue'>Get-Module</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:navy'>-Name</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$shortname</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span></span><span lang=HU
+style='color:orangered'>$path</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$module</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>path</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span></span><span lang=HU
+style='color:orangered'>$psdfile</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$path</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>-replace</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkred'>&quot;\.psm1&quot;</span><span lang=HU style='color:darkgray'>,</span><span
+lang=HU style='color:darkred'>&quot;.psd1&quot;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span></span><span lang=HU
+style='color:darkblue'>if</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>(</span><span lang=HU style='color:blue'>Test-Path</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:navy'>-Path</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:orangered'>$psdfile</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:navy'>-PathType</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> Leaf){</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span></span><span lang=HU
+style='color:blue'>Import-Module</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:navy'>-Name</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$psdfile</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:navy'>-Force</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>}</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span></span><span lang=HU
+style='color:darkblue'>else</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>{</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span></span><span lang=HU
+style='color:blue'>Import-Module</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:navy'>-Name</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$path</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:navy'>-Force</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>}</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>}<span style='mso-spacerun:yes'>            </span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>} </span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:
+_Toc197149244'><span lang=HU>Ha futtatom mindig az éppen aktuális modulok nevei
+jelennek meg, mást nem is lehet megadni a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Name</span></span><span
+lang=HU> paraméternek:</span></span></span></span></span></p>
+
+<p class=Kp>
+ <img src="PowerShell5_files/image130.png">
+</p>
+
+<p class=MsoCaption><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'></span></span></span></span>
+<span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><span style='mso-no-proof:yes'>108</span></span></span></span></span></span>
+<span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:
+_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span lang=HU>. ábra
+Intellisense az aktuálisan betöltött modulokat utatja</span></span></span></span></span></p>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:
+_Toc197149244'><span lang=HU>A lehetséges értékeket az alábbi sorban állítjuk
+be:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=Kikopizhat style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span></span><span lang=HU style='color:orangered'>$arrSet</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:blue'>Get-Module</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>|</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:blue'>Select-Object</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:navy'>-ExpandProperty</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> name</span></span></span></span></span></p>
+
+</div>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

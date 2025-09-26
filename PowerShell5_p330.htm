@@ -1,0 +1,817 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>2.31.1 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><a name="_Toc204716506"></a><a
+name="_Toc209116049"><span style='mso-bookmark:_Toc204716506'>
+<span lang=HU>EngineEvent
+kezelése</span></span></a></h3>
+
+<p class=SzvegCxSpFirst><span lang=HU>Ez az </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>EngineEvent</span></span>
+
+<span lang=HU><span
+style='mso-spacerun:yes'> </span>eseménytípus a legegyszerűbb. Olyan események
+ezek, amelyek a PowerShell processzel történhetnek, a processz elindulhat és
+befejeződhet. Sajnos az elindulást nem tudjuk figyelni, hiszen ahhoz még az
+elindulása előtt kellene előfizetnünk rá, ami fizikai képtelenség. Így marad
+annak az eseménynek a figyelése, amikor a PowerShell alkalmazást, processzt
+bezárjuk. Azért, hogy ne legyen ez ilyen egyhangú, még van egy egyedi
+eseménygenerálási lehetőség a </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>new-event</span></span>
+
+<span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdlet segítségével, amikor is bármilyen,
+általunk kitalált esemény bekövetkeztét jelezhetjük.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>Nézzük a folyamatot! Először is elő kell
+fizetni valamely esemény megfigyelésére a </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>Register-EngineEvent</span></span>
+
+<span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdlet segítségével. Elsőként a PowerShell
+bezárását nézzük meg:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[1] PS C:\&gt;
+Register-EngineEvent -SourceIdentifier PowerShell.Exiting -Action {</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>write-host &quot;Minden
+jót!&quot;; Start-Sleep 20; &quot;kiléptem...&quot;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>WARNING: column
+&quot;Command&quot; does not fit into the display and was removed.</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Id<span
+style='mso-spacerun:yes'>              </span>Name<span
+style='mso-spacerun:yes'>            </span>State<span
+style='mso-spacerun:yes'>      </span>HasMoreData<span
+style='mso-spacerun:yes'>     </span>Location</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>--<span
+style='mso-spacerun:yes'>              </span>----<span
+style='mso-spacerun:yes'>            </span>-----<span
+style='mso-spacerun:yes'>      </span>-----------<span
+style='mso-spacerun:yes'>     </span>--------</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>1<span
+style='mso-spacerun:yes'>               </span>PowerShell.E... NotStarted False</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[2] PS C:\&gt; exit</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Minden jót!</span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span lang=HU>Regisztráltam tehát egy eseményfigyelőt,
+ami a PowerShell kilépésére végrehajtja az </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>–Action</span></span><span
+lang=HU> paraméternek átadott szkriptblokkot. Itt egy kis várakozást kellett
+beépítenem a folyamatba, különben nem lett volna időm kimásolni a kimenetet.
+Láthatjuk tehát, hogy az </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>exit</span></span><span lang=HU>
+parancsra a szkriptblokk tényleg lefutott.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>A másik legyen egy általam kitalált
+esemény! Az eseményeket forrásuk, származási helyük alapján különböztetjük meg,
+így az általam kitalált esemény forrása szintén általam kitalált lesz: </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Saját.Esemény</span></span><span
+lang=HU>:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[8] PS C:\&gt;
+Register-EngineEvent -SourceIdentifier Saját.Esemény -Action {write</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>-host &quot;Most
+bekövetkezett a saját eseményem!&quot;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>WARNING: column
+&quot;Command&quot; does not fit into the display and was removed.</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Id<span
+style='mso-spacerun:yes'>              </span>Name<span
+style='mso-spacerun:yes'>            </span>State<span
+style='mso-spacerun:yes'>      </span>HasMoreData<span
+style='mso-spacerun:yes'>     </span>Location</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>--<span
+style='mso-spacerun:yes'>              </span>----<span
+style='mso-spacerun:yes'>            </span>-----<span
+style='mso-spacerun:yes'>      </span>-----------<span
+style='mso-spacerun:yes'>     </span>--------</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>2<span
+style='mso-spacerun:yes'>               </span>Saját.Esemény<span
+style='mso-spacerun:yes'>   </span>NotStarted False</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[9] PS C:\&gt; New-Event
+Saját.Esemény</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ComputerName<span
+style='mso-spacerun:yes'>     </span>:</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>RunspaceId<span
+style='mso-spacerun:yes'>       </span>: 01526b1c-155b-408d-aa7c-23fe54ae22f3</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>EventIdentifier<span
+style='mso-spacerun:yes'>  </span>: 3</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Sender<span
+style='mso-spacerun:yes'>           </span>:</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SourceEventArgs<span
+style='mso-spacerun:yes'>  </span>:</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SourceArgs<span
+style='mso-spacerun:yes'>       </span>: {}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SourceIdentifier :
+Saját.Esemény</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>TimeGenerated<span
+style='mso-spacerun:yes'>    </span>: 2010. 02. 24. 22:24:06</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>MessageData<span
+style='mso-spacerun:yes'>      </span>:</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Most bekövetkezett a saját
+eseményem!</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Lekérdezni az eseményfigyeléseket a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Get-EventSubscriber</span></span>
+
+<span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdlettel lehet:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[45] PS C:\&gt;
+Get-EventSubscriber</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SubscriptionId<span
+style='mso-spacerun:yes'>   </span>: 3</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SourceObject<span
+style='mso-spacerun:yes'>     </span>:</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>EventName<span
+style='mso-spacerun:yes'>        </span>:</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SourceIdentifier :
+Saját.Esemény</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Action<span
+style='mso-spacerun:yes'>           </span>:
+System.Management.Automation.PSEventJob</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>HandlerDelegate<span
+style='mso-spacerun:yes'>  </span>:</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SupportEvent<span
+style='mso-spacerun:yes'>     </span>: False</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ForwardEvent<span
+style='mso-spacerun:yes'>     </span>: False</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Megszűntetni az </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>Unregister-Event</span></span>
+
+<span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdlettel. </span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=Kd style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[46] PS C:\&gt; Unregister-Event
+-SubscriptionId 3</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Az esemény-előfizetések valójában PowerShell
+Job-okként futnak:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[1] PS C:\&gt;
+Register-EngineEvent -SourceIdentifier Saját.Esemény -Action {&quot;Most</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'> </span>bekövetkezett a saját eseményem!&quot;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>WARNING: column
+&quot;Command&quot; does not fit into the display and was removed.</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Id<span
+style='mso-spacerun:yes'>              </span>Name<span
+style='mso-spacerun:yes'>            </span>State<span
+style='mso-spacerun:yes'>      </span>HasMoreData<span
+style='mso-spacerun:yes'>     </span>Location</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>--<span
+style='mso-spacerun:yes'>              </span>----<span
+style='mso-spacerun:yes'>            </span>-----<span
+style='mso-spacerun:yes'>      </span>-----------<span
+style='mso-spacerun:yes'>     </span>--------</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>1<span
+style='mso-spacerun:yes'>               </span>Saját.Esemény<span
+style='mso-spacerun:yes'>   </span>NotStarted False</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[2] PS C:\&gt; Get-Job</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>WARNING: column
+&quot;Command&quot; does not fit into the display and was removed.</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Id<span
+style='mso-spacerun:yes'>              </span>Name<span
+style='mso-spacerun:yes'>            </span>State<span
+style='mso-spacerun:yes'>      </span>HasMoreData<span
+style='mso-spacerun:yes'>     </span>Location</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>--<span
+style='mso-spacerun:yes'>              </span>----<span
+style='mso-spacerun:yes'>            </span>-----<span
+style='mso-spacerun:yes'>      </span>-----------<span
+style='mso-spacerun:yes'>     </span>--------</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>1<span
+style='mso-spacerun:yes'>               </span>Saját.Esemény<span
+style='mso-spacerun:yes'>   </span>NotStarted False</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Látható, hogy létrejött egy Job. Most
+„bekövetkeztetem” az eseményt:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[3] PS C:\&gt; New-Event
+-SourceIdentifier saját.esemény</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ComputerName<span
+style='mso-spacerun:yes'>     </span>:</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>RunspaceId<span
+style='mso-spacerun:yes'>       </span>: 55d7819c-650b-4fb2-9553-ce395f0ab348</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>EventIdentifier<span
+style='mso-spacerun:yes'>  </span>: 1</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Sender<span
+style='mso-spacerun:yes'>           </span>:</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SourceEventArgs<span
+style='mso-spacerun:yes'>  </span>:</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SourceArgs<span
+style='mso-spacerun:yes'>       </span>: {}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SourceIdentifier :
+saját.esemény</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>TimeGenerated<span
+style='mso-spacerun:yes'>    </span>: 2010. 02. 25. 21:55:56</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>MessageData<span
+style='mso-spacerun:yes'>      </span>:</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>A fenti eseményregisztráció </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>–Action</span></span><span
+lang=HU> részében most nem </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Write-Host</span></span><span
+lang=HU>-tal jeleztem az esemény bekövetkeztét, hanem csak „simán” kiküldtem a
+szöveget az Outputra, de mivel háttérben futó folyamatként futott ez le, ezért
+nem látok a konzolon semmit. Ahhoz, hogy ezt meglássam, a kimenetet el kell
+kérnem a Jobtól:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[5] PS C:\&gt; Receive-Job
+-Id 1</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Most bekövetkezett a saját
+eseményem!</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Ha eltávolítom az eseményregisztrációt, attól még
+a befejezett Job benne marad a rendszerben, így érdemes lehet azt eltávolítani:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[6] PS C:\&gt;
+Unregister-Event -SourceIdentifier saját.esemény</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[7] PS C:\&gt; Get-Job</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>WARNING: column
+&quot;Command&quot; does not fit into the display and was removed.</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Id<span
+style='mso-spacerun:yes'>              </span>Name<span
+style='mso-spacerun:yes'>            </span>State<span
+style='mso-spacerun:yes'>      </span>HasMoreData<span
+style='mso-spacerun:yes'>     </span>Location</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>--<span
+style='mso-spacerun:yes'>              </span>----<span
+style='mso-spacerun:yes'>            </span>-----<span
+style='mso-spacerun:yes'>      </span>-----------<span
+style='mso-spacerun:yes'>     </span>--------</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>1<span
+style='mso-spacerun:yes'>               </span>Saját.Esemény<span
+style='mso-spacerun:yes'>   </span>Stopped<span style='mso-spacerun:yes'>   
+</span>False</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[8] PS C:\&gt; Remove-Job
+-Id 1</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Van még további lehetőség: távoli gépen generálódó
+események helyi gépre továbbítása. Első lépésként regisztrálni kell az eseményt
+a távoli gépen egy </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>PSSession</span></span><span
+lang=HU> kapcsolaton keresztül:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[47] PS C:\&gt; $s =
+New-PSSession -ComputerName member </span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[48] PS C:\&gt;
+Invoke-Command -Session $s -ScriptBlock {Register-EngineEvent -Sou</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>rceIdentifier saját.event
+-Forward}</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>A helyi gépen is regisztrálni kell az eseményt,
+hogy a továbbított esemény bekövetkeztéről értesülhessünk:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[49] PS C:\&gt;
+Register-EngineEvent -SourceIdentifier saját.event -Action {write-</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>host &quot;Valami
+történt!&quot;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>WARNING: column
+&quot;Command&quot; does not fit into the display and was removed.</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Id<span
+style='mso-spacerun:yes'>              </span>Name<span
+style='mso-spacerun:yes'>            </span>State<span
+style='mso-spacerun:yes'>      </span>HasMoreData<span
+style='mso-spacerun:yes'>     </span>Location</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>--<span
+style='mso-spacerun:yes'>              </span>----<span
+style='mso-spacerun:yes'>            </span>-----<span
+style='mso-spacerun:yes'>      </span>-----------<span
+style='mso-spacerun:yes'>     </span>--------</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>6<span
+style='mso-spacerun:yes'>               </span>saját.event<span
+style='mso-spacerun:yes'>     </span>NotStarted False</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Ezután már jöhet a távoli gépen az esemény. Sajnos
+az eseménykezelésnek is „scope”-ja van, azaz nem úgy általában kell generálni
+az eseményt, hanem abban a scope-ban, ahol az eseményre előfizettünk, jelen
+esetben az </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>$s</span></span><span lang=HU> változóban tárolt
+PSSession-ben:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[51] PS C:\&gt;
+Invoke-Command -Session $s -ScriptBlock {new-event saját.event}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PSComputerName<span
+style='mso-spacerun:yes'>     </span>: member</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>RunspaceId<span
+style='mso-spacerun:yes'>         </span>: 976df52b-7aa1-4ad5-adf0-75e0ec51e98b</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PSShowComputerName : True</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ComputerName<span
+style='mso-spacerun:yes'>       </span>:</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>EventIdentifier<span
+style='mso-spacerun:yes'>    </span>: 2</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Sender<span
+style='mso-spacerun:yes'>             </span>:</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SourceEventArgs<span
+style='mso-spacerun:yes'>    </span>:</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SourceArgs<span
+style='mso-spacerun:yes'>         </span>: {}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SourceIdentifier<span
+style='mso-spacerun:yes'>   </span>: saját.event</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>TimeGenerated<span
+style='mso-spacerun:yes'>      </span>: 2010. 02. 25. 10:13:36</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>MessageData<span
+style='mso-spacerun:yes'>        </span>:</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Valami történt!</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Látható, hogy meg is érkezett a reagálás a gépemen
+a távoli eseményre. Megjegyzendő még, hogy a továbbított eseményeknél nem lehet
+szkriptet definiálni, tehát választanunk kell, hogy vagy továbbítjuk az
+eseményt és a másik gépen reagálunk rá, vagy pedig nem továbbítjuk, és akkor
+tudunk a távoli gépen reagálni.</span></p>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

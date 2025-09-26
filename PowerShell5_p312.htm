@@ -1,0 +1,1606 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>2.26.1 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'>
+<span lang=HU><span
+style='mso-spacerun:yes'> </span><a name="_Toc204716485"></a><a
+name="_Toc209116028"><span style='mso-bookmark:_Toc204716485'>Microsoft Access</span></a></span></h3>
+
+<p class=Szveg><span lang=HU>Access adatbázisok eléréséhez Rachard Siddawaytől
+olvashatunk sokat (&nbsp;<a href="http://msmvps.com/blogs/richardsiddaway/">http://msmvps.com/blogs/richardsiddaway/</a>
+). Az ő ötleteit fejlesztettem tovább és így egy olyan függvénykönyvtárat
+készítettem, amelyben az Access alapvető adatbázis-kezelési helyzeteire vannak
+függvények:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:blue'>function</span><span
+lang=HU style='color:black'> New-AccessDatabase { <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:blue'>param</span><span
+lang=HU style='color:black'> ( <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>[</span><span lang=HU style='color:teal'>string</span><span
+lang=HU style='color:black'>] </span><span lang=HU style='color:purple'>$path</span><span
+lang=HU style='color:black'>, <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span>[</span><span lang=HU style='color:teal'>switch</span><span
+lang=HU style='color:black'>] </span><span lang=HU style='color:purple'>$close</span><span
+lang=HU style='color:black'>,<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span>[</span><span lang=HU style='color:teal'>switch</span><span
+lang=HU style='color:black'>] </span><span lang=HU style='color:purple'>$passthru</span><span
+lang=HU style='color:black'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>)<span style='mso-spacerun:yes'>    </span><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:blue'>if</span><span
+lang=HU style='color:black'> (</span><span lang=HU style='color:red'>!</span><span
+lang=HU style='color:black'>(<b>Test-Path</b> (<b>split-path</b> </span><span
+lang=HU style='color:purple'>$path</span><span lang=HU style='color:black'>))){</span><span
+lang=HU style='color:blue'>Throw</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:maroon'>&quot;Invaild Folder&quot;</span><span lang=HU
+style='color:black'>} <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:blue'>if</span><span
+lang=HU style='color:black'> (<b>Test-Path</b> </span><span lang=HU
+style='color:purple'>$path</span><span lang=HU style='color:black'>){</span><span
+lang=HU style='color:blue'>Throw</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:maroon'>&quot;File Already Exists&quot;</span><span
+lang=HU style='color:black'>} <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$cat</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> <b>New-Object</b> <i>-ComObject</i> </span><span
+lang=HU style='color:maroon'>'ADOX.Catalog'</span><span lang=HU
+style='color:black'><span style='mso-spacerun:yes'>  </span><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>[</span><span lang=HU style='color:teal'>Void</span><span
+lang=HU style='color:black'>] </span><span lang=HU style='color:purple'>$cat</span><span
+lang=HU style='color:black'>.Create(</span><span lang=HU style='color:maroon'>&quot;Provider=Microsoft.ACE.OLEDB.12.0;
+Data Source=$path&quot;</span><span lang=HU style='color:black'>) <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$cat</span><span
+lang=HU style='color:black'>.ActiveConnection.Close()<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:blue'>if</span><span
+lang=HU style='color:black'>(</span><span lang=HU style='color:red'>!</span><span
+lang=HU style='color:purple'>$close</span><span lang=HU style='color:black'>){<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span></span><span lang=HU style='color:
+purple'>$connection</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:red'>=</span><span lang=HU style='color:black'> <b>New-Object</b>
+</span><span lang=HU style='color:maroon'>System.Data.OleDb.OleDbConnection</span><span
+lang=HU style='color:black'>(<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span></span><span lang=HU style='color:
+maroon'>&quot;Provider=Microsoft.ACE.OLEDB.12.0; Data Source=$path&quot;</span><span
+lang=HU style='color:black'>) <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span><span style='mso-tab-count:1'> </span></span><span
+lang=HU style='color:purple'>$connection</span><span lang=HU style='color:black'>.Open()
+<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span></span><span lang=HU style='color:
+blue'>if</span><span lang=HU style='color:black'>(</span><span lang=HU
+style='color:purple'>$passthru</span><span lang=HU style='color:black'>){</span><span
+lang=HU style='color:purple'>$connection</span><span lang=HU style='color:black'>}<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span></span><span lang=HU style='color:
+blue'>else</span><span lang=HU style='color:black'>{</span><span lang=HU
+style='color:purple'>$global:AccessConnection</span><span lang=HU
+style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$connection</span><span
+lang=HU style='color:black'>}<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span>}<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span lang=HU style='color:black'>} <o:p></o:p></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span lang=HU>Az első függvény az adatbázisok
+létrehozását végzi. Egy paramétert kell neki kötelezően megadni, ez pedig az
+adatbázisfájl elérési útja. A függvény elején van egy kis hibakezelés, ami a nem
+létező szülőkönyvtárat és a már létező fájlt szűri ki. </span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU>Ha használjuk a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>–Close</span></span><span
+lang=HU> kapcsolót a függvény hívásakor, akkor a létrehozott adatbázist be is
+zárja, ha nem, akkor egy élő kapcsolati objektumot ad vissza a függvény,
+méghozzá </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>–Passthru</span></span><span lang=HU> kapcsoló nélkül a
+globális </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>$AccessConnection</span></span><span lang=HU> változóba,
+egyébként meg csak „sima” visszatérési értékként.</span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU>Az én tapasztalatom az, hogy könnyű
+elfelejtkezni ennek a kapcsolati objektumnak a változóba történő mentéséről,
+így ez a globális változó a legkényelmesebb módja a kezelésének. Persze, ha
+párhuzamosan több adatbázis-kapcsolatot akarunk kezelni, akkor külön
+változókban érdemes ezeket tárolni.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>A második függvény az adatbázis
+megnyitása:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:blue'>function</span><span
+lang=HU style='color:black'> Open-AccessDatabase {<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:blue'>param</span><span
+lang=HU style='color:black'> ( <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>[</span><span lang=HU style='color:teal'>string</span><span
+lang=HU style='color:black'>]</span><span lang=HU style='color:purple'>$path</span><span
+lang=HU style='color:black'>,<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span>[</span><span lang=HU style='color:teal'>switch</span><span
+lang=HU style='color:black'>] </span><span lang=HU style='color:purple'>$passthru</span><span
+lang=HU style='color:black'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'>)<span
+style='mso-spacerun:yes'>     </span><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:blue'>if</span><span
+lang=HU style='color:black'> (</span><span lang=HU style='color:red'>!</span><span
+lang=HU style='color:black'>(<b>Test-Path</b> </span><span lang=HU
+style='color:purple'>$path</span><span lang=HU style='color:black'>)){</span><span
+lang=HU style='color:blue'>Throw</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:maroon'>&quot;File Does Not Exist&quot;</span><span
+lang=HU style='color:black'>} <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:purple'>$connection</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> <b>New-Object</b> </span><span lang=HU
+style='color:maroon'>System.Data.OleDb.OleDbConnection</span><span lang=HU
+style='color:black'>(<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span></span><span lang=HU style='color:
+maroon'>&quot;Provider=Microsoft.ACE.OLEDB.12.0; Data Source=$path&quot;</span><span
+lang=HU style='color:black'>) <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:purple'>$connection</span><span
+lang=HU style='color:black'>.Open() <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:blue'>if</span><span
+lang=HU style='color:black'>(</span><span lang=HU style='color:purple'>$passthru</span><span
+lang=HU style='color:black'>){</span><span lang=HU style='color:purple'>$connection</span><span
+lang=HU style='color:black'> }<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:blue'>else</span><span
+lang=HU style='color:black'> {</span><span lang=HU style='color:purple'>$global:AccessConnection</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$connection</span><span
+lang=HU style='color:black'>}<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span lang=HU style='color:black'>} <o:p></o:p></span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Ez nem igényel túl sok magyarázatot, itt is a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>–Passthru</span></span><span
+lang=HU> kapcsoló segítségével tudjunk visszatérési értéket adni, egyébként a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$AccessConnection</span></span><span
+lang=HU> változóba tölti a kapcsolati objektumot.</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Ha szükséges, akkor az adatbázist be is zárhatjuk, azaz a
+kapcsolatot megszűntetjük:</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:blue'>function</span><span
+lang=HU style='color:black'> Close-AccessDatabase { <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:blue'>param</span><span
+lang=HU style='color:black'> ( <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>[</span><span lang=HU style='color:teal'>System.Data.OleDb.OleDbConnection</span><span
+lang=HU style='color:black'>]</span><span lang=HU style='color:purple'>$connection</span><span
+lang=HU style='color:black'> <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'>) <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:blue'>if</span><span
+lang=HU style='color:black'>(</span><span lang=HU style='color:purple'>$connection</span><span
+lang=HU style='color:black'>){</span><span lang=HU style='color:purple'>$connection</span><span
+lang=HU style='color:black'>.Close()}<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:blue'>elseif</span><span
+lang=HU style='color:black'>(</span><span lang=HU style='color:purple'>$global:AccessConnection</span><span
+lang=HU style='color:black'>){</span><span lang=HU style='color:purple'>$global:AccessConnection</span><span
+lang=HU style='color:black'>.Close()}<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:blue'>else</span><span
+lang=HU style='color:black'>{</span><span lang=HU style='color:blue'>throw</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:maroon'>&quot;Nothing
+to close&quot;</span><span lang=HU style='color:black'>}<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span lang=HU style='color:black'>}<o:p></o:p></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span lang=HU>Ha adunk neki át kapcsolati paramétert,
+akkor azt zárja be, egyébként próbálja a globális </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$AccessConnection</span></span><span
+lang=HU> tartalma alapján bezárni a kapcsolatot, különben hibát jelez.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>Új adatbázisba érdemes táblát is
+létrehozni:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:blue'>function</span><span
+lang=HU style='color:black'> New-AccessTable { <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:blue'>param</span><span
+lang=HU style='color:black'> ( <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>[</span><span lang=HU style='color:teal'>string</span><span
+lang=HU style='color:black'>] </span><span lang=HU style='color:purple'>$name</span><span
+lang=HU style='color:black'>, <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span>[</span><span lang=HU style='color:teal'>hashtable</span><span
+lang=HU style='color:black'>] </span><span lang=HU style='color:purple'>$columns</span><span
+lang=HU style='color:black'>,<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>[</span><span lang=HU style='color:teal'>System.Data.OleDb.OleDbConnection</span><span
+lang=HU style='color:black'>] </span><span lang=HU style='color:purple'>$connection</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$global:AccessConnection</span><span
+lang=HU style='color:black'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'>) <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$ofs</span><span
+lang=HU style='color:red'>=</span><span lang=HU style='color:maroon'>&quot;,&quot;</span><span
+lang=HU style='color:black'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$col</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> [</span><span lang=HU style='color:teal'>string</span><span
+lang=HU style='color:black'>] (</span><span lang=HU style='color:purple'>$columns</span><span
+lang=HU style='color:black'>.Keys | <b>%</b>{</span><span lang=HU
+style='color:maroon'>&quot;$_ $($columns.$_)&quot;</span><span lang=HU
+style='color:black'>})<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$sql</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:maroon'>&quot;CREATE
+TABLE $name ($col)&quot;</span><span lang=HU style='color:black'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:purple'>$cmd</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> <b>New-Object</b> </span><span lang=HU
+style='color:maroon'>System.Data.OleDb.OleDbCommand</span><span lang=HU
+style='color:black'>(</span><span lang=HU style='color:purple'>$sql</span><span
+lang=HU style='color:black'>, </span><span lang=HU style='color:purple'>$connection</span><span
+lang=HU style='color:black'>) <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:purple'>$cmd</span><span
+lang=HU style='color:black'>.ExecuteNonQuery() <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span lang=HU style='color:black'>} <o:p></o:p></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span lang=HU>Ennek a függvénynek meg kell adni az új
+tábla nevét (</span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>$name</span></span><span lang=HU>) és az oszlopokat
+hashtábla formátumban és opcionálisan a kapcsolati objektumot. Ha ilyet nem
+adok, akkor a globális </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$AccessConnection</span></span><span
+lang=HU> változó tartalma alapján csatlakozik az adatbázishoz. A függvény
+törzsében felépítem a hashtábla tartalma alapján azt az SQL kifejezést, amely a
+táblát hozza létre.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>Nézzünk ennek futtatására egy példát:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; New-AccessTable
+-name AlapAdatok -columns @{</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&gt;&gt;<span
+style='mso-spacerun:yes'>     </span>ID = &quot;COUNTER CONSTRAINT PrimaryKey
+PRIMARY KEY&quot;;</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&gt;&gt;<span
+style='mso-spacerun:yes'>     </span>Név = &quot;Text (250)&quot;;</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&gt;&gt;<span
+style='mso-spacerun:yes'>     </span>Ár = &quot;CURRENCY&quot;;</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&gt;&gt;<span
+style='mso-spacerun:yes'>     </span>Kell = &quot;YESNO&quot;;</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&gt;&gt;<span
+style='mso-spacerun:yes'>     </span>Bevitel = &quot;DATE DEFAULT Now()&quot;; </span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&gt;&gt;<span
+style='mso-spacerun:yes'>     </span>Jegyzet = &quot;MEMO&quot;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&gt;&gt;</span><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>0</span></p>
+
+</div>
+
+<div style='mso-element:para-border-div;border:double windowtext 5.25pt;
+border-bottom:none;mso-border-top-alt:thin-thick-large-gap windowtext 5.25pt;
+mso-border-left-alt:thin-thick-large-gap windowtext 5.25pt;mso-border-right-alt:
+thin-thick-large-gap windowtext 5.25pt;padding:1.0pt 4.0pt 0cm 4.0pt;
+background:#C6D9F1;mso-background-themecolor:text2;mso-background-themetint:
+51;margin-left:14.2pt;margin-right:14.2pt'>
+
+<p class=Megjegyzs style='margin-top:12.0pt;margin-right:0cm;margin-bottom:
+0cm;margin-left:0cm;margin-bottom:.0001pt;mso-add-space:auto;background:#C6D9F1;
+mso-background-themecolor:text2;mso-background-themetint:51'><span lang=HU
+style='color:black;mso-color-alt:windowtext'>Megjegyzés</span></p>
+
+</div>
+
+<div style='mso-element:para-border-div;border:double windowtext 5.25pt;
+border-top:none;mso-border-left-alt:thin-thick-large-gap windowtext 5.25pt;
+mso-border-bottom-alt:thin-thick-large-gap windowtext 5.25pt;mso-border-right-alt:
+thin-thick-large-gap windowtext 5.25pt;padding:0cm 4.0pt 1.0pt 4.0pt;
+margin-left:14.2pt;margin-right:14.2pt'>
+
+<p class=Megjegyezs2 style='margin-top:0.0pt;margin-right:0cm;margin-bottom:
+0cm;margin-left:0cm;margin-bottom:.0001pt;mso-add-space:auto'><span lang=HU>Vigyázzunk,
+az általam létrehozott egyszerű függvényekkel nem lehet olyan oszlopokat és
+táblákat létrehozni, amelyek neve egy SQL-ben használatos lefoglalt kulcsszó.
+Így például „Memo” nevű oszlop létrehozásakor hibát kapunk.</span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span lang=HU>Ez a kifejezés létrehoz egy táblát </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>AlapAdatok</span></span><span
+lang=HU> névvel, lesz egy </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>ID</span></span><span lang=HU>
+oszlop, ami az Access <i style='mso-bidi-font-style:normal'>AutoNumber</i>
+típusát veszi fel, és egyedi azonosítóként szolgál, lesz egy </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Név</span></span><span
+lang=HU> oszlop, ami szöveges és max. 250 karakter hosszúságú adatot fogad,
+lesz egy </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>Ár</span></span><span lang=HU> oszlop, amely pénznem
+adatokat fogad, lesz egy bool típusú </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>Kell</span></span><span
+lang=HU> oszlop, egy </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Bevitel</span></span><span
+lang=HU> oszlop, ami dátum típusú és alapértékként az aktuális dátumot veszi
+fel értékként és végül egy </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Jegyzet</span></span><span
+lang=HU> oszlop, ami hosszú szövegeket fogad.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>Érdekes lehet annak kinyerése, hogy egy
+adatbázisban milyen táblák vannak:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:blue'>function</span><span
+lang=HU style='color:black'> Get-AccessTable <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'>{<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:blue'>param</span><span
+lang=HU style='color:black'> (<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span>[</span><span lang=HU style='color:teal'>string</span><span
+lang=HU style='color:black'>] </span><span lang=HU style='color:purple'>$Filter</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:maroon'>&quot;*&quot;</span><span
+lang=HU style='color:black'>,<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span>[</span><span lang=HU style='color:teal'>System.Data.OleDb.OleDbConnection</span><span
+lang=HU style='color:black'>] </span><span lang=HU style='color:purple'>$connection</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$global:AccessConnection</span><span
+lang=HU style='color:black'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'>)<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$Connection</span><span
+lang=HU style='color:black'>.GetSchema(</span><span lang=HU style='color:maroon'>&quot;Tables&quot;</span><span
+lang=HU style='color:black'>) | <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span><b>Where-Object</b> {</span><span
+lang=HU style='color:purple'>$_</span><span lang=HU style='color:black'>.table_type
+</span><span lang=HU style='color:red'>-eq</span><span lang=HU
+style='color:black'> </span><span lang=HU style='color:maroon'>&quot;table&quot;</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>-and</span><span
+lang=HU style='color:black'> <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:3'>                </span></span><span lang=HU
+style='color:purple'>$_</span><span lang=HU style='color:black'>.table_name </span><span
+lang=HU style='color:red'>-like</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:purple'>$filter</span><span lang=HU style='color:black'>}
+| <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:4'>                      </span><b>Select-Object</b> @{n</span><span
+lang=HU style='color:red'>=</span><span lang=HU style='color:maroon'>&quot;Name&quot;</span><span
+lang=HU style='color:black'>; e</span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'>{</span><span lang=HU style='color:purple'>$_</span><span
+lang=HU style='color:black'>.table_name}}<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span lang=HU style='color:black'>}<o:p></o:p></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span lang=HU>A táblákat a kapcsolati objektum </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>GetSchema</span></span><span
+lang=HU> metódusával tudjuk kinyerni. Ez nem csak a „felhasználói” táblákat
+listázza ki, hanem az adatbázis belső, rendszerleíró tábláit is, így ezeket
+kiszűröm a </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>table_type</span></span><span lang=HU> tulajdonság
+vizsgálatával. A </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Get-AccessTable</span></span><span
+lang=HU> függvénynek meg lehet adni még egy további szűrőt, mellyel a
+táblanévre lehet szűrni, és megadható itt is, ha nem az alaphelyzet szerinti
+kapcsolathoz szeretnénk csatlakozni.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>Töltsük fel a táblát adatokkal! Ehhez az </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Add-AccessTableRecord</span></span><span
+lang=HU> függvény ad segítséget:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:blue'>function</span><span
+lang=HU style='color:black'> Add-AccessTableRecord { <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:blue'>param</span><span
+lang=HU style='color:black'> ( <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>[</span><span lang=HU style='color:teal'>string</span><span
+lang=HU style='color:black'>]</span><span lang=HU style='color:purple'>$table</span><span
+lang=HU style='color:black'>, <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span>[</span><span lang=HU style='color:teal'>hashtable</span><span
+lang=HU style='color:black'>] </span><span lang=HU style='color:purple'>$record</span><span
+lang=HU style='color:black'>,<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>[</span><span lang=HU style='color:teal'>System.Data.OleDb.OleDbConnection</span><span
+lang=HU style='color:black'>]</span><span lang=HU style='color:purple'>$connection</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$global:AccessConnection</span><span
+lang=HU style='color:black'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'>) <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$ofs</span><span
+lang=HU style='color:red'>=</span><span lang=HU style='color:maroon'>&quot;,
+&quot;</span><span lang=HU style='color:black'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$cols</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:maroon'>&quot;$($record.keys)&quot;</span><span
+lang=HU style='color:black'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$ofs</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:maroon'>&quot;&quot;&quot;,
+&quot;&quot;&quot;</span><span lang=HU style='color:black'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$vals</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:maroon'>&quot;&quot;&quot;&quot;</span><span
+lang=HU style='color:black'>+[</span><span lang=HU style='color:teal'>string</span><span
+lang=HU style='color:black'>] (</span><span lang=HU style='color:purple'>$record</span><span
+lang=HU style='color:black'>.Keys | <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span><b>foreach-object</b> {</span><span
+lang=HU style='color:purple'>$record</span><span lang=HU style='color:black'>.</span><span
+lang=HU style='color:purple'>$_</span><span lang=HU style='color:black'>}) </span><span
+lang=HU style='color:red'>+</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:maroon'>&quot;&quot;&quot;&quot;</span><span lang=HU
+style='color:black'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$sql</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:maroon'>&quot;INSERT
+INTO $table ($cols) VALUES ($vals)&quot;</span><span lang=HU style='color:black'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:purple'>$cmd</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> <b>New-Object</b> </span><span lang=HU
+style='color:maroon'>System.Data.OleDb.OleDbCommand</span><span lang=HU
+style='color:black'>(</span><span lang=HU style='color:purple'>$sql</span><span
+lang=HU style='color:black'>, </span><span lang=HU style='color:purple'>$connection</span><span
+lang=HU style='color:black'>) <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:purple'>$cmd</span><span
+lang=HU style='color:black'>.ExecuteNonQuery() <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span lang=HU style='color:black'>}<o:p></o:p></span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>A filozófia hasonló az előző függvényéhez, azaz
+meg kell adni a tábla nevét és hashtábla formátumban a beillesztendő adatsort </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>oszlopnév
+= érték</span></span><span lang=HU> módon. Nézzünk erre is példát:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Add-AccessTableRecord
+-table AlapAdatok -record @{név = &quot;Bizgentyű&quot;; Ár</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>= 1526; Kell = -1; Jegyzet
+= &quot;Ez az első teszt adat&quot;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>1</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Add-AccessTableRecord
+-table AlapAdatok -record @{név = &quot;Herkentyű&quot;; Ár</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>= 9876; Kell = 0; Jegyzet
+= &quot;Ez a második adat&quot;; Bevitel = &quot;2010.01.02&quot;}</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>1</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Természetesen érdemes az adatokat visszaolvasni
+tudni, ehhez a következő függvényt készítettem:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:blue'>function</span><span
+lang=HU style='color:black'> Get-AccessTableRecord { <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:blue'>param</span><span
+lang=HU style='color:black'> ( <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>[</span><span lang=HU style='color:teal'>string</span><span
+lang=HU style='color:black'>[]] </span><span lang=HU style='color:purple'>$columns</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:maroon'>&quot;*&quot;</span><span lang=HU
+style='color:black'>, <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span>[</span><span lang=HU style='color:teal'>string</span><span
+lang=HU style='color:black'>] </span><span lang=HU style='color:purple'>$table</span><span
+lang=HU style='color:black'>,<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span>[</span><span lang=HU style='color:teal'>string</span><span
+lang=HU style='color:black'>] </span><span lang=HU style='color:purple'>$where</span><span
+lang=HU style='color:black'>,<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>[</span><span lang=HU style='color:teal'>System.Data.OleDb.OleDbConnection</span><span
+lang=HU style='color:black'>] </span><span lang=HU style='color:purple'>$connection</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$global:AccessConnection</span><span
+lang=HU style='color:black'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'>) <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$ofs</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:maroon'>&quot;,
+&quot;</span><span lang=HU style='color:black'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$cols</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> [</span><span lang=HU style='color:teal'>string</span><span
+lang=HU style='color:black'>] </span><span lang=HU style='color:purple'>$columns</span><span
+lang=HU style='color:black'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$wh</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:blue'>if</span><span
+lang=HU style='color:black'>(</span><span lang=HU style='color:purple'>$where</span><span
+lang=HU style='color:black'>){</span><span lang=HU style='color:maroon'>&quot;
+WHERE $where&quot;</span><span lang=HU style='color:black'>} </span><span
+lang=HU style='color:blue'>else</span><span lang=HU style='color:black'> {</span><span
+lang=HU style='color:maroon'>&quot;&quot;</span><span lang=HU style='color:
+black'>}<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:purple'>$sql</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:maroon'>&quot;SELECT
+$cols FROM $table&quot;</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:red'>+</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:purple'>$wh</span><span lang=HU style='color:black'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:purple'>$cmd</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> <b>New-Object</b> </span><span lang=HU
+style='color:maroon'>System.Data.OleDb.OleDbCommand</span><span lang=HU
+style='color:black'>(</span><span lang=HU style='color:purple'>$sql</span><span
+lang=HU style='color:black'>, </span><span lang=HU style='color:purple'>$connection</span><span
+lang=HU style='color:black'>) <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:purple'>$reader</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$cmd</span><span
+lang=HU style='color:black'>.ExecuteReader() <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:purple'>$dt</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> <b>New-Object</b> </span><span lang=HU
+style='color:maroon'>System.Data.DataTable</span><span lang=HU
+style='color:black'> <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:purple'>$dt</span><span
+lang=HU style='color:black'>.Load(</span><span lang=HU style='color:purple'>$reader</span><span
+lang=HU style='color:black'>) <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:purple'>$dt</span><span
+lang=HU style='color:black'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span lang=HU style='color:black'>} <o:p></o:p></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span lang=HU>Ez nem egy általános lekérdező függvény,
+ez kifejezetten egy tábla adatsorait tudja lekérdezni. Az első paramétere a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>–Columns</span></span><span
+lang=HU>, ami egy sztringtömböt vár. Ez adja meg, hogy a tábla mely oszlopait
+szeretném látni, ha nem adok meg semmit, akkor mindegyiket. Paraméter még, hogy
+melyik tábla sorait kérdezzük le, és meg lehet még adni egy szűrő feltételt is
+az SQL WHERE klauzulájának megfelelően.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>Nézzük ennek is a kimenetét, az első
+esetben oszlopok megadásával:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt;
+Get-AccessTableRecord -columns név, jegyzet -table AlapAdatok</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>név<span
+style='mso-spacerun:yes'>                                     </span>jegyzet</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>---<span
+style='mso-spacerun:yes'>                                     </span>-------</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Bizgentyű<span
+style='mso-spacerun:yes'>                               </span>Ez az első teszt
+adat</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Herkentyű<span
+style='mso-spacerun:yes'>                               </span>Ez a második
+adat</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>A második esetben oszlopok nélkül. Itt látható,
+hogy a PowerShell 5 tulajdonság felett alaphelyzetben a listanézetet
+preferálja:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt;
+Get-AccessTableRecord -table AlapAdatok</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ID<span
+style='mso-spacerun:yes'>      </span>: 2</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Bevitel : 2010.02.22.
+15:43:42</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Kell<span
+style='mso-spacerun:yes'>    </span>: True</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Jegyzet : Ez az első teszt
+adat</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Név<span
+style='mso-spacerun:yes'>     </span>: Bizgentyű</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Ár<span
+style='mso-spacerun:yes'>      </span>: 1526</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ID<span
+style='mso-spacerun:yes'>      </span>: 3</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Bevitel : 2010.01.02.
+0:00:00</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Kell<span
+style='mso-spacerun:yes'>    </span>: False</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Jegyzet : Ez a második
+adat</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Név<span
+style='mso-spacerun:yes'>     </span>: Herkentyű</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Ár<span
+style='mso-spacerun:yes'>      </span>: 9876</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Végül egy példa a szűrésre:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt;
+Get-AccessTableRecord -table AlapAdatok -where &quot;név = 'Bizgentyű'&quot;</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ID<span
+style='mso-spacerun:yes'>      </span>: 2</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Bevitel : 2010.02.22.
+15:43:42</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Kell<span
+style='mso-spacerun:yes'>    </span>: True</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Jegyzet : Ez az első teszt
+adat</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Név<span
+style='mso-spacerun:yes'>     </span>: Bizgentyű</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Ár<span
+style='mso-spacerun:yes'>      </span>: 1526</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Utolsóként nézzünk egy adatmódosító függvényt! Itt
+már a fejlett függvények lehetőségeit is kihasználtam, hogy lehessen </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>–WhatIf</span></span><span
+lang=HU> kapcsolóval „óvatosan” is futtatni:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:blue'>function</span><span
+lang=HU style='color:black'> Set-AccessTableData { <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'>[CmdletBinding(SupportsShouldProcess</span><span
+lang=HU style='color:red'>=</span><span lang=HU style='color:purple'>$true</span><span
+lang=HU style='color:black'>)] <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:blue'>param</span><span
+lang=HU style='color:black'> ( <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>[</span><span lang=HU style='color:teal'>string</span><span
+lang=HU style='color:black'>]</span><span lang=HU style='color:purple'>$table</span><span
+lang=HU style='color:black'>, <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>[</span><span lang=HU style='color:teal'>string</span><span
+lang=HU style='color:black'>]</span><span lang=HU style='color:purple'>$filter</span><span
+lang=HU style='color:black'>, <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>[</span><span lang=HU style='color:teal'>hashtable</span><span
+lang=HU style='color:black'>] </span><span lang=HU style='color:purple'>$value</span><span
+lang=HU style='color:black'>, <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>[</span><span lang=HU style='color:teal'>System.Data.OleDb.OleDbConnection</span><span
+lang=HU style='color:black'>]</span><span lang=HU style='color:purple'>$connection</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$global:AccessConnection</span><span
+lang=HU style='color:black'> <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'>) <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$ofs</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:maroon'>&quot;,
+&quot;</span><span lang=HU style='color:black'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$set</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> [</span><span lang=HU style='color:teal'>string</span><span
+lang=HU style='color:black'>] (</span><span lang=HU style='color:purple'>$value</span><span
+lang=HU style='color:black'>.keys | <b>ForEach-Object</b> {</span><span
+lang=HU style='color:maroon'>&quot;$_ = '$($value.$_)'&quot;</span><span
+lang=HU style='color:black'>})<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:purple'>$sql</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:maroon'>&quot;UPDATE
+$table SET $set WHERE $filter&quot;</span><span lang=HU style='color:black'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$cmd</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> <b>New-Object</b> </span><span lang=HU
+style='color:maroon'>System.Data.OleDb.OleDbCommand</span><span lang=HU
+style='color:black'>(</span><span lang=HU style='color:purple'>$sql</span><span
+lang=HU style='color:black'>, </span><span lang=HU style='color:purple'>$connection</span><span
+lang=HU style='color:black'>) <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:blue'>if</span><span
+lang=HU style='color:black'> (</span><span lang=HU style='color:purple'>$psCmdlet</span><span
+lang=HU style='color:black'>.ShouldProcess(</span><span lang=HU
+style='color:maroon'>&quot;$($connection.DataSource)&quot;</span><span lang=HU
+style='color:black'>, </span><span lang=HU style='color:maroon'>&quot;$sql&quot;</span><span
+lang=HU style='color:black'>))<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span>{</span><span lang=HU
+style='color:purple'>$cmd</span><span lang=HU style='color:black'>.ExecuteNonQuery()}
+<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span lang=HU style='color:black'>}<o:p></o:p></span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>A működés logikája a korábbiakhoz hasonló, a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>–Table</span></span><span
+lang=HU> paraméternek kell megadni, hogy melyik tábla adatát szeretnénk
+módosítani, a </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>–Filter</span></span><span lang=HU> paraméterhez egy SQL
+szintaxisú „WHERE” klauzulát kell megadni. A </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>–Value</span></span><span
+lang=HU> paraméterhez megint csak egy hashtábla formátumban kell megadni az
+oszlopnév – új érték párokat a következő példa alapján:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Set-AccessTableData
+-table AlapAdatok -filter 'név = &quot;Bizgentyű&quot;' –valu</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>e @{</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&gt;&gt; név =
+&quot;Kütyübigyó&quot;;</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&gt;&gt; Jegyzet =
+&quot;Módosítva&quot;;</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&gt;&gt; Bevitel =
+&quot;2010.02.01&quot;</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&gt;&gt; }</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&gt;&gt;</span><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>1</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Visszaolvasva az adatokat már az újakat látjuk:</span></p>
+
+<p class=Kp>
+ <img src="PowerShell5_files/image162.png">
+</p>
+
+<p class=MsoCaption>
+<span lang=HU><span
+style='mso-no-proof:yes'>140</span></span>
+<span
+lang=HU>. ábra A PowerShellel létrehozott Access tábla adatokkal</span></p>
+
+<p class=Szveg><span lang=HU>Vagy ugyanez a függvényeim segítségével:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt;
+Get-AccessTableRecord -table AlapAdatok | Format-Table -AutoSize</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ID Bevitel<span
+style='mso-spacerun:yes'>              </span>Kell Jegyzet<span
+style='mso-spacerun:yes'>           </span>Név<span
+style='mso-spacerun:yes'>          </span>Ár</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>-- -------<span
+style='mso-spacerun:yes'>              </span>---- -------<span
+style='mso-spacerun:yes'>           </span>---<span
+style='mso-spacerun:yes'>          </span>--</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'> </span>2 2010.02.01. 0:00:00<span
+style='mso-spacerun:yes'>  </span>True Módosítva<span
+style='mso-spacerun:yes'>         </span>Kütyübigyó 1526</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'> </span>3 2010.01.02. 0:00:00 False Ez a második adat
+Herkentyű<span style='mso-spacerun:yes'>  </span>9876</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Végül nézzük az adatrekordok eltávolítását!
+Szintén óvatos végrehajtással és egy adott táblára:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:blue'>function</span><span
+lang=HU style='color:black'> Remove-AccessTableRecord {<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'>[CmdletBinding(SupportsShouldProcess</span><span
+lang=HU style='color:red'>=</span><span lang=HU style='color:purple'>$true</span><span
+lang=HU style='color:black'>)] <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:blue'>param</span><span
+lang=HU style='color:black'> (<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>[</span><span lang=HU style='color:teal'>string</span><span
+lang=HU style='color:black'>] </span><span lang=HU style='color:purple'>$table</span><span
+lang=HU style='color:black'>, <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>[</span><span lang=HU style='color:teal'>string</span><span
+lang=HU style='color:black'>] </span><span lang=HU style='color:purple'>$filter</span><span
+lang=HU style='color:black'>, <span style='mso-tab-count:1'>      </span><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span>[</span><span lang=HU style='color:teal'>System.Data.OleDb.OleDbConnection</span><span
+lang=HU style='color:black'>] </span><span lang=HU style='color:purple'>$connection</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$global:AccessConnection</span><span
+lang=HU style='color:black'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'>)<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$sql</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:maroon'>&quot;DELETE
+*<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:maroon'><span
+style='mso-tab-count:3'>                </span>FROM $table<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:maroon'><span
+style='mso-tab-count:3'>                </span>WHERE $filter&quot;</span><span
+lang=HU style='color:black'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$cmd</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> <b>New-Object</b> </span><span lang=HU
+style='color:maroon'>System.Data.OleDb.OleDbCommand</span><span lang=HU
+style='color:black'>(</span><span lang=HU style='color:purple'>$sql</span><span
+lang=HU style='color:black'>, </span><span lang=HU style='color:purple'>$connection</span><span
+lang=HU style='color:black'>) <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:blue'>if</span><span
+lang=HU style='color:black'> (</span><span lang=HU style='color:purple'>$psCmdlet</span><span
+lang=HU style='color:black'>.ShouldProcess(</span><span lang=HU
+style='color:maroon'>&quot;$($connection.DataSource)&quot;</span><span lang=HU
+style='color:black'>, </span><span lang=HU style='color:maroon'>&quot;$sql&quot;</span><span
+lang=HU style='color:black'>))<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span>{</span><span lang=HU
+style='color:purple'>$cmd</span><span lang=HU style='color:black'>.ExecuteNonQuery()}
+<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span lang=HU style='color:black'>}<o:p></o:p></span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Ennek használata:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt;
+Remove-AccessTableRecord -table alapadatok -filter &quot;Id=2&quot;</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>1</span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span lang=HU>A kimenet azt adja meg, hogy hány
+rekordot sikerült törölnie a táblából.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>Természetesen ezt még tovább lehet
+fejleszteni, de itt csak annyi volt a célom, hogy olyan adatkezelési igényekre
+adjak PowerShelles választ, amelyekhez nem kell mély SQL tudás.</span></p>
+
+<div style='mso-element:para-border-div;border:double windowtext 5.25pt;
+border-bottom:none;mso-border-top-alt:thin-thick-large-gap windowtext 5.25pt;
+mso-border-left-alt:thin-thick-large-gap windowtext 5.25pt;mso-border-right-alt:
+thin-thick-large-gap windowtext 5.25pt;padding:1.0pt 4.0pt 0cm 4.0pt;
+background:#C6D9F1;mso-background-themecolor:text2;mso-background-themetint:
+51;margin-left:14.2pt;margin-right:14.2pt'>
+
+<p class=Megjegyzs style='margin-top:12.0pt;margin-right:0cm;margin-bottom:
+0cm;margin-left:0cm;margin-bottom:.0001pt;mso-add-space:auto;background:#C6D9F1;
+mso-background-themecolor:text2;mso-background-themetint:51'><span lang=HU
+style='color:black;mso-color-alt:windowtext'>Megjegyzés</span></p>
+
+</div>
+
+<div style='mso-element:para-border-div;border:double windowtext 5.25pt;
+border-top:none;mso-border-left-alt:thin-thick-large-gap windowtext 5.25pt;
+mso-border-bottom-alt:thin-thick-large-gap windowtext 5.25pt;mso-border-right-alt:
+thin-thick-large-gap windowtext 5.25pt;padding:0cm 4.0pt 1.0pt 4.0pt;
+margin-left:14.2pt;margin-right:14.2pt'>
+
+<p class=Megjegyezs2 style='margin-top:0.0pt;margin-right:0cm;margin-bottom:
+0cm;margin-left:0cm;margin-bottom:.0001pt;mso-add-space:auto'><span lang=HU>A
+64-bites Windows XP-n a fenti SQL-es PowerShell kifejezések hibát adnak a
+„normál” PowerShell ablakban futtatva. Ennek oka az, hogy a szükséges ODBC
+driver 64-bites változata nincsen benne az operációs rendszerben, csak a
+32-bites változat, amit csak 32 bites alkalmazásból szólíthatunk meg. Ha ilyen
+hibát tapasztalunk, akkor futtassuk a fenti kódot 32-bites PowerShell ablakban,
+ami szintén elérhető a 64-bites gépen is, az már működni fog minden baj nélkül.</span></p>
+
+</div>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

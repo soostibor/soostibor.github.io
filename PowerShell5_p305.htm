@@ -1,0 +1,456 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>A vágólap használata</title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><span style='mso-bookmark:_Toc189542102'><a
+name="_Toc204716478"></a><a name="_Toc209116021"><span style='mso-bookmark:
+_Toc204716478'>
+<span
+lang=HU>A vágólap használata</span></span></a></span></h3>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span lang=HU>Észszerűnek
+tűnik, hogy a PowerShell konzol tudjon adatokat fogadni a vágólapról, illetve a
+kimenetét is át lehessen oda irányítani. Természetesen a vágólap kezelésére
+létezik .NET osztály, a </span></span><span style='mso-bookmark:_Toc189542102'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>System.Windows.Forms.Clipboard</span></span><span
+lang=HU> a 2.0-s keretrendszerben a PowerShell 2.0 használóknak</span></span>
+<span
+style='mso-bookmark:_Toc189542102'></span>
+<span
+style='mso-bookmark:_Toc189542102'><span lang=HU>, de ezzel két probléma is
+adódik: az egyik, hogy az ezt definiáló .NET építőelem nincs a PowerShell alá
+betöltve, mivel a konzol ablaknak nincs szüksége erre. Szerencsére ez a
+probléma viszonylag egyszerűen orvosolható, be kell tölteni a megfelelő építőelemet.
+A másik probléma, hogy ez a vágólap-kezelő osztály csak un. Single Thread
+Arcitecture módban futó processzekkel kezelhető, márpedig a PowerShell a
+konzolban nem ilyen üzemmódban fut, így használata során hiba lépne fel. Ezt
+már egy fokkal nehezebb megoldani. Az egyik lehetőség az lenne, hogy magát a
+powershell.exe alkalmazást ebben az STA üzemmódban indítjuk, ami megoldható egy
+egyszerű –sta paraméter használatával, de ha egy általános megoldást
+szeretnénk, akkor minden olyan helyen át kellene alakítani a PowerShell
+futását, ahol a vágólapot használni szeretnénk, ami nem túl praktikus és
+egészen biztos egy „idegen” gépen ezt elfelejtjük.</span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span lang=HU>Nézzünk
+egy olyan megoldást, ami nem igényli ezt az általános átállítását a PowerShell
+alkalmazásnak. Itt egy trükköt alkalmazok, PowerShellből hívom meg a
+PowerShellt, immár </span></span><span style='mso-bookmark:_Toc189542102'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>–sta</span></span><span
+lang=HU> üzemmódban. A vágólap közös, így ha ebből a második PowerShellből
+teszem ki az információt oda, az ugyanolyan jó. Szerencsére a paraméterátadás
+működik a hagyományos módon. Az ezt megvalósító függvény így néz ki:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+lang=HU style='color:blue'>function</span><span lang=HU style='color:black'> Out-ClipboardString<o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+lang=HU style='color:black'>{<o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+lang=HU style='color:black'><span style='mso-tab-count:1'>     </span></span><span
+lang=HU style='color:purple'>$input</span><span lang=HU style='color:black'> |
+powershell -sta -command {<o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+lang=HU style='color:black'><span style='mso-tab-count:2'>          </span><b>add-type</b>
+<i>-a</i> </span><span lang=HU style='color:maroon'>system.windows.forms</span><span
+lang=HU style='color:black'><o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+lang=HU style='color:black'><span style='mso-tab-count:2'>          </span>[</span><span
+lang=HU style='color:teal'>System.Windows.Forms.Clipboard</span><span lang=HU
+style='color:black'>]::</span><span lang=HU style='color:saddlebrown'>SetText</span><span
+lang=HU style='color:black'>(<o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+lang=HU style='color:black'><span style='mso-tab-count:3'>                </span>(</span><span
+lang=HU style='color:purple'>$input</span><span lang=HU style='color:black'> | <b>Out-String</b>)<o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+lang=HU style='color:black'><span style='mso-tab-count:2'>          </span>)<o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+lang=HU style='color:black'><span style='mso-tab-count:1'>     </span>} <o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black'>}<o:p></o:p></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span lang=HU>Az
+</span></span><span style='mso-bookmark:_Toc189542102'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Out-ClipboardString</span></span><span
+lang=HU> függvény nem igényel hagyományos paramétert, az </span></span><span
+style='mso-bookmark:_Toc189542102'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$input</span></span><span
+lang=HU>-ban felhalmozódott csőtartalmat adom át egy újabb PowerShell
+példánynak, amit STA üzemmódban indítok. Ebben a környezetben betöltöm a </span></span><span
+style='mso-bookmark:_Toc189542102'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>System.Windows.Forms</span></span><span
+lang=HU> .NET építőelemet, amelyben található a vágólap osztálya, és itt
+meghívom a </span></span><span style='mso-bookmark:_Toc189542102'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>SetText</span></span><span
+lang=HU> statikus metódust a sztringgé konvertált </span></span><span
+style='mso-bookmark:_Toc189542102'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$input</span></span><span
+lang=HU>-ra.</span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span lang=HU>Hasonló
+módon működik a vágólapról beolvasó függvényem. Itt egy paraméter adható meg
+opcionálisan, hogy mely karakter mentén tördelje szét a vágólapon tárolt
+szöveget. Ez alaphelyzetben a Windowsos soremelés karakterkombináció, de
+természetesen felülbírálható.</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+lang=HU style='color:blue'>Function</span><span lang=HU style='color:black'> Read-ClipboardString
+([</span><span lang=HU style='color:teal'>string</span><span lang=HU
+style='color:black'>] </span><span lang=HU style='color:purple'>$delimiter</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:maroon'>&quot;\r\n&quot;</span><span
+lang=HU style='color:black'>)<o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+lang=HU style='color:black'>{<o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+lang=HU style='color:black'><span style='mso-tab-count:1'>     </span>(powershell
+-sta {<b>add-type</b> <i>-a</i> </span><span lang=HU style='color:maroon'>system.windows.forms</span><span
+lang=HU style='color:black'><o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+lang=HU style='color:black'><span style='mso-tab-count:2'>          </span>[</span><span
+lang=HU style='color:teal'>System.Windows.Forms.Clipboard</span><span lang=HU
+style='color:black'>]::</span><span lang=HU style='color:saddlebrown'>GetText</span><span
+lang=HU style='color:black'>()}) </span><span lang=HU style='color:red'>-split</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$delimiter</span><span
+lang=HU style='color:black'><o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black'>}<o:p></o:p></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span lang=HU>Nézzünk
+használatukra egy példát:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[10] PS C:\&gt; Get-Service g* | Out-ClipboardString</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[11] PS C:\&gt; Read-ClipboardString</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Status<span style='mso-spacerun:yes'>   </span>Name<span
+style='mso-spacerun:yes'>               </span>DisplayName</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>------<span style='mso-spacerun:yes'>   </span>----<span
+style='mso-spacerun:yes'>               </span>-----------</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Running<span style='mso-spacerun:yes'>  </span>gpsvc<span
+style='mso-spacerun:yes'>              </span>Group Policy Client</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Stopped<span style='mso-spacerun:yes'>  </span>gupdate1ca2bfd6...
+Google Update Service (gupdate1ca2b...</span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span lang=HU>Sok
+érdekesség nem látszik, gyakorlatilag a vágólapon keresztül sztringgé
+konvertált kimenethez jutottam. Az igazi felhasználása ennek az lehet, ha
+valamely más alkalmazással akarok ezen a módon adatot cserélni. Az így
+vágólapra helyezett információ természetesen beilleszthető például a Notepadbe:</span></span></p>
+
+<p class=Kp>
+ <img src="PowerShell5_files/image161.png">
+</p>
+
+<p class=MsoCaption><span style='mso-bookmark:_Toc189542102'></span>
+<span style='mso-bookmark:
+_Toc189542102'><span lang=HU><span style='mso-no-proof:yes'>139</span></span></span>
+<span
+style='mso-bookmark:_Toc189542102'><span lang=HU>. ábra Notepadbe illesztett
+vágólaptartalom</span></span></p>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span lang=HU>Látható,
+hogy ez nem volt egyszerű. Ha nem ragaszkodunk a .NET osztályokhoz, akkor
+használhatjuk még a parancssori </span></span><span style='mso-bookmark:_Toc189542102'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Clip.exe</span></span><span
+lang=HU> segédprogramot is:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=Kd style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[19] PS C:\&gt; Get-Service k* | clip</span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span lang=HU>A
+végeredmény gyakorlatilag ugyanaz, mint a saját függvénnyel, valószínű kevesebb
+erőforrás felhasználásával és sokkal gyorsabban működik ez utóbbi megoldás.</span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span lang=HU>Sokkal
+egyszerűbb dolgunk van a PowerShell 3.0 vagy frissebb használatával, hiszen az
+ezek alatt megbújó .NET 3.0 és újabb verziókban már a </span></span><span
+style='mso-bookmark:_Toc189542102'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>[system.windows.clipboard]</span></span><span
+lang=HU> típust használhatjuk. Nézzük ezzel az újabb </span></span><span
+style='mso-bookmark:_Toc189542102'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Out-Clipboard</span></span><span
+lang=HU> függvényt:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+lang=HU style='color:darkblue'>Function</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> Out-Clipboard {</span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:blue'>Add-Type</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:navy'>-AssemblyName</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> PresentationCore</span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:darkgray'>[</span><span
+lang=HU style='color:teal'>windows.clipboard</span><span lang=HU
+style='color:darkgray'>]::</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>SetText((</span><span lang=HU style='color:orangered'>$input</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>|</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:blue'>Format-Table</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>|</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:blue'>Out-String</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>))</span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;
+mso-color-alt:windowtext'>} </span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span lang=HU>A vágólap
+tartalmának eléréséhez egy másik trükköt is alkalmazhatunk. Függvény helyett
+csináljunk egy speciális „automatikus” változót, ami kiolvasásakor mindig a
+vágólap aktuális tartalmát adja meg:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>$global:clipboard </span><span
+lang=HU style='color:darkgray'>=</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:blue'>New-Object</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:navy'>-TypeName</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:blueviolet'>PSObject</span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+lang=HU style='color:blue'>Add-Member</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:navy'>-InputObject</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> $global:clipboard </span><span
+lang=HU style='color:navy'>-MemberType</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:blueviolet'>ScriptMethod</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:navy'>-Name</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:blueviolet'>ToString</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:navy'>-Value</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> {</span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span></span><span lang=HU style='color:blue'>Add-Type</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:navy'>-AssemblyName</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:blueviolet'>PresentationCore</span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span></span><span lang=HU style='color:darkgray'>[</span><span
+lang=HU style='color:teal'>windows.clipboard</span><span lang=HU
+style='color:darkgray'>]::</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>GetText()</span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;
+mso-color-alt:windowtext'><span style='mso-spacerun:yes'>    </span>} </span><span
+lang=HU style='color:navy'>-Force <o:p></o:p></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span lang=HU>Ez a </span></span><span
+style='mso-bookmark:_Toc189542102'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$clipboard</span></span><span
+lang=HU> változó egy olyan egyedi objektum, aminek nincs semmilyen
+tulajdonsága, viszont újra definiáltam a </span></span><span style='mso-bookmark:
+_Toc189542102'><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>ToString()</span></span><span lang=HU> metódusát, ami egy
+olyan szkriptmetódus, ami megadja a vágólap tartalmát. Így minden olyan
+esetben, amikor kiíratjuk, jobb híján a </span></span><span style='mso-bookmark:
+_Toc189542102'><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>ToString</span></span><span lang=HU> metódusa hívódik meg.
+Például a fenti bekezdés kimásolása után ez lesz a </span></span><span
+style='mso-bookmark:_Toc189542102'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$clipboard</span></span><span
+lang=HU> tartalma:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>PS C:\&gt; $clipboard</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Ez a $clipboard változó egy olyan egyedi objektum, aminek nincs
+semmilyen tula</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>jdonsága, viszont újradefiniáltam a ToString() metódusát, ami egy
+olyan szkrip</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>tmetódus, ami megadja a vágólap tartal-mát. Így minden olyan
+esetben, amikor k</span></span></p>
+
+</div>
+
+<span style='mso-bookmark:_Toc189542102'></span>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

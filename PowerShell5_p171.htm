@@ -1,0 +1,975 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>2.3.2 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><a name="_Toc197149130"></a><a
+name="_Ref255242215"></a><a name="_Toc204716310"></a><a name="_Toc209115853"><span
+style='mso-bookmark:_Toc204716310'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'>
+<span lang=HU>Építsünk
+rendszergazda eszközt PowerGUI alapon!</span></span></span></span></a><span
+style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:_Toc197149130'></span></span></span></span></span></span></h3>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU>A PowerGUI egy olyan eszköz
+(most nem annak script editoráról, hanem az „igazi” PowerGUI-ról beszélek),
+mellyel grafikus rendszergazda eszközöket lehet építeni olyanok számára, akik
+nem ismerik a PowerShell nyelvezetét, és nem is éri meg ezt nekik megtanulni,
+mert ők csak ritkán vagy pedig csak egy szűk alkalmazási területen használnák
+azt. És az igazán nagyszerű ebben a szoftverben, hogy olyanok építhetik meg
+ezeket az eszközöket, akik nem „igazi” fejlesztők, hanem „csak” rendszergazdák,
+akik jól ismerik a PowerShellt. Azaz nem kell Visual Studio-t használni, nem
+kell fordítani, hanem közvetlenül PowerShell segítségével építhetők grafikus
+eszközök. </span></span></span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU>Ebben a fejezetben a
+PowerGUI-ban történő fejlesztés főbb elemeit ismertetem, mert ez hordoz magában
+jó néhány tanulságot, amely az általános PowerShell ismereteinket is mélyíti.</span></span></span></span></span></span></span></p>
+
+<h4 style='mso-list:l1 level4 lfo1'><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><a name="_Toc204716311"></a><a
+name="_Toc209115854"><span style='mso-bookmark:_Toc204716311'>
+<span lang=HU>Faelemek,
+rács és a tevékenységek</span></span></a></span></span></span></span></span></span></h4>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU>Elsőként nézzük át a főbb
+elemeit a PowerGUI felületének, melyek úgy kapcsolódnak egymáshoz, mint a LEGO
+építőkockák elemei és együtt adnak ki egy összetettebb funkciót. A PowerGUI
+ablak bal oldalán építhetjük fel egy fastruktúrában a szkriptjeinket. Ez sokkal
+hatékonyabb tárolási lehetőség, mint hogyha a szkriptjeinket a fájlrendszerben
+helyeznénk el. Persze van néhány lényeges különbség a PowerGUI-ban és a
+fájlrendszerben tárolt szkriptek lehetőségei között, erre majd hamarosan
+visszatérek.</span></span></span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU>Nézzük tehát azt, hogy hogyan
+tudjuk ezt a fastruktúrát kialakítani! A felvehető faelemek a következők: mappa
+(</span></span></span></span></span></span></span><span style='mso-bookmark:
+_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:
+_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span
+class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>folder</span></span><span
+lang=HU>), csomópont (</span></span></span></span></span></span></span><span
+style='mso-bookmark:_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span
+style='mso-bookmark:_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span
+class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>node</span></span><span
+lang=HU>) és szkript-csomópont (</span></span></span></span></span></span></span><span
+style='mso-bookmark:_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span
+style='mso-bookmark:_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span
+class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>script
+node</span></span><span lang=HU>).</span></span></span></span></span></span></span></p>
+
+<p class=Kp>
+ <img src="PowerShell5_files/image098.png">
+</p>
+
+<p class=MsoCaption><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'></span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span
+style='mso-bookmark:_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span
+lang=HU><span style='mso-no-proof:yes'>78</span></span></span></span></span></span></span></span>
+<span style='mso-bookmark:
+_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:
+_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span lang=HU>. ábra
+PowerGUI csomópontok</span></span></span></span></span></span></span></p>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149399'><span style='mso-bookmark:
+_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:
+_Toc197149130'><span lang=HU>Igazából nincs nagy különbség a három típus
+között, bármikor átalakítható egyik a másikba. A mappa csomópontok szerep
+igazából a további csomóponttípusok összefogása, csoportosítása. A „sima”
+csomópont egy meglevő cmdletet futtat, akár paraméterezhető módon. Ezt
+viszonylag ritkán használjuk. Az igazi lehetőségeket a szkript-csomópont rejti.
+Egy ilyen csomópont mögött olyan szkriptet lehet tárolni, aminek valamilyen
+kimenete van: </span></span></span></span></span></span></span></p>
+
+<p class=Kp>
+ <img src="PowerShell5_files/image099.png">
+</p>
+
+<p class=MsoCaption><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'></span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span
+style='mso-bookmark:_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span
+lang=HU><span style='mso-no-proof:yes'>79</span></span></span></span></span></span></span></span>
+<span style='mso-bookmark:
+_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:
+_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span lang=HU>. ábra Az
+első szkript-csomópontom</span></span></span></span></span></span></span></p>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149399'><span style='mso-bookmark:
+_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:
+_Toc197149130'><span lang=HU>A fenti példámban a szkriptem egy egyszerű kis
+szövegfájl-listázó műveletet hajt végre, méghozzá olyan módon, hogy a kimeneten
+a fájlnév és a teljes elérési út mellett a fájl tartalmának első sora is
+látható legyen. Ha ezt az ablakot az OK-val lezárom, vagy később bármikor erre
+a csomópontra kattintok, akkor a fenti szkript lefut és az eredmény az PowerGUI
+ablak középső részén jelenik meg:</span></span></span></span></span></span></span></p>
+
+<p class=Kp>
+ <img src="PowerShell5_files/image100.png">
+</p>
+
+<p class=MsoCaption><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'></span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span
+style='mso-bookmark:_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span
+lang=HU><span style='mso-no-proof:yes'>80</span></span></span></span></span></span></span></span>
+<span style='mso-bookmark:
+_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:
+_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span lang=HU>. ábra A
+csomóponti szkript kimenete</span></span></span></span></span></span></span></p>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149399'><span style='mso-bookmark:
+_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:
+_Toc197149130'><span lang=HU>Ez még idáig helyettesíthető lenne nagyjából az </span></span></span></span></span></span></span><span
+style='mso-bookmark:_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span
+style='mso-bookmark:_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Out-GridView</span></span><span
+lang=HU> kimenettel is, hiszen itt is lehetne oszlopfejléceket eltüntetni,
+sorba rendezni, szűrni, stb. Az igazi egyedi lehetőség, amitől ez
+rendszergazda-eszköz lesz, hogy a jobboldali „Actions” részben újabb
+szkripteket lehet definiálni, melyek az eredményrácsban kijelölt elemeken
+valamit végeznek:</span></span></span></span></span></span></span></p>
+
+<p class=Kp>
+ <img src="PowerShell5_files/image101.png">
+</p>
+
+<p class=MsoCaption><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'></span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span
+style='mso-bookmark:_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span
+lang=HU><span style='mso-no-proof:yes'>81</span></span></span></span></span></span></span></span>
+<span style='mso-bookmark:
+_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:
+_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span lang=HU>. ábra
+Cselekvési lehetőségek</span></span></span></span></span></span></span></p>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149399'><span style='mso-bookmark:
+_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:
+_Toc197149130'><span lang=HU>A Category segítségével elválasztó címkéket
+vehetünk fel. Az Action lehetőséggel egy meglevő cmdletet futtathatunk, ami
+megint csak nem a mi igazi terepünk. A harmadik lehetőség, a Script Action kell
+nekünk!</span></span></span></span></span></span></span></p>
+
+<p class=Kp>
+ <img src="PowerShell5_files/image102.png">
+</p>
+
+<p class=MsoCaption><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'></span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span
+style='mso-bookmark:_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span
+lang=HU><span style='mso-no-proof:yes'>82</span></span></span></span></span></span></span></span>
+<span style='mso-bookmark:
+_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:
+_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span lang=HU>. ábra A
+szkript-tevékenység sablonja</span></span></span></span></span></span></span></p>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149399'><span style='mso-bookmark:
+_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:
+_Toc197149130'><span lang=HU>Látható, hogy egy kis keretprogramot, sablont ad
+rögtön nekünk a PowerGUI, ebben láthatjuk, hogy a középső ablakrészben
+kiválasztott objektumok lesznek majd benne az </span></span></span></span></span></span></span><span
+style='mso-bookmark:_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span
+style='mso-bookmark:_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$input</span></span><span
+lang=HU> változóban, és ezeken hajtódik végre rendre egy </span></span></span></span></span></span></span><span
+style='mso-bookmark:_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span
+style='mso-bookmark:_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>ForEach-Object</span></span><span
+lang=HU> ciklussal az, amit mi megírunk. Azonban vigyázzunk! A tevékenységek
+nem csomóponthoz-kötöttek, hanem objektumtípushoz! Azaz elég egyszer definiálni
+egy tevékenységet, az innentől kezdve automatikusan megjelenik minden olyan
+esetben, amikor bármelyik csomópontra is kattintunk, de a rácsban az adott
+objektumtípus jelenik meg. Ezt az típus-hozzárendelést a <i style='mso-bidi-font-style:
+normal'>Display Configuration</i> gomb megnyomásával láthatjuk, illetve
+állíthatjuk be:</span></span></span></span></span></span></span></p>
+
+<p class=Kp>
+ <img src="PowerShell5_files/image103.png">
+</p>
+
+<p class=MsoCaption><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'></span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span
+style='mso-bookmark:_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span
+lang=HU><span style='mso-no-proof:yes'>83</span></span></span></span></span></span></span></span>
+<span style='mso-bookmark:
+_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:
+_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span lang=HU>. ábra A
+tevékenység összerendelése objektumtípussal</span></span></span></span></span></span></span></p>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149399'><span style='mso-bookmark:
+_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:
+_Toc197149130'><span lang=HU>Konkrétan most ez nem is lesz így jó nekünk, mert
+az én példámban a csomóponti szkript az </span></span></span></span></span></span></span><span
+style='mso-bookmark:_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span
+style='mso-bookmark:_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>PSObject</span></span><span
+lang=HU>-et, azaz hosszú nevén </span></span></span></span></span></span></span><span
+style='mso-bookmark:_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span
+style='mso-bookmark:_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>System.Management.Automation.PSCustomObject</span></span><span
+lang=HU>-et ad a kimenetén, ami túl általános, így nagy a veszély, hogy olyan
+csomópontoknál is megjelenik, ahol nem is szövegfájlok szerepelnek a háttérben.
+Szerencsére ez az objektumtípus annyira egyedi, hogy új nevet is adhatok neki,
+így a csomóponti szkriptet az alábbi módon módosítom:</span></span></span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><b><span lang=HU style='color:cadetblue'>Get-ChildItem</span></b><span
+lang=HU style='color:black;mso-color-alt:windowtext'> c:\PowerGUITeszt\*.txt | </span><b><span
+lang=HU style='color:cadetblue'>ForEach-Object</span></b><span lang=HU
+style='color:black;mso-color-alt:windowtext'> {</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:1'>     </span></span><span lang=HU
+style='color:purple'>$o</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:red'>=</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'> </span><b><span lang=HU
+style='color:cadetblue'>New-Object</span></b><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><i><span lang=HU style='color:cadetblue'>-TypeName</span></i><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:maroon'>PSObject</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><i><span lang=HU style='color:cadetblue'>-Property</span></i><span
+lang=HU style='color:black;mso-color-alt:windowtext'> @{</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:2'>          </span>filename </span><span
+lang=HU style='color:red'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:purple'>$_</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'>.name; </span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:2'>          </span>elsősor </span><span
+lang=HU style='color:red'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> @(</span><b><span lang=HU style='color:cadetblue'>Get-Content</span></b><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:purple'>$_</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>)[0]</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:2'>          </span>fullname </span><span
+lang=HU style='color:red'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:purple'>$_</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'>.fullname</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:1'>     </span>}</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:1'>     </span></span><span lang=HU
+style='color:purple'>$o</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>.PSObject.TypeNames.Clear()</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:1'>     </span></span><span lang=HU
+style='color:purple'>$o</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>.PSObject.TypeNames.Insert(0,</span><span lang=HU style='color:
+maroon'>'En.Sajat.Egyedi.Osztalyom'</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>)</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:1'>     </span></span><span lang=HU
+style='color:purple'>$o</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span
+style='mso-bookmark:_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>}</span></span></span></span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU>Látható, hogy most az </span></span></span></span></span></span></span><span
+style='mso-bookmark:_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span
+style='mso-bookmark:_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$o</span></span><span
+lang=HU> változóban kezdem felépíteni az egyedi objektumomat, melynek a
+típusneveket tartalmazó tulajdonságát törlöm, majd feltöltöm egy általam
+kitalált egyedi tulajdonságnévvel, majd az így módosított objektumot teszem ki
+a kimenetre.</span></span></span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU>Legyen az első
+tevékenység-szkriptem az, hogy a kijelölt fájlok tartamát jelenítem meg! </span></span></span></span></span></span></span></p>
+
+<p class=MsoCaption style='page-break-after:avoid'><span style='mso-bookmark:
+_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:
+_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span style='mso-ansi-language:
+EN-US;mso-fareast-language:EN-US;mso-no-proof:yes'><v:shape id="Picture_x0020_140"
+ o:spid="_x0000_i1103" type="#_x0000_t75" style='width:265.5pt;height:200.25pt;
+ visibility:visible;mso-wrap-style:square'>
+ <v:imagedata src="PowerShell5_files/image104.png" o:title=""/>
+</v:shape></span><span style='mso-spacerun:yes'> </span></span></span></span></span></span></span><span
+style='mso-bookmark:_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span
+style='mso-bookmark:_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span
+style='mso-ansi-language:EN-US;mso-fareast-language:EN-US;mso-no-proof:yes'><v:shape
+ id="Picture_x0020_141" o:spid="_x0000_i1102" type="#_x0000_t75" style='width:179.25pt;
+ height:202.5pt;visibility:visible;mso-wrap-style:square'>
+ <v:imagedata src="PowerShell5_files/image105.png" o:title=""/>
+</v:shape></span></span></span></span></span></span></span></p>
+
+<p class=MsoCaption><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'></span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span
+style='mso-bookmark:_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span
+lang=HU><span style='mso-no-proof:yes'>84</span></span></span></span></span></span></span></span>
+<span style='mso-bookmark:
+_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:
+_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span lang=HU>. ábra
+Tevékenység-szkript és a képernyőjének beállítása</span></span></span></span></span></span></span></p>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU>Látható, hogy most már ez a
+szkript az én egyedi típusomhoz van rendelve, ráadásul létrehoztam egy „Saját
+cselekvéseim” kategóriát is, hogy elkülönüljön ez a tevékenység „gyári”
+tevékenységektől. És ami fontos még, hogy a „</span></span></span></span></span></span></span><span
+style='mso-bookmark:_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span
+style='mso-bookmark:_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span
+class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>Display
+results</span></span><span lang=HU>” csoportban a beágyazott nézetet kértem (</span></span></span></span></span></span></span><span
+style='mso-bookmark:_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span
+style='mso-bookmark:_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span
+class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>Display
+the results in a nested view</span></span><span lang=HU>), hiszen ha nem ezt
+tenném, akkor nem is igazán látnék semmit, mert a tartalmat a meglevő rácsban
+nem tudná megjeleníteni, hiszen az teljesen más objektumtípusok megjelenítésére
+van kialakítva.</span></span></span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU>Nézzük, most mi lesz, ha
+rákattintok az elkészült „Teljes tartalom megjelenítése” menümre:</span></span></span></span></span></span></span></p>
+
+<p class=Kp>
+ <img src="PowerShell5_files/image106.png">
+</p>
+
+<p class=MsoCaption><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'></span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span
+style='mso-bookmark:_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span
+lang=HU><span style='mso-no-proof:yes'>85</span></span></span></span></span></span></span></span>
+<span style='mso-bookmark:
+_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:
+_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span lang=HU>. ábra
+Tevékenység-szkript eredménye</span></span></span></span></span></span></span></p>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU>Látható, hogy a középső
+ablakrészben egy újabb „réteg” képződött, ahol a tevékenység-szkript eredménye
+vált láthatóvá. Konkrétan én most eredetileg két fájlt is kijelöltem, és
+mindkettő tartalma van most az ábrán soronként. Visszalépni a korábbi rácshoz a
+középső rész fejlécében kialakult menüstruktúra „Szkript csomópont” részére
+kattintva lehet.</span></span></span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU>Nézzünk most egy „még igazibb”
+tevékenységszkriptet, mondjuk ez csinálja azt, hogy a kijelölt szövegfájljaim
+első sorának az elejére beilleszti az aktuális dátumot.</span></span></span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU style='color:black;mso-color-alt:
+windowtext'># Type in a PowerShell script here</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU style='color:purple'>$input</span><span
+lang=HU style='color:black'> | </span><b><span lang=HU style='color:cadetblue'>ForEach-Object</span></b><span
+lang=HU style='color:black'> {<o:p></o:p></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span># add your processing for each item from
+the grid selection</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span># the $_ variable represents each
+individual object</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$sorok</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><b><span lang=HU style='color:cadetblue'>Get-Content</span></b><span
+lang=HU style='color:black'> </span><i><span lang=HU style='color:cadetblue'>-Path</span></i><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$_</span><span
+lang=HU style='color:black'>.fullname<o:p></o:p></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:blue'>if</span><span
+lang=HU style='color:black'>(</span><span lang=HU style='color:purple'>$sorok</span><span
+lang=HU style='color:black'>[0] </span><span lang=HU style='color:red'>-match</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:maroon'>'^\d{2}/\d{2}/\d{4}\s\d{2}:\d{2}:\d{2}\s'</span><span
+lang=HU style='color:black'>){<o:p></o:p></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$sorok</span><span
+lang=HU style='color:black'>[0] </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$sorok</span><span
+lang=HU style='color:black'>[0] </span><span lang=HU style='color:red'>-replace</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:maroon'>'^\d{2}/\d{2}/\d{4}\s\d{2}:\d{2}:\d{2}\s'</span><span
+lang=HU style='color:black'>, <o:p></o:p></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span></span><span lang=HU style='color:
+maroon'>&quot;$(Get-Date) &quot;</span><span lang=HU style='color:black'><o:p></o:p></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span>}<o:p></o:p></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:blue'>else</span><span
+lang=HU style='color:black'> {<o:p></o:p></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span></span><span lang=HU style='color:
+purple'>$sorok</span><span lang=HU style='color:black'>[0] </span><span
+lang=HU style='color:red'>=</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:purple'>$sorok</span><span lang=HU style='color:black'>[0]
+</span><span lang=HU style='color:red'>=</span><span lang=HU style='color:black'>
+[</span><span lang=HU style='color:teal'>string</span><span lang=HU
+style='color:black'>] (</span><b><span lang=HU style='color:cadetblue'>Get-Date</span></b><span
+lang=HU style='color:black'>) </span><span lang=HU style='color:red'>+</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:maroon'>&quot;
+&quot;</span><span lang=HU style='color:black'> </span><span lang=HU
+style='color:red'>+</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:purple'>$sorok</span><span lang=HU style='color:black'>[0]<o:p></o:p></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span>}<o:p></o:p></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$sorok</span><span
+lang=HU style='color:black'> | </span><b><span lang=HU style='color:cadetblue'>Set-Content</span></b><span
+lang=HU style='color:black'> </span><i><span lang=HU style='color:cadetblue'>-Path</span></i><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$_</span><span
+lang=HU style='color:black'>.fullname<o:p></o:p></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span
+style='mso-bookmark:_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span
+lang=HU style='color:black'>}<o:p></o:p></span></span></span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149399'><span style='mso-bookmark:
+_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:
+_Toc197149130'><span lang=HU>És ennek megjelenítési beállításai:</span></span></span></span></span></span></span></p>
+
+<p class=Kp>
+ <img src="PowerShell5_files/image107.png">
+</p>
+
+<p class=MsoCaption><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'></span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span
+style='mso-bookmark:_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span
+lang=HU><span style='mso-no-proof:yes'>86</span></span></span></span></span></span></span></span>
+<span style='mso-bookmark:
+_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:
+_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span lang=HU>. ábra
+Kimeneti objektumokat módosító tevékenység megjelenítési beállítása</span></span></span></span></span></span></span></p>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149399'><span style='mso-bookmark:
+_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:
+_Toc197149130'><span lang=HU>Itt már nem beágyazott kimenetet kértem, hiszen
+ugyanazon objektumokat módosítottam, mint amit a csomóponti szkript
+megjelenített, így csak annyi a feladat, hogy a meglevő nézetet kellett
+frissítenem.</span></span></span></span></span></span></span></p>
+
+<h4 style='mso-list:l1 level4 lfo1'><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><a name="_Toc204716312"></a><a
+name="_Toc209115855"><span style='mso-bookmark:_Toc204716312'>
+<span lang=HU>Dinamikus
+csomópontok</span></span></a></span></span></span></span></span></span></h4>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU>Az „aktív rács” mellett a
+dinamikus csomópontok létrehozásának lehetősége a másik olyan képessége a
+PowerGUI-nak, ami lehetővé teszi egyszerű rendszergazda tevékenységek
+végrehajtására. A dinamikus csomópont olyan csomópontstruktúra, ami futásidőben
+jön létre. Ez ott hasznos, ahol nagyon sok objektumot kellene kezelni, például
+egy meghajtó teljes fájlkészletét. Ezt egy rácsban nagyin nehéz lenne
+megjeleníteni, viszont a fájlrendszer esetében a mappák eleve adják, hogy
+mappánként csoportosítjuk az objektumokat, ezt kezeléstechnikailag pedig a
+csomópontok automatikus (dinamikus) építésével lehet elérni.</span></span></span></span></span></span></span></p>
+
+<p class=SzvegCxSpMiddle><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU>A nehézség itt az, hogy a
+dinamikus csomópont az csomópont a javából, így ahhoz, hogy rá kattintva valami
+megjelenjen a rácsban, valami szkripttel is fel kell ruházni, azaz nem elég
+dinamikusan „legyártani” magukat a csomópontokat, a mögöttük található szkriptet
+is dinamikusan kell legenerálni.</span></span></span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU>Nézzünk egy nagyon egyszerű
+dinamikus csomópontot, ami csak annyit csinál, hogy legenerál 1-től 5-ig
+számokat, ezek lesznek a dinamikus csomópontok nevei, és az egyes csomópontok
+szkriptje az lesz, hogy a csomópont számának megfelelő darabszámú X-et ír ki a
+rácsba.</span></span></span></span></span></span></span></p>
+
+<p class=Kp>
+ <img src="PowerShell5_files/image108.png">
+</p>
+
+<p class=MsoCaption><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'></span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span
+style='mso-bookmark:_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span
+lang=HU><span style='mso-no-proof:yes'>87</span></span></span></span></span></span></span></span>
+<span style='mso-bookmark:
+_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:
+_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span lang=HU>. ábra Az
+első dinamikus csomópontjaim</span></span></span></span></span></span></span></p>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU>Ezen „csomópontgyár”
+szkriptjében használom a PowerGUI <i style='mso-bidi-font-style:normal'>Local System</i>
+csomagjában (<i style='mso-bidi-font-style:normal'>PowerPack</i>, lásd később)
+definiált </span></span></span></span></span></span></span><span
+style='mso-bookmark:_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span
+style='mso-bookmark:_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Add-AdminConsoleDynamicNode</span></span><span
+lang=HU> megosztott függvényt, amivel az ilyen dinamikus csomópontokat le lehet
+generáltatni. Ahhoz, hogy ez a függvény látható legyen az én szkriptem számára,
+a More gomb megnyomása után feltáruló középső ablakrészben a PowerPack-ok közé
+fel kellett vennem a Local System csomagot is.</span></span></span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU>A függvényt meg lehet nézni a </span></span></span></span></span></span></span><span
+style='mso-bookmark:_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span
+style='mso-bookmark:_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span
+class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>Shared
+Scripts</span></span><span lang=HU> legördülő menün keresztül, a definíciós
+része így néz ki:</span></span></span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU style='color:blue'>function</span><span
+lang=HU style='color:black'> global:Add-AdminConsoleDynamicScriptNode {<o:p></o:p></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:blue'>param</span><span
+lang=HU style='color:black'>(<o:p></o:p></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span></span><span lang=HU style='color:
+purple'>$ParentNode</span><span lang=HU style='color:black'>,<o:p></o:p></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span>[</span><span lang=HU
+style='color:teal'>string</span><span lang=HU style='color:black'>] </span><span
+lang=HU style='color:purple'>$Name</span><span lang=HU style='color:black'>,<o:p></o:p></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span></span><span lang=HU style='color:
+purple'>$Script</span><span lang=HU style='color:black'>,<o:p></o:p></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span>[</span><span lang=HU
+style='color:teal'>System.Management.Automation.PSObject</span><span lang=HU
+style='color:black'>[]] </span><span lang=HU style='color:purple'>$ScriptParameters</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$null</span><span
+lang=HU style='color:black'>,<o:p></o:p></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span>[</span><span lang=HU
+style='color:teal'>System.Management.Automation.PSObject</span><span lang=HU
+style='color:black'>] </span><span lang=HU style='color:purple'>$AssociatedObject</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$null</span><span
+lang=HU style='color:black'>,<o:p></o:p></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span>[</span><span lang=HU
+style='color:teal'>System.Management.Automation.PSObject</span><span lang=HU
+style='color:black'>] </span><span lang=HU style='color:purple'>$IconTypeIdentifier</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$null</span><span
+lang=HU style='color:black'>,<o:p></o:p></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span>[</span><span lang=HU
+style='color:teal'>switch</span><span lang=HU style='color:black'>]</span><span
+lang=HU style='color:purple'>$PassThru</span><span lang=HU style='color:black'><o:p></o:p></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span>)<o:p></o:p></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span
+style='mso-bookmark:_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>…</span></span></span></span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU>Azaz meg kell adni neki, hogy
+melyik csomópont alá hozza létre a dinamikus csomópontot, mi legyen a neve a
+dinamikus csomópontnak, mi legyen a csomópont szkriptje, ha esetleg ennek a
+szkriptnek lennének paraméterei, akkor ezeket a következő paraméter gyanánt
+adhatjuk meg. Társíthatnánk még objektumhoz a kimenetet, bár ezt a lefutó
+szkript kimenete is meghatározhatja, és ikont is megadhatunk.</span></span></span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'><span lang=HU>Nézzük, ennek az egyszerű
+dinamikus csomópontnak mi is a kinézete:</span></span></span></span></span></span></span></p>
+
+<p class=Kp>
+ <img src="PowerShell5_files/image109.png">
+</p>
+
+<p class=MsoCaption><span style='mso-bookmark:_Toc197149399'><span
+style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span
+style='mso-bookmark:_Toc197149130'></span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span
+style='mso-bookmark:_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span
+lang=HU><span style='mso-no-proof:yes'>88</span></span></span></span></span></span></span></span>
+<span style='mso-bookmark:
+_Toc197149399'><span style='mso-bookmark:_Toc197149338'><span style='mso-bookmark:
+_Toc197149236'><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Ref255242215'><span style='mso-bookmark:_Toc197149130'><span lang=HU>. ábra
+Egyszintű dinamikus csomópont</span></span></span></span></span></span></span></p>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149399'><span style='mso-bookmark:
+_Toc197149338'><span style='mso-bookmark:_Toc197149236'><span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Ref255242215'><span style='mso-bookmark:
+_Toc197149130'><span lang=HU>Látható, hogy szépen megszülettek a dinamikus
+csomópontok és működik a mögöttük található dinamikusan előállított szkript is.
+Itt tehát egy egyszintű struktúrát hoztam létre. Egy fokkal bonyolultabb eset, ha
+a dinamikus csomópontoknak generálodnak újabb dinamikus csomópontjuk! Ennek
+megvalósítása túlmutat a könyvünk keretein, de kihívást kedvelő olvasóimat arra
+bíztatom, hogy próbáljanak meg ilyet létrehozni.</span></span></span></span></span></span></span></p>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

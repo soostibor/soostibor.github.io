@@ -1,0 +1,2271 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>3.3.3 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><a name="_Toc204716531"></a><a
+name="_Toc209116074"><span style='mso-bookmark:_Toc204716531'>
+<span lang=HU>Naplófájl
+létrehozása, régi fájlok törlése (New-LogFile) és a naplózás indítása
+(Initialize-Logging)</span></span></a></h3>
+
+<p class=Szveg><span lang=HU>Ahogy a fejezet bevezetőjében is írtam, a
+naplózáshoz szükségünk van egy fájlra, amibe majd a naplóbejegyzéseket írjuk,
+ez a </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>New-LogFile</span></span><span lang=HU> függvény. Ez a
+függvény fogja törölni a régi fájlokat, és mivel ez a fajta funkcionalitás
+egyéb fájlokra is lehet használni, így ezt majd exportáljuk a modulból:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:darkblue;mso-ansi-language:
+EN-US'>function</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'> New-LogFile {</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:darkblue;mso-ansi-language:
+EN-US'>param</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>(</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>string</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'> </span><span style='color:orangered;mso-ansi-language:EN-US'>$name</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>,</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>string</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'> </span><span style='color:orangered;mso-ansi-language:EN-US'>$path</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$global:logging</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>LogFolder</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>,</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>int</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'><span style='mso-spacerun:yes'>    </span></span><span style='color:
+orangered;mso-ansi-language:EN-US'>$keepdays</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:purple;mso-ansi-language:EN-US'>60</span><span style='color:darkgray;
+mso-ansi-language:EN-US'>,</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>switch</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'> </span><span style='color:orangered;mso-ansi-language:EN-US'>$byseconds</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>,</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>switch</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'> </span><span style='color:orangered;mso-ansi-language:EN-US'>$overwrite</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>)</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>if</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>!</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:blue;mso-ansi-language:EN-US'>Test-Path</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-Path</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$path</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-PathType</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>
+Container)){</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span></span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>void</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'> (</span><span style='color:blue;mso-ansi-language:EN-US'>New-Item</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-Path</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$path</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-ItemType</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> Directory
+</span><span style='color:navy;mso-ansi-language:EN-US'>-ErrorAction</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> Stop)</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>if</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$byseconds</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>){</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$datepart</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:blue;mso-ansi-language:EN-US'>Get-Date</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-Format</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>'yyyyMMddHHmmss'</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>else</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>{</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$datepart</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:blue;mso-ansi-language:EN-US'>Get-Date</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-Format</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>'yyyyMMdd'</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$filename</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$name</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-replace</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;(?=\.(?!.*?\.))&quot;</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>,</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;-</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$datepart</span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$searchname</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$name</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-replace</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;(?=\.(?!.*?\.))&quot;</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>,</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;-*&quot;</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>if</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$keepdays</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>){</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span></span><span
+style='color:blue;mso-ansi-language:EN-US'>Get-ChildItem</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-Path</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$path</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-Filter</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$searchname</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>|</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:blue;mso-ansi-language:EN-US'>Where-Object</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> {((</span><span
+style='color:blue;mso-ansi-language:EN-US'>get-date</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>) </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$_</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>CreationTime)</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>totaldays </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-gt</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$keepdays</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>} </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>|</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>            </span></span><span
+style='color:blue;mso-ansi-language:EN-US'>ForEach-Object</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> {</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>                </span></span><span
+style='color:blue;mso-ansi-language:EN-US'>New-LogEntry</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;Removing obsolete file: '</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>$(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$_</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>FullName)</span><span
+style='color:darkred;mso-ansi-language:EN-US'>'&quot;</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-indent</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:purple;mso-ansi-language:EN-US'>1</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>                </span></span><span
+style='color:blue;mso-ansi-language:EN-US'>Remove-Item</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-Path</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$_</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>FullName</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>            </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>if</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$overwrite</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-or</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> (</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>!</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:blue;mso-ansi-language:EN-US'>Test-Path</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-Path</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> (</span><span
+style='color:blue;mso-ansi-language:EN-US'>Join-Path</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-Path</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$path</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-ChildPath</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$filename</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>)))){</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span></span><span
+style='color:blue;mso-ansi-language:EN-US'>New-Item</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-Path</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$path</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-Name</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$filename</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-ItemType</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> file </span><span
+style='color:navy;mso-ansi-language:EN-US'>-Force:</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$overwrite</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>|</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:blue;mso-ansi-language:EN-US'>Add-Member</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-MemberType</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>
+NoteProperty </span><span style='color:navy;mso-ansi-language:EN-US'>-Name</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> New </span><span
+style='color:navy;mso-ansi-language:EN-US'>-Value</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$true</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-PassThru</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>else</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>{</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span></span><span
+style='color:blue;mso-ansi-language:EN-US'>Get-Item</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-Path</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> (</span><span
+style='color:blue;mso-ansi-language:EN-US'>Join-Path</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-Path</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$path</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-ChildPath</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$filename</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>) </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>|</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:blue;mso-ansi-language:EN-US'>Add-Member</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-MemberType</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>
+NoteProperty </span><span style='color:navy;mso-ansi-language:EN-US'>-Name</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> New </span><span
+style='color:navy;mso-ansi-language:EN-US'>-Value</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$false</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-PassThru</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>}
+</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span lang=HU>A függvényben elsőként létrehozzuk a fájl
+könyvtárát, ha esetleg az még nem létezne. Majd a fájl tényleges nevének dátum
+részét képezzük: alapban csak az aktuális dátumból, de ha a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$byseconds</span></span><span
+lang=HU> kapcsolót használtuk, akkor még az idő számjegyeit is belerakjuk.</span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU>Ha van 0-tól különböző </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$keepday</span></span><span
+lang=HU> érték megadva, akkor ugyanabban a könyvtárban megkeressük a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$searchname</span></span><span
+lang=HU> alapján azokat a fájlokat, amelyek „</span><span class=EnglishChar><span
+style='mso-bidi-font-family:"Times New Roman"'>fájlnév-*.kiterjesztés</span></span><span
+lang=HU>” sémára illeszkednek és idősebbek, mint </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$keepdays</span></span><span
+lang=HU> nap és azokat töröljük. A törlés tényét naplózzuk is majd.</span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU>Ha még nem létezik a fájl, vagy az </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$overwrite</span></span><span
+lang=HU> kapcsolót használtuk, akkor újként hozzuk azt létre, egyébként csak
+megragadjuk a fájlt. A függvényünk visszatérési értéke az így generálódó „</span><span
+class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>item</span></span><span
+lang=HU>” objektum lesz, kiegészítve a </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>New</span></span><span
+lang=HU> tulajdonsággal, ami </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$true</span></span><span
+lang=HU>, ha új a fájl, és </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$false</span></span><span
+lang=HU>, ha már egy meglevőt használunk. Ezt majd arra használjuk fel a
+naplófájlok írásánál, hogy kell-e fejlécet írnunk bele vagy sem.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>Jöjjön a naplófájl létrehozásának
+függvénye:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:darkblue;mso-ansi-language:
+EN-US'>function</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'> Initialize-Logging {</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:darkgray;mso-ansi-language:
+EN-US'>[</span><span style='color:deepskyblue;mso-ansi-language:EN-US'>CmdletBinding</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>()</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>]</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:darkblue;mso-ansi-language:
+EN-US'>param</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>(</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>string</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'> </span><span style='color:orangered;mso-ansi-language:EN-US'>$title</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>,</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>string</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'> </span><span style='color:orangered;mso-ansi-language:EN-US'>$path</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>,</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>int</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'><span style='mso-spacerun:yes'>    </span></span><span style='color:
+orangered;mso-ansi-language:EN-US'>$keepdays</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:purple;mso-ansi-language:EN-US'>60</span><span style='color:darkgray;
+mso-ansi-language:EN-US'>,</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>int</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'><span style='mso-spacerun:yes'>    </span></span><span style='color:
+orangered;mso-ansi-language:EN-US'>$progressbarsec</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:purple;mso-ansi-language:EN-US'>1</span><span style='color:darkgray;
+mso-ansi-language:EN-US'>,</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>int</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'><span style='mso-spacerun:yes'>    </span></span><span style='color:
+orangered;mso-ansi-language:EN-US'>$progresslogfirst</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:purple;mso-ansi-language:EN-US'>60</span><span style='color:darkgray;
+mso-ansi-language:EN-US'>,</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>int</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'><span style='mso-spacerun:yes'>    </span></span><span style='color:
+orangered;mso-ansi-language:EN-US'>$progresslogmin</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'>   </span></span><span style='color:darkgray;
+mso-ansi-language:EN-US'>=</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'> </span><span style='color:purple;mso-ansi-language:
+EN-US'>5</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>)</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$scriptinvocation</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> (</span><span
+style='color:blue;mso-ansi-language:EN-US'>Get-PSCallStack</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>)</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:purple;
+mso-ansi-language:EN-US'>1</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>].</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'>InvocationInfo</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>(</span><span
+style='color:blue;mso-ansi-language:EN-US'>Get-Variable</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-Name</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> Error </span><span
+style='color:navy;mso-ansi-language:EN-US'>-Scope</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> global </span><span
+style='color:navy;mso-ansi-language:EN-US'>-ValueOnly</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>)</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>Clear()</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>if</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>!</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$path</span><span style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-US'>){</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>if</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$scriptinvocation</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>MyCommand</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>path){</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>            </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$path</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:blue;mso-ansi-language:EN-US'>Split-Path</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$scriptinvocation</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>MyCommand</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>path</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>else</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>{</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>            </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$path</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$env:TEMP</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$path</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:blue;mso-ansi-language:EN-US'>Join-Path</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$path</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> Logs</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$version</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;0.0.0&quot;</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$releasedate</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;&quot;</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>if</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:blue;mso-ansi-language:EN-US'>Get-Member</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-InputObject</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$scriptinvocation</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>MyCommand </span><span
+style='color:navy;mso-ansi-language:EN-US'>-Name</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> scriptcontents </span><span
+style='color:navy;mso-ansi-language:EN-US'>-ErrorAction</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> Ignore){</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$scripttext</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$scriptinvocation</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>MyCommand</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>scriptcontents</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$versionfound</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$scripttext</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-match</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;Version\s*:\s*(?&lt;version&gt;\d+\.\d+(.\d+)*)(\s*\((?&lt;releasedate&gt;\d{4}\.\d{2}\.\d{2})\))?&quot;</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>if</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$versionfound</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>){</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>            </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$releasedate</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$Matches</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>releasedate</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>            </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$version</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$Matches</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>version</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>if</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$scriptinvocation</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>MyCommand</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>Name){</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$scriptname</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$scriptinvocation</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>MyCommand</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>Name</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>else</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>{</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$scriptname</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;Interactive&quot;</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>if</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$scriptinvocation</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>MyCommand</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>path){</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$scriptpath</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:blue;mso-ansi-language:EN-US'>Split-Path</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-Path</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$scriptinvocation</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>MyCommand</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>path</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>else</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>{</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$scriptpath</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;Interactive&quot;</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$logFile</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:blue;mso-ansi-language:EN-US'>New-LogFile</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-name</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>$(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$scriptname</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>)</span><span
+style='color:darkred;mso-ansi-language:EN-US'>.log&quot;</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-path</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$path</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-keepdays</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$keepdays</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$global:logging</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>pscustomobject</span><span style='color:darkgray;
+mso-ansi-language:EN-US'>]</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>@{</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>               
+</span>Title </span><span style='color:darkgray;mso-ansi-language:EN-US'>=</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$title</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>               
+</span>ScriptName </span><span style='color:darkgray;mso-ansi-language:EN-US'>=</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$scriptname</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>               
+</span>ScriptPath </span><span style='color:darkgray;mso-ansi-language:EN-US'>=</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$scriptpath</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>               
+</span>ScriptVersion </span><span style='color:darkgray;mso-ansi-language:EN-US'>=</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$version</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>               
+</span>RunBy </span><span style='color:darkgray;mso-ansi-language:EN-US'>=</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$env:USERDOMAIN</span><span
+style='color:darkred;mso-ansi-language:EN-US'>\</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$env:USERNAME</span><span style='color:darkred;
+mso-ansi-language:EN-US'>&quot;</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>               
+</span>Computer </span><span style='color:darkgray;mso-ansi-language:EN-US'>=</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$env:COMPUTERNAME</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>               
+</span>LogPath </span><span style='color:darkgray;mso-ansi-language:EN-US'>=</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$logFile</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>fullname</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>               
+</span>LogFolder </span><span style='color:darkgray;mso-ansi-language:EN-US'>=</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$logFile</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>DirectoryName</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>               
+</span>LogStart<span style='mso-spacerun:yes'>  </span></span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:blue;mso-ansi-language:EN-US'>Get-Date</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>               
+</span>_LastLine </span><span style='color:darkgray;mso-ansi-language:EN-US'>=</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;&quot;</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>               
+</span>_WarningsLogged </span><span style='color:darkgray;mso-ansi-language:
+EN-US'>=</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'> </span><span style='color:purple;mso-ansi-language:EN-US'>0</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>               
+</span>_ErrorsLogged </span><span style='color:darkgray;mso-ansi-language:EN-US'>=</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:purple;mso-ansi-language:EN-US'>0</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>               
+</span>_VerboseMode </span><span style='color:darkgray;mso-ansi-language:EN-US'>=</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$PSBoundParameters</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>verbose </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-or</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$Host</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>Name </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-match</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>'ISE|Visual Studio'</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>               
+</span>_Progress </span><span style='color:darkgray;mso-ansi-language:EN-US'>=</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>PSCustomObject</span><span style='color:darkgray;
+mso-ansi-language:EN-US'>]</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'> @{</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>                       
+</span>ArrayID </span><span style='color:darkgray;mso-ansi-language:EN-US'>=</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:purple;mso-ansi-language:EN-US'>0</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>                       
+</span>Counter </span><span style='color:darkgray;mso-ansi-language:EN-US'>=</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:purple;mso-ansi-language:EN-US'>0</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>                       
+</span>Start<span style='mso-spacerun:yes'>   </span></span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$null</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>                       
+</span>BarSec<span style='mso-spacerun:yes'>  </span></span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$progressbarsec</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>                       
+</span>BarNext<span style='mso-spacerun:yes'>  </span></span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$null</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>                       
+</span>LogFirst </span><span style='color:darkgray;mso-ansi-language:EN-US'>=</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$progresslogfirst</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>                       
+</span>LogNext<span style='mso-spacerun:yes'>  </span></span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$null</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>                       
+</span>LogMin<span style='mso-spacerun:yes'>   </span></span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$progresslogmin</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>                   
+</span>}</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>if</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$logFile</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>new){</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span></span><span
+style='color:blue;mso-ansi-language:EN-US'>Set-Content</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-Path</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$logFile</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>Fullname </span><span
+style='color:navy;mso-ansi-language:EN-US'>-Value</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;DateTime,Line,Type,Message&quot;</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$global:logging</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>|</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:blue;mso-ansi-language:EN-US'>Format-LogStringList</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-excludeProperty</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> _* </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>|</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:blue;mso-ansi-language:EN-US'>FormatBorder</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>|</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:blue;mso-ansi-language:EN-US'>New-LogEntry</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>if</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$scriptinvocation</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>BoundParameters</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>count){</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span></span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>PSCustomObject</span><span style='color:darkgray;
+mso-ansi-language:EN-US'>][</span><span style='color:teal;mso-ansi-language:
+EN-US'>hashtable</span><span style='color:darkgray;mso-ansi-language:EN-US'>]</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$scriptinvocation</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>BoundParameters </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>|</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:blue;mso-ansi-language:EN-US'>Format-LogStringList</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>|</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>            </span></span><span
+style='color:blue;mso-ansi-language:EN-US'>FormatBorder</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-title</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;Bound Parameters:&quot;</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-indentlevel</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:purple;mso-ansi-language:EN-US'>1</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>|</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>                </span></span><span
+style='color:blue;mso-ansi-language:EN-US'>New-LogEntry</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-indentlevel</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:purple;mso-ansi-language:EN-US'>1</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>if</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$ScriptImplicitParams</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:blue;mso-ansi-language:EN-US'>Get-Variable</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-Name</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> ScriptImplicitParams </span><span
+style='color:navy;mso-ansi-language:EN-US'>-Scope</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> Global </span><span
+style='color:navy;mso-ansi-language:EN-US'>-ErrorAction</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> Ignore </span><span
+style='color:navy;mso-ansi-language:EN-US'>-ValueOnly</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>){</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span></span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>PSCustomObject</span><span style='color:darkgray;
+mso-ansi-language:EN-US'>]</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'> </span><span style='color:orangered;mso-ansi-language:
+EN-US'>$ScriptImplicitParams</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'> </span><span style='color:darkgray;mso-ansi-language:
+EN-US'>|</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'> </span><span style='color:blue;mso-ansi-language:EN-US'>Format-LogStringList</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>|</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>            </span></span><span
+style='color:blue;mso-ansi-language:EN-US'>FormatBorder</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-title</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;Parameters with
+defaults:&quot;</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'> </span><span style='color:navy;mso-ansi-language:
+EN-US'>-indentlevel</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'> </span><span style='color:purple;mso-ansi-language:
+EN-US'>1</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'> </span><span style='color:darkgray;mso-ansi-language:EN-US'>|</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>                </span></span><span
+style='color:blue;mso-ansi-language:EN-US'>New-LogEntry</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-indentlevel</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:purple;mso-ansi-language:EN-US'>1</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-spacerun:yes'> </span><span lang=HU>Mielőtt beleásnék
+a függvény részleteibe, tegyünk egy kis kitérőt a jobb megértés kedvéért. Van
+egy </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>Főszkript.ps1</span></span><span lang=HU> szkriptem:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:blue;mso-ansi-language:EN-US'>Import-Module</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>
+C:\Users\Tibi\OneDrive\PSKönyv\Modul.psm1 </span><span style='color:navy;
+mso-ansi-language:EN-US'>-Force</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:orangered;mso-ansi-language:
+EN-US'>$Változó</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'> </span><span style='color:darkgray;mso-ansi-language:
+EN-US'>=</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'> </span><span style='color:darkred;mso-ansi-language:EN-US'>&quot;Kakukk&quot;</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='color:blue;mso-ansi-language:EN-US'>GetSzkriptVáltozó <o:p></o:p></span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>És az ebben meghívott </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Modul.psm1</span></span><span
+lang=HU> modulfájl:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>$Változó </span><span style='color:darkgray;
+mso-ansi-language:EN-US'>=</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'> </span><span style='color:darkred;mso-ansi-language:
+EN-US'>&quot;Modul&quot;</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:darkblue;mso-ansi-language:
+EN-US'>function</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'> </span><span style='color:blueviolet;mso-ansi-language:
+EN-US'>GetSzkriptVáltozó</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'> {</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>$Változó </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;ModulFüggvény&quot;</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:blue;mso-ansi-language:EN-US'>Write-Host</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;Script:<span
+style='mso-spacerun:yes'>  </span></span><span style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-US'>$script:Változó</span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:blue;mso-ansi-language:EN-US'>Write-Host</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;Sima:<span
+style='mso-spacerun:yes'>    </span></span><span style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-US'>$Változó</span><span style='color:darkred;
+mso-ansi-language:EN-US'>&quot;</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:blue;mso-ansi-language:EN-US'>Write-Host</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;Global:<span
+style='mso-spacerun:yes'>  </span></span><span style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-US'>$global:változó</span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:blue;mso-ansi-language:EN-US'>Write-Host</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;Scope 1: </span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>$(</span><span
+style='color:blue;mso-ansi-language:EN-US'>Get-Variable</span><span
+style='color:darkred;mso-ansi-language:EN-US'> </span><span style='color:navy;
+mso-ansi-language:EN-US'>-Name</span><span style='color:darkred;mso-ansi-language:
+EN-US'> </span><span style='color:blueviolet;mso-ansi-language:EN-US'>változó</span><span
+style='color:darkred;mso-ansi-language:EN-US'> </span><span style='color:navy;
+mso-ansi-language:EN-US'>-ValueOnly</span><span style='color:darkred;
+mso-ansi-language:EN-US'> </span><span style='color:navy;mso-ansi-language:
+EN-US'>-Scope</span><span style='color:darkred;mso-ansi-language:EN-US'> </span><span
+style='color:purple;mso-ansi-language:EN-US'>1</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>)</span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:blue;mso-ansi-language:EN-US'>Write-Host</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;Scope 2: </span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>$(</span><span
+style='color:blue;mso-ansi-language:EN-US'>Get-Variable</span><span
+style='color:darkred;mso-ansi-language:EN-US'> </span><span style='color:navy;
+mso-ansi-language:EN-US'>-Name</span><span style='color:darkred;mso-ansi-language:
+EN-US'> </span><span style='color:blueviolet;mso-ansi-language:EN-US'>változó</span><span
+style='color:darkred;mso-ansi-language:EN-US'> </span><span style='color:navy;
+mso-ansi-language:EN-US'>-ValueOnly</span><span style='color:darkred;
+mso-ansi-language:EN-US'> </span><span style='color:navy;mso-ansi-language:
+EN-US'>-Scope</span><span style='color:darkred;mso-ansi-language:EN-US'> </span><span
+style='color:purple;mso-ansi-language:EN-US'>2</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>)</span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Van tehát egy </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>$változó</span></span><span
+lang=HU> a </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>Főszkript</span></span><span lang=HU>-ben, van </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$változó</span></span><span
+lang=HU> a modulfájlban és </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$változó</span></span><span
+lang=HU> a modul </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>GetSzkriptVáltozó</span></span><span
+lang=HU> függvényében is. A célom, hogy a </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>GetSzkriptVáltozó</span></span><span
+lang=HU> függvénnyel írjam ki a </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Főszkript</span></span><span
+lang=HU> </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>$változó</span></span><span lang=HU>-ját. Sajnos ez nem megy
+egyszerűen. Hiába próbálom az összes elképzelhető módon elérni a különböző </span><span
+class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>scope</span></span><span
+lang=HU>-ok változóját, nem kapok „Kakukk” eredményt, ha a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Főszkript.ps1</span></span><span
+lang=HU>-et nem </span><span class=EnglishChar><span style='mso-bidi-font-family:
+"Times New Roman"'>dotsource</span></span><span lang=HU> módon hívom meg:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>PS C:\&gt;
+C:\Users\Tibi\OneDrive\PSKönyv\F</span><span style='font-family:"Calibri",sans-serif;
+color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>ő</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>szkript.ps1</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>Script:<span
+style='mso-spacerun:yes'>  </span>Modul</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>Sima:<span
+style='mso-spacerun:yes'>    </span>ModulFüggvény</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>Global:<span
+style='mso-spacerun:yes'>  </span></span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>Scope 1:
+Modul</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:red;mso-ansi-language:EN-US'>Get-Variable : Cannot find a variable
+with the name 'változó'.<o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:red;mso-ansi-language:EN-US'>At
+C:\Users\Tibi\OneDrive\PSKönyv\Modul.psm1:8 char:28<o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:red;mso-ansi-language:EN-US'>+ ... ite-Host &quot;Scope 2:
+$(Get-Variable -Name változó -ValueOnly -Scope 2)&quot;<o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:red;mso-ansi-language:EN-US'>+<span
+style='mso-spacerun:yes'>                         
+</span>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:red;mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>+ CategoryInfo<span style='mso-spacerun:yes'>          </span>:
+ObjectNotFound: (változó:String) [Get-Variable], ItemNotFoundException<o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:red;mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>+ FullyQualifiedErrorId :
+VariableNotFound,Microsoft.PowerShell.Commands.GetVariableCommand<o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:red;mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'> </span><o:p></o:p></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>Scope 2: </span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-spacerun:yes'> </span><span lang=HU>A <span
+class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman";
+mso-ansi-language:HU'>script scope</span></span> a Modul </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$változó</span></span><span
+lang=HU>-ját jelenti, a „sima” </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$változó</span></span><span
+lang=HU> a ModulFüggvényé, Global </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>$változó</span></span><span
+lang=HU> nincs, </span><span class=EnglishChar><span style='mso-bidi-font-family:
+"Times New Roman"'>Scope 1</span></span><span lang=HU> az valójában megint a
+Modul, </span><span class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>Scope
+2</span></span><span lang=HU> a Global lenne, azaz az sincs. Azaz nem tudjuk
+elérni a szkript változóját a modul függvényéből! Márpedig nekünk az kellene,
+hogy a naplófájl inicializálása során a naplófájlba a fő szkript bizonyos
+adatait beírhassuk a naplózó modul függvényéből.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>Szerencsénkre a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Get-PSCallStack</span></span>
+
+<span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdlet akár modul függvényéből meghívva
+átlátást biztosít a modul függvényéből a fő szkriptbe:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>Command<span
+style='mso-spacerun:yes'>           </span>Arguments Location<span
+style='mso-spacerun:yes'>             </span></span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>-------<span
+style='mso-spacerun:yes'>           </span>--------- --------<span
+style='mso-spacerun:yes'>             </span></span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>GetSzkriptVáltozó
+{}<span style='mso-spacerun:yes'>        </span>Modul.psm1: line 10<span
+style='mso-spacerun:yes'>  </span></span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>F</span><span
+style='font-family:"Calibri",sans-serif;color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>ő</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>szkript.ps1<span style='mso-spacerun:yes'>    
+</span>{}<span style='mso-spacerun:yes'>        </span>F</span><span
+style='font-family:"Calibri",sans-serif;color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>ő</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>szkript.ps1: line 5</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>&lt;ScriptBlock&gt;<span
+style='mso-spacerun:yes'>     </span>{}<span style='mso-spacerun:yes'>       
+</span>&lt;No file&gt;<span style='mso-spacerun:yes'>            </span></span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Látható, hogy ennek a 2. (1-es indexű) eleme
+vonatkozik a </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>Főszkript.ps1</span></span><span lang=HU>-re. Nézzük meg ezt
+részletesebben! Most a </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>GetSzkriptVáltozó.psm1</span></span><span
+lang=HU> csak ennyiből áll:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:darkblue;mso-ansi-language:
+EN-US'>function</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'> GetSzkriptVáltozó {</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>(</span><span
+style='color:blue;mso-ansi-language:EN-US'>Get-PSCallStack</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>)</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:purple;
+mso-ansi-language:EN-US'>1</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>}
+</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>A </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Főszkript.ps1</span></span><span
+lang=HU> meg csak ennyi:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:blue;mso-ansi-language:EN-US'>Import-Module</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>
+C:\Users\Tibi\OneDrive\PSKönyv\Modul.psm1 </span><span style='color:navy;
+mso-ansi-language:EN-US'>-Force</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='color:blue;mso-ansi-language:EN-US'>GetSzkriptVáltozó</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>|</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:blue;mso-ansi-language:EN-US'>fl</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> * </span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>A </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Főszkript.ps1</span></span><span
+lang=HU> futtatása ezt adja:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>PS C:\&gt;
+C:\Users\Tibi\OneDrive\PSKönyv\F</span><span style='font-family:"Calibri",sans-serif;
+color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>ő</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>szkript.ps1</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>Command<span
+style='mso-spacerun:yes'>          </span>: F</span><span style='font-family:
+"Calibri",sans-serif;color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'>ő</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'>szkript.ps1</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>Location<span
+style='mso-spacerun:yes'>         </span>: F</span><span style='font-family:
+"Calibri",sans-serif;color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'>ő</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'>szkript.ps1: line 5</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>Arguments<span
+style='mso-spacerun:yes'>        </span>: {}</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>ScriptName<span
+style='mso-spacerun:yes'>       </span>: C:\Users\Tibi\OneDrive\PSKönyv\F</span><span
+style='font-family:"Calibri",sans-serif;color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>ő</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>szkript.ps1</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>ScriptLineNumber
+: 5</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>InvocationInfo<span
+style='mso-spacerun:yes'>   </span>:
+System.Management.Automation.InvocationInfo</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>Position<span
+style='mso-spacerun:yes'>         </span>: GetSzkriptVáltozó | fl *</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>FunctionName<span
+style='mso-spacerun:yes'>     </span>: &lt;ScriptBlock&gt;</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Ennek az </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>InvocationInfo</span></span><span
+lang=HU> tulajdonsága érdekel igazából:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>PS C:\&gt;
+C:\Users\Tibi\OneDrive\PSKönyv\F</span><span style='font-family:"Calibri",sans-serif;
+color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>ő</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>szkript.ps1</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>MyCommand<span
+style='mso-spacerun:yes'>             </span>: F</span><span style='font-family:
+"Calibri",sans-serif;color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'>ő</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'>szkript.ps1</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>BoundParameters<span
+style='mso-spacerun:yes'>       </span>: {}</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>UnboundArguments<span
+style='mso-spacerun:yes'>      </span>: {}</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>ScriptLineNumber<span
+style='mso-spacerun:yes'>      </span>: 1</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>OffsetInLine<span
+style='mso-spacerun:yes'>          </span>: 1</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>HistoryId<span
+style='mso-spacerun:yes'>             </span>: 21</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>ScriptName<span
+style='mso-spacerun:yes'>            </span>: </span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>Line<span
+style='mso-spacerun:yes'>                  </span>:
+C:\Users\Tibi\OneDrive\PSKönyv\F</span><span style='font-family:"Calibri",sans-serif;
+color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>ő</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>szkript.ps1</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>PositionMessage<span
+style='mso-spacerun:yes'>       </span>: At line:1 char:1</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'>                        </span>+
+C:\Users\Tibi\OneDrive\PSKönyv\F</span><span style='font-family:"Calibri",sans-serif;
+color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>ő</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>szkript.ps1</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'>                        </span>+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>PSScriptRoot<span
+style='mso-spacerun:yes'>          </span>: </span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>PSCommandPath<span
+style='mso-spacerun:yes'>         </span>: </span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>InvocationName<span
+style='mso-spacerun:yes'>        </span>: C:\Users\Tibi\OneDrive\PSKönyv\F</span><span
+style='font-family:"Calibri",sans-serif;color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>ő</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>szkript.ps1</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>PipelineLength<span
+style='mso-spacerun:yes'>        </span>: 1</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>PipelinePosition<span
+style='mso-spacerun:yes'>      </span>: 1</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>ExpectingInput<span
+style='mso-spacerun:yes'>        </span>: False</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>CommandOrigin<span
+style='mso-spacerun:yes'>         </span>: Runspace</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>DisplayScriptPosition
+: </span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Szóval ez nem más, mint a Főszkript </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$MyInvocation</span></span><span
+lang=HU> változója. Ha visszamegyünk az </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>Initialize-Logging</span></span><span
+lang=HU> függvényre, akkor a </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>param</span></span><span
+lang=HU> blokk utáni első sora pont ezt tartalmazza:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=Kikopizhat style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'>    </span></span><span style='color:orangered;
+mso-ansi-language:EN-US'>$scriptinvocation</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> (</span><span
+style='color:blue;mso-ansi-language:EN-US'>Get-PSCallStack</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>)</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:purple;
+mso-ansi-language:EN-US'>1</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>].</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'>InvocationInfo</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span lang=HU><span style='mso-spacerun:yes'> </span>A
+következő sorban a globális szint </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>$Error</span></span><span
+lang=HU> változóját ürítjük, majd a </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>$scriptinvokation</span></span><span
+lang=HU>-ből kiszedem a fő szkript elérési útját (</span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$path</span></span><span
+lang=HU>), a forráskódból a verziószámot (</span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>$version</span></span><span
+lang=HU>) és a publikálás dátumát (</span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>$releasedate</span></span><span
+lang=HU>), valamint a szkript nevét (</span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>$scriptname</span></span><span
+lang=HU>).<span style='mso-spacerun:yes'>  </span>Előfordulhat, hogy még nem
+mentettem el a szkriptet, azaz még nincs is szkriptem, ilyenkor természetesen
+szkriptnév sincs, ilyenkor azt „</span><span class=EnglishChar><span
+style='mso-bidi-font-family:"Times New Roman"'>interactive</span></span><span
+lang=HU>”-nak hívom. Ezután megcsináltatom a naplófájlt (</span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$logFile</span></span><span
+lang=HU>) és a </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>$global:logging</span></span><span lang=HU> változóba a
+szkript futásával kapcsolatos számos adatot teszek egy egyéni objektum
+tulajdonságain keresztül. Az aláhúzással kezdődő tulajdonságokat nem jelenítem
+majd meg a naplófájl fejlécében, ezek csak a naplózáshoz szükséges belső
+információk lesznek.</span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU>Ha új fájl a naplófájl, akkor berakom a
+CSV fejlécet: </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>&quot;DateTime,Line,Type,Message&quot;</span></span><span
+lang=HU>.<span style='mso-spacerun:yes'>  </span>Majd a szépen formázott és
+keretezett szkriptadatokat. Ezután szintén keretezve a szkript hívásakor
+használt explicit paramétereket a </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>$scriptinvocation.BoundParameters</span></span><span
+lang=HU>-ből.</span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU>Sajnos nehezebb dolgunk van a </span><span
+class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>default</span></span><span
+lang=HU> értékekkel rendelkező paraméterekkel. Ezek nincsenek benne a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>BoundParameters</span></span><span
+lang=HU>-ben és nem is lehet elérni ezeket a modulból, így szükség van némi
+kooperációra a fő szkript részéről. A globális </span><span class=EnglishChar><span
+style='mso-bidi-font-family:"Times New Roman"'>scope</span></span><span
+lang=HU>-ban definiált </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$implicitparams</span></span><span
+lang=HU> változón keresztül fogom majd átadni ezeket az adatokat az </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Initialize-Logging</span></span><span
+lang=HU> függvénynek, ezt majd később mutatom meg.</span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=SzvegCxSpLast><span lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

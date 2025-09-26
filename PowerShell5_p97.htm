@@ -1,0 +1,1122 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>1.7.6 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><span style='mso-bookmark:_Toc189542093'><a
+name="_Toc197149209"></a><a name="_Toc204716222"></a><a name="_Toc209115765"><span
+style='mso-bookmark:_Toc204716222'><span style='mso-bookmark:_Toc197149209'>
+<span lang=HU>Szkriptek digitális
+aláírása</span></span></span></a></span></h3>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542093'><span lang=HU>Láttuk
+a fejezet elején, hogy a szkriptek futtatását engedélyezni kell. Ha a
+legbiztonságosabb futtatási házirenddel dolgozunk, akkor csak olyan szkript
+futhat, amelyik digitálisan alá van írva</span></span>
+<span style='mso-bookmark:_Toc189542093'></span>
+<span
+style='mso-bookmark:_Toc189542093'><span lang=HU>, és az aláírást igazoló
+tanúsítványt az adott gép elismeri biztonságos tanúsítványnak. Na de honnan
+lesz nekünk ilyen tanúsítványunk?</span></span></p>
+
+<p class=SzvegCxSpMiddle><span style='mso-bookmark:_Toc189542093'><span
+lang=HU>Az első lehetőség, hogy van már kiépített PKI infrastruktúránk,
+amelyben van „</span></span><span style='mso-bookmark:_Toc189542093'><span
+class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>code
+signing</span></span><span lang=HU>” típusú tanúsítványt kiosztani képes CA
+kiszolgáló. Innen igényelni kell ilyen tanúsítványt, és ezzel fogunk tudni
+dolgozni a később leírt módon.</span></span></p>
+
+<p class=SzvegCxSpMiddle><span style='mso-bookmark:_Toc189542093'><span
+lang=HU>A problematikusabb helyzet az, amikor nincs ilyen PKI infrastruktúránk.
+Például én otthon szeretnék aláírt szkripteket létrehozni, hogy tesztelhessem a
+működésüket. Ebben az esetben létrehozhatok un. önaláírt tanúsítványt, amelyet
+csak azok a gépek fognak elismerni hitelesnek, ahova manuálisan telepítem
+azokat.</span></span></p>
+
+<p class=SzvegCxSpMiddle align=left style='text-align:left'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU>Nézzünk ennek lépéseit! Honnan
+szedek én önaláírt tanúsítványt? Direkt ilyen tesztelési célokra van a .NET
+Framework Software Development Kit-ben (letölthető: </span></span><a
+href="http://msdn2.microsoft.com/en-us/netframework/aa731542.aspx"><span
+style='mso-bookmark:_Toc189542093'><span lang=HU>http://msdn2.microsoft.com/en-us/netframework/aa731542.aspx</span></span><span
+style='mso-bookmark:_Toc189542093'></span></a><span style='mso-bookmark:_Toc189542093'><span
+lang=HU>) egy </span></span><span style='mso-bookmark:_Toc189542093'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>makecert.exe</span></span></span>
+<span
+style='mso-bookmark:_Toc189542093'></span>
+<span
+style='mso-bookmark:_Toc189542093'><span lang=HU><span
+style='mso-spacerun:yes'> </span>segédprogram, amely erre képes.</span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542093'><span lang=HU>Ez
+egy parancssori eszköz, nézzük meg a meghívásának paramétereit:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>C:\Program Files\Microsoft Visual Studio
+8\SDK\v2.0&gt;&quot;C:\Program Files\Micros</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>oft Visual Studio 8\SDK\v2.0\Bin\makecert.exe&quot; -!</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Usage: MakeCert [ basic|extended options] [outputCertificateFile]</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Extended Options</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'> </span>-sc<span
+style='mso-spacerun:yes'>  </span>&lt;file&gt;<span
+style='mso-spacerun:yes'>         </span>Subject's certificate file</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'> </span>-sv<span
+style='mso-spacerun:yes'>  </span>&lt;pvkFile&gt;<span
+style='mso-spacerun:yes'>      </span>Subject's PVK file; To be created if not
+present</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'> </span>-ic<span
+style='mso-spacerun:yes'>  </span>&lt;file&gt;<span
+style='mso-spacerun:yes'>         </span>Issuer's certificate file</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'> </span>-ik<span
+style='mso-spacerun:yes'>  </span>&lt;keyName&gt;<span
+style='mso-spacerun:yes'>      </span>Issuer's key container name</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'> </span>-iv<span
+style='mso-spacerun:yes'>  </span>&lt;pvkFile&gt;<span
+style='mso-spacerun:yes'>      </span>Issuer's PVK file</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'> </span>-is<span
+style='mso-spacerun:yes'>  </span>&lt;store&gt;<span
+style='mso-spacerun:yes'>        </span>Issuer's certificate store name.</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'> </span>-ir<span
+style='mso-spacerun:yes'>  </span>&lt;location&gt;<span
+style='mso-spacerun:yes'>     </span>Issuer's certificate store location</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                       
+</span>&lt;CurrentUser|LocalMachine&gt;.<span style='mso-spacerun:yes'> 
+</span>Default to 'CurrentUser</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>'</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'> </span>-in<span
+style='mso-spacerun:yes'>  </span>&lt;name&gt;<span
+style='mso-spacerun:yes'>         </span>Issuer's certificate common name.(eg:
+Fred Dews)</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'> </span>-a<span
+style='mso-spacerun:yes'>   </span>&lt;algorithm&gt;<span
+style='mso-spacerun:yes'>    </span>The signature algorithm</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                       
+</span>&lt;md5|sha1&gt;.<span style='mso-spacerun:yes'>  </span>Default to
+'md5'</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'> </span>-ip<span
+style='mso-spacerun:yes'>  </span>&lt;provider&gt;<span
+style='mso-spacerun:yes'>     </span>Issuer's CryptoAPI provider's name</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'> </span>-iy<span
+style='mso-spacerun:yes'>  </span>&lt;type&gt;<span
+style='mso-spacerun:yes'>         </span>Issuer's CryptoAPI provider's type</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'> </span>-sp<span
+style='mso-spacerun:yes'>  </span>&lt;provider&gt;<span
+style='mso-spacerun:yes'>     </span>Subject's CryptoAPI provider's name</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'> </span>-sy<span
+style='mso-spacerun:yes'>  </span>&lt;type&gt;<span
+style='mso-spacerun:yes'>         </span>Subject's CryptoAPI provider's type</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'> </span>-iky &lt;keytype&gt;<span
+style='mso-spacerun:yes'>      </span>Issuer key type</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                       
+</span>&lt;signature|exchange|&lt;integer&gt;&gt;.</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'> </span>-sky &lt;keytype&gt;<span
+style='mso-spacerun:yes'>      </span>Subject key type</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                       
+</span>&lt;signature|exchange|&lt;integer&gt;&gt;.</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'> </span>-l<span
+style='mso-spacerun:yes'>   </span>&lt;link&gt;<span
+style='mso-spacerun:yes'>         </span>Link to the policy information (such
+as a URL)</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'> </span>-cy<span
+style='mso-spacerun:yes'>  </span>&lt;certType&gt;<span
+style='mso-spacerun:yes'>     </span>Certificate types</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                       
+</span>&lt;end|authority&gt;</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'> </span>-b<span
+style='mso-spacerun:yes'>   </span>&lt;mm/dd/yyyy&gt;<span
+style='mso-spacerun:yes'>   </span>Start of the validity period; default to
+now.</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'> </span>-m<span
+style='mso-spacerun:yes'>   </span>&lt;number&gt;<span
+style='mso-spacerun:yes'>       </span>The number of months for the cert
+validity period</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'> </span>-e<span
+style='mso-spacerun:yes'>   </span>&lt;mm/dd/yyyy&gt;<span
+style='mso-spacerun:yes'>   </span>End of validity period; defaults to 2039</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'> </span>-h<span
+style='mso-spacerun:yes'>   </span>&lt;number&gt;<span
+style='mso-spacerun:yes'>       </span>Max height of the tree below this cert</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'> </span>-len &lt;number&gt;<span
+style='mso-spacerun:yes'>       </span>Generated Key Length (Bits)</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'> </span>-r<span
+style='mso-spacerun:yes'>                  </span>Create a self signed
+certificate</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'> </span>-nscp<span
+style='mso-spacerun:yes'>               </span>Include netscape client auth
+extension</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'> </span>-eku
+&lt;oid[&lt;,oid&gt;]&gt;<span style='mso-spacerun:yes'>  </span>Comma
+separated enhanced key usage OIDs</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'> </span>-?<span
+style='mso-spacerun:yes'>                  </span>Return a list of basic
+options</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'> </span>-!<span
+style='mso-spacerun:yes'>                  </span>Return a list of extended
+options</span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542093'><span lang=HU>Nem
+egyszerű, de kezdjünk neki. Első lépésként a </span></span><span
+style='mso-bookmark:_Toc189542093'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>makecert</span></span><span
+lang=HU>-et rá kell bírni, hogy tanúsítványkiosztó hatóság szerepét vegye fel:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=Kikopizhat style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;
+mso-color-alt:windowtext'>makecert -n &quot;CN=PowerShell Sajat Root CA&quot;
+-a sha1 -eku 1.3.6.1.5.5.7.3.3 -r -sv c:\cert\root.pvk c:\cert\root.cer -ss
+Root -sr localMachine</span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542093'><span lang=HU>Nézzük az
+egyes paraméterek jelentését:</span></span></p>
+
+<table class=LightList-Accent11 border=1 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none;mso-border-alt:solid #4F81BD 1.0pt;
+ mso-border-themecolor:accent1;mso-yfti-tbllook:1184;mso-padding-alt:0cm 5.4pt 0cm 5.4pt'>
+ <tr style='mso-yfti-irow:-1;mso-yfti-firstrow:yes;mso-yfti-lastfirstrow:yes'>
+  <td width=248 valign=top style='width:186.35pt;border-top:solid #4F81BD 1.0pt;
+  mso-border-top-themecolor:accent1;border-left:solid #4F81BD 1.0pt;mso-border-left-themecolor:
+  accent1;border-bottom:none;border-right:none;background:#4F81BD;mso-background-themecolor:
+  accent1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpFirst style='mso-yfti-cnfc:5'><span style='mso-bookmark:
+  _Toc189542093'><b><span lang=HU style='color:white;mso-themecolor:background1'>Paraméter<o:p></o:p></span></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542093'></span>
+  <td width=411 valign=top style='width:308.1pt;border-top:solid #4F81BD 1.0pt;
+  mso-border-top-themecolor:accent1;border-left:none;border-bottom:none;
+  border-right:solid #4F81BD 1.0pt;mso-border-right-themecolor:accent1;
+  background:#4F81BD;mso-background-themecolor:accent1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpLast style='mso-yfti-cnfc:1'><span style='mso-bookmark:_Toc189542093'><b><span
+  lang=HU style='color:white;mso-themecolor:background1'>Jelentés<o:p></o:p></span></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542093'></span>
+ </tr>
+ <tr style='mso-yfti-irow:0'>
+  <td width=248 valign=top style='width:186.35pt;border:solid #4F81BD 1.0pt;
+  mso-border-themecolor:accent1;border-right:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpFirst style='mso-yfti-cnfc:68'><span style='mso-bookmark:
+  _Toc189542093'><span lang=HU style='mso-bidi-font-weight:bold'>-n
+  &quot;CN=PowerShell Sajat Root CA&quot;<o:p></o:p></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542093'></span>
+  <td width=411 valign=top style='width:308.1pt;border:solid #4F81BD 1.0pt;
+  mso-border-themecolor:accent1;border-left:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpLast style='mso-yfti-cnfc:64'><span style='mso-bookmark:
+  _Toc189542093'><span lang=HU>A tanúsítványkiosztóm neve</span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542093'></span>
+ </tr>
+ <tr style='mso-yfti-irow:1'>
+  <td width=248 valign=top style='width:186.35pt;border:none;border-left:solid #4F81BD 1.0pt;
+  mso-border-left-themecolor:accent1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpFirst style='mso-yfti-cnfc:4'><span style='mso-bookmark:
+  _Toc189542093'><span lang=HU style='mso-bidi-font-weight:bold'>-a sha1<o:p></o:p></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542093'></span>
+  <td width=411 valign=top style='width:308.1pt;border:none;border-right:solid #4F81BD 1.0pt;
+  mso-border-right-themecolor:accent1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpLast><span style='mso-bookmark:_Toc189542093'><span lang=HU>A
+  digitális aláírás algoritmusa</span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542093'></span>
+ </tr>
+ <tr style='mso-yfti-irow:2'>
+  <td width=248 valign=top style='width:186.35pt;border:solid #4F81BD 1.0pt;
+  mso-border-themecolor:accent1;border-right:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpFirst style='mso-yfti-cnfc:68'><span style='mso-bookmark:
+  _Toc189542093'><span lang=HU style='mso-bidi-font-weight:bold'>-eku
+  1.3.6.1.5.5.7.3.3<o:p></o:p></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542093'></span>
+  <td width=411 valign=top style='width:308.1pt;border:solid #4F81BD 1.0pt;
+  mso-border-themecolor:accent1;border-left:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpLast style='mso-yfti-cnfc:64'><span style='mso-bookmark:
+  _Toc189542093'><span lang=HU>A kiosztandó tanúsítványok fajtája, ez a szám
+  jelenti a „Code signing” lehetőséget</span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542093'></span>
+ </tr>
+ <tr style='mso-yfti-irow:3'>
+  <td width=248 valign=top style='width:186.35pt;border:none;border-left:solid #4F81BD 1.0pt;
+  mso-border-left-themecolor:accent1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpFirst style='mso-yfti-cnfc:4'><span style='mso-bookmark:
+  _Toc189542093'><span lang=HU style='mso-bidi-font-weight:bold'>-r<o:p></o:p></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542093'></span>
+  <td width=411 valign=top style='width:308.1pt;border:none;border-right:solid #4F81BD 1.0pt;
+  mso-border-right-themecolor:accent1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpLast><span style='mso-bookmark:_Toc189542093'><span lang=HU>Önaláírt
+  legyen a tanúsítványkiosztó tanúsítvány</span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542093'></span>
+ </tr>
+ <tr style='mso-yfti-irow:4'>
+  <td width=248 valign=top style='width:186.35pt;border:solid #4F81BD 1.0pt;
+  mso-border-themecolor:accent1;border-right:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpFirst style='mso-yfti-cnfc:68'><span style='mso-bookmark:
+  _Toc189542093'><span lang=HU style='mso-bidi-font-weight:bold'>-sv
+  c:\cert\root.pvk c:\cert\root.cer<o:p></o:p></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542093'></span>
+  <td width=411 valign=top style='width:308.1pt;border:solid #4F81BD 1.0pt;
+  mso-border-themecolor:accent1;border-left:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpLast style='mso-yfti-cnfc:64'><span style='mso-bookmark:
+  _Toc189542093'><span lang=HU>A tanúsítványkiosztó tanúsítványainak tárolási
+  helye fájl szinten</span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542093'></span>
+ </tr>
+ <tr style='mso-yfti-irow:5'>
+  <td width=248 valign=top style='width:186.35pt;border:none;border-left:solid #4F81BD 1.0pt;
+  mso-border-left-themecolor:accent1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpFirst style='mso-yfti-cnfc:4'><span style='mso-bookmark:
+  _Toc189542093'><span lang=HU style='mso-bidi-font-weight:bold'>-ss Root<o:p></o:p></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542093'></span>
+  <td width=411 valign=top style='width:308.1pt;border:none;border-right:solid #4F81BD 1.0pt;
+  mso-border-right-themecolor:accent1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpLast><span style='mso-bookmark:_Toc189542093'><span lang=HU>A
+  tanúsítványkiosztó tanúsítványainak tárolási helye a tanúsítványtárban</span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542093'></span>
+ </tr>
+ <tr style='mso-yfti-irow:6;mso-yfti-lastrow:yes'>
+  <td width=248 valign=top style='width:186.35pt;border:solid #4F81BD 1.0pt;
+  mso-border-themecolor:accent1;border-right:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpFirst style='mso-yfti-cnfc:68'><span style='mso-bookmark:
+  _Toc189542093'><span lang=HU style='mso-bidi-font-weight:bold'>-sr
+  localMachine<o:p></o:p></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542093'></span>
+  <td width=411 valign=top style='width:308.1pt;border:solid #4F81BD 1.0pt;
+  mso-border-themecolor:accent1;border-left:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpLast style='mso-yfti-cnfc:64'><span style='mso-bookmark:
+  _Toc189542093'><span lang=HU>Méghozzá a helyi gépen</span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542093'></span>
+ </tr>
+</table>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542093'><span lang=HU>Amikor
+ezt a parancsot futtatom, akkor kétszer is megjelenik egy jelszóbekérő ablak,
+ami a privát kulcsok kezelésének védelmét szolgálja. Az első esetben adjuk meg
+a privátkulcshoz való hozzáférés jelszavát:</span></span></p>
+
+<p class=Kp>
+ <img src="PowerShell5_files/image068.png">
+</p>
+
+<p class=MsoCaption><span style='mso-bookmark:_Toc189542093'></span>
+<span style='mso-bookmark:
+_Toc189542093'><span lang=HU><span style='mso-no-proof:yes'>50</span></span></span>
+<span
+style='mso-bookmark:_Toc189542093'><span lang=HU>. ábra Makecert.exe futtatása
+tanúsítványkiosztó szerep céljára</span></span></p>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542093'><span lang=HU>A második
+esetben pedig már használja is a háttérben a </span></span><span
+style='mso-bookmark:_Toc189542093'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>makecert</span></span><span
+lang=HU> ezt a privát kulcsot, ezért kéri be az előbb megadott jelszót:</span></span></p>
+
+<p class=Kp>
+ <img src="PowerShell5_files/image069.png">
+</p>
+
+<p class=MsoCaption><span style='mso-bookmark:_Toc189542093'></span>
+<span style='mso-bookmark:
+_Toc189542093'><span lang=HU><span style='mso-no-proof:yes'>51</span></span></span>
+<span
+style='mso-bookmark:_Toc189542093'><span lang=HU>. ábra Jelszóbeadás a privát<span
+style='mso-no-proof:yes'> kulcshoz való hozzáféréskor</span></span></span></p>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542093'><span lang=HU>Tehát
+idáig azt csináltuk, hogy létrehoztunk egy tanúsítványkiosztó önaláírt
+tanúsítványt, amellyel alá lesznek írva az ezután legenerálható, immár
+ténylegesen kódaláírásra szánt tanúsítványaink. Hozzunk is mindjárt létre egy
+ilyet:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=Kd style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>makecert -pe -n &quot;CN=Soos Tibi PS Guru&quot; -ss PSCS -a sha1
+-eku 1.3.6.1.5.5.7.3.3 -iv c:\cert\root.pvk -ic c:\cert\root.cer</span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542093'><span lang=HU>Nézzük
+ezeknek a jelentését:</span></span></p>
+
+<table class=LightList-Accent11 border=1 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none;mso-border-alt:solid #4F81BD 1.0pt;
+ mso-border-themecolor:accent1;mso-yfti-tbllook:1184;mso-padding-alt:0cm 5.4pt 0cm 5.4pt'>
+ <tr style='mso-yfti-irow:-1;mso-yfti-firstrow:yes;mso-yfti-lastfirstrow:yes'>
+  <td width=248 valign=top style='width:186.35pt;border-top:solid #4F81BD 1.0pt;
+  mso-border-top-themecolor:accent1;border-left:solid #4F81BD 1.0pt;mso-border-left-themecolor:
+  accent1;border-bottom:none;border-right:none;background:#4F81BD;mso-background-themecolor:
+  accent1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpFirst style='mso-yfti-cnfc:5'><span style='mso-bookmark:
+  _Toc189542093'><b><span lang=HU style='color:white;mso-themecolor:background1'>Paraméter<o:p></o:p></span></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542093'></span>
+  <td width=411 valign=top style='width:308.1pt;border-top:solid #4F81BD 1.0pt;
+  mso-border-top-themecolor:accent1;border-left:none;border-bottom:none;
+  border-right:solid #4F81BD 1.0pt;mso-border-right-themecolor:accent1;
+  background:#4F81BD;mso-background-themecolor:accent1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpLast style='mso-yfti-cnfc:1'><span style='mso-bookmark:_Toc189542093'><b><span
+  lang=HU style='color:white;mso-themecolor:background1'>Jelentés<o:p></o:p></span></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542093'></span>
+ </tr>
+ <tr style='mso-yfti-irow:0'>
+  <td width=248 valign=top style='width:186.35pt;border:solid #4F81BD 1.0pt;
+  mso-border-themecolor:accent1;border-right:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpFirst style='mso-yfti-cnfc:68'><span style='mso-bookmark:
+  _Toc189542093'><span lang=HU style='mso-bidi-font-weight:bold'>-pe<o:p></o:p></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542093'></span>
+  <td width=411 valign=top style='width:308.1pt;border:solid #4F81BD 1.0pt;
+  mso-border-themecolor:accent1;border-left:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpLast style='mso-yfti-cnfc:64'><span style='mso-bookmark:
+  _Toc189542093'><span lang=HU>Exportálható privát kulcsot hoz létre
+  (exportálással biztonságba tudjuk helyezni)</span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542093'></span>
+ </tr>
+ <tr style='mso-yfti-irow:1'>
+  <td width=248 valign=top style='width:186.35pt;border:none;border-left:solid #4F81BD 1.0pt;
+  mso-border-left-themecolor:accent1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpFirst style='mso-yfti-cnfc:4'><span style='mso-bookmark:
+  _Toc189542093'><span lang=HU style='mso-bidi-font-weight:bold'>-n
+  &quot;CN=Soos Tibi PS Guru&quot;<o:p></o:p></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542093'></span>
+  <td width=411 valign=top style='width:308.1pt;border:none;border-right:solid #4F81BD 1.0pt;
+  mso-border-right-themecolor:accent1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpLast><span style='mso-bookmark:_Toc189542093'><span lang=HU>A
+  kódaláíró tanúsítványon szereplő név</span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542093'></span>
+ </tr>
+ <tr style='mso-yfti-irow:2'>
+  <td width=248 valign=top style='width:186.35pt;border:solid #4F81BD 1.0pt;
+  mso-border-themecolor:accent1;border-right:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpFirst style='mso-yfti-cnfc:68'><span style='mso-bookmark:
+  _Toc189542093'><span lang=HU style='mso-bidi-font-weight:bold'>-ss PSCS<o:p></o:p></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542093'></span>
+  <td width=411 valign=top style='width:308.1pt;border:solid #4F81BD 1.0pt;
+  mso-border-themecolor:accent1;border-left:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpLast style='mso-yfti-cnfc:64'><span style='mso-bookmark:
+  _Toc189542093'><span lang=HU>A tanúsítvány tárolásának a helye, én itt egy új
+  tárolót hoztam létre, ha személyes tárolóba szeretném berakni, akkor arra a
+  „My” névvel lehet hivatkozni</span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542093'></span>
+ </tr>
+ <tr style='mso-yfti-irow:3'>
+  <td width=248 valign=top style='width:186.35pt;border:none;border-left:solid #4F81BD 1.0pt;
+  mso-border-left-themecolor:accent1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpFirst style='mso-yfti-cnfc:4'><span style='mso-bookmark:
+  _Toc189542093'><span lang=HU style='mso-bidi-font-weight:bold'>-a sha1<o:p></o:p></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542093'></span>
+  <td width=411 valign=top style='width:308.1pt;border:none;border-right:solid #4F81BD 1.0pt;
+  mso-border-right-themecolor:accent1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpLast><span style='mso-bookmark:_Toc189542093'><span lang=HU>Digitális
+  aláírás algoritmusa</span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542093'></span>
+ </tr>
+ <tr style='mso-yfti-irow:4'>
+  <td width=248 valign=top style='width:186.35pt;border:solid #4F81BD 1.0pt;
+  mso-border-themecolor:accent1;border-right:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpFirst style='mso-yfti-cnfc:68'><span style='mso-bookmark:
+  _Toc189542093'><span lang=HU style='mso-bidi-font-weight:bold'>-eku
+  1.3.6.1.5.5.7.3.3<o:p></o:p></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542093'></span>
+  <td width=411 valign=top style='width:308.1pt;border:solid #4F81BD 1.0pt;
+  mso-border-themecolor:accent1;border-left:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpLast style='mso-yfti-cnfc:64'><span style='mso-bookmark:
+  _Toc189542093'><span lang=HU>Tanúsítvány célja (code signing)</span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542093'></span>
+ </tr>
+ <tr style='mso-yfti-irow:5'>
+  <td width=248 valign=top style='width:186.35pt;border:none;border-left:solid #4F81BD 1.0pt;
+  mso-border-left-themecolor:accent1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpFirst style='mso-yfti-cnfc:4'><span style='mso-bookmark:
+  _Toc189542093'><span lang=HU style='mso-bidi-font-weight:bold'>-iv
+  c:\cert\root.pvk<o:p></o:p></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542093'></span>
+  <td width=411 valign=top style='width:308.1pt;border:none;border-right:solid #4F81BD 1.0pt;
+  mso-border-right-themecolor:accent1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpLast><span style='mso-bookmark:_Toc189542093'><span lang=HU>A
+  kiosztó hatóság privát kulcsa</span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542093'></span>
+ </tr>
+ <tr style='mso-yfti-irow:6;mso-yfti-lastrow:yes'>
+  <td width=248 valign=top style='width:186.35pt;border:solid #4F81BD 1.0pt;
+  mso-border-themecolor:accent1;border-right:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpFirst style='mso-yfti-cnfc:68'><span style='mso-bookmark:
+  _Toc189542093'><span lang=HU style='mso-bidi-font-weight:bold'>-ic
+  c:\cert\root.cer<o:p></o:p></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542093'></span>
+  <td width=411 valign=top style='width:308.1pt;border:solid #4F81BD 1.0pt;
+  mso-border-themecolor:accent1;border-left:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpLast style='mso-yfti-cnfc:64'><span style='mso-bookmark:
+  _Toc189542093'><span lang=HU>Az én tanúsítványomat viszonthitelesítő
+  tanúsítvány</span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542093'></span>
+ </tr>
+</table>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542093'><span lang=HU>Miután
+ezen parancs futtatása során is használjuk az első lépésben létrehozott privát
+kulcsot, így újra meg kell adni az ott megadott jelszót:</span></span></p>
+
+<p class=Kp>
+ <img src="PowerShell5_files/image070.png">
+</p>
+
+<p class=MsoCaption><span style='mso-bookmark:_Toc189542093'></span>
+<span style='mso-bookmark:
+_Toc189542093'><span lang=HU><span style='mso-no-proof:yes'>52</span></span></span>
+<span
+style='mso-bookmark:_Toc189542093'><span lang=HU>. ábra A kódaláíró tanúsítvány
+generálása során megjelenő jelszóbekérő</span></span></p>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542093'><span lang=HU>Ha ezt is
+sikeresen lefuttattam, akkor megnézhetem, hogy a tanúsítványtáramban tényleg
+ott van-e a kódaláíró tanúsítvány:</span></span></p>
+
+<p class=Kp>
+ <img src="PowerShell5_files/image071.png">
+</p>
+
+<p class=MsoCaption><span style='mso-bookmark:_Toc189542093'></span>
+<span style='mso-bookmark:
+_Toc189542093'><span lang=HU><span style='mso-no-proof:yes'>53</span></span></span>
+<span
+style='mso-bookmark:_Toc189542093'><span lang=HU>. ábra Kódaláíró tanúsítványom
+a tanúsítványtárban</span></span></p>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542093'><span lang=HU>Akkor
+most már van alkalmas kódaláíró tanúsítványom. Itt csatlakoznak be azok az
+olvasók, akiknek van „igazi” PKI infrastruktúrájuk, és egy normál
+tanúsítványkiosztótól szereztek kódaláíró tanúsítványt.</span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542093'><span lang=HU>Most
+lehet aláírni a szkriptemet. Elsőként ragadjuk meg az aláírásra szánt
+tanúsítványunkat (itt nagyon nagy segítség a TAB-kiegészítés, azaz nem kell azt
+a hosszú számsort begépelni, ha a „könyvtárra” rálelünk, akkor elég a TAB-bal
+léptetni):</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[9] PS C:\old&gt; $signcert = (get-item
+cert:\CurrentUser\PSCS\8ED2798A04D5F794</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>DA6C8C3C167EB033CB8BE6C2)</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[10] PS C:\old&gt; $signcert</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>Directory:
+Microsoft.PowerShell.Security\Certificate::CurrentUser\PSCS</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Thumbprint<span
+style='mso-spacerun:yes'>                                </span>Subject</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>----------<span
+style='mso-spacerun:yes'>                                </span>-------</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>8ED2798A04D5F794DA6C8C3C167EB033CB8BE6C2<span
+style='mso-spacerun:yes'>  </span>CN=Soos Tibi PS Guru</span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542093'><span lang=HU>És akkor
+következzen a lényeg, írjuk alá a szkriptet az előbb betöltött tanúsítvánnyal:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[11] PS C:\old&gt; Set-AuthenticodeSignature safe.ps1 $signcert</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>Directory: C:\old</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>SignerCertificate<span
+style='mso-spacerun:yes'>                         </span>Status<span
+style='mso-spacerun:yes'>           </span>Path</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>-----------------<span
+style='mso-spacerun:yes'>                         </span>------<span
+style='mso-spacerun:yes'>           </span>----</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>8ED2798A04D5F794DA6C8C3C167EB033CB8BE6C2<span
+style='mso-spacerun:yes'>  </span>Valid<span
+style='mso-spacerun:yes'>            </span>safe.ps1</span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542093'><span lang=HU>Állítsuk
+át a végrehajtási házirendet úgy, hogy mindenképpen megkövetelje az aláírást,
+és futtatom a </span></span><span style='mso-bookmark:_Toc189542093'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>safe.ps1</span></span><span
+lang=HU> szkriptemet:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[12] PS C:\old&gt; Set-ExecutionPolicy allsigned</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[13] PS C:\old&gt; .\safe.ps1</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Do you want to run software from this untrusted publisher?</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>File C:\old\safe.ps1 is published by CN=Soos Tibi PS Guru and is
+not</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>trusted on your system. Only run scripts from trusted publishers.</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[V] Never run<span style='mso-spacerun:yes'>  </span>[D] Do not
+run<span style='mso-spacerun:yes'>  </span>[R] Run once<span
+style='mso-spacerun:yes'>  </span>[A] Always run<span
+style='mso-spacerun:yes'>  </span>[?] Help</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>(default is &quot;D&quot;):a</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Titkos script!</span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542093'><span lang=HU>Miután
+ez egy önaláírt tanúsítványon alapuló tanúsítvány, így a rendszer rákérdez,
+hogy elfogadom-e hitelesnek? Én azt válaszoltam, hogy igen, sőt, minden
+alkalommal fogadja el ezt hitelesnek (</span></span><span style='mso-bookmark:
+_Toc189542093'><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>Always</span></span><span lang=HU>) innentől kezdve.</span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542093'><span lang=HU>Nézzük
+meg, hogy hogyan is néz ki egy ilyen aláírt szkript:</span></span></p>
+
+<p class=Kp>
+ <img src="PowerShell5_files/image072.png">
+</p>
+
+<p class=MsoCaption><span style='mso-bookmark:_Toc189542093'></span>
+<span style='mso-bookmark:
+_Toc189542093'><span lang=HU><span style='mso-no-proof:yes'>54</span></span></span>
+<span
+style='mso-bookmark:_Toc189542093'><span lang=HU>. ábra Az elektronikusan
+aláírt<span style='mso-no-proof:yes'> szkript</span></span></span></p>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542093'><span lang=HU>Az
+eredeti szkriptem nagyon egyszerű volt, csak annyit csinált, hogy kiírta
+„Titkos script!”.<span style='mso-spacerun:yes'>  </span>Ez olvasható is az
+első sorban. Ami utána áll az az elektronikus aláírás.</span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542093'><span lang=HU>Ha
+bármit módosítok ebben a szkriptben, akár egy karaktert is, és futtatni akarom,
+akkor a következő hibajelzést fogom kapni:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[14] PS C:\old&gt; .\safe.ps1</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>File C:\old\safe.ps1 cannot be loaded. The contents of file
+C:\old\safe.ps1</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'> </span>may have been tampered
+because the hash of the file does not match the has</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>h stored in the digital signature. The script will not execute on
+the syste</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>m. Please see &quot;get-help about_signing&quot; for more details..</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>At line:1 char:10</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>+ .\safe.ps1 &lt;&lt;&lt;&lt;</span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542093'><span lang=HU>Ha
+sértetlen a szkriptem, akkor ellenőrizhetem, hogy ki is írta alá, azaz
+értelmeztethetem azt a sok zűrös karaktert a szkriptem végén:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[17] PS C:\old&gt; Get-AuthenticodeSignature C:\old\safe.ps1 | fl</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>SignerCertificate<span style='mso-spacerun:yes'>      </span>:
+[Subject]</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                          
+</span>CN=Soos Tibi PS Guru</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                        
+</span>[Issuer]</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                          
+</span>CN=PowerShell Sajat Root CA</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                        
+</span>[Serial Number]</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                          
+</span>123B087E7C0B44934585DF9A4B374842</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                         </span>[Not
+Before]</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                          
+</span>2008.04.17. 21:57:56</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                         </span>[Not
+After]</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                          
+</span>2040.01.01. 0:59:59</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                        
+</span>[Thumbprint]</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                          
+</span>8ED2798A04D5F794DA6C8C3C167EB033CB8BE6C2</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>TimeStamperCertificate :</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Status<span style='mso-spacerun:yes'>                 </span>:
+Valid</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>StatusMessage<span style='mso-spacerun:yes'>          </span>:
+Signature verified.</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Path<span style='mso-spacerun:yes'>                   </span>:
+C:\old\safe.ps1</span></span></p>
+
+</div>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

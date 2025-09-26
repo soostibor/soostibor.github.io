@@ -1,0 +1,1464 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>Fájl-fogantyúk és tetszőleges méretű fájl létrehozása ([io.file])</title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><a name="_Toc189542109"></a><a
+name="_Toc197149276"></a><a name="_Toc197149347"></a><a name="_Toc197149408"></a><a
+name="_Toc204716479"></a><a name="_Toc209116022"><span style='mso-bookmark:
+_Toc204716479'><span style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:
+_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:
+_Toc189542109'>
+<span
+lang=HU>Fájl-fogantyúk és tetszőleges méretű fájl létrehozása ([io.file])</span></span></span></span></span></span></a><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'></span></span></span></span></h3>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU>A fájlok zárolása több
+szempontból is érdekes lehet számunkra. Egyrészt, ha pont nem szeretnénk, hogy
+egy fájl zárolva legyen, másrészt, ha éppen zárolni akarunk egy fájlt, hogy más
+ne férhessen hozzá.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU>A fájlok megnyitása a Windows
+mélyében egy összetett folyamat: fogantyú igénylése a fájlhoz, a jogosultságok
+ellenőrzése, fájl zárolása, fájl tartalmának olvasása vagy írása, fogantyú
+eleresztése. Ezt egyszerű felhasználóként szerencsére nem kell, hogy megtapasztaljuk,
+de néha jól jön, hogy ezeket a háttérfolyamatokat mi is vezérelhetjük. Ehhez a </span></span></span></span></span><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>[System.IO.File</span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'></span></span></span></span>
+<span style='mso-bookmark:
+_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:
+_Toc197149276'><span style='mso-bookmark:_Toc189542109'></span></span></span></span><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>]</span></span><span
+lang=HU> osztály </span></span></span></span></span><span style='mso-bookmark:
+_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:
+_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Open…</span></span><span
+lang=HU> jellegű statikus metódusait használhatjuk fel. Nézzük ezeket:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[1] PS C:\&gt; [io.file] |
+gm -Static -Name open* | ft -Wrap</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>   </span>TypeName: System.IO.File</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>      </span>MemberType Definition</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>      </span>---------- ----------</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Open<span
+style='mso-spacerun:yes'>      </span>Method<span style='mso-spacerun:yes'>    
+</span>static System.IO.FileStream Open(string path, System.IO.F</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                     </span>ileMode mode), static
+System.IO.FileStream Open(string pa</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                     </span>th, System.IO.FileMode
+mode, System.IO.FileAccess access)</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                     </span>, static
+System.IO.FileStream Open(string path, System.IO</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                     </span>.FileMode mode,
+System.IO.FileAccess access, System.IO.Fi</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                     </span>leShare share)</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>OpenRead<span
+style='mso-spacerun:yes'>  </span>Method<span style='mso-spacerun:yes'>    
+</span>static System.IO.FileStream OpenRead(string path)</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>OpenText<span
+style='mso-spacerun:yes'>  </span>Method<span style='mso-spacerun:yes'>    
+</span>static System.IO.StreamReader OpenText(string path)</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>OpenWrite Method<span
+style='mso-spacerun:yes'>     </span>static System.IO.FileStream
+OpenWrite(string path)</span></span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU>Az </span></span></span></span></span><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>OpenRead</span></span><span
+lang=HU> olvasásra, az </span></span></span></span></span><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>OpenWrite</span></span><span
+lang=HU> írásra, az </span></span></span></span></span><span style='mso-bookmark:
+_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:
+_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>OpenText</span></span><span
+lang=HU> szövegként való olvasásra próbálja megnyitni nyitva is tartani a
+fájlt. A „sima” </span></span></span></span></span><span style='mso-bookmark:
+_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:
+_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Open</span></span><span
+lang=HU> meg teljes finomhangolást ad a kezünkbe a megnyitás módját illetően.
+Mindegyik megnyitási metódusban az a közös, hogy visszatérésükkor egy fogantyú
+objektumot adnak vissza, amin keresztül kapcsolatban maradunk a megnyitott
+fájlunkkal egészen addig, amíg be nem zárjuk azt. Fontos, hogy az így megkapott
+fogantyút ne felejtsük el betenni egy változóba, hiszen ha ezt nem tesszük meg,
+akkor nem tudjuk ezt újra megkaparintani, hiszen már egyszer zárolta számunkra
+a fájlt az operációs rendszer, így másodjára már el fogja utasítani, és csak a
+PowerShell alkalmazás bezárásával szabadul fel újra a fájl.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU>Nézzünk akkor ezek
+felhasználására példákat. Elsőként tegyük rá a kezünket egy fájlra olvasási
+jelleggel:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=Kd style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[2] PS C:\&gt; $h =
+[io.file]::OpenRead(&quot;C:\ee\a.txt&quot;)</span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:
+_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:
+_Toc189542109'><span lang=HU>Ezután ez lett a </span></span></span></span></span><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$h</span></span><span
+lang=HU> változóban:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[3] PS C:\&gt; $h</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>CanRead<span
+style='mso-spacerun:yes'>        </span>: True</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>CanWrite<span
+style='mso-spacerun:yes'>       </span>: False</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>CanSeek<span
+style='mso-spacerun:yes'>        </span>: True</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>IsAsync<span
+style='mso-spacerun:yes'>        </span>: False</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Length<span
+style='mso-spacerun:yes'>         </span>: 780</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>           </span>: C:\ee\a.txt</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Position<span
+style='mso-spacerun:yes'>       </span>: 0</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Handle<span
+style='mso-spacerun:yes'>         </span>: 1888</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SafeFileHandle :
+Microsoft.Win32.SafeHandles.SafeFileHandle</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>CanTimeout<span
+style='mso-spacerun:yes'>     </span>: False</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ReadTimeout<span
+style='mso-spacerun:yes'>    </span>:</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>WriteTimeout<span
+style='mso-spacerun:yes'>   </span>:</span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:
+_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:
+_Toc189542109'><span lang=HU>Látható, hogy a kérésünknek megfelelő fogantyút
+kaptunk vissza, azaz olvasni és keresni tudnánk a fájlban, de írni nem. Nézzük
+meg a </span></span></span></span></span><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$h</span></span><span lang=HU>
+tagjellemzőit is:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[4] PS C:\&gt; $h | gm</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>   </span>TypeName: System.IO.FileStream</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>                      </span>MemberType Definition</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>                      </span>---------- ----------</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>BeginRead<span
+style='mso-spacerun:yes'>                 </span>Method<span
+style='mso-spacerun:yes'>     </span>System.IAsyncResult BeginRead(byte[] a...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>BeginWrite<span
+style='mso-spacerun:yes'>                </span>Method<span
+style='mso-spacerun:yes'>     </span>System.IAsyncResult BeginWrite(byte[] ...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Close<span
+style='mso-spacerun:yes'>                     </span>Method<span
+style='mso-spacerun:yes'>     </span>System.Void Close()</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>CreateObjRef<span
+style='mso-spacerun:yes'>              </span>Method<span
+style='mso-spacerun:yes'>     </span>System.Runtime.Remoting.ObjRef CreateO...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Dispose<span
+style='mso-spacerun:yes'>                   </span>Method<span
+style='mso-spacerun:yes'>     </span>System.Void Dispose()</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>EndRead<span
+style='mso-spacerun:yes'>                   </span>Method<span
+style='mso-spacerun:yes'>     </span>int EndRead(System.IAsyncResult asyncR...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>EndWrite<span
+style='mso-spacerun:yes'>                  </span>Method<span
+style='mso-spacerun:yes'>     </span>System.Void EndWrite(System.IAsyncResu...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Equals<span
+style='mso-spacerun:yes'>                    </span>Method<span
+style='mso-spacerun:yes'>     </span>bool Equals(System.Object obj)</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Flush<span
+style='mso-spacerun:yes'>                     </span>Method<span
+style='mso-spacerun:yes'>     </span>System.Void Flush()</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>GetAccessControl<span
+style='mso-spacerun:yes'>          </span>Method<span
+style='mso-spacerun:yes'>     </span>System.Security.AccessControl.FileSecu...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>GetHashCode<span
+style='mso-spacerun:yes'>               </span>Method<span
+style='mso-spacerun:yes'>     </span>int GetHashCode()</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>GetLifetimeService<span
+style='mso-spacerun:yes'>        </span>Method<span
+style='mso-spacerun:yes'>     </span>System.Object GetLifetimeService()</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>GetType<span
+style='mso-spacerun:yes'>                   </span>Method<span
+style='mso-spacerun:yes'>     </span>type GetType()</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>InitializeLifetimeService
+Method<span style='mso-spacerun:yes'>     </span>System.Object
+InitializeLifetimeService()</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Lock<span
+style='mso-spacerun:yes'>                      </span>Method<span
+style='mso-spacerun:yes'>     </span>System.Void Lock(long position, long l...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Read<span
+style='mso-spacerun:yes'>                      </span>Method<span
+style='mso-spacerun:yes'>     </span>int Read(byte[] array, int offset, int...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ReadByte<span
+style='mso-spacerun:yes'>                  </span>Method<span
+style='mso-spacerun:yes'>     </span>int ReadByte()</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Seek<span
+style='mso-spacerun:yes'>                      </span>Method<span
+style='mso-spacerun:yes'>     </span>long Seek(long offset, System.IO.SeekO...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SetAccessControl<span
+style='mso-spacerun:yes'>          </span>Method<span
+style='mso-spacerun:yes'>     </span>System.Void SetAccessControl(System.Se...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SetLength<span
+style='mso-spacerun:yes'>                 </span>Method<span
+style='mso-spacerun:yes'>     </span>System.Void SetLength(long value)</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ToString<span
+style='mso-spacerun:yes'>                  </span>Method<span
+style='mso-spacerun:yes'>     </span>string ToString()</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Unlock<span
+style='mso-spacerun:yes'>                    </span>Method<span
+style='mso-spacerun:yes'>     </span>System.Void Unlock(long position, long...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Write<span
+style='mso-spacerun:yes'>                     </span>Method<span
+style='mso-spacerun:yes'>     </span>System.Void Write(byte[] array, int of...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>WriteByte<span
+style='mso-spacerun:yes'>                 </span>Method<span
+style='mso-spacerun:yes'>     </span>System.Void WriteByte(byte value)</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>CanRead<span
+style='mso-spacerun:yes'>                   </span>Property<span
+style='mso-spacerun:yes'>   </span>System.Boolean CanRead {get;}</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>CanSeek<span
+style='mso-spacerun:yes'>                   </span>Property<span
+style='mso-spacerun:yes'>   </span>System.Boolean CanSeek {get;}</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>CanTimeout<span
+style='mso-spacerun:yes'>                </span>Property<span
+style='mso-spacerun:yes'>   </span>System.Boolean CanTimeout {get;}</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>CanWrite<span
+style='mso-spacerun:yes'>                  </span>Property<span
+style='mso-spacerun:yes'>   </span>System.Boolean CanWrite {get;}</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Handle<span
+style='mso-spacerun:yes'>                    </span>Property<span
+style='mso-spacerun:yes'>   </span>System.IntPtr Handle {get;}</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>IsAsync<span
+style='mso-spacerun:yes'>                   </span>Property<span
+style='mso-spacerun:yes'>   </span>System.Boolean IsAsync {get;}</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Length<span
+style='mso-spacerun:yes'>                    </span>Property<span
+style='mso-spacerun:yes'>   </span>System.Int64 Length {get;}</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>                      </span>Property<span
+style='mso-spacerun:yes'>   </span>System.String Name {get;}</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Position<span
+style='mso-spacerun:yes'>                  </span>Property<span
+style='mso-spacerun:yes'>   </span>System.Int64 Position {get;set;}</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ReadTimeout<span
+style='mso-spacerun:yes'>               </span>Property<span
+style='mso-spacerun:yes'>   </span>System.Int32 ReadTimeout {get;set;}</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SafeFileHandle<span
+style='mso-spacerun:yes'>            </span>Property<span
+style='mso-spacerun:yes'>   </span>Microsoft.Win32.SafeHandles.SafeFileHa...</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>WriteTimeout<span
+style='mso-spacerun:yes'>              </span>Property<span
+style='mso-spacerun:yes'>   </span>System.Int32 WriteTimeout {get;set;}</span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:
+_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:
+_Toc189542109'><span lang=HU>Látható, hogy a különböző elemi fájlkezelő
+műveletek metódusai mind ott sorakoznak. Van itt egy érdekes és egyben
+praktikus is, a </span></span></span></span></span><span style='mso-bookmark:
+_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:
+_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>SetLength</span></span><span
+lang=HU>. Ezzel be lehet állítani egy fájl méretét, azaz hogy mennyi területet
+foglaljon számára az operációs rendszer. Ez azért jó, mert így már jó előre le
+lehet foglalni a lemezterületet, és ha adatfolyamként írunk bele adatot (lásd
+következő fejezet), akkor sokkal gyorsabban fog ez menni, mivel nem kell
+folyamatosan újabb és újabb területeket megszerezni a fájlunk számára. Hogyan
+nézne ki akkor egy ilyen függvény, mellyel tetszőleges méretű fájlt lehet
+létrehozni:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>function New-File {</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>param ($path, $size)</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>$h = [io.file]::Create($path)</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>$h.setlength($size)</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>$h.close()</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>}</span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:
+_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:
+_Toc189542109'><span lang=HU>Ha újra meg akarjuk ragadni ezt a fájlt olvasásra,
+akkor ez jelenleg sikerül, mivel az </span></span></span></span></span><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>OpenRead</span></span><span
+lang=HU> az nem kizárólagosan zárolja a saját céljaira a fájlt:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[5] PS C:\&gt; $h2 =
+[io.file]::OpenRead(&quot;C:\ee\a.txt&quot;)</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[6] PS C:\&gt; $h2</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>CanRead<span
+style='mso-spacerun:yes'>        </span>: True</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>CanWrite<span
+style='mso-spacerun:yes'>       </span>: False</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>CanSeek<span
+style='mso-spacerun:yes'>        </span>: True</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>IsAsync<span
+style='mso-spacerun:yes'>        </span>: False</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Length<span
+style='mso-spacerun:yes'>         </span>: 780</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>           </span>: C:\ee\a.txt</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Position<span
+style='mso-spacerun:yes'>       </span>: 0</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Handle<span
+style='mso-spacerun:yes'>         </span>: 2300</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SafeFileHandle :
+Microsoft.Win32.SafeHandles.SafeFileHandle</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>CanTimeout<span
+style='mso-spacerun:yes'>     </span>: False</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ReadTimeout<span
+style='mso-spacerun:yes'>    </span>:</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>WriteTimeout<span
+style='mso-spacerun:yes'>   </span>:</span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:
+_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:
+_Toc189542109'><span lang=HU>Ha már nincs szükségünk a fájlra, akkor engedjük
+el a fogantyút a </span></span></span></span></span><span style='mso-bookmark:
+_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:
+_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Close</span></span><span
+lang=HU> metódussal:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[7] PS C:\&gt; $h.close()</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[8] PS C:\&gt; $h2.close()</span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:
+_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:
+_Toc189542109'><span lang=HU><span
+style='mso-spacerun:yes'> </span>Kizárólagosan is megnyithatjuk a fájlt, de
+ehhez az </span></span></span></span></span><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Open</span></span><span lang=HU>
+metódust kell használjuk, mert itt tudjuk a megosztási lehetőségeket meghatározni:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=Kd style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[21] PS C:\&gt; $h =
+[io.file]::Open(&quot;C:\ee\a.txt&quot;,&quot;Open&quot;,&quot;Read&quot;,&quot;None&quot;)</span></span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU>Az Open metódusnál az első
+paraméter a fájl elérési útja. A második a megnyitás módja, azaz sima megnyitás
+legyen, létrehozás, felülírás, hozzáfűzés vagy ezek kombinációja. A pontos
+lehetőségek a </span></span></span></span></span><span style='mso-bookmark:
+_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:
+_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>System.IO.FileMode</span></span><span
+lang=HU> felsorolástípusból olvashatók ki. Miután én most egy meglevő fájlt
+akarok olvasni, ezért nekem elég az </span></span></span></span></span><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Open</span></span><span
+lang=HU> fájlmód. A harmadik paraméter az igényelt tevékenység, ami lehet </span></span></span></span></span><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Read</span></span><span
+lang=HU>, </span></span></span></span></span><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Write</span></span><span
+lang=HU> vagy </span></span></span></span></span><span style='mso-bookmark:
+_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:
+_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>ReadWrite</span></span><span
+lang=HU>. Nálam ez most </span></span></span></span></span><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Read</span></span><span
+lang=HU>. Végül azt állíthatjuk be, hogy másoknak mit engedek tenni ezzel a
+fájllal, amíg én is dolgozom rajta. Ez lehet semmi (</span></span></span></span></span><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>None</span></span><span
+lang=HU>), olvasás, írás, olvasás-írás, törlés. Most én önző vagyok, másoknak
+semmilyen hozzáférést nem engedek.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU>Ha ezek után újból meg akarom
+nyitni ezt a fájl, akkor már hibát kapok:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[22] PS C:\&gt; $h2 =
+[io.file]::OpenRead(&quot;C:\ee\a.txt&quot;)</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:red'>Exception calling &quot;OpenRead&quot; with
+&quot;1&quot; argument(s): &quot;The process cannot access<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:red'>the file 'C:\ee\a.txt' because it is being used by
+another process.&quot;<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:red'>At line:1 char:26<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:red'>+ $h2 = [io.file]::OpenRead &lt;&lt;&lt;&lt;
+(&quot;C:\ee\a.txt&quot;)<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:red'><span style='mso-spacerun:yes'>    </span>+
+CategoryInfo<span style='mso-spacerun:yes'>          </span>: NotSpecified: (:)
+[], MethodInvocationException<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:red'><span style='mso-spacerun:yes'>    </span>+
+FullyQualifiedErrorId : DotNetMethodException</span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:
+_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:
+_Toc189542109'><span lang=HU>Mire lehet mindezt felhasználni? Az elsődleges
+indok persze magának a fájlnak a megnyitása és zárolása, de ezzel a módszerrel
+lehet a pont azt is megvizsgálni, hogy egy fájl zárolva van-e már előlünk? Ha
+megpróbáljuk zárolni, de nem sikerül, akkor az azt jelenti, hogy valaki más már
+zárolta. Nézzünk erre egy függvényt, ami felderíti, hogy melyek a zárolt fájlok:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>function Test-FileLock {</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>param(</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>[Parameter(</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span>Mandatory = $true,</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span>ValueFromPipeline =
+$true,</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>       
+</span>ValueFromPipelineByPropertyName = $true</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>)]</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>   
+</span>[Alias(&quot;FullName&quot;)]</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>[string]</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>$path<span
+style='mso-spacerun:yes'>    </span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>)</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>process{</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>$file = Get-Item -Path $path -ErrorAction silentlycontinue -Force</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>if($file -and !$file.psiscontainer){</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>$readlock = $true</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>try{</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span>$h =
+[io.file]::Open($path,&quot;Open&quot;,&quot;Read&quot;,&quot;None&quot;)</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span>$readlock = $false</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>}</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>catch{}</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>if(!$readlock){</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span>$h.close()</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>}</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>$writelock = $true</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>try{</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span>$h =
+[io.file]::Open($path,&quot;Open&quot;,&quot;Write&quot;,&quot;None&quot;)</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span>$writelock = $false</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>}</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>catch{}</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>if(!$writelock){</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span>$h.close()</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>}</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>Add-Member -InputObject
+$file -MemberType noteproperty -Name LockedForRead -Value $readlock</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>Add-Member -InputObject
+$file -MemberType noteproperty -Name LockedForWrite -Value $writelock</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>$file</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>}</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>}</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>}</span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:
+_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:
+_Toc189542109'><span lang=HU>Például ezzel a c:\ könyvtárra így lehet
+felderíteni a zárolt fájlokat:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[29] PS C:\&gt; dir c:\
+-Force | Test-FileLock | ft name, locked*</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>                                  
+</span>LockedForRead<span style='mso-spacerun:yes'>           
+</span>LockedForWrite</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>                                  
+</span>-------------<span style='mso-spacerun:yes'>           
+</span>--------------</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>hiberfil.sys<span
+style='mso-spacerun:yes'>                                    </span>True<span
+style='mso-spacerun:yes'>                      </span>True</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>NemZárolt.txt<span
+style='mso-spacerun:yes'>                                  </span>False<span
+style='mso-spacerun:yes'>                     </span>False</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>pagefile.sys<span
+style='mso-spacerun:yes'>                                    </span>True<span
+style='mso-spacerun:yes'>                      </span>True</span></span></span></span></span></p>
+
+</div>
+
+<div style='mso-element:para-border-div;border:double windowtext 5.25pt;
+border-bottom:none;mso-border-top-alt:thin-thick-large-gap windowtext 5.25pt;
+mso-border-left-alt:thin-thick-large-gap windowtext 5.25pt;mso-border-right-alt:
+thin-thick-large-gap windowtext 5.25pt;padding:1.0pt 4.0pt 0cm 4.0pt;
+background:#C6D9F1;mso-background-themecolor:text2;mso-background-themetint:
+51;margin-left:14.2pt;margin-right:14.2pt'>
+
+<p class=Megjegyzs style='margin-top:12.0pt;margin-right:0cm;margin-bottom:
+0cm;margin-left:0cm;margin-bottom:.0001pt;mso-add-space:auto;background:#C6D9F1;
+mso-background-themecolor:text2;mso-background-themetint:51'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Megjegyzés</span></span></span></span></span></p>
+
+</div>
+
+<div style='mso-element:para-border-div;border:double windowtext 5.25pt;
+border-top:none;mso-border-left-alt:thin-thick-large-gap windowtext 5.25pt;
+mso-border-bottom-alt:thin-thick-large-gap windowtext 5.25pt;mso-border-right-alt:
+thin-thick-large-gap windowtext 5.25pt;padding:0cm 4.0pt 1.0pt 4.0pt;
+margin-left:14.2pt;margin-right:14.2pt'>
+
+<p class=Megjegyezs2 style='margin-top:0.0pt;margin-right:0cm;margin-bottom:
+0cm;margin-left:0cm;margin-bottom:.0001pt;mso-add-space:auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU>Természetesen ezzel a módszerrel nem csak akkor fogunk zárolási jelzést
+kapni egy fájlra, ha tényleg zárolva van, hanem akkor is, ha nincs megfelelő
+jogosultságunk a fájl olvasásához vagy írásához.</span></span></span></span></span></p>
+
+</div>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

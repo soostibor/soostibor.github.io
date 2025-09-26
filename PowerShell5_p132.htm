@@ -1,0 +1,2024 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>1.10.8 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span style='mso-bookmark:_Ref253857379'><span
+style='mso-bookmark:_Ref253857373'><a name="_Ref432959534"></a><a
+name="_Toc204716266"></a><a name="_Toc209115809"><span style='mso-bookmark:
+_Toc204716266'><span style='mso-bookmark:_Ref432959534'>
+<span lang=HU>Formázás
+testre szabása (Get&#8209;FormatData,<span style='mso-spacerun:yes'> 
+</span>Update-FormatData)</span></span></span></a></span></span></span></span></span></span></span></span></h3>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU>A PowerShell parancsainak,
+kifejezéseinek és csővezetékeinek a kimenetét valójában az </span></span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Out&#8209;Default</span></span></span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'></span></span></span></span></span></span>
+<span style='mso-bookmark:
+_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:
+_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:
+_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdletnek köszönhetjük, amelyet a
+parancsértelmező a háttérben hozzábiggyeszt a kimenetet adó kifejezések végére.
+Ha a kimenet egyszerű sztring, akkor az továbbadódik az </span></span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Out-Host</span></span></span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'></span></span></span></span></span></span>
+<span style='mso-bookmark:
+_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:
+_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:
+_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span lang=HU>-nak, és
+az megjeleníti a szöveget a képernyőn. </span></span></span></span></span></span></span></p>
+
+<p class=SzvegCxSpMiddle><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU>Ha a kimenet nem sztring,
+akkor </span></span></span></span></span></span></span><span style='mso-bookmark:
+_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:
+_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:
+_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Out-Default</span></span><span
+lang=HU> megvizsgálja az objektumot és megnézni, hogy van-e nézet definiálva az
+objektumtípushoz. Ilyen nézetdefiníciók már „gyárilag” is vannak a rendszerben,
+de mi magunk is tudunk ilyeneket létrehozni XML adatformátumban, amelyeket az </span></span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Update-FormatData</span></span></span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'></span></span></span></span></span></span>
+<span style='mso-bookmark:
+_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:
+_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:
+_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdlet segítségével tudunk regisztrálni a
+PowerShell környezettel. Ebben az XML fájlban definiáljuk a </span></span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Format-Wide</span></span><span
+lang=HU>, </span></span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>-List</span></span><span
+lang=HU>, </span></span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>-Table</span></span><span
+lang=HU> és </span></span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>–Custom</span></span><span
+lang=HU> cmdletek futtatására megjelenő formátumot, azaz hogy melyik
+tulajdonságokat írja ki és milyen formában. </span></span></span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU>Ha nincs az adattípusnak
+regisztrált nézete, akkor az </span></span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Out-Default</span></span><span
+lang=HU> megnézi, hogy a kimenet első objektumának vajon van-e legalább öt
+tulajdonsága. Ha igen, akkor lista nézetet használ, ha nincs, akkor táblázatos
+nézetet:</span></span></span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[10] PS C:\&gt; $p =
+@{e=1;k=2}</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[11] PS C:\&gt; $x =
+New-Object -Property $p -TypeName psobject</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[12] PS C:\&gt; $x</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                                      </span>k<span
+style='mso-spacerun:yes'>                                      </span>e</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                                      </span>-<span
+style='mso-spacerun:yes'>                                      </span>-</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                                      </span>2<span
+style='mso-spacerun:yes'>                                      </span>1</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[13] PS C:\&gt; $p
+=@{e=1;k=2;h=3;n=4;o=5;t=6}</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[14] PS C:\&gt; $y =
+New-Object -Property $p -TypeName psobject</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[15] PS C:\&gt; $y</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>o : 5</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>h : 3</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>k : 2</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>t : 6</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>e : 1</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>n : 4</span></span></span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:
+_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:
+_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:
+_Toc197149163'><span lang=HU>A [10]-[12] sorokban egy egyedi objektumot hoztam
+létre két tulajdonsággal. A kimenet táblázatos lett. A [13]-[15] sorokban
+hasonló módon hat tulajdonsággal hoztam létre objektumot, így alaphelyzetben
+lista nézetet kaptam. Fontos hangsúlyozni, hogy az első objektum dönt:</span></span></span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[20] PS C:\&gt; $x,
+(Get-Process powershell) | Format-Table</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                                      </span>k<span
+style='mso-spacerun:yes'>                                      </span>e</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                                      </span>-<span
+style='mso-spacerun:yes'>                                      </span>-</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                                      </span>2<span
+style='mso-spacerun:yes'>                                      </span>1</span></span></span></span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU>A fenti példában még az is
+látszik, hogy szegény PowerShell processz meg sem jelent a </span></span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Format&#8209;Table</span></span><span
+lang=HU> kimenetén, mert nincs se „</span></span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>k</span></span><span
+lang=HU>”, se „</span></span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>e</span></span><span
+lang=HU>” tulajdonsága.</span></span></span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU>Ha meg szeretnénk jeleníteni
+minkét objektumot önállóan, a saját tulajdonságai szerint, akkor
+„resetelhetjük” a kimenetet az </span></span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Out-Default</span></span></span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'></span></span></span></span></span></span>
+<span style='mso-bookmark:
+_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:
+_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:
+_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdlettel, azaz ami addig összegyűlt kitesszük
+a kimenetre, és új életet kezdünk a megjelenítés szempontjából:</span></span></span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; ($x |
+Out-Default), ((Get-Process) | Out-Default)</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                                      </span>k<span
+style='mso-spacerun:yes'>                                      </span>e</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                                      </span>-<span
+style='mso-spacerun:yes'>                                      </span>-</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                                      </span>2<span
+style='mso-spacerun:yes'>                                      </span>1</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Handles<span
+style='mso-spacerun:yes'>  </span>NPM(K)<span style='mso-spacerun:yes'>   
+</span>PM(K)<span style='mso-spacerun:yes'>      </span>WS(K) VM(M)<span
+style='mso-spacerun:yes'>   </span>CPU(s)<span style='mso-spacerun:yes'>    
+</span>Id ProcessName</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>-------<span
+style='mso-spacerun:yes'>  </span>------<span style='mso-spacerun:yes'>   
+</span>-----<span style='mso-spacerun:yes'>      </span>----- -----<span
+style='mso-spacerun:yes'>   </span>------<span style='mso-spacerun:yes'>    
+</span>-- -----------</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>427<span style='mso-spacerun:yes'>     
+</span>33<span style='mso-spacerun:yes'>   </span>174320<span
+style='mso-spacerun:yes'>     </span>170248<span style='mso-spacerun:yes'>  
+</span>372<span style='mso-spacerun:yes'>    </span>45,65<span
+style='mso-spacerun:yes'>   </span>5288 AcroRd32</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>230<span style='mso-spacerun:yes'>     
+</span>18<span style='mso-spacerun:yes'>     </span>4820<span
+style='mso-spacerun:yes'>       </span>6388<span style='mso-spacerun:yes'>   
+</span>95<span style='mso-spacerun:yes'>     </span>1,31<span
+style='mso-spacerun:yes'>   </span>3416 AdobeARM</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>     </span>70<span style='mso-spacerun:yes'>      
+</span>7<span style='mso-spacerun:yes'>     </span>1164<span
+style='mso-spacerun:yes'>       </span>2524<span style='mso-spacerun:yes'>   
+</span>26<span style='mso-spacerun:yes'>            </span>1580 ASLDRSrv</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>     </span>63<span style='mso-spacerun:yes'>      
+</span>7<span style='mso-spacerun:yes'>      </span>944<span
+style='mso-spacerun:yes'>       </span>4056<span style='mso-spacerun:yes'>   
+</span>49<span style='mso-spacerun:yes'>            </span>3064 ATKOSD</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>389<span style='mso-spacerun:yes'>     
+</span>14<span style='mso-spacerun:yes'>    </span>29880<span
+style='mso-spacerun:yes'>      </span>26508<span style='mso-spacerun:yes'>   
+</span>84<span style='mso-spacerun:yes'>            </span>1052 audiodg</span></span></span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:
+_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:
+_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:
+_Toc197149163'><span lang=HU>Nézzük, hogyan lehet az egyéni típusokat kicsit
+szebben megjeleníteni. Az előző fejezetben létrehozott email típus egy
+objektuma alaphelyzetben láthattuk, hogy így néz ki. Most definiálok ilyen
+e-mail címek egy tömbjét:</span></span></span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[4] PS C:\&gt; $addrs =
+@()</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[5] PS C:\&gt; $addrs +=
+New-Object email soost, iqjb.hu</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[6] PS C:\&gt; $addrs +=
+New-Object email bakaigy, iqjb.hu</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[7] PS C:\&gt; $addrs +=
+New-Object email soostibor, citromail.hu</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[8] PS C:\&gt; $addrs +=
+New-Object email valaki, citromail.hu</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[9] PS C:\&gt; $addrs +=
+New-Object email tanfolyam, iqjb.hu</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[10] PS C:\&gt; $addrs</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>alias<span
+style='mso-spacerun:yes'>                      </span>domain<span
+style='mso-spacerun:yes'>                    </span>fullemail</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>-----<span
+style='mso-spacerun:yes'>                      </span>------<span
+style='mso-spacerun:yes'>                    </span>---------</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>soost<span
+style='mso-spacerun:yes'>                      </span>iqjb.hu<span
+style='mso-spacerun:yes'>                   </span>soost@iqjb.hu</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>bakaigy<span
+style='mso-spacerun:yes'>                    </span>iqjb.hu<span
+style='mso-spacerun:yes'>                   </span>bakaigy@iqjb.hu</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>soostibor<span
+style='mso-spacerun:yes'>                  </span>citromail.hu<span
+style='mso-spacerun:yes'>              </span>soostibor@citromail.hu</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>valaki<span
+style='mso-spacerun:yes'>                     </span>citromail.hu<span
+style='mso-spacerun:yes'>              </span>valaki@citromail.hu</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>tanfolyam<span
+style='mso-spacerun:yes'>                  </span>iqjb.hu<span
+style='mso-spacerun:yes'>                   </span>tanfolyam@iqjb.hu</span></span></span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:
+_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:
+_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:
+_Toc197149163'><span lang=HU>Ha például nekem jobban tetszene az, hogy az első
+oszlopban jelenjen meg a </span></span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>fullemail</span></span><span
+lang=HU> cím tulajdonság, és e-mail tartományonként csoportosítva legyenek a
+címek, akkor ehhez készíthetek egy speciális formázó XML kifejezést, ami nagyon
+hasonlít a típusok testre szabásánál látott PS1XML fájlokhoz:</span></span></span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&lt;Configuration&gt;</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>&lt;ViewDefinitions&gt;</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                </span>&lt;View&gt;</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>           
+</span>&lt;Name&gt;email&lt;/Name&gt;</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>           
+</span>&lt;ViewSelectedBy&gt;</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><b style='mso-bidi-font-weight:normal'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>               
+</span>&lt;TypeName&gt;email&lt;/TypeName&gt;</span><span lang=HU><o:p></o:p></span></b></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>           
+</span>&lt;/ViewSelectedBy&gt;</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><b style='mso-bidi-font-weight:normal'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>            </span>&lt;GroupBy&gt;</span><span
+lang=HU><o:p></o:p></span></b></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><b style='mso-bidi-font-weight:normal'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>               
+</span>&lt;PropertyName&gt;domain&lt;/PropertyName&gt; </span><span lang=HU><o:p></o:p></span></b></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><b style='mso-bidi-font-weight:normal'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>            </span>&lt;/GroupBy&gt;</span><span
+lang=HU><o:p></o:p></span></b></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>           
+</span>&lt;TableControl&gt;</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>               
+</span>&lt;TableHeaders&gt;</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                   
+</span>&lt;TableColumnHeader&gt;</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                       
+</span>&lt;Width&gt;30&lt;/Width&gt;</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                   
+</span>&lt;/TableColumnHeader&gt;</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                   
+</span>&lt;TableColumnHeader&gt;</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                       
+</span>&lt;Width&gt;15&lt;/Width&gt;</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                   
+</span>&lt;/TableColumnHeader&gt;</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                   
+</span>&lt;TableColumnHeader&gt;</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                       
+</span>&lt;Width&gt;15&lt;/Width&gt;</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                   
+</span>&lt;/TableColumnHeader&gt;</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>               
+</span>&lt;/TableHeaders&gt;</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>               
+</span>&lt;TableRowEntries&gt;</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                   
+</span>&lt;TableRowEntry&gt;</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                       
+</span>&lt;TableColumnItems&gt;</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                           
+</span>&lt;TableColumnItem&gt;</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                               
+</span>&lt;PropertyName&gt;Fullemail&lt;/PropertyName&gt;</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                           
+</span>&lt;/TableColumnItem&gt;</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                           
+</span>&lt;TableColumnItem&gt;</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                               
+</span>&lt;PropertyName&gt;Alias&lt;/PropertyName&gt;</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                           
+</span>&lt;/TableColumnItem&gt;</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                           
+</span>&lt;TableColumnItem&gt;</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                               
+</span>&lt;PropertyName&gt;Domain&lt;/PropertyName&gt;</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                           
+</span>&lt;/TableColumnItem&gt;</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                       
+</span>&lt;/TableColumnItems&gt;</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                   
+</span>&lt;/TableRowEntry&gt;</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>               
+</span>&lt;/TableRowEntries&gt;</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>           
+</span>&lt;/TableControl&gt;</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span>&lt;/View&gt;<span
+style='mso-spacerun:yes'>       </span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>&lt;/ViewDefinitions&gt;</span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&lt;/Configuration&gt;</span></span></span></span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU>Ez is egy PS1XML kiterjesztésű
+fájl, ebben tehát meghatároztam a </span></span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>&lt;TypeName&gt;</span></span><span
+lang=HU> címkénél, hogy melyik típushoz tartozik, majd a táblázat
+csoportosítását adtam meg, majd a fejlécét és oszlopait definiáltam. Ha azt
+akarom, hogy az utolsó oszlop a konzol teljes maradék szélességét
+kihasználhassa, akkor a </span></span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>TableColumnHeader</span></span><span
+lang=HU> részbe ne határozzunk meg szélességet, hagyjuk ezt a címkepárt üresen.</span></span></span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU>Ezután ezt a be kell tölteni a
+PowerShell alá az </span></span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Update-FormatData</span></span></span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'></span></span></span></span></span></span>
+<span style='mso-bookmark:
+_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:
+_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:
+_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdlet segítségével:</span></span></span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=Kd style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[37] PS C:\&gt;
+Update-FormatData -AppendPath C:\munka\email.format.ps1xml</span></span></span></span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU>Lehet a PowerShell saját
+típusdefinícióihoz képest később (</span></span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>-AppendPath</span></span><span
+lang=HU>) vagy előbb (</span></span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>&#8209;PrependPath</span></span><span
+lang=HU>) betölteni ezeket a formátumdefiníciókat. Ha később töltjük be, akkor
+ezzel felül lehet bírálni a „gyári” formátumokat, ha előbb töltjük be, akkor
+csak akkor jut érvényre a formátum, ha azt később „gyári” formátum nem írja
+felül. </span></span></span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU>Nézzük, hogy ezután hogyan
+jelenik meg a táblázatom:</span></span></span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[12] PS C:\&gt; $addrs</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>   </span>domain: iqjb.hu</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Fullemail<span
+style='mso-spacerun:yes'>                      </span>Alias<span
+style='mso-spacerun:yes'>           </span>Domain</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>---------<span
+style='mso-spacerun:yes'>                      </span>-----<span
+style='mso-spacerun:yes'>           </span>------</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>soost@iqjb.hu<span
+style='mso-spacerun:yes'>                  </span>soost<span
+style='mso-spacerun:yes'>           </span>iqjb.hu</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>bakaigy@iqjb.hu<span
+style='mso-spacerun:yes'>                </span>bakaigy<span
+style='mso-spacerun:yes'>         </span>iqjb.hu</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>   </span>domain: citromail.hu</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Fullemail<span
+style='mso-spacerun:yes'>                      </span>Alias<span
+style='mso-spacerun:yes'>           </span>Domain</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>---------<span
+style='mso-spacerun:yes'>                      </span>-----<span
+style='mso-spacerun:yes'>           </span>------</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>soostibor@citromail.hu<span
+style='mso-spacerun:yes'>         </span>soostibor<span
+style='mso-spacerun:yes'>       </span>citromail.hu</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>valaki@citromail.hu<span
+style='mso-spacerun:yes'>            </span>valaki<span
+style='mso-spacerun:yes'>          </span>citromail.hu</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>   </span>domain: iqjb.hu</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Fullemail<span
+style='mso-spacerun:yes'>                      </span>Alias<span
+style='mso-spacerun:yes'>           </span>Domain</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>---------<span
+style='mso-spacerun:yes'>                      </span>-----<span
+style='mso-spacerun:yes'>           </span>------</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>tanfolyam@iqjb.hu<span
+style='mso-spacerun:yes'>              </span>tanfolyam<span
+style='mso-spacerun:yes'>       </span>iqjb.hu</span></span></span></span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU>Látható, hogy itt is a
+csoportosítás önmagában nem rendezi az elemeket, azaz csak egymáshoz képest
+nézi, hogy vajon új csoportot kell nyitni, vagy sem.</span></span></span></span></span></span></span></p>
+
+<p class=SzvegCxSpMiddle><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU>A „gyári” formátumfájlok a </span></span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$PSHome</span></span><span
+lang=HU> elérési úton találhatók, nevükben benne van a </span></span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>format</span></span><span
+lang=HU> kifejezés. A legtöbb objektumtípus formázása a </span></span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>DotNetTypes.format.ps1xml</span></span><span
+lang=HU> és a </span></span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>PowerShellCore.format.ps1xml</span></span><span
+lang=HU> fájlban található. </span></span></span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU>Ezeket formázási információkat
+a </span></span></span></span></span></span></span><span style='mso-bookmark:
+_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:
+_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:
+_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Get-FormatData</span></span></span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'></span></span></span></span></span></span>
+<span style='mso-bookmark:
+_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:
+_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:
+_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdlettel lehet kiolvasni:</span></span></span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[21] PS C:\&gt;
+Get-FormatData</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>TypeName<span
+style='mso-spacerun:yes'>                               
+</span>FormatViewDefinition</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>--------<span
+style='mso-spacerun:yes'>                               
+</span>--------------------</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Microsoft.PowerShell.Commands.GetCou...
+{Counter , TableControl}</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Microsoft.PowerShell.Commands.GetCou...
+{Counter , TableControl}</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>System.Xml.XmlElement#http://schemas...
+{System.Xml.XmlElement#http://schem...</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Microsoft.WSMan.Management.WSManConf...
+{Microsoft.WSMan.Management.WSManCo...</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>…</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>email<span
+style='mso-spacerun:yes'>                                   </span>{email ,
+TableControl}</span></span></span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:
+_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:
+_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:
+_Toc197149163'><span lang=HU>A lista alján található az én email osztályom
+megjelenítési adata. Ezt nézzük kicsit részletesebben, miután ez egy
+hierarchikus XML adat, ezért a legpraktikusabb a </span></span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Format-Custom</span></span><span
+lang=HU> cmdlet használata:</span></span></span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[30] PS C:\&gt;
+Get-FormatData email | Format-Custom</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>class
+ExtendedTypeDefinition</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>{</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>  </span>TypeName = email</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>  </span>FormatViewDefinition =</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>[</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>      </span>class FormatViewDefinition</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>      </span>{</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>Name = email</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>Control =</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>          </span>class TableControl</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>          </span>{</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>            </span>Headers =</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>              </span>[</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                </span>class TableControlColumnHeader</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                </span>{</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                  </span>Label =</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                  </span>Alignment = Undefined</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                  </span>Width = 30</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                </span>}</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                </span>class TableControlColumnHeader</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                </span>{</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                  </span>Label =</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                  </span>Alignment = Undefined</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                  </span>Width = 15</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                </span>}</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                </span>class TableControlColumnHeader</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                </span>{</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                  </span>Label =</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                  </span>Alignment = Undefined</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                  </span>Width = 15</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                </span>}</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>              </span>]</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>            </span>Rows =</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>              </span>[</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                </span>class TableControlRow</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                </span>{</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                  </span>Columns =</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                    </span>[</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                      </span>Fullemail</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                      </span>Alias</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                      </span>Domain</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                    </span>]</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                </span>}</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>              </span>]</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>          </span>}</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>      </span>}</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>]</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>}</span></span></span></span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU>Itt gyakorlatilag visszakaptam
+az eredeti XML fájl tartalmát, az emberi szemnek talán kicsit olvashatóbb
+formában.</span></span></span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Toc197149163'><span lang=HU>Ezekben a formátum fájlokban
+lehetnek számolt információk is, hasonlóan, ahogy a </span></span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>types.PS1XML</span></span><span
+lang=HU> fájlokban is, de ilyenek létrehozása túlmutat jelen könyv keretein.</span></span></span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:double windowtext 5.25pt;
+border-bottom:none;mso-border-top-alt:thin-thick-large-gap windowtext 5.25pt;
+mso-border-left-alt:thin-thick-large-gap windowtext 5.25pt;mso-border-right-alt:
+thin-thick-large-gap windowtext 5.25pt;padding:1.0pt 4.0pt 0cm 4.0pt;
+background:#C6D9F1;mso-background-themecolor:text2;mso-background-themetint:
+51;margin-left:14.2pt;margin-right:14.2pt'>
+
+<p class=Megjegyzs style='margin-top:12.0pt;margin-right:0cm;margin-bottom:
+0cm;margin-left:0cm;margin-bottom:.0001pt;mso-add-space:auto;background:#C6D9F1;
+mso-background-themecolor:text2;mso-background-themetint:51'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Megjegyzés</span></span></span></span></span></span></span></p>
+
+</div>
+
+<div style='mso-element:para-border-div;border:double windowtext 5.25pt;
+border-top:none;mso-border-left-alt:thin-thick-large-gap windowtext 5.25pt;
+mso-border-bottom-alt:thin-thick-large-gap windowtext 5.25pt;mso-border-right-alt:
+thin-thick-large-gap windowtext 5.25pt;padding:0cm 4.0pt 1.0pt 4.0pt;
+margin-left:14.2pt;margin-right:14.2pt'>
+
+<p class=Megjegyezs2 style='margin-top:0.0pt;margin-right:0cm;margin-bottom:
+0cm;margin-left:0cm;margin-bottom:.0001pt;mso-add-space:auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+lang=HU>Nem csak az </span></span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Out-Default</span></span><span
+lang=HU>, hanem minden </span></span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Out-…</span></span><span
+lang=HU> kezdetű cmdlet (kivéve az </span></span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span style='mso-bookmark:_Toc197149163'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Out-Null</span></span><span
+lang=HU>) épít a formázó XML fájlokban definiált formátumokra, és azok
+figyelembe vételével írja ki az objektumok megfelelő tulajdonságait az ott
+definiált formátumban.</span></span></span></span></span></span></span></p>
+
+</div>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

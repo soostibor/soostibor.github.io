@@ -1,0 +1,1800 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>2.5.6 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><a name="_Toc204716345"></a><a
+name="_Toc209115888"><span style='mso-bookmark:_Toc204716345'>
+<span lang=HU>Kilépés a
+függvényből</span></span></a></span></span></span></span></h3>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU>Számos kilépést biztosító
+kulcsszavunk van PowerShellben: </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>break</span></span><span
+lang=HU>, </span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>continue</span></span><span
+lang=HU>, </span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>return</span></span><span
+lang=HU>, </span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>exit</span></span><span lang=HU>,
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>throw</span></span><span
+lang=HU>. Tegyük ezeket rendbe a fejlett függvények kontextusában, hogy melyik
+hogyan működik és mikor használhatjuk.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU>Nézzük ez a példaszkriptet:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:darkblue;
+mso-ansi-language:EN-GB'>function</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+FejlettFüggény {</span></span></span></span></span><span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:
+_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span lang=EN-GB
+style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:darkblue;
+mso-ansi-language:EN-GB'>param</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>(</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>    </span></span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>[</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:deepskyblue;mso-ansi-language:EN-GB'>Parameter</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>(ValueFromPipeline
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:dimgray;
+mso-ansi-language:EN-GB'>=</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:#A82D00;
+mso-ansi-language:EN-GB'>$true</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>)</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>]</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:dimgray;
+mso-ansi-language:EN-GB'>[</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:#006161;mso-ansi-language:EN-GB'>int</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>]</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$bemenőadat</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>,</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>    </span></span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>[</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:#006161;mso-ansi-language:EN-GB'>switch</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>]</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:#A82D00;
+mso-ansi-language:EN-GB'>$kilépelejéről</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>,</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>    </span></span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>[</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:#006161;mso-ansi-language:EN-GB'>switch</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>]</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:#A82D00;
+mso-ansi-language:EN-GB'>$kiugrikelejéről</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>,</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>    </span></span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>[</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:#006161;mso-ansi-language:EN-GB'>switch</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>]</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:#A82D00;
+mso-ansi-language:EN-GB'>$kilépvégéről</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'>)</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:darkblue;
+mso-ansi-language:EN-GB'>begin</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+{</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>    </span></span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:blue;mso-ansi-language:EN-GB'>Write-Host</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:darkred;
+mso-ansi-language:EN-GB'>&quot;Eleje&quot;</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>    </span></span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:darkblue;mso-ansi-language:EN-GB'>if</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>(</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$kilépelejéről</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>){</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>        </span></span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:blue;mso-ansi-language:EN-GB'>Write-Host</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:darkred;
+mso-ansi-language:EN-GB'>&quot;Elejéről kilép&quot;</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>    </span>}</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>    </span></span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:darkblue;mso-ansi-language:EN-GB'>if</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>(</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$kiugrikelejéről</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>){</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>        </span></span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:blue;mso-ansi-language:EN-GB'>Write-Host</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:darkred;
+mso-ansi-language:EN-GB'>&quot;Elejéről kiugrik&quot;</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>    </span>}</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>    </span></span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:blue;mso-ansi-language:EN-GB'>Write-Host</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:darkred;
+mso-ansi-language:EN-GB'>&quot;Eleje vége&quot;</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'>}</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:darkblue;
+mso-ansi-language:EN-GB'>process</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>{</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>    </span></span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:blue;mso-ansi-language:EN-GB'>Write-Host</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:darkred;
+mso-ansi-language:EN-GB'>&quot;Közepe: </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$bemenőadat</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:darkred;mso-ansi-language:EN-GB'>&quot;</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>    </span></span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:darkblue;mso-ansi-language:EN-GB'>if</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>(</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$bemenőadat</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:dimgray;
+mso-ansi-language:EN-GB'>-gt</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:purple;
+mso-ansi-language:EN-GB'>5</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>){</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>        </span></span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:blue;mso-ansi-language:EN-GB'>Write-Host</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:darkred;
+mso-ansi-language:EN-GB'>&quot;Középről kilépek&quot;</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>    </span>}</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>    </span></span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:darkblue;mso-ansi-language:EN-GB'>if</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>(</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$bemenőadat</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:dimgray;
+mso-ansi-language:EN-GB'>-gt</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:purple;
+mso-ansi-language:EN-GB'>8</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>){</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>        </span></span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:blue;mso-ansi-language:EN-GB'>Write-Host</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:darkred;
+mso-ansi-language:EN-GB'>&quot;Közepéről kiugrok&quot;</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>    </span>}</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>    </span></span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:blue;mso-ansi-language:EN-GB'>Write-Host</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:darkred;
+mso-ansi-language:EN-GB'>&quot;Közepe vége&quot;</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'>}</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:darkblue;
+mso-ansi-language:EN-GB'>end</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>{</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>    </span></span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:blue;mso-ansi-language:EN-GB'>Write-Host</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:darkred;
+mso-ansi-language:EN-GB'>&quot;Vége eleje&quot;</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>    </span></span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:darkblue;mso-ansi-language:EN-GB'>if</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>(</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$kilépvégéről</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>){</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>        </span></span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:blue;mso-ansi-language:EN-GB'>Write-Host</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:darkred;
+mso-ansi-language:EN-GB'>&quot;Végéről kilép&quot;</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>    </span>}</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>    </span></span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:blue;mso-ansi-language:EN-GB'>Write-Host</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:darkred;
+mso-ansi-language:EN-GB'>&quot;Vége vége&quot;</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'>}</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'>}</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:purple;
+mso-ansi-language:EN-GB'>1</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>,</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:purple;mso-ansi-language:EN-GB'>2</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>,</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:purple;mso-ansi-language:EN-GB'>6</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>,</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:purple;mso-ansi-language:EN-GB'>10</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:dimgray;
+mso-ansi-language:EN-GB'>|</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:blue;
+mso-ansi-language:EN-GB'>FejlettFüggény</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:navy;
+mso-ansi-language:EN-GB'>-kilépelejéről</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:blue;mso-ansi-language:EN-GB'>Write-Host</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:darkred;
+mso-ansi-language:EN-GB'>&quot;Script vége&quot; <o:p></o:p></span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:
+_Toc197149244'><span lang=HU>Egyelőre nincs benne semmi kilépő utasítás, a
+futtatás eredménye így:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>PS
+C:\&gt; C:\Users\soost\OneDrive\PSKönyv\Kilépés.ps1</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>Eleje</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>Elejéről
+kilép</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>Eleje
+vége</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>Közepe:
+1</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>Közepe
+vége</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>Közepe:
+2</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>Közepe
+vége</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>Közepe:
+6</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>Középről
+kilépek</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>Közepe
+vége</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>Közepe:
+10</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>Középről
+kilépek</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>Közepéről
+kiugrok</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>Közepe
+vége</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>Vége
+eleje</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>Vége
+vége</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>Script
+vége</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:
+_Toc197149244'><span lang=HU>Elsőként próbáljuk azt elérni, hogy a szkriptben
+jelenleg használt </span></span></span></span></span><span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:
+_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>-kilépelejéről</span></span><span
+lang=HU> kapcsoló hatására az „Eleje vége” már ne hajtódjon végre, hanem
+menjünk a processz blokkba a függvény közepére. Ehhez a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>return</span></span><span
+lang=HU> kulcsszót teszem be a megfelelő </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>IF</span></span><span
+lang=HU> részbe (most csak a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>begin</span></span><span
+lang=HU> részt teszem ide):</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'>begin {</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>    </span></span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:blue;mso-ansi-language:EN-GB'>Write-Host</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:darkred;
+mso-ansi-language:EN-GB'>&quot;Eleje&quot;</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>    </span>if(</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$kilépelejéről</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>){</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>        </span></span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:blue;mso-ansi-language:EN-GB'>Write-Host</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:darkred;
+mso-ansi-language:EN-GB'>&quot;Elejéről kilép&quot;</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>        </span>return</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>    </span>}</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>    </span>if(</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$kiugrikelejéről</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>){</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>        </span></span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:blue;mso-ansi-language:EN-GB'>Write-Host</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:darkred;
+mso-ansi-language:EN-GB'>&quot;Elejéről kiugrik&quot;</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>    </span>}</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>    </span></span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:blue;mso-ansi-language:EN-GB'>Write-Host</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:darkred;
+mso-ansi-language:EN-GB'>&quot;Eleje vége&quot;</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>}</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:
+_Toc197149244'><span lang=HU>Az eredmény:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>Eleje</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>Elejéről
+kilép</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>Közepe:
+1</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>Közepe
+vége</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>Közepe:
+2</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>Közepe
+vége</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>Közepe:
+6</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>Középről
+kilépek</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>Közepe
+vége</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>Közepe:
+10</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>Középről
+kilépek</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>Közepéről
+kiugrok</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>Közepe
+vége</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>Vége
+eleje</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>Vége
+vége</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>Script
+vége</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:
+_Toc197149244'><span lang=HU><span style='mso-spacerun:yes'> </span><span
+style='mso-tab-count:1'>       </span>Azaz, az elejéről most tényleg kilépett
+és átment a közepére a vezérlés. Nézzük, hogyan tudunk az elejéről teljesen
+kilépni. Elsőként használjuk az </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>exit</span></span><span
+lang=HU> kulcsszót:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'>begin {</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>    </span></span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:blue;mso-ansi-language:EN-GB'>Write-Host</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:darkred;
+mso-ansi-language:EN-GB'>&quot;Eleje&quot;</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>    </span>if(</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$kilépelejéről</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>){</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>        </span></span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:blue;mso-ansi-language:EN-GB'>Write-Host</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:darkred;
+mso-ansi-language:EN-GB'>&quot;Elejéről kilép&quot;</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>        </span>return</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>    </span>}</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>    </span>if(</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$kiugrikelejéről</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>){</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>        </span></span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:blue;mso-ansi-language:EN-GB'>Write-Host</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:darkred;
+mso-ansi-language:EN-GB'>&quot;Elejéről kiugrik&quot;</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>        </span>exit</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>    </span>}</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>    </span></span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:blue;mso-ansi-language:EN-GB'>Write-Host</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:darkred;
+mso-ansi-language:EN-GB'>&quot;Eleje vége&quot;</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>}</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:
+_Toc197149244'><span lang=EN-GB><span style='mso-spacerun:yes'> </span></span><span
+lang=HU>A függvényhívás a szkripten belül most így néz ki:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=Kd style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:purple;mso-ansi-language:EN-GB'>1</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>,</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:purple;mso-ansi-language:EN-GB'>2</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>,</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:purple;mso-ansi-language:EN-GB'>6</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>,</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:purple;mso-ansi-language:EN-GB'>10</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:dimgray;
+mso-ansi-language:EN-GB'>|</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='color:blue;
+mso-ansi-language:EN-GB'>FejlettFüggény</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+-kiugrikelejéről </span></span></span></span></span><span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:
+_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span lang=EN-GB
+style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:
+_Toc197149244'><span lang=HU>Az eredmény:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>Eleje</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>Elejéről
+kiugrik</span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU>Ugyan tényleg kiugrott a
+függvényből, de a szkriptből is és a „Script vége” rész sem hajtódott végre. Ez
+nekem túl sok, keressünk egy enyhébb kilépést biztosító parancsot! Ez pedig a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>break</span></span><span
+lang=HU> lesz:</span></span></span></span></span></p>
+
+<p class=SzvegCxSpMiddle><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=SzvegCxSpMiddle><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=SzvegCxSpMiddle><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

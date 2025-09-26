@@ -1,0 +1,475 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>2.14 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h2 style='mso-list:l1 level2 lfo1'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:_Toc197149342'><span
+style='mso-bookmark:_Toc197149254'><a name="_Toc204716397"></a><a
+name="_Toc209115940"><span style='mso-bookmark:_Toc204716397'>
+<span lang=HU>Helyreállítási
+pontok kezelése</span></span></a></span></span></span></span></h2>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:_Toc197149342'><span
+style='mso-bookmark:_Toc197149254'><span lang=HU>A legújabb Windows operációs
+rendszerekben megtalálható a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>Volume
+Shadow Copy</span></span><span lang=HU> szolgáltatás, mellyel a számítógép
+meghajtóiról (</span></span></span></span></span><span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:
+_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>volumes</span></span><span
+lang=HU>) készíthető egy „pillanatfelvétel”, mellyel tulajdonképpen az adott
+meghajtónak két nézete lesz: egy „normál” nézet, melyben minden fájl a
+megszokott módon működik, és egy olyan „rejtett” nézet, melyben a fájlok csak
+olvashatók és a pillanatfelvétel időpontjának állapotát tükrözik. Azaz ebben a
+nézetben az amúgy zárolt és még csak nem is olvasható fájlok is olvashatók.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpMiddle><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:_Toc197149342'><span
+style='mso-bookmark:_Toc197149254'><span lang=HU>Ezt a fajta „lefagyasztását” a
+meghajtóknak hívjuk helyreállítási pontoknak (</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>restore
+point</span></span><span lang=HU>), hiszen innen vissza tudunk nyerni régebben
+létező fájlokat, vagy fájlok régebbi verzióját. Ezt a technológiát használja a
+beépített mentő szoftver (Windows Backup és Windows Server Backup) úgy, hogy
+mentés első lépéseként készít egy ilyen helyreállítási pontot, majd a háttérben
+ezt írja ki írható médiára vagy hálózati meghajtóra. Ezen kívül a rendszer a
+frissítés során is készít ilyen helyreállítási pontokat, hogy ha egy frissítés
+mégsem sikerül, akkor lehetőség legyen visszatérni egy régebbi állapotba.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpMiddle><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:_Toc197149342'><span
+style='mso-bookmark:_Toc197149254'><span lang=HU>Ezek a helyreállítási pontok
+nem igényelnek nagyon nagy helyet a meghajtókon, hiszen a lefagyasztott
+területhez képest csak a változások foglalnak el új helyet. Így még arra is van
+lehetőség, hogy ilyen „lefagyasztott terület” több is legyen, azaz egyidejűleg
+több helyreállítási pontot is fenntarthatunk. Persze idővel az így fenntartott
+helyek a diszken már túl sok helyet foglalhatnak el, ilyenkor a rendszer
+felszabadítja a régebbi helyreállítási pontok által foglalt területeket.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpMiddle><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:_Toc197149342'><span
+style='mso-bookmark:_Toc197149254'><span lang=HU>A PowerShell 2.0-ban lehetőség
+van ezen helyreállítási pontok kezelésére. Sajnos ezeket csak a kliens
+operációsrendszereken kezelhetjük, a kiszolgáló változatokon nem. </span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:_Toc197149342'><span
+style='mso-bookmark:_Toc197149254'><span lang=HU>Elsőként nézzük meg, hogy
+milyen helyreállítási pontjaink vannak a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Get-ComputerRestorePoint</span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'></span></span></span></span>
+<span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:
+_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdlet segítségével:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt;
+Get-ComputerRestorePoint</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>WARNING: column
+&quot;RestorePointType&quot; does not fit into the display and was remov</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ed.</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>CreationTime<span
+style='mso-spacerun:yes'>           </span>Description<span
+style='mso-spacerun:yes'>                    </span>SequenceNumber<span
+style='mso-spacerun:yes'>    </span>EventT</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                                                                       
+</span>ype</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>------------<span
+style='mso-spacerun:yes'>           </span>-----------<span
+style='mso-spacerun:yes'>                    </span>--------------<span
+style='mso-spacerun:yes'>    </span>------</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>2010.01.27. 21:40:25<span
+style='mso-spacerun:yes'>   </span>Windows Update<span
+style='mso-spacerun:yes'>                 </span>314<span
+style='mso-spacerun:yes'>               </span>BEG...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>2010.01.28. 1:53:56<span
+style='mso-spacerun:yes'>    </span>Windows Update<span
+style='mso-spacerun:yes'>                 </span>315<span
+style='mso-spacerun:yes'>               </span>BEG...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>2010.01.28. 9:54:02<span
+style='mso-spacerun:yes'>    </span>Windows Update<span
+style='mso-spacerun:yes'>                 </span>316<span
+style='mso-spacerun:yes'>               </span>BEG...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>2010.01.28. 21:55:21<span
+style='mso-spacerun:yes'>   </span>Windows Update<span
+style='mso-spacerun:yes'>                 </span>317<span
+style='mso-spacerun:yes'>               </span>BEG...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>2010.01.29. 9:54:34<span
+style='mso-spacerun:yes'>    </span>Windows Update<span
+style='mso-spacerun:yes'>                 </span>318<span
+style='mso-spacerun:yes'>               </span>BEG...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>2010.01.29. 21:54:54<span
+style='mso-spacerun:yes'>   </span>Windows Update<span
+style='mso-spacerun:yes'>                 </span>319<span
+style='mso-spacerun:yes'>               </span>BEG...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>2010.01.30. 9:59:40<span
+style='mso-spacerun:yes'>    </span>Windows Update<span
+style='mso-spacerun:yes'>                 </span>320<span
+style='mso-spacerun:yes'>               </span>BEG...</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>2010.01.31. 9:48:18<span
+style='mso-spacerun:yes'>    </span>Windows Update<span
+style='mso-spacerun:yes'>                 </span>321<span
+style='mso-spacerun:yes'>               </span>BEG...</span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc197149403'><span style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:
+_Toc197149254'><span lang=HU>Látható, hogy ezek a helyreállítási pontok a
+Windows Update szolgáltatás által jöttek létre. Én magam is készíthetek ilyen
+helyreállítási pontot a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Checkpoint-Computer</span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'></span></span></span></span>
+<span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:
+_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdlet segítségével:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt;
+Checkpoint-Computer -Description &quot;Manuális pont&quot;</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt;
+Get-ComputerRestorePoint</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>WARNING: column
+&quot;RestorePointType&quot; does not fit into the display and was remov</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ed.</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>CreationTime<span
+style='mso-spacerun:yes'>           </span>Description<span
+style='mso-spacerun:yes'>                    </span>SequenceNumber<span
+style='mso-spacerun:yes'>    </span>EventT</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                                                                       
+</span>ype</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>------------<span
+style='mso-spacerun:yes'>           </span>-----------<span
+style='mso-spacerun:yes'>                    </span>--------------<span
+style='mso-spacerun:yes'>    </span>------</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>2010.01.27. 21:40:25<span
+style='mso-spacerun:yes'>   </span>Windows Update<span
+style='mso-spacerun:yes'>                 </span>314<span
+style='mso-spacerun:yes'>               </span>BEG...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>2010.01.28. 1:53:56<span
+style='mso-spacerun:yes'>    </span>Windows Update<span
+style='mso-spacerun:yes'>                 </span>315<span
+style='mso-spacerun:yes'>               </span>BEG...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>2010.01.28. 9:54:02<span
+style='mso-spacerun:yes'>    </span>Windows Update<span
+style='mso-spacerun:yes'>                 </span>316<span
+style='mso-spacerun:yes'>               </span>BEG...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>2010.01.28. 21:55:21<span
+style='mso-spacerun:yes'>   </span>Windows Update<span
+style='mso-spacerun:yes'>                 </span>317<span
+style='mso-spacerun:yes'>               </span>BEG...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>2010.01.29. 9:54:34<span
+style='mso-spacerun:yes'>    </span>Windows Update<span
+style='mso-spacerun:yes'>                 </span>318<span
+style='mso-spacerun:yes'>               </span>BEG...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>2010.01.29. 21:54:54<span
+style='mso-spacerun:yes'>   </span>Windows Update<span
+style='mso-spacerun:yes'>                 </span>319<span
+style='mso-spacerun:yes'>               </span>BEG...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>2010.01.30. 9:59:40<span
+style='mso-spacerun:yes'>    </span>Windows Update<span
+style='mso-spacerun:yes'>                 </span>320<span
+style='mso-spacerun:yes'>               </span>BEG...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>2010.01.31. 9:48:18<span
+style='mso-spacerun:yes'>    </span>Windows Update<span
+style='mso-spacerun:yes'>                 </span>321<span
+style='mso-spacerun:yes'>               </span>BEG...</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>2010.01.31. 13:02:28<span
+style='mso-spacerun:yes'>   </span>Manuális pont<span
+style='mso-spacerun:yes'>                  </span>322<span
+style='mso-spacerun:yes'>               </span>BEG...</span></span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:_Toc197149342'><span
+style='mso-bookmark:_Toc197149254'><span lang=HU>A fenti példában létrehoztam
+egy helyreállítási pontot „Manuális pont” néven. Ez kb. egy percet vett
+igénybe, amíg futott egy <i style='mso-bidi-font-style:normal'>progress bar</i>
+mutatta, hogy mennyit kell még várnom. A futás után visszaolvasva az utolsó
+helyen látható az általam létrehozott helyreállítási pont.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpMiddle><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:_Toc197149342'><span
+style='mso-bookmark:_Toc197149254'><span lang=HU>Korábbi helyreállítási
+pontokra a </span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:_Toc197149342'><span
+style='mso-bookmark:_Toc197149254'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Restore-Computer</span></span></span></span></span></span>
+<span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:
+_Toc197149342'><span style='mso-bookmark:_Toc197149254'></span></span></span></span>
+<span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:
+_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span lang=HU><span
+style='mso-spacerun:yes'> </span>paranccsal lehet visszaállni. Ez a gépet
+újraindítja és a tényleges visszaállást az boot folyamat során végzi el.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:_Toc197149342'><span
+style='mso-bookmark:_Toc197149254'><span lang=HU>A helyreállásnak lehetnek
+káros következményei is. Gondoljunk arra, hogy visszaállunk egy korábbi
+állapotra, mert például eszközmeghajtó szoftver telepítése nem sikerült, de
+ezzel az időközben készített dokumentumaink is odavesznek. Ennek elkerülésére
+ki lehet kapcsolni bizonyos meghajtókra a helyreállítást a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Disable-ComputerRestore</span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'></span></span></span></span>
+<span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:
+_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdlet segítségével. Ezzel a lehetőséggel
+természetesen csak akkor élhetünk, ha több logikai meghajtónk (partíciónk,
+kötetünk) van, így érdemes már eleve így kialakítani a számítógépeinket.
+Visszakapcsolni ezt az </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Enable&#8209;ComputerRestore</span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'></span></span></span></span>
+<span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:
+_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdlettel lehet.</span></span></span></span></span></p>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

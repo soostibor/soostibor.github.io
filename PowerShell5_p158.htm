@@ -1,0 +1,300 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>2.1.14 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><span style='mso-bookmark:_Ref196107511'><span
+style='mso-bookmark:_Ref196107505'><span style='mso-bookmark:_Toc189542096'><span
+style='mso-bookmark:_Toc197149232'><span style='mso-bookmark:_Ref255416256'><span
+style='mso-bookmark:_Ref255416251'><a name="_Toc204716297"></a><a
+name="_Toc209115840"><span style='mso-bookmark:_Toc204716297'>
+<span lang=HU>Előrehaladás
+jelzése (write-progress)</span></span></a></span></span></span></span></span></span></h3>
+
+<p class=Szveg><span style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:
+_Ref196107505'><span style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:
+_Toc197149232'><span style='mso-bookmark:_Ref255416256'><span style='mso-bookmark:
+_Ref255416251'><span lang=HU>Ha már időmérés és várakozás, akkor érdemes
+megemlíteni, hogy szép „progress bar”-t, azaz előrehaladás-jelzőt is
+megjeleníthetünk PowerShellben a </span></span></span></span></span></span></span><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+style='mso-bookmark:_Ref255416256'><span style='mso-bookmark:_Ref255416251'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>write-progress</span></span></span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+style='mso-bookmark:_Ref255416256'><span style='mso-bookmark:_Ref255416251'></span></span></span></span></span></span>
+<span style='mso-bookmark:
+_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span style='mso-bookmark:
+_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span style='mso-bookmark:
+_Ref255416256'><span style='mso-bookmark:_Ref255416251'><span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdlet segítségével. Ez főleg akkor hasznos,
+ha időigényesebb valamelyik parancssorunk, szkriptünk és nyomon szeretnénk
+követni, hogy ténylegesen hol is tart a futás. Példaként nézzünk egy „analóg”
+órát:</span></span></span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+style='mso-bookmark:_Ref255416256'><span style='mso-bookmark:_Ref255416251'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+style='mso-bookmark:_Ref255416256'><span style='mso-bookmark:_Ref255416251'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'> </span>Óra</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+style='mso-bookmark:_Ref255416256'><span style='mso-bookmark:_Ref255416251'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>12</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+style='mso-bookmark:_Ref255416256'><span style='mso-bookmark:_Ref255416251'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>[oooooooooooooooooooooooooooooooo<span
+style='mso-spacerun:yes'>                                </span>]</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+style='mso-bookmark:_Ref255416256'><span style='mso-bookmark:_Ref255416251'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>   </span>Perc</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+style='mso-bookmark:_Ref255416256'><span style='mso-bookmark:_Ref255416251'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>      </span>53</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+style='mso-bookmark:_Ref255416256'><span style='mso-bookmark:_Ref255416251'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>     
+</span>[oooooooooooooooooooooooooooooooooooooooooooooooooooooo<span
+style='mso-spacerun:yes'>        </span>]</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+style='mso-bookmark:_Ref255416256'><span style='mso-bookmark:_Ref255416251'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>     </span>MP</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+style='mso-bookmark:_Ref255416256'><span style='mso-bookmark:_Ref255416251'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>53</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+style='mso-bookmark:_Ref255416256'><span style='mso-bookmark:_Ref255416251'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>       
+</span>[oooooooooooooooooooooooooooooooooooooooooooooooooooo<span
+style='mso-spacerun:yes'>        </span>]</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+style='mso-bookmark:_Ref255416256'><span style='mso-bookmark:_Ref255416251'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+style='mso-bookmark:_Ref255416256'><span style='mso-bookmark:_Ref255416251'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[91] PS C:\&gt;while
+($true) {</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+style='mso-bookmark:_Ref255416256'><span style='mso-bookmark:_Ref255416251'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&gt;&gt; $t = Get-Date</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+style='mso-bookmark:_Ref255416256'><span style='mso-bookmark:_Ref255416251'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&gt;&gt; $óra = $t.hour</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+style='mso-bookmark:_Ref255416256'><span style='mso-bookmark:_Ref255416251'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&gt;&gt; $perc = $t.Minute</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+style='mso-bookmark:_Ref255416256'><span style='mso-bookmark:_Ref255416251'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&gt;&gt; $mp = $t.Second</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+style='mso-bookmark:_Ref255416256'><span style='mso-bookmark:_Ref255416251'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&gt;&gt; Write-Progress
+-Activity &quot;Óra&quot; -status &quot;$óra&quot; -Id 1 -PercentComplete ($óra/2<br>
+4*100)</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+style='mso-bookmark:_Ref255416256'><span style='mso-bookmark:_Ref255416251'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&gt;&gt; Write-Progress
+-Activity &quot;Perc&quot; -status &quot;$perc&quot; -Id 2 -ParentId 1 –PercentCo<br>
+mplete ($perc/60*100)</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+style='mso-bookmark:_Ref255416256'><span style='mso-bookmark:_Ref255416251'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&gt;&gt; Write-Progress
+-Activity &quot;MP&quot; -status &quot;$mp&quot; -ParentId 2 –PercentComplete ($m<br>
+p/60*100)</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+style='mso-bookmark:_Ref255416256'><span style='mso-bookmark:_Ref255416251'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&gt;&gt; Start-Sleep
+-Seconds 1</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+style='mso-bookmark:_Ref255416256'><span style='mso-bookmark:_Ref255416251'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&gt;&gt; }</span></span></span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+style='mso-bookmark:_Ref255416256'><span style='mso-bookmark:_Ref255416251'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&gt;&gt;</span><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:
+_Ref196107505'><span style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:
+_Toc197149232'><span style='mso-bookmark:_Ref255416256'><span style='mso-bookmark:
+_Ref255416251'><span lang=HU>Sajnos nyomtatásban nem annyira „szép” a kép, nem
+látszik az ablak tetején a türkizes háttérszínem, de a kis karikákból álló
+előrehaladás-jelzőt azért látható. Maga a szkript, ami ezt produkálja a karikás
+sorok alatt található. Egy </span></span></span></span></span></span></span><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+style='mso-bookmark:_Ref255416256'><span style='mso-bookmark:_Ref255416251'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>while</span></span><span
+lang=HU> ciklusban folyamatosan kiolvasom az aktuális rendszeridőt, szétszedem
+külön óra, perc, másodpercre. Ezután jön a lényegi rész. Az egyes „csíkoknak”
+adhatok címkét (</span></span></span></span></span></span></span><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+style='mso-bookmark:_Ref255416256'><span style='mso-bookmark:_Ref255416251'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Activity</span></span><span
+lang=HU> paraméter), státusz címkét (</span></span></span></span></span></span></span><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+style='mso-bookmark:_Ref255416256'><span style='mso-bookmark:_Ref255416251'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Status</span></span><span
+lang=HU>), azonosító számot (</span></span></span></span></span></span></span><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+style='mso-bookmark:_Ref255416256'><span style='mso-bookmark:_Ref255416251'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Id</span></span><span
+lang=HU> paraméter), az előrehaladás értékét (0 és 100 közötti szám, </span></span></span></span></span></span></span><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+style='mso-bookmark:_Ref255416256'><span style='mso-bookmark:_Ref255416251'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>PercentComplete</span></span><span
+lang=HU> paraméter). Látszik, hogy a kijelzők egymásba is ágyazhatók, ha
+definiálom a </span></span></span></span></span></span></span><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+style='mso-bookmark:_Ref255416256'><span style='mso-bookmark:_Ref255416251'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>ParentID</span></span><span
+lang=HU> paraméterrel a „szülő” csíkot. Ekkor a „gyerek” a szülő alatt fog
+megjelenni, kicsit beljebb. </span></span></span></span></span></span></span></p>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

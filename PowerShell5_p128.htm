@@ -1,0 +1,2181 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>PSBase, PSAdapted, PSExtended, PSObject</title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+style='mso-bookmark:_Ref253947440'><span style='mso-bookmark:_Ref255134959'><a
+name="_Toc204716257"></a><a name="_Toc209115800"><span style='mso-bookmark:
+_Toc204716257'>
+<span
+lang=HU>PSBase, PSAdapted, PSExtended, PSObject</span></span></a></span></span><span
+style='mso-bookmark:_Ref255134959'><span style='mso-bookmark:_Toc209115800'><span
+style='mso-bookmark:_Toc204716257'><span lang=HU> nézetek</span></span></span></span></span></span></span></span></span></h3>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU>Mint ahogy az fejezet elején bemutattam, a PowerShell igazából a .NET
+osztályokat nem közvetlenül kezeli, hanem néha kicsit átalakítja annak
+érdekében, hogy még egységesebb, egyszerűbb, bizonyos esetekben biztonságosabb
+legyen ezen objektumok kezelése.</span></span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU>Különböző nézetek segítségével mi is láthatjuk azt, hogy milyen
+„csalafintaságokat” követett el ezeken az osztályokon a PowerShell:</span></span></span></span></span></span></p>
+
+<table class=LightList-Accent11 border=1 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none;mso-border-alt:solid #4F81BD 1.0pt;
+ mso-border-themecolor:accent1;mso-yfti-tbllook:1184;mso-padding-alt:0cm 5.4pt 0cm 5.4pt'>
+ <tr style='mso-yfti-irow:-1;mso-yfti-firstrow:yes;mso-yfti-lastfirstrow:yes'>
+  <td width=219 valign=top style='width:164.4pt;border-top:solid #4F81BD 1.0pt;
+  mso-border-top-themecolor:accent1;border-left:solid #4F81BD 1.0pt;mso-border-left-themecolor:
+  accent1;border-bottom:none;border-right:none;background:#4F81BD;mso-background-themecolor:
+  accent1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpFirst style='margin-left:1.7pt;mso-add-space:auto;
+  mso-yfti-cnfc:5'><span style='mso-bookmark:_Ref318836703'><span
+  style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+  style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><b><span
+  lang=HU style='color:white;mso-themecolor:background1'>Nézet neve<o:p></o:p></span></b></span></span></span></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+  style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+  style='mso-bookmark:_Toc197149224'></span></span></span></span></span>
+  <td width=412 valign=top style='width:308.8pt;border-top:solid #4F81BD 1.0pt;
+  mso-border-top-themecolor:accent1;border-left:none;border-bottom:none;
+  border-right:solid #4F81BD 1.0pt;mso-border-right-themecolor:accent1;
+  background:#4F81BD;mso-background-themecolor:accent1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpLast style='mso-yfti-cnfc:1'><span style='mso-bookmark:_Ref318836703'><span
+  style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+  style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><b><span
+  lang=HU style='color:white;mso-themecolor:background1'>Nézet tartalma<o:p></o:p></span></b></span></span></span></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+  style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+  style='mso-bookmark:_Toc197149224'></span></span></span></span></span>
+ </tr>
+ <tr style='mso-yfti-irow:0'>
+  <td width=219 valign=top style='width:164.4pt;border:solid #4F81BD 1.0pt;
+  mso-border-themecolor:accent1;border-right:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpFirst style='margin-left:1.7pt;mso-add-space:auto;
+  mso-yfti-cnfc:68'><span style='mso-bookmark:_Ref318836703'><span
+  style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+  style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><b><span
+  lang=HU>PSBASE<o:p></o:p></span></b></span></span></span></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+  style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+  style='mso-bookmark:_Toc197149224'></span></span></span></span></span>
+  <td width=412 valign=top style='width:308.8pt;border:solid #4F81BD 1.0pt;
+  mso-border-themecolor:accent1;border-left:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpLast style='mso-yfti-cnfc:64'><span style='mso-bookmark:
+  _Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+  style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+  style='mso-bookmark:_Toc197149224'><span lang=HU>A .NET-es osztály eredeti
+  állapotban</span></span></span></span></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+  style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+  style='mso-bookmark:_Toc197149224'></span></span></span></span></span>
+ </tr>
+ <tr style='mso-yfti-irow:1'>
+  <td width=219 valign=top style='width:164.4pt;border:none;border-left:solid #4F81BD 1.0pt;
+  mso-border-left-themecolor:accent1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpFirst style='margin-left:1.7pt;mso-add-space:auto;
+  mso-yfti-cnfc:4'><span style='mso-bookmark:_Ref318836703'><span
+  style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+  style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><b><span
+  lang=HU>PSADAPTED<o:p></o:p></span></b></span></span></span></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+  style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+  style='mso-bookmark:_Toc197149224'></span></span></span></span></span>
+  <td width=412 valign=top style='width:308.8pt;border:none;border-right:solid #4F81BD 1.0pt;
+  mso-border-right-themecolor:accent1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpLast><span style='mso-bookmark:_Ref318836703'><span
+  style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+  style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+  lang=HU>A PowerShell által adaptált nézet (ezt látjuk alaphelyzetben)</span></span></span></span></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+  style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+  style='mso-bookmark:_Toc197149224'></span></span></span></span></span>
+ </tr>
+ <tr style='mso-yfti-irow:2'>
+  <td width=219 valign=top style='width:164.4pt;border:solid #4F81BD 1.0pt;
+  mso-border-themecolor:accent1;border-right:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpFirst style='margin-left:1.7pt;mso-add-space:auto;
+  mso-yfti-cnfc:68'><span style='mso-bookmark:_Ref318836703'><span
+  style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+  style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><b><span
+  lang=HU>PSEXTENDED<o:p></o:p></span></b></span></span></span></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+  style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+  style='mso-bookmark:_Toc197149224'></span></span></span></span></span>
+  <td width=412 valign=top style='width:308.8pt;border:solid #4F81BD 1.0pt;
+  mso-border-themecolor:accent1;border-left:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpLast style='mso-yfti-cnfc:64'><span style='mso-bookmark:
+  _Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+  style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+  style='mso-bookmark:_Toc197149224'><span lang=HU>Csak a kibővített tagok</span></span></span></span></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+  style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+  style='mso-bookmark:_Toc197149224'></span></span></span></span></span>
+ </tr>
+ <tr style='mso-yfti-irow:3;mso-yfti-lastrow:yes'>
+  <td width=219 valign=top style='width:164.4pt;border-top:none;border-left:
+  solid #4F81BD 1.0pt;mso-border-left-themecolor:accent1;border-bottom:solid #4F81BD 1.0pt;
+  mso-border-bottom-themecolor:accent1;border-right:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpFirst style='margin-left:1.7pt;mso-add-space:auto;
+  mso-yfti-cnfc:4'><span style='mso-bookmark:_Ref318836703'><span
+  style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+  style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><b><span
+  lang=HU>PSOBJECT<o:p></o:p></span></b></span></span></span></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+  style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+  style='mso-bookmark:_Toc197149224'></span></span></span></span></span>
+  <td width=412 valign=top style='width:308.8pt;border-top:none;border-left:
+  none;border-bottom:solid #4F81BD 1.0pt;mso-border-bottom-themecolor:accent1;
+  border-right:solid #4F81BD 1.0pt;mso-border-right-themecolor:accent1;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpLast><span style='mso-bookmark:_Ref318836703'><span
+  style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+  style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+  lang=HU>Magának az adapternek a nézete&nbsp;</span></span></span></span></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+  style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+  style='mso-bookmark:_Toc197149224'></span></span></span></span></span>
+ </tr>
+</table>
+
+<p class=Szveg><span style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:
+_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:
+_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span lang=HU>Nézzünk
+ezekre néhány példát. Elsőként az XML adattípust mutatom, mert ott elég jól
+láthatóak ezen nézetek közti különbségek. Nézzük meg egy XML adat
+tagjellemzőit:</span></span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[20] PS C:\&gt; $x = [xml]
+&quot;&lt;elem&gt;érték&lt;szint1&gt;&lt;szint2&gt;mélyadat&lt;/szint2&gt;&lt;/szint</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>1&gt;&lt;/elem&gt;&quot;</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[21] PS C:\&gt; $x | Get-Member</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>   </span>TypeName:
+System.Xml.XmlDocument</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Name<span style='mso-spacerun:yes'>                       
+</span>MemberType<span style='mso-spacerun:yes'>            </span>Definition</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>----<span style='mso-spacerun:yes'>                       
+</span>----------<span style='mso-spacerun:yes'>            </span>----------</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>ToString<span style='mso-spacerun:yes'>                   
+</span>CodeMethod<span style='mso-spacerun:yes'>            </span>static
+System.String X...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>add_NodeChanged<span style='mso-spacerun:yes'>            
+</span>Method<span style='mso-spacerun:yes'>                </span>System.Void
+add_NodeCh...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>add_NodeChanging<span style='mso-spacerun:yes'>           
+</span>Method<span style='mso-spacerun:yes'>                </span>System.Void
+add_NodeCh...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Validate<span style='mso-spacerun:yes'>                   
+</span>Method<span style='mso-spacerun:yes'>                </span>System.Void
+Validate(V...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>WriteContentTo<span style='mso-spacerun:yes'>             
+</span>Method<span style='mso-spacerun:yes'>                </span>System.Void
+WriteConte...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>WriteTo<span style='mso-spacerun:yes'>                    
+</span>Method<span style='mso-spacerun:yes'>                </span>System.Void
+WriteTo(Xm...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Item<span style='mso-spacerun:yes'>                       
+</span>ParameterizedProperty System.Xml.XmlElement ...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>elem<span style='mso-spacerun:yes'>                       
+</span>Property<span style='mso-spacerun:yes'>             
+</span>System.Xml.XmlElement ...</span></span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:
+_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:
+_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span lang=HU>Nagyon
+sok jellemzője van, az egyszerűbb áttekinthetőség miatt kicsit megvágtam a
+közepén. A legutolsó jellemző egy </span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span class=EnglishChar><span
+style='mso-bidi-font-family:"Times New Roman"'>Property</span></span><span
+lang=HU> típusú, </span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>elem</span></span><span lang=HU>
+nevű tag. Hát ilyet biztos nem tettek bele a .NET keretrendszerbe. Erről meg is
+győződhetünk:</span></span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[22] PS C:\&gt; $x.psbase | Get-Member</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>   </span>TypeName:
+System.Management.Automation.PSMemberSet</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Name<span style='mso-spacerun:yes'>                       
+</span>MemberType<span style='mso-spacerun:yes'>            </span>Definition</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>----<span style='mso-spacerun:yes'>                       
+</span>----------<span style='mso-spacerun:yes'>            </span>----------</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>add_NodeChanged<span style='mso-spacerun:yes'>            
+</span>Method<span style='mso-spacerun:yes'>                </span>System.Void
+add_NodeCh...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>add_NodeChanging<span style='mso-spacerun:yes'>           
+</span>Method<span style='mso-spacerun:yes'>                </span>System.Void
+add_NodeCh...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>ChildNodes<span style='mso-spacerun:yes'>                 
+</span>Property<span style='mso-spacerun:yes'>             
+</span>System.Xml.XmlNodeList...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>DocumentElement<span style='mso-spacerun:yes'>            
+</span>Property<span style='mso-spacerun:yes'>             
+</span>System.Xml.XmlElement ...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>DocumentType<span style='mso-spacerun:yes'>               
+</span>Property<span style='mso-spacerun:yes'>             
+</span>System.Xml.XmlDocument...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>FirstChild<span style='mso-spacerun:yes'>                 
+</span>Property<span style='mso-spacerun:yes'>             
+</span>System.Xml.XmlNode Fir...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>HasChildNodes<span style='mso-spacerun:yes'>              
+</span>Property<span style='mso-spacerun:yes'>             
+</span>System.Boolean HasChil...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Value<span style='mso-spacerun:yes'>                      
+</span>Property<span style='mso-spacerun:yes'>             
+</span>System.String Value {g...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>XmlResolver<span style='mso-spacerun:yes'>                
+</span>Property<span style='mso-spacerun:yes'>             
+</span>System.Xml.XmlResolver...</span></span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:
+_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:
+_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span lang=HU>A fenti
+listában tényleg nincs </span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>elem</span></span><span lang=HU>
+nevű tulajdonság. Miért tették bele ezt az elem tulajdonságot vajon a
+PowerShell alkotói? Azért, hogy egyszerűen lehessen hivatkozni az XML
+adathalmaz különböző elemeire, hiszen az XML egy hierarchikus felépítésű
+adattípus, így könnyen adódik az ötlet az ilyen jellegű hivatkozási
+lehetőségre:</span></span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[23] PS C:\&gt; $x.elem</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>#text<span
+style='mso-spacerun:yes'>                                 </span>szint1</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>-----<span
+style='mso-spacerun:yes'>                                 </span>------</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>érték<span
+style='mso-spacerun:yes'>                                 </span>szint1</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[24] PS C:\&gt; $x.elem.szint1</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>szint2</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>------</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>mélyadat</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[25] PS C:\&gt; $x.elem.szint1.szint2</span></span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>mélyadat</span></span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:
+_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:
+_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span lang=HU>Nézzük,
+hogy a PS1XML fájlban történt-e típusbővítés az XML típus esetében?</span></span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[53] PS C:\&gt; $x.psextended | Get-Member</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>   </span>TypeName:
+System.Management.Automation.PSMemberSet</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Name<span style='mso-spacerun:yes'>     </span>MemberType
+Definition</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>----<span style='mso-spacerun:yes'>     </span>----------
+----------</span></span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>ToString CodeMethod static System.String XmlNode(PSObject instance)</span></span></span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU>Egyetlen egy </span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>CodeMethod</span></span><span
+lang=HU> lett csak definiálva, amellyel sztringgé alakíthatjuk az XML adatot. </span></span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU>Nézzük meg az általam létrehozott </span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Tipus</span></span><span
+lang=HU> tulajdonságot a fájl és könyvtár objektumoknál:</span></span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[27] PS C:\&gt; $fo = Get-Item C:\powershell2\demo\demo1.ps1</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[28] PS C:\&gt; $fo.Tipus</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>File</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[29] PS C:\&gt; $fo.psextended | Get-Member</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>   </span>TypeName:
+System.Management.Automation.PSMemberSet</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Name<span style='mso-spacerun:yes'>          </span>MemberType<span
+style='mso-spacerun:yes'>     </span>Definition</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>----<span style='mso-spacerun:yes'>          </span>----------<span
+style='mso-spacerun:yes'>     </span>----------</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>PSChildName<span style='mso-spacerun:yes'>  
+</span>NoteProperty<span style='mso-spacerun:yes'>   </span>System.String
+PSChildName=demo1.ps1</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>PSDrive<span style='mso-spacerun:yes'>      
+</span>NoteProperty<span style='mso-spacerun:yes'>  
+</span>System.Management.Automation.PSDriveInfo PS...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>PSIsContainer NoteProperty<span style='mso-spacerun:yes'>  
+</span>System.Boolean PSIsContainer=False</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>PSParentPath<span style='mso-spacerun:yes'> 
+</span>NoteProperty<span style='mso-spacerun:yes'>   </span>System.String
+PSParentPath=Microsoft.PowerS...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>PSPath<span style='mso-spacerun:yes'>       
+</span>NoteProperty<span style='mso-spacerun:yes'>   </span>System.String
+PSPath=Microsoft.PowerShell.C...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>PSProvider<span style='mso-spacerun:yes'>   
+</span>NoteProperty<span style='mso-spacerun:yes'>  
+</span>System.Management.Automation.ProviderInfo P...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><b style='mso-bidi-font-weight:normal'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Tipus<span
+style='mso-spacerun:yes'>         </span>NoteProperty<span
+style='mso-spacerun:yes'>   </span>System.String Tipus=File</span><span
+lang=HU><o:p></o:p></span></b></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>BaseName<span style='mso-spacerun:yes'>      </span>ScriptProperty
+System.Object BaseName {get=[System.IO.Path...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Mode<span style='mso-spacerun:yes'>          </span>ScriptProperty
+System.Object Mode {get=$catr = &quot;&quot;;...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>ReparsePoint<span style='mso-spacerun:yes'>  </span>ScriptProperty
+System.Object ReparsePoint {get=if($this.At...</span></span></span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU>Ott látható a listában az általam, a PS1XML fájlon keresztül történt
+típusbővítésnek a nyoma.</span></span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU>Nézzünk még egy példát a </span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>PSBase</span></span><span
+lang=HU> nézet használatára:</span></span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[30] PS C:\&gt; PS C:\&gt; $user = [ADSI]
+&quot;WinNT://$env:computername/$env:username&quot;</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[31] PS C:\&gt; $user.name</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>tibi</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[32] PS C:\&gt; $user | Get-Member</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>   </span>TypeName:
+System.DirectoryServices.DirectoryEntry</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Name<span style='mso-spacerun:yes'>                       
+</span>MemberType Definition</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>----<span style='mso-spacerun:yes'>                       
+</span>---------- ----------</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>ConvertDNWithBinaryToString CodeMethod static string
+ConvertDNWithBinaryToS...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>ConvertLargeIntegerToInt64<span style='mso-spacerun:yes'> 
+</span>CodeMethod static long ConvertLargeIntegerToInt...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>AutoUnlockInterval<span style='mso-spacerun:yes'>         
+</span>Property<span style='mso-spacerun:yes'>  
+</span>System.DirectoryServices.PropertyVal...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>BadPasswordAttempts<span style='mso-spacerun:yes'>        
+</span>Property<span style='mso-spacerun:yes'>  
+</span>System.DirectoryServices.PropertyVal...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Description<span style='mso-spacerun:yes'>                
+</span>Property<span style='mso-spacerun:yes'>  
+</span>System.DirectoryServices.PropertyVal...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>FullName<span style='mso-spacerun:yes'>                   
+</span>Property<span style='mso-spacerun:yes'>  
+</span>System.DirectoryServices.PropertyVal...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>HomeDirDrive<span style='mso-spacerun:yes'>               
+</span>Property<span style='mso-spacerun:yes'>  
+</span>System.DirectoryServices.PropertyVal...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>HomeDirectory<span style='mso-spacerun:yes'>              
+</span>Property<span style='mso-spacerun:yes'>  
+</span>System.DirectoryServices.PropertyVal...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>LastLogin<span style='mso-spacerun:yes'>                  
+</span>Property<span style='mso-spacerun:yes'>  
+</span>System.DirectoryServices.PropertyVal...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>LockoutObservationInterval<span style='mso-spacerun:yes'> 
+</span>Property<span style='mso-spacerun:yes'>  
+</span>System.DirectoryServices.PropertyVal...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>LoginHours<span style='mso-spacerun:yes'>                 
+</span>Property<span style='mso-spacerun:yes'>  
+</span>System.DirectoryServices.PropertyVal...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>LoginScript<span style='mso-spacerun:yes'>                
+</span>Property<span style='mso-spacerun:yes'>  
+</span>System.DirectoryServices.PropertyVal...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>MaxBadPasswordsAllowed<span style='mso-spacerun:yes'>     
+</span>Property<span style='mso-spacerun:yes'>  
+</span>System.DirectoryServices.PropertyVal...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>MaxPasswordAge<span style='mso-spacerun:yes'>             
+</span>Property<span style='mso-spacerun:yes'>  
+</span>System.DirectoryServices.PropertyVal...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>MaxStorage<span style='mso-spacerun:yes'>                 
+</span>Property<span style='mso-spacerun:yes'>  
+</span>System.DirectoryServices.PropertyVal...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>MinPasswordAge<span style='mso-spacerun:yes'>             
+</span>Property<span style='mso-spacerun:yes'>  
+</span>System.DirectoryServices.PropertyVal...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>MinPasswordLength<span style='mso-spacerun:yes'>          
+</span>Property<span style='mso-spacerun:yes'>  
+</span>System.DirectoryServices.PropertyVal...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Name<span style='mso-spacerun:yes'>                       
+</span>Property<span style='mso-spacerun:yes'>  
+</span>System.DirectoryServices.PropertyVal...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>objectSid<span style='mso-spacerun:yes'>                  
+</span>Property<span style='mso-spacerun:yes'>  
+</span>System.DirectoryServices.PropertyVal...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Parameters<span style='mso-spacerun:yes'>                 
+</span>Property<span style='mso-spacerun:yes'>  
+</span>System.DirectoryServices.PropertyVal...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>PasswordAge<span style='mso-spacerun:yes'>                
+</span>Property<span style='mso-spacerun:yes'>  
+</span>System.DirectoryServices.PropertyVal...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>PasswordExpired<span style='mso-spacerun:yes'>            
+</span>Property<span style='mso-spacerun:yes'>  
+</span>System.DirectoryServices.PropertyVal...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>PasswordHistoryLength<span style='mso-spacerun:yes'>      
+</span>Property<span style='mso-spacerun:yes'>  
+</span>System.DirectoryServices.PropertyVal...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>PrimaryGroupID<span style='mso-spacerun:yes'>             
+</span>Property<span style='mso-spacerun:yes'>  
+</span>System.DirectoryServices.PropertyVal...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Profile<span style='mso-spacerun:yes'>                    
+</span>Property<span style='mso-spacerun:yes'>  
+</span>System.DirectoryServices.PropertyVal...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>UserFlags<span style='mso-spacerun:yes'>                  
+</span>Property<span style='mso-spacerun:yes'>  
+</span>System.DirectoryServices.PropertyVal...</span></span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:
+_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:
+_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span lang=HU>Egy helyi
+felhasználót betöltöttem a </span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$user</span></span><span
+lang=HU> nevű változómba, szépen le is tudtam kérdezni a nevét. Majd amikor
+kilistázom a felhasználóm tagjellemzőit, meglepődve láthatjuk, hogy nincs
+köztük igazi, praktikus metódus sem! Márpedig nehezen hihető el, hogy tényleg
+semmi értelmeset nem tud egy felhasználói fiók magával kezdeni. Nézzünk az
+objektumunk mögé:</span></span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[34] PS C:\&gt; $user.psbase | Get-Member</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>   </span>TypeName:
+System.Management.Automation.PSMemberSet</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Name<span style='mso-spacerun:yes'>                     
+</span>MemberType Definition</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>----<span style='mso-spacerun:yes'>                     
+</span>---------- ----------</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Disposed<span style='mso-spacerun:yes'>                 
+</span>Event<span style='mso-spacerun:yes'>      </span>System.EventHandler
+Disposed(System.Ob...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Close<span style='mso-spacerun:yes'>                    
+</span>Method<span style='mso-spacerun:yes'>     </span>System.Void Close()</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>CommitChanges<span style='mso-spacerun:yes'>            
+</span>Method<span style='mso-spacerun:yes'>     </span>System.Void
+CommitChanges()</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>CopyTo<span style='mso-spacerun:yes'>                   
+</span>Method<span style='mso-spacerun:yes'>     </span>adsi CopyTo(adsi
+newParent), adsi Copy...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>CreateObjRef<span style='mso-spacerun:yes'>             
+</span>Method<span style='mso-spacerun:yes'>    
+</span>System.Runtime.Remoting.ObjRef CreateO...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>DeleteTree<span style='mso-spacerun:yes'>               
+</span>Method<span style='mso-spacerun:yes'>     </span>System.Void
+DeleteTree()</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Dispose<span style='mso-spacerun:yes'>                  
+</span>Method<span style='mso-spacerun:yes'>     </span>System.Void Dispose()</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Equals<span style='mso-spacerun:yes'>                   
+</span>Method<span style='mso-spacerun:yes'>     </span>bool
+Equals(System.Object obj)</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>GetHashCode<span style='mso-spacerun:yes'>              
+</span>Method<span style='mso-spacerun:yes'>     </span>int GetHashCode()</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>GetLifetimeService<span style='mso-spacerun:yes'>       
+</span>Method<span style='mso-spacerun:yes'>     </span>System.Object
+GetLifetimeService()</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>GetType<span style='mso-spacerun:yes'>                  
+</span>Method<span style='mso-spacerun:yes'>     </span>type GetType()</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>InitializeLifetimeService Method<span style='mso-spacerun:yes'>    
+</span>System.Object InitializeLifetimeService()</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Invoke<span style='mso-spacerun:yes'>                   
+</span>Method<span style='mso-spacerun:yes'>     </span>System.Object
+Invoke(string methodName...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>InvokeGet<span style='mso-spacerun:yes'>                
+</span>Method<span style='mso-spacerun:yes'>     </span>System.Object
+InvokeGet(string propert...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>InvokeSet<span style='mso-spacerun:yes'>                
+</span>Method<span style='mso-spacerun:yes'>     </span>System.Void
+InvokeSet(string propertyN...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>MoveTo<span style='mso-spacerun:yes'>                   
+</span>Method<span style='mso-spacerun:yes'>     </span>System.Void MoveTo(adsi
+newParent), Sy...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>RefreshCache<span style='mso-spacerun:yes'>             
+</span>Method<span style='mso-spacerun:yes'>     </span>System.Void
+RefreshCache(), System.Voi...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Rename<span style='mso-spacerun:yes'>                   
+</span>Method<span style='mso-spacerun:yes'>     </span>System.Void
+Rename(string newName)</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>ToString<span style='mso-spacerun:yes'>                 
+</span>Method<span style='mso-spacerun:yes'>     </span>string ToString()</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>AuthenticationType<span style='mso-spacerun:yes'>       
+</span>Property<span style='mso-spacerun:yes'>  
+</span>System.DirectoryServices.Authenticatio...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Children<span style='mso-spacerun:yes'>                 
+</span>Property<span style='mso-spacerun:yes'>  
+</span>System.DirectoryServices.DirectoryEntr...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Container<span style='mso-spacerun:yes'>                
+</span>Property<span style='mso-spacerun:yes'>  
+</span>System.ComponentModel.IContainer Conta...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Guid<span style='mso-spacerun:yes'>                     
+</span>Property<span style='mso-spacerun:yes'>   </span>System.Guid Guid {get;}</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Name<span style='mso-spacerun:yes'>                     
+</span>Property<span style='mso-spacerun:yes'>   </span>System.String Name
+{get;}</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>NativeGuid<span style='mso-spacerun:yes'>               
+</span>Property<span style='mso-spacerun:yes'>   </span>System.String
+NativeGuid {get;}</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>NativeObject<span style='mso-spacerun:yes'>             
+</span>Property<span style='mso-spacerun:yes'>   </span>System.Object
+NativeObject {get;}</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>ObjectSecurity<span style='mso-spacerun:yes'>           
+</span>Property<span style='mso-spacerun:yes'>  
+</span>System.DirectoryServices.ActiveDirecto...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Options<span style='mso-spacerun:yes'>                  
+</span>Property<span style='mso-spacerun:yes'>  
+</span>System.DirectoryServices.DirectoryEntr...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Parent<span style='mso-spacerun:yes'>                   
+</span>Property<span style='mso-spacerun:yes'>  
+</span>System.DirectoryServices.DirectoryEntr...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Password<span style='mso-spacerun:yes'>                 
+</span>Property<span style='mso-spacerun:yes'>   </span>System.String Password
+{set;}</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Path<span style='mso-spacerun:yes'>                     
+</span>Property<span style='mso-spacerun:yes'>   </span>System.String Path
+{get;set;}</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Properties<span style='mso-spacerun:yes'>               
+</span>Property<span style='mso-spacerun:yes'>  
+</span>System.DirectoryServices.PropertyColle...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>SchemaClassName<span style='mso-spacerun:yes'>          
+</span>Property<span style='mso-spacerun:yes'>   </span>System.String
+SchemaClassName {get;}</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>SchemaEntry<span style='mso-spacerun:yes'>              
+</span>Property<span style='mso-spacerun:yes'>  
+</span>System.DirectoryServices.DirectoryEntr...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Site<span style='mso-spacerun:yes'>                     
+</span>Property<span style='mso-spacerun:yes'>  
+</span>System.ComponentModel.ISite Site {get;...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>UsePropertyCache<span style='mso-spacerun:yes'>         
+</span>Property<span style='mso-spacerun:yes'>   </span>System.Boolean
+UsePropertyCache {get;s...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Username<span style='mso-spacerun:yes'>                 
+</span>Property<span style='mso-spacerun:yes'>   </span>System.String Username
+{get;set;}</span></span></span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU>Hoppá! Mindjárt más a helyzet. A metódusok zöme természetesen
+tartományi környezetben használható, de például a </span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>rename()</span></span><span
+lang=HU> vagy a </span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>set_password()</span></span><span
+lang=HU> metódus helyi gépen is praktikus szolgáltatás.</span></span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Ref318836703'><span
+style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU>Vajon ezek a metódusok miért nincsenek alaphelyzetben adaptálva a
+PowerShell környezetre? Erre az igazi választ nem tudom, valószínű ez egy
+biztonsági megfontolás volt, hogy a szkriptelők ne írogassanak felelőtlenül
+olyan szkripteket, amelyekkel a felhasználói objektumokat módosítanak. Vagy az
+is lehet a magyarázat, hogy egy másik interfészt szánt volna igazából a
+Microsoft a felhasználó menedzsment céljaira, amin keresztül módosítani
+lehetett volna, de ez a PowerShell aktuális verziójába már nem fért bele.</span></span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:double windowtext 5.25pt;
+border-bottom:none;mso-border-top-alt:thin-thick-large-gap windowtext 5.25pt;
+mso-border-left-alt:thin-thick-large-gap windowtext 5.25pt;mso-border-right-alt:
+thin-thick-large-gap windowtext 5.25pt;padding:1.0pt 4.0pt 0cm 4.0pt;
+background:#C6D9F1;mso-background-themecolor:text2;mso-background-themetint:
+51;margin-left:14.2pt;margin-right:14.2pt'>
+
+<p class=Megjegyzs style='margin-top:12.0pt;margin-right:0cm;margin-bottom:
+0cm;margin-left:0cm;margin-bottom:.0001pt;mso-add-space:auto;background:#C6D9F1;
+mso-background-themecolor:text2;mso-background-themetint:51'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Megjegyzése</span></span></span></span></span></span></p>
+
+</div>
+
+<div style='mso-element:para-border-div;border-top:none;border-left:double windowtext 5.25pt;
+border-bottom:none;border-right:double windowtext 5.25pt;mso-border-left-alt:
+thin-thick-large-gap windowtext 5.25pt;mso-border-right-alt:thin-thick-large-gap windowtext 5.25pt;
+padding:0cm 4.0pt 0cm 4.0pt;margin-left:14.2pt;margin-right:14.2pt'>
+
+<p class=Megj-nyitott style='margin-top:0.0pt;margin-right:0cm;margin-bottom:
+0cm;margin-left:0cm;margin-bottom:.0001pt;mso-add-space:auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU>A PowerShell 2.0-ban már a </span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Get-Member</span></span><span
+lang=HU> is tud az objektumok mögé látni, azaz a [34]-es sor eredményét így is
+megkaphatjuk:</span></span></span></span></span></span></p>
+
+</div>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=Kd style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>PS C:\&gt; $user | Get-Member -View base</span></span></span></span></span></span></p>
+
+</div>
+
+<div style='mso-element:para-border-div;border-top:none;border-left:double windowtext 5.25pt;
+border-bottom:none;border-right:double windowtext 5.25pt;mso-border-left-alt:
+thin-thick-large-gap windowtext 5.25pt;mso-border-right-alt:thin-thick-large-gap windowtext 5.25pt;
+padding:0cm 4.0pt 0cm 4.0pt;margin-left:14.2pt;margin-right:14.2pt'>
+
+<p class=Megj-nyitottCxSpFirst style='margin-top:0.0pt;margin-right:0cm;
+margin-bottom:0cm;margin-left:0cm;margin-bottom:.0001pt;mso-add-space:auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU>Hasonlóan megkaphatjuk a
+további nézeteket a </span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>–View</span></span><span
+lang=HU> paraméterhez megadott </span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Extended</span></span><span
+lang=HU>, </span></span></span></span></span></span><span style='mso-bookmark:
+_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:
+_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:
+_Toc197149224'><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>Adapted</span></span><span lang=HU> vagy </span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>All</span></span><span lang=HU>
+szavakkal.</span></span></span></span></span></span></p>
+
+<p class=Megj-nyitottCxSpLast style='margin-top:0.0pt;margin-right:0cm;
+margin-bottom:0cm;margin-left:0cm;margin-bottom:.0001pt;mso-add-space:auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU>Illetve maga a </span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>PSBase</span></span><span
+lang=HU> és </span></span></span></span></span></span><span style='mso-bookmark:
+_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:
+_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:
+_Toc197149224'><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>PSExtended</span></span><span lang=HU>, stb.
+„tulajdonságokat” a </span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>get-member –force</span></span><span
+lang=HU> kapcsolójával tudjuk láttatni:</span></span></span></span></span></span></p>
+
+</div>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>PS C:\&gt; 1 | Get-Member -Force</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>   </span>TypeName: System.Int32</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Name<span style='mso-spacerun:yes'>        </span>MemberType<span
+style='mso-spacerun:yes'>   </span>Definition</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>----<span style='mso-spacerun:yes'>        </span>----------<span
+style='mso-spacerun:yes'>   </span>----------</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><b style='mso-bidi-font-weight:normal'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>pstypenames</span></b><span
+lang=HU style='color:black;mso-color-alt:windowtext'> CodeProperty
+System.Collections.ObjectModel.Collection`1[[Syste...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><b style='mso-bidi-font-weight:normal'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>psadapted<span
+style='mso-spacerun:yes'>  </span></span></b><span lang=HU style='color:black;
+mso-color-alt:windowtext'><span style='mso-spacerun:yes'> </span>MemberSet<span
+style='mso-spacerun:yes'>    </span>psadapted {CompareTo, Equals, GetHashCode,
+ToStrin...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><b style='mso-bidi-font-weight:normal'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>psbase<span
+style='mso-spacerun:yes'>     </span></span></b><span lang=HU style='color:
+black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'> </span>MemberSet<span style='mso-spacerun:yes'>   
+</span>psbase {CompareTo, Equals, GetHashCode, ToString, ...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><b style='mso-bidi-font-weight:normal'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>psextended </span></b><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'> </span>MemberSet<span style='mso-spacerun:yes'>   
+</span>psextended {}</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><b style='mso-bidi-font-weight:normal'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>psobject<span
+style='mso-spacerun:yes'>   </span></span></b><span lang=HU style='color:black;
+mso-color-alt:windowtext'><span style='mso-spacerun:yes'> </span>MemberSet<span
+style='mso-spacerun:yes'>    </span>psobject {Members, Properties, Methods,
+ImmediateB...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>CompareTo<span style='mso-spacerun:yes'>   </span>Method<span
+style='mso-spacerun:yes'>       </span>int CompareTo(System.Object value), int
+CompareTo(...</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Equals<span style='mso-spacerun:yes'>      </span>Method<span
+style='mso-spacerun:yes'>       </span>bool Equals(System.Object obj), bool
+Equals(int obj)</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>GetHashCode Method<span style='mso-spacerun:yes'>       </span>int
+GetHashCode()</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>GetType<span style='mso-spacerun:yes'>     </span>Method<span
+style='mso-spacerun:yes'>       </span>type GetType()</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>GetTypeCode Method<span style='mso-spacerun:yes'>      
+</span>System.TypeCode GetTypeCode()</span></span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>ToString<span style='mso-spacerun:yes'>    </span>Method<span
+style='mso-spacerun:yes'>       </span>string ToString(), string
+ToString(string format),...</span></span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:
+_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:
+_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span lang=HU>Utoljára
+nézzük a </span></span></span></span></span></span><span style='mso-bookmark:
+_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span style='mso-bookmark:
+_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:
+_Toc197149224'><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>PSObject</span></span><span lang=HU> nézetet. Vegyünk
+például megint egy fájlt, és nézzük meg tulajdonságait:</span></span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[1] PS C:\&gt; $f = Get-Item C:\munka\a.txt</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[2] PS C:\&gt; $f</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>Directory: C:\munka</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Mode<span style='mso-spacerun:yes'>               
+</span>LastWriteTime<span style='mso-spacerun:yes'>     </span>Length Name</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>----<span style='mso-spacerun:yes'>               
+</span>-------------<span style='mso-spacerun:yes'>     </span>------ ----</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>-a---<span style='mso-spacerun:yes'>     </span>2010. 01. 16.<span
+style='mso-spacerun:yes'>     </span>10:59<span
+style='mso-spacerun:yes'>        </span>402 a.txt</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[3] PS C:\&gt; $f.psobject</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Members<span style='mso-spacerun:yes'>             </span>:
+{System.String PSPath=Microsoft.PowerShell.Core\FileSyst</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                     
+</span>em::C:\munka\a.txt, System.String PSParentPath=Microsoft</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                     
+</span>.PowerShell.Core\FileSystem::C:\munka, System.String PSC</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                     
+</span>hildName=a.txt, System.Management.Automation.PSDriveInfo</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                      
+</span>PSDrive=C...}</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Properties<span style='mso-spacerun:yes'>          </span>:
+{System.String PSPath=Microsoft.PowerShell.Core\FileSyst</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                     
+</span>em::C:\munka\a.txt, System.String PSParentPath=Microsoft</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                     
+</span>.PowerShell.Core\FileSystem::C:\munka, System.String PSC</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                     
+</span>hildName=a.txt, System.Management.Automation.PSDriveInfo</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                      
+</span>PSDrive=C...}</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Methods<span style='mso-spacerun:yes'>             </span>: {string
+get_Name(), long get_Length(), string get_Direct</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                     
+</span>oryName(), System.IO.DirectoryInfo get_Directory()...}</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>ImmediateBaseObject : C:\munka\a.txt</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>BaseObject<span style='mso-spacerun:yes'>          </span>:
+C:\munka\a.txt</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>TypeNames<span style='mso-spacerun:yes'>           </span>:
+{System.IO.FileInfo, System.IO.FileSystemInfo, System.Ma</span></span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                     
+</span>rshalByRefObject, System.Object}</span></span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:
+_Ref318836697'><span style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:
+_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span lang=HU>Látható a
+[2]-es sorban, hogy az </span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$f</span></span><span lang=HU>
+változóban tényleg a fájl van, míg a [3]-as sorban a </span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>PSObject</span></span><span
+lang=HU> nézete ennek az objektumnak már nem a fájl jelleget adja vissza, hanem
+általában egy PowerShellbeli objektum jellegzetességeit, azaz hogy az
+objektumnak vannak tagjellemzői, tulajdonságai, metódusai. A </span></span></span></span></span></span><span
+style='mso-bookmark:_Ref318836703'><span style='mso-bookmark:_Ref318836697'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>TypeNames</span></span><span
+lang=HU> tulajdonságból kiolvasható, hogy az objektum milyen osztályok
+leszármazottja.</span></span></span></span></span></span></p>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

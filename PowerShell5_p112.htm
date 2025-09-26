@@ -1,0 +1,770 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>Kiírás fájlba (Out-File, Export-)</title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><a name="_Toc179036945"></a><a
+name="_Toc197149221"></a><a name="_Ref206126494"></a><a name="_Ref206126508"></a><a
+name="_Toc204716241"></a><a name="_Toc209115784"><span style='mso-bookmark:
+_Toc204716241'><span style='mso-bookmark:_Ref206126508'><span style='mso-bookmark:
+_Ref206126494'><span style='mso-bookmark:_Toc197149221'><span style='mso-bookmark:
+_Toc179036945'>
+<span
+lang=HU>Kiírás fájlba (Out-File, Export-)</span></span></span></span></span></span></a></h3>
+
+<p class=SzvegCxSpFirst><span lang=HU>Alapértelmezés szerint a PowerShell
+parancsok kimenete (vagyis a kimenetként kapott objektumok szöveges
+reprezentációja) a konzolablakban jelenik meg. A szöveges kimenet fájlba
+irányítását az </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>Out-File</span></span>
+
+<b
+style='mso-bidi-font-weight:normal'><span lang=HU><span
+style='mso-spacerun:yes'> </span></span></b><span lang=HU>és a<b
+style='mso-bidi-font-weight:normal'> </b></span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>Set-Content</span></span>
+
+<span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdlet segítségével végezhetjük el, amelyek
+paramétereként a létrehozandó fájl nevét kell megadnunk. Az </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Export-Csv</span></span>
+
+<span lang=HU><span
+style='mso-spacerun:yes'> </span>és az </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>Export-CliXML</span></span>
+
+<span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdletek nevükhöz méltóan csv, illetve xml
+formátumban írják fájlba a bemenetül kapott objektumok adatait.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>Példaként készítsünk szövegfájlt, csv és
+xml fájlt a c: meghajtó mappalistájából! A megoldás mindhárom esetben nagyon
+egyszerű, viszont az eredmény a formátumon túl, a további felhasználhatóság
+szempontjából is lényegesen különbözik egymástól.</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=Kd style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Get-ChildItem |
+Out-File c:\dir.txt</span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span lang=HU>Ebben az esetben a fájlba csak az kerül,
+amit az eredeti parancs a képernyőre írt volna. Ha a fájlt visszaolvassuk (</span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Get-Content</span></span>
+
+<span lang=HU>),
+az eredeti kimenet sorainak megfelelő karakterláncokat kapunk.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>A kimeneti fájlban - alaphelyzetben - 80
+karakter szélességűre tördelt sorokat kapunk, ha ennél szélesebb sorokat szeretnénk,
+akkor használjuk a </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>–width</span></span><span
+lang=HU> paramétert.</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[27] PS
+C:\&gt;Get-ChildItem c:\old | ft -property * -auto | Out-File c:\old\di</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+tab-stops:298.2pt;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>r2.txt -Width 800<span
+style='mso-tab-count:1'>                               </span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span lang=HU>A fenti példában a fájllistámat
+táblázatos formában akarom kirakni egy szöveges állományba, de az összes
+tulajdonsággal. Ez jó széles táblázatot eredményez, így az </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>out-file</span></span><span
+lang=HU>-nál egy brutálisan széles sorméretet adok meg lehetséges értéknek. De
+hogy feleslegesen ne terpeszkedjen szét a táblázatom, ezért használtam a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>format-table</span></span><span
+lang=HU> cmdletnél az </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>–auto</span></span><span
+lang=HU> kapcsolót, mert ez olyan sűrűn teszi az oszlopokat, amilyen sűrűn
+adatvesztés nélkül lehet. Így tehát kaptam egy optimális szélességű szöveget,
+amely ténylegesen csak 399 karakter széles lett, azaz nem kellett kihasználni a
+800 karakteres maximumot.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>Nézzük meg, hogy még milyen formátumokba
+tudjuk kitenni fájlba az outputot. A következő a csv formátum, ami táblázatos
+forma:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=Kd style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Get-ChildItem |
+Export-Csv c:\dir.csv</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Ha belenézünk az eredményül kapott csv fájlba
+(Notepad, vagy Excel is jó), akkor örömmel láthatjuk, hogy ebben az esetben az
+objektumok minden tulajdonsága belekerült a kimenetbe, sőt a fejlécben még a
+típus megnevezése is megtalálható. Van egy </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>Import-Csv</span></span>
+
+<span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdletünk is, ami a fájlt visszaolvasva újra
+létrehozza az eredeti objektumot, jobban mondva egy ahhoz hasonló objektumot. Próbáljuk
+is ki:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Import-Csv
+c:\dir.csv</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PSPath<span
+style='mso-spacerun:yes'>            </span>:
+Microsoft.PowerShell.Core\FileSystem::C:\Config.Msi</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PSParentPath<span
+style='mso-spacerun:yes'>      </span>:
+Microsoft.PowerShell.Core\FileSystem::C:\</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PSChildName<span
+style='mso-spacerun:yes'>       </span>: Config.Msi</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PSDrive<span
+style='mso-spacerun:yes'>           </span>: C</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PSProvider<span
+style='mso-spacerun:yes'>        </span>: Microsoft.PowerShell.Core\FileSystem</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PSIsContainer<span
+style='mso-spacerun:yes'>     </span>: True</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Mode<span
+style='mso-spacerun:yes'>              </span>: d----</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Az eredmény érdekesen néz ki, viszont sajnos nem
+hasonlít túlságosan az eredeti mappalistára. Egy </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Get-Member</span></span><span
+lang=HU> hívás segítségével megtudhatjuk, hogy mi is történt az adatainkkal:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Import-Csv
+c:\dir.csv | get-member</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>   </span>TypeName: CSV:System.IO.DirectoryInfo</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>              </span>MemberType<span
+style='mso-spacerun:yes'>   </span>Definition</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>              </span>----------<span
+style='mso-spacerun:yes'>   </span>----------</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Equals<span
+style='mso-spacerun:yes'>            </span>Method<span
+style='mso-spacerun:yes'>       </span>System.Boolean Equals(Object obj)</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>GetHashCode<span
+style='mso-spacerun:yes'>       </span>Method<span
+style='mso-spacerun:yes'>       </span>System.Int32 GetHashCode()</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>GetType<span
+style='mso-spacerun:yes'>           </span>Method<span
+style='mso-spacerun:yes'>       </span>System.Type GetType()</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ToString<span
+style='mso-spacerun:yes'>          </span>Method<span
+style='mso-spacerun:yes'>       </span>System.String ToString()</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Attributes<span
+style='mso-spacerun:yes'>        </span>NoteProperty System.String
+Attributes=Directory</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>CreationTime<span
+style='mso-spacerun:yes'>      </span>NoteProperty System.String
+CreationTime=2006.11.15. 8...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>CreationTimeUtc<span
+style='mso-spacerun:yes'>   </span>NoteProperty System.String
+CreationTimeUtc=2006.11.15...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Exists<span
+style='mso-spacerun:yes'>            </span>NoteProperty System.String
+Exists=True</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Extension<span
+style='mso-spacerun:yes'>         </span>NoteProperty System.String Extension=</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>FullName<span
+style='mso-spacerun:yes'>          </span>NoteProperty System.String
+FullName=C:\752e9949d08195...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>LastAccessTime<span
+style='mso-spacerun:yes'>    </span>NoteProperty System.String
+LastAccessTime=2007.07.06....</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>...</span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span lang=HU>Látható, hogy nem az igazi </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>DirectoryInfo</span></span><span
+lang=HU> típust kaptuk vissza (ráadásul a </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>FileInfo</span></span><span
+lang=HU> típus teljesen eltűnt), hanem csak valamiféle pótlékot, az eredeti
+objektum leegyszerűsített változatát, amelynek nincsenek metódusai (csak
+amelyek az </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>Object</span></span><span lang=HU> osztályból öröklődnek,
+ezekkel minden objektum rendelkezik), tulajdonságai pedig elvesztették eredeti
+típusukat. Minden tulajdonságérték megvan ugyan, de csak karakterláncként, az
+eredeti típusinformáció tárolására a csv formátum nem képes.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>Ha kevesebb információvesztéssel
+szeretnénk tárolni és visszaolvasni objektumainkat, akkor az xml formátumot
+kell választanunk.</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=Kd style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Get-ChildItem |
+Export-CliXML c:\dir.xml</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Az xml fájl mérete közel tízszerese a csv-nek, de
+ebből pontosan az eredeti adathalmaz tulajdonságai olvashatók vissza,
+mindenféle veszteség, vagy torzulás nélkül. Ilyen módon tehát tetszőleges .NET
+objektum, gyűjtemény, akármi teljes tartalmát lemezre menthetjük, és később, a
+fájlt egyetlen paranccsal visszaolvasva helyreállíthatjuk az eredeti objektumot
+(a Mode oszlop azért hiányzik, mert az eredeti .NET objektumnak sincs ilyen
+tulajdonsága, ezt csak a PowerShell hazudja oda). Nem rossz!</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Import-CliXML
+c:\dir.xml</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>Directory:
+Microsoft.PowerShell.Core\FileSystem::C:\</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Mode<span
+style='mso-spacerun:yes'>                </span>LastWriteTime<span
+style='mso-spacerun:yes'>     </span>Length Name</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>                </span>-------------<span
+style='mso-spacerun:yes'>     </span>------ ----</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>            </span>2007.06.10.<span
+style='mso-spacerun:yes'>     </span>12:41<span
+style='mso-spacerun:yes'>            </span>Config.Msi</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>            </span>2007.06.13.<span
+style='mso-spacerun:yes'>     </span>21:30<span
+style='mso-spacerun:yes'>            </span>Documents and Settings</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>            </span>2003.10.25.<span
+style='mso-spacerun:yes'>     </span>18:59<span
+style='mso-spacerun:yes'>            </span>Inetpub</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>            </span>2007.06.04.<span
+style='mso-spacerun:yes'>     </span>20:36<span
+style='mso-spacerun:yes'>            </span>Program Files</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Azért egy kis csalás itt is van. Ha megnézzük </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>get-member</span></span><span
+lang=HU>-rel, hogy mit is kaptunk, akkor kiderül, hogy itt sem ugyanolyan
+objektumtípust kaptunk vissza, például a metódusokat ez is elveszítette:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[13] PS
+C:\old&gt;import-clixml C:\dir.xml | gm</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>   </span>TypeName:
+Deserialized.System.IO.DirectoryInfo</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>              </span>MemberType<span
+style='mso-spacerun:yes'>   </span>Definition</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>              </span>----------<span
+style='mso-spacerun:yes'>   </span>----------</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PSChildName<span
+style='mso-spacerun:yes'>       </span>NoteProperty System.String
+PSChildName=alfolder</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PSDrive<span
+style='mso-spacerun:yes'>           </span>NoteProperty
+System.Management.Automation.PSObject PSD...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PSIsContainer<span
+style='mso-spacerun:yes'>     </span>NoteProperty System.Boolean
+PSIsContainer=True</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PSParentPath<span
+style='mso-spacerun:yes'>      </span>NoteProperty System.String
+PSParentPath=Microsoft.Powe...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PSPath<span
+style='mso-spacerun:yes'>            </span>NoteProperty System.String
+PSPath=Microsoft.PowerShell...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PSProvider<span
+style='mso-spacerun:yes'>        </span>NoteProperty
+System.Management.Automation.PSObject PSP...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Attributes<span
+style='mso-spacerun:yes'>        </span>Property<span
+style='mso-spacerun:yes'>     </span>System.String {get;set;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>CreationTime<span
+style='mso-spacerun:yes'>      </span>Property<span
+style='mso-spacerun:yes'>     </span>System.DateTime {get;set;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>CreationTimeUtc<span
+style='mso-spacerun:yes'>   </span>Property<span style='mso-spacerun:yes'>    
+</span>System.DateTime {get;set;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Exists<span
+style='mso-spacerun:yes'>            </span>Property<span
+style='mso-spacerun:yes'>     </span>System.Boolean {get;set;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Extension<span
+style='mso-spacerun:yes'>         </span>Property<span
+style='mso-spacerun:yes'>     </span>System.String {get;set;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>FullName<span
+style='mso-spacerun:yes'>          </span>Property<span
+style='mso-spacerun:yes'>     </span>System.String {get;set;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>LastAccessTime<span
+style='mso-spacerun:yes'>    </span>Property<span style='mso-spacerun:yes'>    
+</span>System.DateTime {get;set;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>LastAccessTimeUtc
+Property<span style='mso-spacerun:yes'>     </span>System.DateTime {get;set;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>LastWriteTime<span
+style='mso-spacerun:yes'>     </span>Property<span
+style='mso-spacerun:yes'>     </span>System.DateTime {get;set;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>LastWriteTimeUtc<span
+style='mso-spacerun:yes'>  </span>Property<span style='mso-spacerun:yes'>    
+</span>System.DateTime {get;set;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>              </span>Property<span
+style='mso-spacerun:yes'>     </span>System.String {get;set;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Parent<span
+style='mso-spacerun:yes'>            </span>Property<span
+style='mso-spacerun:yes'>     </span>System.String {get;set;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Root<span
+style='mso-spacerun:yes'>              </span>Property<span
+style='mso-spacerun:yes'>     </span>System.String {get;set;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>   </span>TypeName: Deserialized.System.IO.FileInfo</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>              </span>MemberType<span
+style='mso-spacerun:yes'>   </span>Definition</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>              </span>----------<span
+style='mso-spacerun:yes'>   </span>----------</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PSChildName<span
+style='mso-spacerun:yes'>       </span>NoteProperty System.String
+PSChildName=alice.txt</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PSDrive<span
+style='mso-spacerun:yes'>           </span>NoteProperty
+System.Management.Automation.PSObject PSD...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PSIsContainer<span
+style='mso-spacerun:yes'>     </span>NoteProperty System.Boolean
+PSIsContainer=False</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PSParentPath<span
+style='mso-spacerun:yes'>      </span>NoteProperty System.String
+PSParentPath=Microsoft.Powe...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PSPath<span
+style='mso-spacerun:yes'>            </span>NoteProperty System.String
+PSPath=Microsoft.PowerShell...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PSProvider<span
+style='mso-spacerun:yes'>        </span>NoteProperty
+System.Management.Automation.PSObject PSP...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Attributes<span
+style='mso-spacerun:yes'>        </span>Property<span
+style='mso-spacerun:yes'>     </span>System.String {get;set;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>CreationTime<span
+style='mso-spacerun:yes'>      </span>Property<span
+style='mso-spacerun:yes'>     </span>System.DateTime {get;set;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>CreationTimeUtc<span
+style='mso-spacerun:yes'>   </span>Property<span style='mso-spacerun:yes'>    
+</span>System.DateTime {get;set;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Directory<span
+style='mso-spacerun:yes'>         </span>Property<span
+style='mso-spacerun:yes'>     </span>System.String {get;set;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>DirectoryName<span
+style='mso-spacerun:yes'>     </span>Property<span
+style='mso-spacerun:yes'>     </span>System.String {get;set;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Exists<span
+style='mso-spacerun:yes'>            </span>Property<span
+style='mso-spacerun:yes'>     </span>System.Boolean {get;set;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Extension<span
+style='mso-spacerun:yes'>         </span>Property<span
+style='mso-spacerun:yes'>     </span>System.String {get;set;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>FullName<span
+style='mso-spacerun:yes'>          </span>Property<span
+style='mso-spacerun:yes'>     </span>System.String {get;set;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>IsReadOnly<span
+style='mso-spacerun:yes'>        </span>Property<span
+style='mso-spacerun:yes'>     </span>System.Boolean {get;set;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>LastAccessTime<span
+style='mso-spacerun:yes'>    </span>Property<span style='mso-spacerun:yes'>    
+</span>System.DateTime {get;set;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>LastAccessTimeUtc
+Property<span style='mso-spacerun:yes'>     </span>System.DateTime {get;set;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>LastWriteTime<span
+style='mso-spacerun:yes'>     </span>Property<span
+style='mso-spacerun:yes'>     </span>System.DateTime {get;set;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>LastWriteTimeUtc<span
+style='mso-spacerun:yes'>  </span>Property<span style='mso-spacerun:yes'>    
+</span>System.DateTime {get;set;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Length<span
+style='mso-spacerun:yes'>            </span>Property<span
+style='mso-spacerun:yes'>     </span>System.Int64 {get;set;}</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>              </span>Property<span
+style='mso-spacerun:yes'>     </span>System.String {get;set;}</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Azaz az </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>Export-CliXML</span></span><span
+lang=HU> és </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>Import-CliXML</span></span><span lang=HU> párossal az
+objektumot tulajdonságai megőrződnek, ugyanúgy felhasználhatjuk ezeket
+műveletek végzésére, mint az eredeti objektumok tulajdonságait, viszont a
+metódusok elvesztek, ha azokra is szükségünk lenne, akkor sajnos azon
+melegében, még exportálás előtt meg kell hívnunk ezeket.</span></p>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

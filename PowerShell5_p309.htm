@@ -1,0 +1,567 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>2.25.11 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><a name="_Toc204716482"></a><a
+name="_Toc209116025"><span style='mso-bookmark:_Toc204716482'>
+<span lang=HU>Web
+tanúsítványának ellenőrzése távolról</span></span></a></span></span></span></span></h3>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:
+_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:
+_Toc189542109'><span lang=HU>Az alábbi függvény jó példa arra, hogyan lehet
+ügyesen több .NET osztály együttműködésével összetett feladatot végrehajtani.
+Itt egy tetszőleges URL-en található titkosított weboldal tanúsítványát lehet
+ellenőrizni, akár abban az esetben is, ha a tanúsítvány valami miatt nem
+érvényes: például lejárt, vagy nem egyezik az URL-ben található név a
+tanúsítványban felsorolt nevekkel:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:darkblue'>function</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> Check-WebCertificate{</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:darkblue'>param</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>(</span><span lang=HU
+style='color:darkgray'>[</span><span lang=HU style='color:teal'>string</span><span
+lang=HU style='color:darkgray'>]</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:orangered'>$url</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>)</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span></span><span lang=HU
+style='color:orangered'>$timeoutMilliseconds</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:purple'>10000</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span></span><span lang=HU
+style='color:darkgray'>[</span><span lang=HU style='color:teal'>Net.ServicePointManager</span><span
+lang=HU style='color:darkgray'>]::</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>ServerCertificateValidationCallback </span><span
+lang=HU style='color:darkgray'>=</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> {</span><span lang=HU style='color:orangered'>$true</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>}</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span></span><span lang=HU
+style='color:orangered'>$req</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>[</span><span lang=HU style='color:teal'>Net.HttpWebRequest</span><span
+lang=HU style='color:darkgray'>]::</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>Create(</span><span lang=HU style='color:orangered'>$url</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>)</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span></span><span lang=HU
+style='color:orangered'>$req</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Timeout </span><span
+lang=HU style='color:darkgray'>=</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:orangered'>$timeoutMilliseconds</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span></span><span lang=HU
+style='color:darkblue'>try</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> {</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span></span><span lang=HU
+style='color:darkgray'>[</span><span lang=HU style='color:teal'>void</span><span
+lang=HU style='color:darkgray'>]</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:orangered'>$req</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>GetResponse()</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>} </span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span></span><span lang=HU
+style='color:darkblue'>catch</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> {</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span></span><span lang=HU
+style='color:blue'>Write-Error</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:orangered'>$_</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>exception</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>innerexception</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>message</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>}</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span></span><span lang=HU
+style='color:darkblue'>if</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>(</span><span lang=HU style='color:orangered'>$req</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>ServicePoint</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Certificate){</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span></span><span lang=HU
+style='color:orangered'>$Cert</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>[</span><span lang=HU style='color:teal'>Security.Cryptography.X509Certificates.X509Certificate2</span><span
+lang=HU style='color:darkgray'>]</span><span lang=HU style='color:orangered'>$req</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>ServicePoint</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Certificate</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>Handle</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span></span><span lang=HU
+style='color:darkblue'>try</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> {</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>            </span></span><span
+lang=HU style='color:orangered'>$SAN</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> (</span><span lang=HU
+style='color:orangered'>$Cert</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Extensions </span><span
+lang=HU style='color:darkgray'>|</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:blue'>Where-Object</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> {</span><span lang=HU
+style='color:orangered'>$_</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Oid</span><span lang=HU
+style='color:darkgray'>.</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Value </span><span lang=HU style='color:darkgray'>-eq</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkred'>&quot;2.5.29.17&quot;</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'>})</span><span lang=HU
+style='color:darkgray'>.</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Format(</span><span lang=HU style='color:orangered'>$true</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>) </span><span lang=HU
+style='color:darkgray'>-replace</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkred'>&quot;DNS
+Name=&quot;</span><span lang=HU style='color:darkgray'>,</span><span lang=HU
+style='color:darkred'>&quot;&quot;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span>}</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span></span><span lang=HU
+style='color:darkblue'>catch</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> {</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>            </span></span><span
+lang=HU style='color:orangered'>$SAN</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$null</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span>}</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span></span><span lang=HU
+style='color:orangered'>$expiration</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$cert</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>NotAfter</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span></span><span lang=HU
+style='color:orangered'>$result</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> @{</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>            </span>ExpiresInDays </span><span
+lang=HU style='color:darkgray'>=</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> (</span><span lang=HU style='color:orangered'>$expiration</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>-</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> (</span><span lang=HU style='color:blue'>get-date</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>))</span><span lang=HU
+style='color:darkgray'>.</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>TotalDays</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>            </span>Expiration </span><span
+lang=HU style='color:darkgray'>=</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:orangered'>$expiration</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>            </span>Name </span><span
+lang=HU style='color:darkgray'>=</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:orangered'>$req</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>ServicePoint</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Certificate</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>GetName()</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>            </span>Issuer </span><span
+lang=HU style='color:darkgray'>=</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:orangered'>$cert</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>Issuer</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>            </span>Subject </span><span
+lang=HU style='color:darkgray'>=</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:orangered'>$cert</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>Subject</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>            </span>SAN </span><span
+lang=HU style='color:darkgray'>=</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:orangered'>$SAN</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span>}</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>}</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span></span><span lang=HU
+style='color:blue'>New-Object</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:navy'>-TypeName</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> PSObject </span><span
+lang=HU style='color:navy'>-Property</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:orangered'>$result</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>} </span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:
+_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:
+_Toc189542109'><span lang=HU>Nézzük, mit eredményez ez, ha futtatjuk:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt;
+Check-WebCertificate -url https://msdn.microsoft.com</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>          </span>: CN=msdn.microsoft.com</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Expiration<span
+style='mso-spacerun:yes'>    </span>: 2016.08.21. 19:22:07</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ExpiresInDays :
+262,888992282201</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Issuer<span
+style='mso-spacerun:yes'>        </span>: CN=Microsoft IT SSL SHA2,
+OU=Microsoft IT, O=Microsoft Corporation, L=Redmond, S=Washington, C=US</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Subject<span
+style='mso-spacerun:yes'>       </span>: CN=msdn.microsoft.com</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SAN<span
+style='mso-spacerun:yes'>           </span>: msdn.microsoft.com</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                </span>server1.msdn.microsoft.com</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                </span>server2.msdn.microsoft.com</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                </span>server3.msdn.microsoft.com</span></span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU>Látható, hogy legfontosabb
+adatokat sikerült a tanúsítványról megszerezni egy </span></span></span></span></span><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Net.HttpWebRequest</span></span><span
+lang=HU> hívás során. Itt most minket nem az „igazi” válasz érdekel minket, azt
+elnyomom a </span></span></span></span></span><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>GetResponse</span></span><span
+lang=HU> hívás </span></span></span></span></span><span style='mso-bookmark:
+_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:
+_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>try</span></span><span
+lang=HU> blokkjában. Hanem a válasz körülményei érdekelnek, amik a </span></span></span></span></span><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$req</span></span><span
+lang=HU> objektum tulajdonságaiban vannak, többek között a tanúsítvány is.
+Ahhoz, hogy bármilyen eredményre jussunk egy rossz tanúsítvány esetében is, a </span></span></span></span></span><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>[Net.ServicePointManager]::ServerCertificateValidationCallback</span></span><span
+lang=HU> statikus tulajdonságnak egy fix „zöld jelzést” adó </span></span></span></span></span><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>{$true}</span></span><span
+lang=HU> szkriptblokkot adunk.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU>Ugyan a tanúsítvány a </span></span></span></span></span><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$req.ServicePoint.Certificate</span></span><span
+lang=HU> tulajdonságban is benne van, ez csak egy minimálverziós tanúsítvány,
+aminek nincs meg a számunkra fontos minden tulajdonsága. Így ennek a handle
+tulajdonságának felhasználásával egy teljes értékű tanúsítványt készítünk a </span></span></span></span></span><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$cert</span></span><span
+lang=HU> változóba, ahonnan már minden számunkra fontos információ kiolvasható,
+amiből egy egyedi objektumot készítek.</span></span></span></span></span></p>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

@@ -1,0 +1,443 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>1.8.14 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><a name="_Toc179036946"></a><a
+name="_Toc197149222"></a><a name="_Toc204716242"></a><a name="_Toc209115785"><span
+style='mso-bookmark:_Toc204716242'><span style='mso-bookmark:_Toc197149222'><span
+style='mso-bookmark:_Toc179036946'>
+<span lang=HU>Egyéni
+objektumok létrehozása CSV adatokból (ConvertFrom-CSV)</span></span></span></span></a><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'></span></span></h3>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:
+_Toc179036946'><span lang=HU>Gyakran előfordul, hogy teljesen egyedi adataink
+vannak, amelyek még csak nem is hasonlítanak a PowerShell, de még csak a .NET
+által használt típusokhoz sem, viszont ha tudnánk belőlük speciális típusú
+objektumokat létrehozni, akkor fel tudjuk használni kezelésükre a számos
+PowerShell cmdletet. Nézzünk például egy egyszerű futóverseny eredménylistáját,
+az lenne a feladat, hogy állapítsuk meg az első három helyezettet. Legyen a
+kiinduló adatunk egy CSV formátumú fájlban:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[76] PS C:\&gt;
+Get-Content C:\munka\futók.txt</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Név, Idő</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Béla, 5:12</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Dezső, 5:37</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Karcsi, 5:36</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Marci, 5:49</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Tódor, 5:25</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Tibi, 4:45</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Gabi, 5:18</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Andris, 4:52</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Bence, 4:48</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:
+_Toc179036946'><span lang=HU><span style='mso-spacerun:yes'> </span>Nem csalás,
+nem ámítás, ez tényleg egy csv formátumú fájl. Ez soronként egy-egy sztring,
+ebből szövegként kibányászni az idő paramétert elég nehéz lehet. Szerencsére
+erre nincs szükség, mert van nekünk egy </span></span></span><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>ConvertFrom-Csv</span></span></span></span>
+<span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'></span></span>
+<span style='mso-bookmark:
+_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdletünk, ami pont az átalakítást elvégzi:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[77] PS C:\&gt;
+Get-Content C:\munka\futók.txt | ConvertFrom-Csv</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Név<span
+style='mso-spacerun:yes'>                                  </span>Idő</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>---<span
+style='mso-spacerun:yes'>                                  </span>---</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Béla<span
+style='mso-spacerun:yes'>                                 </span>5:12</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Dezső<span
+style='mso-spacerun:yes'>                                </span>5:37</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Karcsi<span
+style='mso-spacerun:yes'>                               </span>5:36</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Marci<span
+style='mso-spacerun:yes'>                                </span>5:49</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Tódor<span
+style='mso-spacerun:yes'>                                </span>5:25</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Tibi<span
+style='mso-spacerun:yes'>                                 </span>4:45</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Gabi<span
+style='mso-spacerun:yes'>                                 </span>5:18</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Andris<span
+style='mso-spacerun:yes'>                               </span>4:52</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Bence<span
+style='mso-spacerun:yes'>                                </span>4:48</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:
+_Toc179036946'><span lang=HU>Itt már láthatjuk, hogy strukturálttá vált az
+adathalmazunk, ezt már a korábban látott PowerShell cmdletekkel fel lehet
+dolgozni:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[78] PS C:\&gt;
+Get-Content C:\munka\futók.txt | ConvertFrom-Csv | Sort-Objec</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>t -Property idő |
+Select-Object -First 3</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Név<span
+style='mso-spacerun:yes'>                                  </span>Idő</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>---<span
+style='mso-spacerun:yes'>                                  </span>---</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Tibi<span
+style='mso-spacerun:yes'>                                 </span>4:45</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Bence<span
+style='mso-spacerun:yes'>                                </span>4:48</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Andris<span
+style='mso-spacerun:yes'>                               </span>4:52</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:
+_Toc179036946'><span lang=HU>Egy picit csaltam, hiszen az idő azért nem igazi
+időformátum:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[79] PS C:\&gt;
+(Get-Content C:\munka\futók.txt | ConvertFrom-Csv)[1].idő.get</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>type()</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>IsPublic IsSerial
+Name<span style='mso-spacerun:yes'>                                    
+</span>BaseType</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>-------- --------
+----<span style='mso-spacerun:yes'>                                    
+</span>--------</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>True<span
+style='mso-spacerun:yes'>     </span>True<span style='mso-spacerun:yes'>    
+</span>String<span style='mso-spacerun:yes'>                                  
+</span>System.Object</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:
+_Toc179036946'><span lang=HU>Ha teljesen precíz akarok lenni, akkor érdemes
+változóba tölteni az eredményeket és akkor lehetőségünk van adattranszformációt
+végezni:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[83] PS C:\&gt; $futók =
+Get-Content C:\munka\futók.txt | ConvertFrom-Csv</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[84] PS C:\&gt; $futók |
+ForEach-Object { $_.idő = [timespan] $_.idő}</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[85] PS C:\&gt; $futók</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Név<span
+style='mso-spacerun:yes'>                                  </span>Idő</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>---<span
+style='mso-spacerun:yes'>                                  </span>---</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Béla<span
+style='mso-spacerun:yes'>                                 </span>05:12:00</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Dezső<span
+style='mso-spacerun:yes'>                                </span>05:37:00</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Karcsi<span
+style='mso-spacerun:yes'>                               </span>05:36:00</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Marci<span
+style='mso-spacerun:yes'>                                </span>05:49:00</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Tódor<span
+style='mso-spacerun:yes'>                                </span>05:25:00</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Tibi<span
+style='mso-spacerun:yes'>                                 </span>04:45:00</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Gabi<span
+style='mso-spacerun:yes'>                                 </span>05:18:00</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Andris<span
+style='mso-spacerun:yes'>                               </span>04:52:00</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Bence<span
+style='mso-spacerun:yes'>                                </span>04:48:00</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[86] PS C:\&gt;
+$futók[0].idő.gettype().fullname</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>System.TimeSpan</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:
+_Toc179036946'><span lang=HU>Itt már tényleg idő típusú a futók időeredménye,
+de itt most ez a sorba rendezésben nem játszott szerepet.</span></span></span></p>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

@@ -1,0 +1,473 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>2.24.4 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><a name="_Toc204716470"></a><a
+name="_Toc209116013"><span style='mso-bookmark:_Toc204716470'>
+<span lang=HU>Távoli
+futtatási környezet futtatása speciális fiók nevében</span></span></a></span></span></span></span></h3>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span lang=HU>A távoli futtatás során
+alaphelyzetben minden távoli parancs a futtató személy nevében és jogkörében
+fut. Láthattuk korábban, hogy lehetőségünk van szűkített környezet
+kialakítására is, ahol például csak a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Get</span></span><span
+lang=HU> kezdetű parancsokat engedjük és ezen kívül készítünk a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Restart-Service</span></span><span
+lang=HU>-hez egy olyan burkoló függvényt, amiben csak bizonyos, nem kritikus
+szolgáltatások újraindítását tesszük lehetővé. Viszont ehhez egy „sima”
+felhasználónak nem lesz joga, így jön az ötlet, hogy kombináljuk a szűkítést
+azzal, hogy viszont azt a szűkített parancskészlet rendszergazdaként futtassuk
+„futtatás más nevében” jelleggel. </span></span></span></span></span></p>
+
+<p class=SzvegCxSpMiddle><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span lang=HU>Erre a PowerShell 3.0-tól
+kezdődően van lehetőség, itt a távoli futtatási környezetet beállíthatjuk, hogy
+valamilyen adott szolgáltatási fiók nevében fusson, ne a hozzá csatlakozó
+felhasználó nevében. Így ha ez a szolgáltatási fiók rendszergazda jogosultságokkal
+bír, akkor a felhasználó ezeket birtokolni fogja ebben a távoli környezetben,
+így magának a felhasználónak nem is kell rendszergazda jogokat biztosítani.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span lang=HU>Most a környezet szűkítését
+nem mutatom újra, csak a más nevében történő futtatás beállítását, aminek a
+kulcsa a </span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>-RunAsCredential</span></span><span
+lang=HU> paraméter megadása a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Register-PSSessionConfiguration</span></span><span
+lang=HU> cmdletnél:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt;
+Register-PSSessionConfiguration -Name RunAsServiceAccount -RunAsCredent</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ial mydomain\servacct
+-ShowSecurityDescriptorUI -Confirm:$false</span></span></span></span></span></p>
+
+<p class=WarningCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU>WARNING: When RunAs is enabled in a Windows PowerShell session
+configuration,</span></span></span></span></span></p>
+
+<p class=WarningCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU>the Windows security model cannot enforce a security boundary between</span></span></span></span></span></p>
+
+<p class=WarningCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU>different user sessions that are created by using this endpoint. Verify
+that</span></span></span></span></span></p>
+
+<p class=WarningCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU>the Windows PowerShell runspace configuration is restricted to only the</span></span></span></span></span></p>
+
+<p class=WarningCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU>necessary set of cmdlets and capabilities.</span></span></span></span></span></p>
+
+<p class=WarningCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU>WARNING: Register-PSSessionConfiguration may need to restart the WinRM
+service</span></span></span></span></span></p>
+
+<p class=WarningCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU><span style='mso-spacerun:yes'> </span>if a configuration using this
+name has recently been unregistered, certain</span></span></span></span></span></p>
+
+<p class=WarningCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU>system data structures may still be cached. In that case, a restart of
+WinRM</span></span></span></span></span></p>
+
+<p class=WarningCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU>may be required.</span></span></span></span></span></p>
+
+<p class=WarningCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU>All WinRM sessions connected to Windows PowerShell session
+configurations,</span></span></span></span></span></p>
+
+<p class=WarningCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU>such as Microsoft.PowerShell and session configurations that are
+created with</span></span></span></span></span></p>
+
+<p class=WarningCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU>the Register-PSSessionConfiguration cmdlet, are disconnected.</span></span></span></span></span></p>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>   </span>WSManConfig:
+Microsoft.WSMan.Management\WSMan::localhost\Plugin</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Type<span
+style='mso-spacerun:yes'>            </span>Keys<span
+style='mso-spacerun:yes'>                                </span>Name</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>            </span>----<span
+style='mso-spacerun:yes'>                                </span>----</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Container<span
+style='mso-spacerun:yes'>       </span>{Name=RunAsServiceAccount}<span
+style='mso-spacerun:yes'>          </span>RunAsServiceAccount</span></span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span lang=HU>A parancs végrehajtása során,
+mivel itt nem „teljes” hitelesítési információkkal szolgáltam, hanem csak a
+felhasználói névvel, így a jelszót egy grafikus ablakban bekéri a PowerShell,
+valamint a </span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>&#8209;ShowSecurityDescriptor</span></span><span
+lang=HU> kapcsoló hatására a jogosultságokat is egy grafikus ablakban tudom
+megadni, a </span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span class=EnglishChar><span
+style='mso-bidi-font-family:"Times New Roman"'>Domain Users</span></span><span
+lang=HU>-nek biztosítottam </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>Execute</span></span><span
+lang=HU> jogokat.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span lang=HU>Nézzük, hogyan lehet ehhez
+csatlakozni egy „sima” felhasználó nevében és hogy mit tapasztal az:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; $s =
+New-PSSession -ComputerName dc2016 -ConfigurationName RunAsService</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Account</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Enter-PSSession
+-Session $s</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[dc2016]: PS
+C:\Users\servacct\Documents&gt; cd c:\</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[dc2016]: PS C:\&gt;
+whoami</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>mydomain\servacct</span></span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span lang=HU>Látható, hogy annak ellenére,
+hogy </span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>ST</span></span><span lang=HU>
+fiók nevében vagyok bejelentkezve, amikor a távoli környezethez csatlakozva
+kérdezem le magamat, akkor a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>mydomain\servacct</span></span><span
+lang=HU> a válasz. Ezzel az a baj, hogy ha naplózni szeretnénk a felhasználók
+tevékenységét, akkor akárki is csatlakozik ehhez a távoli futtatási
+környezethez, mindenki </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>mydomain\servacct</span></span><span
+lang=HU> felhasználónak látszik, ami a beazonosítást lehetetlenné teszi.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span lang=HU>Szerencsére van egy kis
+segítségünk. Ilyen távoli munkamenetekben egy </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$PSSenderInfo</span></span><span
+lang=HU> automatikus változó is létrejön:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[dc2016]: PS C:\&gt;
+$PSSenderInfo</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>UserInfo<span
+style='mso-spacerun:yes'>             </span>:
+System.Management.Automation.Remoting.PSPrincipal</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ClientTimeZone<span
+style='mso-spacerun:yes'>       </span>: System.CurrentSystemTimeZone</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ConnectionString<span
+style='mso-spacerun:yes'>     </span>:
+http://dc2016:5985/wsman?PSVersion=5.0.10514.0</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ApplicationArguments :
+{PSVersionTable}</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ConnectedUser<span
+style='mso-spacerun:yes'>        </span>: MYDOMAIN\st</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>RunAsUser<span
+style='mso-spacerun:yes'>            </span>: MYDOMAIN\servacct</span></span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span lang=HU>Ebben pedig a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>ConnectedUser</span></span><span
+lang=HU> tulajdonságban ott az eredeti felhasználó! A teljes megoldás a
+következő tehát:</span></span></span></span></span></p>
+
+<p class=SzvegCxSpMiddle style='margin-left:35.0pt;mso-add-space:auto;
+text-indent:-18.0pt;mso-list:l8 level1 lfo22'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'>
+<span lang=HU>Szűkítsük le a távoli futtatási
+környezet parancskészletét burkolófüggvényekre</span></span></span></span></span></p>
+
+<p class=SzvegCxSpMiddle style='margin-left:35.0pt;mso-add-space:auto;
+text-indent:-18.0pt;mso-list:l8 level1 lfo22'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'>
+<span lang=HU>Olyan burkolófüggvényeket
+engedélyezzünk csak, aminek első tevékenysége a ConnectedUser eseménynaplóba
+történő bejegyzése az aktuális parancs meghívott szintaxisával</span></span></span></span></span></p>
+
+<p class=SzvegCxSpMiddle style='margin-left:35.0pt;mso-add-space:auto;
+text-indent:-18.0pt;mso-list:l8 level1 lfo22'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'>
+<span lang=HU>A függvény folytassa az „igazi”
+tevékenységgel</span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast style='margin-left:17.0pt;mso-add-space:auto;text-indent:
+0cm'><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU>Ennek a teljes végigvitele túlnő a könyv kitűzött céljain, de ha
+valakit részletesebben érdekel a teljes technológia, a „<i style='mso-bidi-font-style:
+normal'>Just Enough Administration</i>” koncepcióra kidolgozott JEA DSC
+konfigurációval valami hasonlót old meg a Microsoft és a PowerShell közösség.
+(DSC-ről, azaz a Desired State Configuration-ről a </span></span></span></span></span>
+<span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><i
+style='mso-bidi-font-style:normal'><span lang=HU>3.3
+</span></i></span></span></span></span>
+<span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:
+_Toc197149346'><span style='mso-bookmark:_Toc197149272'><i style='mso-bidi-font-style:
+normal'><span lang=HU> </span></i></span></span></span></span>
+<span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><i
+style='mso-bidi-font-style:normal'><span lang=HU>Desired State Configuration
+</span></i></span></span></span></span>
+<span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:
+_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span lang=HU>
+fejezetben lesz szó.) A könyv írásának időpontjában még a fent említett
+auditálási képesség még nincs benne a JEA csomagban, de viszonylag kevés
+változtatással betehető.</span></span></span></span></span></p>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

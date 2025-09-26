@@ -1,0 +1,1399 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>3.2.4 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><a name="_Toc204716526"></a><a
+name="_Toc209116069"><span style='mso-bookmark:_Toc204716526'>
+<span lang=HU>Feltételes
+konfigurációs adatok</span></span></a></h3>
+
+<p class=Szveg><span lang=HU>Ha már vannak ilyen futásidőben kiszámított
+részeink a konfigurációsfájlban jön az ötlet, hogy hozzunk létre feltételes
+ágakat. Ez lehetővé tenné, hogy más adatok olvasódjanak be a fejlesztői
+környezetben és mások az „éles” rendszerben. Az alábbi PSD1 fájlban van két „</span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Conditional</span></span><span
+lang=HU>” ág: a </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>Conditional_3_Prod</span></span><span lang=HU> akkor
+érvényesül, ha a benne definiált feltétel (</span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>Condition</span></span><span
+lang=HU>) „igazra” értékelődik ki, ami jelen esetben akkor történik meg, ha a
+szkriptet a „</span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>ProdServer</span></span><span lang=HU>” nevű gépen
+futtatjuk. Ekkor a korábbi </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>AccessToRestApi</span></span><span
+lang=HU> adatblokk felülbírálódik az új értékekkel, illetve a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>ScriptConfig</span></span><span
+lang=HU>-nak a </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>textvalue</span></span><span lang=HU> adata is, valamint
+születne egy új adatblokk is, a </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>UniqueToProd</span></span><span
+lang=HU>:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>@{</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkgreen;mso-ansi-language:EN-US'># This section is used by this
+specific script</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>ScriptConfig
+</span><span style='color:darkgray;mso-ansi-language:EN-US'>=</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> @{</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>       
+</span>textvalue </span><span style='color:darkgray;mso-ansi-language:EN-US'>=</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;SomeText&quot;</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>date </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> {</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>datetime</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'> </span><span style='color:darkred;mso-ansi-language:EN-US'>&quot;2022.12.01&quot;</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>bool </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$true</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkgreen;mso-ansi-language:EN-US'># This should be shared between
+other scripts</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>AccessToRESTApi </span><span style='color:darkgray;mso-ansi-language:
+EN-US'>=</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'> @{</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>AppID </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>'d24099e5-10cb-4388-8ef4-f1c9f374d50b'</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>Token </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>'UG93ZXJTaGVsbElzR3JlYXQh'</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>ApiURL </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>'https://api.myapp.com/rest'</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkgreen;mso-ansi-language:EN-US'># This is a default setting for
+all scripts</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>LogSettings </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> @{</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>       
+</span>LogFolder </span><span style='color:darkgray;mso-ansi-language:EN-US'>=</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> {</span><span
+style='color:blue;mso-ansi-language:EN-US'>join-path</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$PSScriptMyRoot</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:blueviolet;mso-ansi-language:EN-US'>Logs</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>subhive </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> @{</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>           
+</span>subdynamicdata </span><span style='color:darkgray;mso-ansi-language:
+EN-US'>=</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'> {</span><span style='color:darkgray;mso-ansi-language:EN-US'>[</span><span
+style='color:teal;mso-ansi-language:EN-US'>math</span><span style='color:darkgray;
+mso-ansi-language:EN-US'>]::</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>Sqrt(</span><span style='color:purple;mso-ansi-language:
+EN-US'>9</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'>)}</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>Conditional_3_Prod </span><span style='color:darkgray;mso-ansi-language:
+EN-US'>=</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'> @{</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>       
+</span>Condition </span><span style='color:darkgray;mso-ansi-language:EN-US'>=</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> {</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$env:COMPUTERNAME</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-eq</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>'ProdServer'</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>       
+</span>AccessToRESTApi </span><span style='color:darkgray;mso-ansi-language:
+EN-US'>=</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'> @{</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>           
+</span>AppID </span><span style='color:darkgray;mso-ansi-language:EN-US'>=</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>'d24099e5-10cb-4388-1111-f1c9f374d50b'</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>           
+</span>Token </span><span style='color:darkgray;mso-ansi-language:EN-US'>=</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>'prodprodprod'</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>           
+</span>ApiURL </span><span style='color:darkgray;mso-ansi-language:EN-US'>=</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>'https://apiprod.myapp.com/rest'</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>       
+</span>ScriptConfig </span><span style='color:darkgray;mso-ansi-language:EN-US'>=</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> @{</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>           
+</span>textvalue </span><span style='color:darkgray;mso-ansi-language:EN-US'>=</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;ProdText&quot;</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>       
+</span>UniqueToProd </span><span style='color:darkgray;mso-ansi-language:EN-US'>=</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> @{</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>           
+</span>ProdValue </span><span style='color:darkgray;mso-ansi-language:EN-US'>=</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;This is the unique
+value&quot;</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span>Conditional_2_PreProd </span><span style='color:darkgray;mso-ansi-language:
+EN-US'>=</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'> @{</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>       
+</span>condition </span><span style='color:darkgray;mso-ansi-language:EN-US'>=</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> {</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$true</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>       
+</span>ScriptConfig </span><span style='color:darkgray;mso-ansi-language:EN-US'>=</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> @{</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>           
+</span>textvalue </span><span style='color:darkgray;mso-ansi-language:EN-US'>=</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;PreProdText&quot;</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>}
+</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span lang=HU>Felvettem még egy feltételes adatblokkot
+is abból a célból, hogy ezek kiértékelésének sorrendjét tudjam tesztelni. A
+sorrendiségüket a </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>conditional_<i>sorszám</i>_<i>név</i></span></span><span
+lang=HU> elnevezésükben a sorszám határozza meg.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>Nézzük a továbbfejlesztett </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>ParseConfig</span></span><span
+lang=HU> függvényt a példaszkriptben:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'># This is a production script</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>#region Functions</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:darkblue;mso-ansi-language:
+EN-US'>function</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'> </span><span style='color:blueviolet;mso-ansi-language:
+EN-US'>ParseConfig</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'> {</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:darkblue;mso-ansi-language:
+EN-US'>param</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>(</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$path</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>$(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$PSScriptFullPath</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>)</span><span
+style='color:darkred;mso-ansi-language:EN-US'>.psd1&quot;</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>) </span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>function</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:blueviolet;mso-ansi-language:EN-US'>ResolveDynamicData</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> {</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>param</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>hashtable</span><span style='color:darkgray;
+mso-ansi-language:EN-US'>]</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'> </span><span style='color:orangered;mso-ansi-language:
+EN-US'>$confighive</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>)</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span></span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>foreach</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$key</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkblue;mso-ansi-language:EN-US'>in</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$confighive</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>Clone()</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>Keys){</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>            </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>if</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$confighive</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$key</span><span style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-US'> </span><span style='color:darkgray;
+mso-ansi-language:EN-US'>-is</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'> </span><span style='color:darkgray;mso-ansi-language:
+EN-US'>[</span><span style='color:teal;mso-ansi-language:EN-US'>hashtable</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>]</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>){</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>                </span></span><span
+style='color:blue;mso-ansi-language:EN-US'>ResolveDynamicData</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-confighive</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$confighive</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$key</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>            </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>            </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>elseif</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$confighive</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$key</span><span style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-US'> </span><span style='color:darkgray;
+mso-ansi-language:EN-US'>-is</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'> </span><span style='color:darkgray;mso-ansi-language:
+EN-US'>[</span><span style='color:teal;mso-ansi-language:EN-US'>scriptblock</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>]</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>){</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>                </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$confighive</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$key</span><span style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-US'> </span><span style='color:darkgray;
+mso-ansi-language:EN-US'>=</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'> </span><span style='color:darkgray;mso-ansi-language:
+EN-US'>&amp;</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>(</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>&amp;</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'> </span><span style='color:orangered;mso-ansi-language:
+EN-US'>$confighive</span><span style='color:darkgray;mso-ansi-language:EN-US'>.</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$key</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>)</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>            </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>function</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:blueviolet;mso-ansi-language:EN-US'>MergeHives</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> {</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>param</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>            </span></span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>hashtable</span><span style='color:darkgray;
+mso-ansi-language:EN-US'>]</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'> </span><span style='color:orangered;mso-ansi-language:
+EN-US'>$hive</span><span style='color:darkgray;mso-ansi-language:EN-US'>,</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>            </span></span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>hashtable</span><span style='color:darkgray;
+mso-ansi-language:EN-US'>]</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'> </span><span style='color:orangered;mso-ansi-language:
+EN-US'>$target</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>)</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$hiveclone</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$hive</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>Clone()</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>foreach</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$h</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkblue;mso-ansi-language:EN-US'>in</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$hiveclone</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>Getenumerator()){</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>            </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>if</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$h</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>key </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-match</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>'^Condition'</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>){</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>                </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>continue</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>            </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>            </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>elseif</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$h</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>value </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-isnot</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>hashtable</span><span style='color:darkgray;
+mso-ansi-language:EN-US'>]</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'> </span><span style='color:darkgray;mso-ansi-language:
+EN-US'>-or</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'> </span><span style='color:darkgray;mso-ansi-language:EN-US'>!</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$target</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>ContainsKey(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$h</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>key)){</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>                </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$target</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$h</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>key) </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$h</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>value</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>            </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>            </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>else</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>{</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>                </span></span><span
+style='color:blue;mso-ansi-language:EN-US'>MergeHives</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-hive</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$h</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>value </span><span
+style='color:navy;mso-ansi-language:EN-US'>-target</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$target</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$h</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>key)</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>            </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$PSConfig</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:blue;mso-ansi-language:EN-US'>Import-PowerShellDataFile</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-Path</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$path</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:blue;mso-ansi-language:EN-US'>ResolveDynamicData</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-confighive</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$PSConfig</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$PSConfigClone</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$PSConfig</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>Clone()</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>foreach</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$key</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkblue;mso-ansi-language:EN-US'>in</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> (</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$PSConfigClone</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>keys </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-match</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>'^Conditional_'</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>|</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:blue;mso-ansi-language:EN-US'>Sort-Object</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>)){</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>if</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$PSConfigClone</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$key</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>.</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'>condition){</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>            </span></span><span
+style='color:blue;mso-ansi-language:EN-US'>MergeHives</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-hive</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$PSConfig</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$key</span><span style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-US'> </span><span style='color:navy;mso-ansi-language:
+EN-US'>-target</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'> </span><span style='color:orangered;mso-ansi-language:
+EN-US'>$PSConfig</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$PSConfig</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>Remove(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$key</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>)</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$PSConfig</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>}</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>#endregion</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>#########################################################</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>#</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'># Body</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>#</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>#########################################################</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:orangered;mso-ansi-language:
+EN-US'>$PSScriptFullPath</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'> </span><span style='color:darkgray;mso-ansi-language:
+EN-US'>=</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'> </span><span style='color:orangered;mso-ansi-language:EN-US'>$myinvocation</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>mycommand</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>path</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:orangered;mso-ansi-language:
+EN-US'>$PSScriptMyRoot</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   </span></span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$PSScriptRoot</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='color:orangered;mso-ansi-language:EN-US'>$PSConfig</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:blue;mso-ansi-language:EN-US'>ParseConfig</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'>  </span></span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span lang=HU>Lett egy új függvény: </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>MergeHives</span></span><span
+lang=HU>. Ez fésüli össze majd azokat az adatblokkokat, amelyeket egy
+feltételes blokk érvényre jutásakor be kell illeszteni a konfigurációs
+hashtáblába. Ez a függvény két hashtábla paramétert vár, az egyik az az
+adatblokk, amit be kell fésülni (</span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$hive</span></span><span
+lang=HU>), a másik, ahova az adatokat be kell tölteni (</span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$target</span></span><span
+lang=HU>). Itt is klónozok, a </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$hiveclone</span></span><span
+lang=HU> ágain végig megyek. Ha az ág maga a feltétel (</span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>condition</span></span><span
+lang=HU>), az átlépem, hiszen arra már nincs szükségem mert ide már csak akkor
+jutok, ha a feltétel igazra értékelődött ki. Ha az ág nem hashtábla vagy a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$target</span></span><span
+lang=HU>-ben még nincs meg az adott ág, akkor egyszerűen beteszem vagy
+felülírom a </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>$target</span></span><span lang=HU>-be. Ha viszont az ág
+maga is egy hashtábla, akkor rekurzívan meghívom újra a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>MergeHives</span></span><span
+lang=HU> függvényt, immáron ennek az ágnak az adattartalmával és az egyel
+mélyebb célággal. </span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU>A </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>ParseConfig</span></span><span
+lang=HU> további része most úgy néz ki, hogy szintén a PSD1 fájl importálásával
+kezdek, majd a szkriptblokkokat feloldom, majd klónozok és a klónban kikeresem
+az immár kiértékelt feltételes blokkokat a blokk nevének sorrendjében és
+amennyiben a feltétel igaz, akkor az összefűzéssel beleintegrálom az eredeti </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$PSConfig</span></span><span
+lang=HU>-ba.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>Ellenőrizzük a működését, elsőként úgy,
+hogy egyik feltételes ág sem igaz:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; .
+C:\PSTools\Section05-Video3Script.ps1</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; $PSConfig</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>                           </span>Value</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>                           </span>-----</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>AccessToRESTApi<span
+style='mso-spacerun:yes'>                </span>{AppID, Token, ApiURL}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>LogSettings<span
+style='mso-spacerun:yes'>                    </span>{subhive, LogFolder}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ScriptConfig<span
+style='mso-spacerun:yes'>                   </span>{date, textvalue, bool}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt;
+$PSConfig.ScriptConfig.textvalue</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SomeText</span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span lang=HU>Ebben a változatban nincsen </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>UniqueToProd</span></span><span
+lang=HU> adatblokk és a </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>textvalue</span></span><span
+lang=HU> is az eredeti </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>SomeText</span></span><span
+lang=HU> értéket tartalmazza.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>Most beélesítem a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Conditional_3_Prod</span></span><span
+lang=HU> ágat azzal, hogy a feltételébe egy </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>$true</span></span><span
+lang=HU>-t teszek, nézzük, mi lesz most a </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>$PSConfig</span></span><span
+lang=HU>:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; .
+C:\PSTools\Section05-Video3Script.ps1</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; $PSConfig</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>                           </span>Value</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>                           </span>-----</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ScriptConfig<span
+style='mso-spacerun:yes'>                   </span>{date, textvalue, bool}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>LogSettings<span
+style='mso-spacerun:yes'>                    </span>{subhive, LogFolder}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>AccessToRESTApi<span
+style='mso-spacerun:yes'>                </span>{AppID, Token, ApiURL}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>UniqueToProd<span
+style='mso-spacerun:yes'>                   </span>{ProdValue}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt;
+$PSConfig.ScriptConfig.textvalue</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ProdText</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Látható, hogy most már megjelent a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>UniqueProd</span></span><span
+lang=HU> ág és a </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>textvalue</span></span><span
+lang=HU> is már </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>ProdText</span></span><span lang=HU> lett. Ha most
+beélesítem a </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>Conditional_2_PreProd</span></span><span lang=HU> részt is,
+akkor így alakul a végső konfiguráció:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; $PSConfig</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>                           </span>Value</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>                           </span>-----</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ScriptConfig<span
+style='mso-spacerun:yes'>                   </span>{date, textvalue, bool}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>condition<span
+style='mso-spacerun:yes'>                      </span>True</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>UniqueToProd<span
+style='mso-spacerun:yes'>                   </span>{ProdValue}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>AccessToRESTApi<span
+style='mso-spacerun:yes'>                </span>{AppID, Token, ApiURL}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>LogSettings<span
+style='mso-spacerun:yes'>                    </span>{subhive, LogFolder}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt;
+$PSConfig.ScriptConfig.textvalue</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ProdText</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Egyelőre nem látunk változást, a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>textvalue</span></span><span
+lang=HU> még mindig </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>ProdText</span></span><span
+lang=HU>, hiszen a </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Prod</span></span><span lang=HU>
+résznek van a legnagyobb sorszáma, így az ottani adatok értékelődnek ki
+legkésőbb, azaz azok felülírják a </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>PreProd</span></span><span
+lang=HU> hatását. Viszont ha átírom a </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>Prod</span></span><span
+lang=HU> rész sorszámát 1-re: </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Conditional_1_Prod</span></span><span
+lang=HU>, akkor már más lesz a helyzet:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; .
+C:\PSTools\Section05-Video3Script.ps1</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; $PSConfig</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>                           </span>Value</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>                           </span>-----</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ScriptConfig<span
+style='mso-spacerun:yes'>                   </span>{date, textvalue, bool}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>UniqueToProd<span
+style='mso-spacerun:yes'>                   </span>{ProdValue}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>AccessToRESTApi<span
+style='mso-spacerun:yes'>                </span>{AppID, Token, ApiURL}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>LogSettings<span
+style='mso-spacerun:yes'>                    </span>{subhive, LogFolder}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt;
+$PSConfig.ScriptConfig.textvalue</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PreProdText</span></p>
+
+</div>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

@@ -1,0 +1,563 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>1.8.11 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><a name="_Toc179036940"></a><a
+name="_Toc197149218"></a><a name="_Toc204716239"></a><a name="_Toc209115782"><span
+style='mso-bookmark:_Toc204716239'><span style='mso-bookmark:_Toc197149218'><span
+style='mso-bookmark:_Toc179036940'>
+<span lang=HU>Különböző
+objektumok (Get-Unique)</span></span></span></span></a><span style='mso-bookmark:
+_Toc179036940'></span></h3>
+
+<p class=Szveg><span style='mso-bookmark:_Toc179036940'><span lang=HU>Sokszor
+előfordulhat, hogy egyedi objektumokat keresünk, azaz a duplikációkra nem
+vagyunk kíváncsiak. Például a futó processzek esetében ugyanazokat nem akarom
+többször látni. Alaphelyzetben ezt a listát kapom:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[45] PS C:\&gt;Get-Process | sort</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Handles<span style='mso-spacerun:yes'>  </span>NPM(K)<span
+style='mso-spacerun:yes'>    </span>PM(K)<span style='mso-spacerun:yes'>     
+</span>WS(K) VM(M)<span style='mso-spacerun:yes'>   </span>CPU(s)<span
+style='mso-spacerun:yes'>     </span>Id ProcessName</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>-------<span style='mso-spacerun:yes'>  </span>------<span
+style='mso-spacerun:yes'>    </span>-----<span style='mso-spacerun:yes'>     
+</span>----- -----<span style='mso-spacerun:yes'>   </span>------<span
+style='mso-spacerun:yes'>     </span>-- -----------</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>...</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>      </span>0<span
+style='mso-spacerun:yes'>       </span>0<span style='mso-spacerun:yes'>       
+</span>0<span style='mso-spacerun:yes'>         </span>28<span
+style='mso-spacerun:yes'>     </span>0<span
+style='mso-spacerun:yes'>               </span>0 Idle</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>758<span
+style='mso-spacerun:yes'>      </span>20<span style='mso-spacerun:yes'>   
+</span>28864<span style='mso-spacerun:yes'>      </span>24160<span
+style='mso-spacerun:yes'>   </span>162<span style='mso-spacerun:yes'>   
+</span>29,53<span style='mso-spacerun:yes'>   </span>2504 iexplore</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>807<span
+style='mso-spacerun:yes'>      </span>24<span style='mso-spacerun:yes'>   
+</span>54592<span style='mso-spacerun:yes'>      </span>28636<span
+style='mso-spacerun:yes'>   </span>207<span style='mso-spacerun:yes'>   
+</span>93,50<span style='mso-spacerun:yes'>   </span>1296 iexplore</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>     </span>97<span
+style='mso-spacerun:yes'>       </span>3<span style='mso-spacerun:yes'>     
+</span>740<span style='mso-spacerun:yes'>       </span>2864<span
+style='mso-spacerun:yes'>    </span>23<span style='mso-spacerun:yes'>    
+</span>0,09<span style='mso-spacerun:yes'>   </span>2788 igfxpers</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>     </span>80<span
+style='mso-spacerun:yes'>       </span>3<span style='mso-spacerun:yes'>    
+</span>1216<span style='mso-spacerun:yes'>       </span>3572<span
+style='mso-spacerun:yes'>    </span>34<span style='mso-spacerun:yes'>    
+</span>0,16<span style='mso-spacerun:yes'>   </span>2532 igfxtray</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>473<span
+style='mso-spacerun:yes'>      </span>10<span style='mso-spacerun:yes'>    
+</span>4284<span style='mso-spacerun:yes'>       </span>1444<span
+style='mso-spacerun:yes'>    </span>43<span style='mso-spacerun:yes'>    
+</span>7,66<span style='mso-spacerun:yes'>   </span>1016 lsass</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>...</span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc179036940'><span lang=HU>Nézzük
+csak az egyedieket a </span></span><span style='mso-bookmark:_Toc179036940'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>get-unique</span></span></span>
+<span
+style='mso-bookmark:_Toc179036940'></span>
+<span
+style='mso-bookmark:_Toc179036940'><span lang=HU><span
+style='mso-spacerun:yes'> </span>segítségével:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[47] PS C:\&gt;Get-Process | get-unique | sort</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Handles<span style='mso-spacerun:yes'>  </span>NPM(K)<span
+style='mso-spacerun:yes'>    </span>PM(K)<span style='mso-spacerun:yes'>     
+</span>WS(K) VM(M)<span style='mso-spacerun:yes'>   </span>CPU(s)<span
+style='mso-spacerun:yes'>     </span>Id ProcessName</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>-------<span style='mso-spacerun:yes'>  </span>------<span
+style='mso-spacerun:yes'>    </span>-----<span style='mso-spacerun:yes'>     
+</span>----- -----<span style='mso-spacerun:yes'>   </span>------<span
+style='mso-spacerun:yes'>     </span>-- -----------</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>...</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>      </span>0<span
+style='mso-spacerun:yes'>       </span>0<span style='mso-spacerun:yes'>       
+</span>0<span style='mso-spacerun:yes'>         </span>28<span
+style='mso-spacerun:yes'>     </span>0<span
+style='mso-spacerun:yes'>               </span>0 Idle</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>807<span
+style='mso-spacerun:yes'>      </span>24<span style='mso-spacerun:yes'>   
+</span>54592<span style='mso-spacerun:yes'>      </span>28636<span
+style='mso-spacerun:yes'>   </span>207<span style='mso-spacerun:yes'>   
+</span>93,50<span style='mso-spacerun:yes'>   </span>1296 iexplore</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>     </span>97<span
+style='mso-spacerun:yes'>       </span>3<span style='mso-spacerun:yes'>     
+</span>740<span style='mso-spacerun:yes'>       </span>2864<span
+style='mso-spacerun:yes'>    </span>23<span style='mso-spacerun:yes'>    
+</span>0,09<span style='mso-spacerun:yes'>   </span>2788 igfxpers</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>     </span>80<span
+style='mso-spacerun:yes'>       </span>3<span style='mso-spacerun:yes'>    
+</span>1216<span style='mso-spacerun:yes'>       </span>3572<span
+style='mso-spacerun:yes'>    </span>34<span style='mso-spacerun:yes'>    
+</span>0,16<span style='mso-spacerun:yes'>   </span>2532 igfxtray</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>481<span
+style='mso-spacerun:yes'>      </span>11<span style='mso-spacerun:yes'>    
+</span>4316<span style='mso-spacerun:yes'>       </span>1880<span
+style='mso-spacerun:yes'>    </span>43<span style='mso-spacerun:yes'>    
+</span>7,66<span style='mso-spacerun:yes'>   </span>1016 lsass</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>...</span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc179036940'><span lang=HU>Látszik,
+hogy az </span></span><span style='mso-bookmark:_Toc179036940'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>iexplorer</span></span><span
+lang=HU> csak egyszer szerepel a második listámban. </span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc179036940'><span lang=HU>Vajon
+mit lehet tenni akkor, ha pont a duplikáltakra vagyok kíváncsi? Sajnos nincs „</span></span><span
+style='mso-bookmark:_Toc179036940'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>get-duplicate</span></span><span
+lang=HU>” cmdlet, de ilyen jellegű működést mi magunk is elő tudunk idézni a </span></span><span
+style='mso-bookmark:_Toc179036940'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>get-unique</span></span><span
+lang=HU> és az előbb látott </span></span><span style='mso-bookmark:_Toc179036940'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>compare-object</span></span><span
+lang=HU> ötvözetével:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[55] PS C:\&gt;$elemek =
+&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;,&quot;a&quot;,&quot;b&quot;,&quot;a&quot;</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[56] PS C:\&gt;Compare-Object ($elemek) ($elemek| sort |
+Get-Unique)</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>InputObject<span
+style='mso-spacerun:yes'>                           </span>SideIndicator</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>-----------<span
+style='mso-spacerun:yes'>                           </span>-------------</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>a<span
+style='mso-spacerun:yes'>                                     </span>&lt;=</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>b<span
+style='mso-spacerun:yes'>                                     </span>&lt;=</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>a<span
+style='mso-spacerun:yes'>                                     </span>&lt;=</span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc179036940'><span lang=HU>Nézzük
+meg ugyanezt a processzekre:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[57] PS C:\&gt; Compare-Object (Get-Process ) (Get-Process|
+Get-Unique)</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>InputObject<span style='mso-spacerun:yes'>                         
+</span>SideIndicator</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>-----------<span style='mso-spacerun:yes'>                         
+</span>-------------</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>System.Diagnostics.Process (conhost) &lt;=</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>System.Diagnostics.Process (csrss)<span style='mso-spacerun:yes'>  
+</span>&lt;=</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>System.Diagnostics.Process (svchost) &lt;=</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>System.Diagnostics.Process (svchost) &lt;=</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>System.Diagnostics.Process (svchost) &lt;=</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>System.Diagnostics.Process (svchost) &lt;=</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>System.Diagnostics.Process (svchost) &lt;=</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>System.Diagnostics.Process (svchost) &lt;=</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>System.Diagnostics.Process (svchost) &lt;=</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>System.Diagnostics.Process (svchost) &lt;=</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>System.Diagnostics.Process (svchost) &lt;=</span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc179036940'><span lang=HU>Természetesen
+a </span></span><span style='mso-bookmark:_Toc179036940'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Get-Unique</span></span><span
+lang=HU> is az adott objektumon végzett </span></span><span style='mso-bookmark:
+_Toc179036940'><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>ToString()</span></span><span lang=HU> metódus alapján dönti
+el az egyediséget, hasonlóan, ahogy a </span></span><span style='mso-bookmark:
+_Toc179036940'><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>Compare-Object</span></span><span lang=HU>-nél láttuk, azzal
+a különbséggel, hogy ott meg lehetett adni, hogy mely tulajdonságok alapján
+vizsgálja az egyformaságot, ha az alapműködés nem tetszett nekünk, itt sajnos
+ilyet nem lehet. De természetesen ezen is javíthatunk egy saját függvénnyel:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc179036940'><span
+lang=HU style='color:blue'>function</span><span lang=HU style='color:black'> Get-UniqueProp
+([</span><span lang=HU style='color:teal'>string</span><span lang=HU
+style='color:black'>[]] </span><span lang=HU style='color:purple'>$property</span><span
+lang=HU style='color:black'>)<o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc179036940'><span
+lang=HU style='color:black'>{<o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc179036940'><span
+lang=HU style='color:black'><span style='mso-spacerun:yes'>    </span>@(</span><span
+lang=HU style='color:purple'>$input</span><span lang=HU style='color:black'> | <b>Group-Object</b>
+<i>-Property</i> </span><span lang=HU style='color:purple'>$property</span><span
+lang=HU style='color:black'>) | <o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc179036940'><span
+lang=HU style='color:black'><span style='mso-tab-count:2'>          </span><b>ForEach-Object</b>
+{<o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc179036940'><span
+lang=HU style='color:black'><span style='mso-tab-count:3'>                </span></span><span
+lang=HU style='color:purple'>$_</span><span lang=HU style='color:black'>.group
+| <b>Select-Object</b> <i>-First</i> 1 }<o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc179036940'><span lang=HU style='mso-bidi-font-size:
+10.0pt;line-height:110%;color:black'>}</span><span lang=HU style='color:black'><o:p></o:p></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc179036940'><span lang=HU>Ennek a
+függvénynek ugyanúgy megadható paraméterként, hogy mely tulajdonságok
+egyformasága esetében érezze azt, hogy két elem egyforma. Nézzünk erre egy
+példát:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[26] PS C:\&gt; Get-Service | Get-Unique</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Status<span style='mso-spacerun:yes'>   </span>Name<span
+style='mso-spacerun:yes'>               </span>DisplayName</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>------<span style='mso-spacerun:yes'>   </span>----<span
+style='mso-spacerun:yes'>               </span>-----------</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Stopped<span style='mso-spacerun:yes'>  </span>AeLookupSvc<span
+style='mso-spacerun:yes'>        </span>Application Experience</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[27] PS C:\&gt; Get-Service | Get-UniqueProp -property status</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Status<span style='mso-spacerun:yes'>   </span>Name<span
+style='mso-spacerun:yes'>               </span>DisplayName</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>------<span style='mso-spacerun:yes'>   </span>----<span
+style='mso-spacerun:yes'>               </span>-----------</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Stopped<span style='mso-spacerun:yes'>  </span>AeLookupSvc<span
+style='mso-spacerun:yes'>        </span>Application Experience</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036940'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Running<span style='mso-spacerun:yes'>  </span>Appinfo<span
+style='mso-spacerun:yes'>            </span>Application Information</span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc179036940'><span lang=HU>Ha a
+szolgáltatásokat betöltöm a „gyári” </span></span><span style='mso-bookmark:
+_Toc179036940'><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>Get-Unique</span></span><span lang=HU> cmdletbe [26], akkor
+egy elemet kapok kimenetként, mert minden szolgáltatás-objektum a </span></span><span
+style='mso-bookmark:_Toc179036940'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>ToString()</span></span><span
+lang=HU> meghívásával azt adja, hogy „</span></span><span style='mso-bookmark:
+_Toc179036940'><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>System.ServiceProcess.ServiceController</span></span><span
+lang=HU>”, ami mindenütt ugyanaz. Ezzel szemben az én </span></span><span
+style='mso-bookmark:_Toc179036940'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Get-UniqueProp</span></span><span
+lang=HU> cmdletemnél megadott </span></span><span style='mso-bookmark:_Toc179036940'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Status</span></span><span
+lang=HU> tulajdonság alapján egy futó és egy nem futó szolgáltatást kaptam.</span></span></p>
+
+<span style='mso-bookmark:_Toc179036940'></span>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

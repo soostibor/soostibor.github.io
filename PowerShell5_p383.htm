@@ -1,0 +1,874 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>4.2.9 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><a name="_Toc204716559"></a><a
+name="_Toc209116102"><span style='mso-bookmark:_Toc204716559'>
+<span lang=HU>Környezeti
+konfigurációs adatok tárolása különálló fájlban</span></span></a></h3>
+
+<p class=SzvegCxSpFirst><span lang=HU>Az előző fejezetben láthattuk, hogy a
+konfigurációknak paramétert is adhatunk, de a paraméterek általában ad-hoc
+felhasználáskor jönnek jól, most ilyen értékkel szereném meghívni a
+„függvényt”, a következő alkalommal meg másmilyenekkel. A DSC konfigurációkhoz
+természetüknél fogva jobb lenne fixen tárolni valahol azt, hogy mely gépekre
+milyen paraméterekkel szeretnénk érvényesíteni a konfigurációnkat. Annál is
+inkább, mert lehet, hogy több paraméter is változik gépről gépre. Az előző
+példa esetében például lehet, hogy a registry kulcs (</span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Key</span></span><span
+lang=HU>) minden gépnél a gép tulajdonosának nevét kellene tartalmaznia.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>A paraméterek, paraméterértékek
+együttállását érdemes egy külön adatblokkban tárolni, és erre lehetőséget is
+biztosít a DSC. Nézzük hogyan:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#DBE5F1;
+mso-shading:windowtext;mso-pattern:solid #DBE5F1;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=ISECxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#DBE5F1;mso-shading:windowtext;mso-pattern:solid #DBE5F1'><span
+lang=HU>$ConfigurationData </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU> @{</span></p>
+
+<p class=ISECxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#DBE5F1;mso-shading:windowtext;mso-pattern:solid #DBE5F1'><span
+lang=HU><span style='mso-spacerun:yes'>    </span></span><span lang=HU
+style='color:#FFC000;border:solid windowtext 1.0pt;mso-border-alt:solid windowtext .5pt;
+padding:0cm'>AllNodes</span><span lang=HU> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU> @(</span></p>
+
+<p class=ISECxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#DBE5F1;mso-shading:windowtext;mso-pattern:solid #DBE5F1'><span
+lang=HU><span style='mso-spacerun:yes'>        </span>@{</span></p>
+
+<p class=ISECxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#DBE5F1;mso-shading:windowtext;mso-pattern:solid #DBE5F1'><span
+lang=HU><span style='mso-spacerun:yes'>            </span></span><span lang=HU
+style='color:#FFC000;border:solid windowtext 1.0pt;mso-border-alt:solid windowtext .5pt;
+padding:0cm'>NodeName</span><span lang=HU> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU> </span><span lang=HU
+style='color:darkred'>&quot;STLeno&quot;</span></p>
+
+<p class=ISECxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#DBE5F1;mso-shading:windowtext;mso-pattern:solid #DBE5F1'><span
+lang=HU><span style='mso-spacerun:yes'>            </span>Owner<span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU> </span><span lang=HU style='color:darkred'>&quot;Soós Tibor&quot;</span></p>
+
+<p class=ISECxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#DBE5F1;mso-shading:windowtext;mso-pattern:solid #DBE5F1'><span
+lang=HU><span style='mso-spacerun:yes'>        </span>}</span><span lang=HU
+style='color:darkgray'>,</span></p>
+
+<p class=ISECxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#DBE5F1;mso-shading:windowtext;mso-pattern:solid #DBE5F1'><span
+lang=HU><span style='mso-spacerun:yes'>        </span>@{</span></p>
+
+<p class=ISECxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#DBE5F1;mso-shading:windowtext;mso-pattern:solid #DBE5F1'><span
+lang=HU><span style='mso-spacerun:yes'>            </span></span><span lang=HU
+style='color:#FFC000;border:solid windowtext 1.0pt;mso-border-alt:solid windowtext .5pt;
+padding:0cm'>NodeName</span><span lang=HU> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU> </span><span lang=HU
+style='color:darkred'>&quot;XYDell&quot;</span></p>
+
+<p class=ISECxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#DBE5F1;mso-shading:windowtext;mso-pattern:solid #DBE5F1'><span
+lang=HU><span style='mso-spacerun:yes'>            </span>Owner<span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU> </span><span lang=HU style='color:darkred'>&quot;Vegetári János&quot;</span></p>
+
+<p class=ISECxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#DBE5F1;mso-shading:windowtext;mso-pattern:solid #DBE5F1'><span
+lang=HU><span style='mso-spacerun:yes'>        </span>}</span><span lang=HU
+style='color:darkgray'>,</span></p>
+
+<p class=ISECxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#DBE5F1;mso-shading:windowtext;mso-pattern:solid #DBE5F1'><span
+lang=HU><span style='mso-spacerun:yes'>        </span>@{</span></p>
+
+<p class=ISECxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#DBE5F1;mso-shading:windowtext;mso-pattern:solid #DBE5F1'><span
+lang=HU><span style='mso-spacerun:yes'>            </span>NodeName </span><span
+lang=HU style='color:darkgray'>=</span><span lang=HU> </span><span lang=HU
+style='color:darkred'>&quot;ABHP&quot;</span></p>
+
+<p class=ISECxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#DBE5F1;mso-shading:windowtext;mso-pattern:solid #DBE5F1'><span
+lang=HU><span style='mso-spacerun:yes'>            </span>Owner<span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU> </span><span lang=HU style='color:darkred'>&quot;Beléd Márton&quot;</span></p>
+
+<p class=ISECxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#DBE5F1;mso-shading:windowtext;mso-pattern:solid #DBE5F1'><span
+lang=HU><span style='mso-spacerun:yes'>        </span>}</span><span lang=HU
+style='color:darkgray'>,</span></p>
+
+<p class=ISECxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#DBE5F1;mso-shading:windowtext;mso-pattern:solid #DBE5F1'><span
+lang=HU><span style='mso-spacerun:yes'>        </span>@{</span></p>
+
+<p class=ISECxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#DBE5F1;mso-shading:windowtext;mso-pattern:solid #DBE5F1'><span
+lang=HU><span style='mso-spacerun:yes'>            </span></span><span lang=HU
+style='color:#FFC000;border:solid windowtext 1.0pt;mso-border-alt:solid windowtext .5pt;
+padding:0cm'>NodeName</span><span lang=HU> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU> </span><span lang=HU
+style='color:darkred'>&quot;QWAcer&quot;</span></p>
+
+<p class=ISECxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#DBE5F1;mso-shading:windowtext;mso-pattern:solid #DBE5F1'><span
+lang=HU><span style='mso-spacerun:yes'>            </span>Owner<span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU> </span><span lang=HU style='color:darkred'>&quot;Fájdalom Csilla&quot;</span></p>
+
+<p class=ISECxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#DBE5F1;mso-shading:windowtext;mso-pattern:solid #DBE5F1'><span
+lang=HU><span style='mso-spacerun:yes'>        </span>}</span></p>
+
+<p class=ISECxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#DBE5F1;mso-shading:windowtext;mso-pattern:solid #DBE5F1'><span
+lang=HU><span style='mso-spacerun:yes'>    </span>)</span></p>
+
+<p class=ISECxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#DBE5F1;mso-shading:windowtext;mso-pattern:solid #DBE5F1'><span
+lang=HU>}</span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span lang=HU><span style='mso-spacerun:yes'> </span>Létrehoztam
+egy </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>$ConfigurationData</span></span><span lang=HU> hashtáblát,
+amiben van egy </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>AllNodes</span></span><span lang=HU> kulcs, ami egy tömböt
+tartalmaz, melynek elemei szintén hashtáblák. Ezeknek a belső hashtábláknak van
+egy </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>NodeName</span></span><span lang=HU> kulcsuk és emellett a
+példám miatt egy </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Owner</span></span><span
+lang=HU> kulcsuk is.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>A kötelező elnevezéseket bekeretezéssel és
+más színnel jelöltem, azaz </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>AllNodes</span></span><span
+lang=HU>-nak és </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>NodeName</span></span><span lang=HU>-nek közelező lenni. A
+egésznek a </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>$ConfigurationData</span></span><span lang=HU> neve és az
+belső hashtáblák további kulcsai opcionálisak. Ahhoz, hogy a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$ConfigurationData</span></span><span
+lang=HU> adatblokkot felhasználhassuk, a konfigurációt is erre elő kell
+készíteni:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#DBE5F1;
+mso-shading:windowtext;mso-pattern:solid #DBE5F1;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=ISECxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#DBE5F1;mso-shading:windowtext;mso-pattern:solid #DBE5F1'><span
+lang=HU>configuration </span><span lang=HU style='color:blueviolet'>RegLegyenOtt</span><span
+lang=HU> {</span></p>
+
+<p class=ISECxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#DBE5F1;mso-shading:windowtext;mso-pattern:solid #DBE5F1'><span
+lang=HU><span style='mso-spacerun:yes'>    </span></span><span lang=HU
+style='color:blue'>Import-DscResource</span><span lang=HU> </span><span
+lang=HU style='color:navy'>-ModuleName</span><span lang=HU> </span><span
+lang=HU style='color:blueviolet'>PSDesiredStateConfiguration</span></p>
+
+<p class=ISECxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#DBE5F1;mso-shading:windowtext;mso-pattern:solid #DBE5F1'><span
+lang=HU><span style='mso-spacerun:yes'>    </span>Node </span><span lang=HU
+style='color:orangered'>$AllNodes</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU>NodeName {</span></p>
+
+<p class=ISECxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#DBE5F1;mso-shading:windowtext;mso-pattern:solid #DBE5F1'><span
+lang=HU><span style='mso-spacerun:yes'>        </span>Registry </span><span
+lang=HU style='color:blueviolet'>Reg</span><span lang=HU> {</span></p>
+
+<p class=ISECxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#DBE5F1;mso-shading:windowtext;mso-pattern:solid #DBE5F1'><span
+lang=HU><span style='mso-spacerun:yes'>            </span>Key </span><span
+lang=HU style='color:darkgray'>=</span><span lang=HU> </span><span lang=HU
+style='color:darkred'>&quot;HKLM:\SOFTWARE\</span><span lang=HU>$(</span><span
+lang=HU style='color:orangered'>$Node</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU>Owner)</span><span lang=HU style='color:darkred'>&quot;</span></p>
+
+<p class=ISECxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#DBE5F1;mso-shading:windowtext;mso-pattern:solid #DBE5F1'><span
+lang=HU><span style='mso-spacerun:yes'>            </span>ValueName </span><span
+lang=HU style='color:darkgray'>=</span><span lang=HU> </span><span lang=HU
+style='color:darkred'>&quot;AzEnErtekem&quot;</span></p>
+
+<p class=ISECxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#DBE5F1;mso-shading:windowtext;mso-pattern:solid #DBE5F1'><span
+lang=HU><span style='mso-spacerun:yes'>            </span>Ensure </span><span
+lang=HU style='color:darkgray'>=</span><span lang=HU> </span><span lang=HU
+style='color:darkred'>'Present'</span></p>
+
+<p class=ISECxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#DBE5F1;mso-shading:windowtext;mso-pattern:solid #DBE5F1'><span
+lang=HU><span style='mso-spacerun:yes'>            </span>ValueData </span><span
+lang=HU style='color:darkgray'>=</span><span lang=HU> </span><span lang=HU
+style='color:darkred'>&quot;DSC-vel létrehozva: </span><span lang=HU>$(</span><span
+lang=HU style='color:orangered'>$Node</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU>NodeName)</span><span lang=HU style='color:darkred'>&quot;</span></p>
+
+<p class=ISECxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#DBE5F1;mso-shading:windowtext;mso-pattern:solid #DBE5F1'><span
+lang=HU><span style='mso-spacerun:yes'>            </span>ValueType </span><span
+lang=HU style='color:darkgray'>=</span><span lang=HU> </span><span lang=HU
+style='color:darkred'>&quot;String&quot;</span></p>
+
+<p class=ISECxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#DBE5F1;mso-shading:windowtext;mso-pattern:solid #DBE5F1'><span
+lang=HU><span style='mso-spacerun:yes'>        </span>}</span></p>
+
+<p class=ISECxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#DBE5F1;mso-shading:windowtext;mso-pattern:solid #DBE5F1'><span
+lang=HU><span style='mso-spacerun:yes'>    </span>}</span></p>
+
+<p class=ISECxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#DBE5F1;mso-shading:windowtext;mso-pattern:solid #DBE5F1'><span
+lang=HU>} </span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>A </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Node</span></span><span lang=HU>
+kulcszónál itt már nem egy konkrét név szerepel, hanem az konfigurációs
+adatblokk </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>$AllNodes</span></span><span lang=HU> tömbjének a neve és az
+annak elemeinek a </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>NodeName</span></span><span
+lang=HU> „tulajdonsága”, jobban mondva kulcsa. Emlékeztetőül, PowerShell 3.0
+vagy afelett, ha egy tömbben objektumokat tárolunk, akkor ezeknek az elemeknek
+a tulajdonságait a követlező tömör formában, ciklus nélkül is lekérdezhetjük:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; $tömb = dir
+C:\PowerShell\dsc?.ps1</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt;
+$tömb.lastwritetime</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>2015. október 31. 13:34:34</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>2015. október 31. 23:09:20</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>2015. december 5. 17:55:37</span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span lang=HU>A fenti példában egy három fájlobjektumot
+tartalmazó tömb esetében a </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>lastwritetime</span></span><span
+lang=HU> tulajdonságot lekérdezve nem magának a tömbnek a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>lastwritetime</span></span><span
+lang=HU> tulajdonságát kapjuk meg (mert annak ilyen nincs is), hanem az
+elemeiét.</span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU>Na, hát a konfigurációnál is ez fog
+történni, a </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>Node</span></span><span lang=HU> kulcsszó mellett az </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$AllNodes.NodeName</span></span><span
+lang=HU> valójában a konfigurációs adatblokkban szereplő nevek tömbjét jelenti.
+A </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>Node</span></span><span lang=HU> blokk törzsén belül
+képződik egy automatikus változó </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$Node</span></span><span
+lang=HU> néven, hasonlóan, ahogy például a </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>foreach</span></span><span
+lang=HU> cikluson belül a </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$foreach</span></span><span
+lang=HU> változó, vagy a </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>switch</span></span><span
+lang=HU> kifejezésen belül a </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$switch</span></span><span
+lang=HU> vátozó. Ez a </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$Node</span></span><span
+lang=HU> változó fogja rendre felvenni az </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>$AllNodes</span></span><span
+lang=HU> egyes elemeit, és így ezen keresztül hivatkozhatunk az adatblokkban
+tárolt különböző értékekre, mint például </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>$Node.Owner</span></span><span
+lang=HU> vagy </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>$Node.NodeName</span></span><span lang=HU>.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>Hogyan tudjuk a konfigurációs adatokat
+összehozni a konfigurációval? Nagyon egyszerűen, ha észrevesszük, hogy a
+konfigurációknak van egy </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>-ConfigurationData</span></span><span
+lang=HU> paramétere is:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; RegLegyenOtt
+-ConfigurationData $ConfigurationData -OutputPath C:\Power</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Shell\DSC</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>Directory: C:\PowerShell\DSC</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Mode<span
+style='mso-spacerun:yes'>                </span>LastWriteTime<span
+style='mso-spacerun:yes'>         </span>Length Name</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>                </span>-------------<span
+style='mso-spacerun:yes'>         </span>------ ----</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>-a----<span
+style='mso-spacerun:yes'>      </span>2016.01.11.<span
+style='mso-spacerun:yes'>     </span>22:05<span
+style='mso-spacerun:yes'>           </span>2060 STLeno.mof</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>-a----<span
+style='mso-spacerun:yes'>      </span>2016.01.11.<span
+style='mso-spacerun:yes'>     </span>22:05<span
+style='mso-spacerun:yes'>           </span>2068 XYDell.mof</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>-a----<span
+style='mso-spacerun:yes'>      </span>2016.01.11.<span
+style='mso-spacerun:yes'>     </span>22:05<span
+style='mso-spacerun:yes'>           </span>2056 ABHP.mof</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>-a----<span
+style='mso-spacerun:yes'>      </span>2016.01.11.<span
+style='mso-spacerun:yes'>     </span>22:05<span
+style='mso-spacerun:yes'>           </span>2070 QWAcer.mof</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>A kimeneten látszik, hogy tényleg az </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>AllNodes</span></span><span
+lang=HU> összes elemének megfelelő MOF fájl létrejött. Nézzünk bele az egyikbe,
+hogy meggyőződhessünk, hogy a tulajdonosnak megfelelő registry kulcs szerepel-e
+benne:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Get-Content
+C:\PowerShell\DSC\ABHP.mof | ?{$_.trim()}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>/*</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>@TargetNode='ABHP'</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>@GeneratedBy=Tibi</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>@GenerationDate=01/11/2016
+22:05:35</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>@GenerationHost=STLENO</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>*/</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>instance of
+MSFT_RegistryResource as $MSFT_RegistryResource1ref</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>{</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ResourceID =
+&quot;[Registry]Reg&quot;;</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'> </span>ValueName = &quot;AzEnErtekem&quot;;</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><b
+style='mso-bidi-font-weight:normal'><span lang=HU style='color:black;
+mso-color-alt:windowtext'><span style='mso-spacerun:yes'> </span>Key =
+&quot;HKLM:\\SOFTWARE\\Beléd Márton&quot;;</span><span lang=HU><o:p></o:p></span></b></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'> </span>Ensure = &quot;Present&quot;;</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'> </span>SourceInfo = &quot;::4::9::Registry&quot;;</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'> </span>ValueType = &quot;String&quot;;</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'> </span>ModuleName =
+&quot;PSDesiredStateConfiguration&quot;;</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'> </span>ValueData = {</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>&quot;DSC-vel létrehozva: ABHP&quot;</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>};</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ModuleVersion =
+&quot;1.0&quot;;</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'> </span>ConfigurationName = &quot;RegLegyenOtt&quot;;</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>};</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>instance of
+OMI_ConfigurationDocument</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                    </span>{</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'> </span>Version=&quot;2.0.0&quot;;</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                       
+</span>MinimumCompatibleVersion = &quot;1.0.0&quot;;</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                       
+</span>CompatibleVersionAdditionalProperties=
+{&quot;Omi_BaseResource:ConfigurationName&quot;};</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                       
+</span>Author=&quot;Tibi&quot;;</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                       
+</span>GenerationDate=&quot;01/11/2016 22:05:35&quot;;</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                       
+</span>GenerationHost=&quot;STLENO&quot;;</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                       
+</span>Name=&quot;RegLegyenOtt&quot;;</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                    </span>};</span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span lang=HU>Igen, a <b style='mso-bidi-font-weight:
+normal'>Key</b>-ben Beléd Márton szerepel.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>A fejezet elején azzal kezdtem, hogy jó
+lenne a környezetfüggő konfigurációs adatokat külön tárolni a konfigurációtól.
+Ezt nagyon egyszerűen megtehetjük, vegyük a </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>$ConfigurationData</span></span><span
+lang=HU> változó tartalmát, ami ugye egy hashtábla, és mentsük el egy PSD1
+kiterjesztésű fájlba.</span></p>
+
+<div style='mso-element:para-border-div;border:double windowtext 5.25pt;
+border-bottom:none;mso-border-top-alt:thin-thick-large-gap windowtext 5.25pt;
+mso-border-left-alt:thin-thick-large-gap windowtext 5.25pt;mso-border-right-alt:
+thin-thick-large-gap windowtext 5.25pt;padding:1.0pt 4.0pt 0cm 4.0pt;
+background:#C6D9F1;mso-background-themecolor:text2;mso-background-themetint:
+51;margin-left:14.2pt;margin-right:14.2pt'>
+
+<p class=Megjegyzs style='margin-top:12.0pt;margin-right:0cm;margin-bottom:
+0cm;margin-left:0cm;margin-bottom:.0001pt;mso-add-space:auto;background:#C6D9F1;
+mso-background-themecolor:text2;mso-background-themetint:51'><span lang=HU
+style='color:black;mso-color-alt:windowtext'>Megjegyzés</span></p>
+
+</div>
+
+<div style='mso-element:para-border-div;border:double windowtext 5.25pt;
+border-top:none;mso-border-left-alt:thin-thick-large-gap windowtext 5.25pt;
+mso-border-bottom-alt:thin-thick-large-gap windowtext 5.25pt;mso-border-right-alt:
+thin-thick-large-gap windowtext 5.25pt;padding:0cm 4.0pt 1.0pt 4.0pt;
+margin-left:14.2pt;margin-right:14.2pt'>
+
+<p class=Megjegyezs2 style='margin-top:0.0pt;margin-right:0cm;margin-bottom:
+0cm;margin-left:0cm;margin-bottom:.0001pt;mso-add-space:auto'><span lang=HU>PSD1
+fájlokat már láttunk a modulok kapcsán. Ott is egy hashtábla volt a fájlban.
+Amikor tehát egy PSD1 fájlt futtatunk, akkor valójában egy olyan speciális
+szkriptet futtatunk, ami egy hashtáblát definiál.</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Az esetünkben tehát ez lesz a fájlban, én most az
+egyszerűség kedvéért </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>ConfigurationData.psd1</span></span><span
+lang=HU>-nek hívom:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>@{</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>AllNodes </span><span
+lang=HU style='color:darkgray'>=</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> @(</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span>@{</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>            </span>NodeName </span><span
+lang=HU style='color:darkgray'>=</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkred'>&quot;STLeno&quot;</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>            </span>Owner<span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkred'>&quot;Soós Tibor&quot;</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span>}</span><span
+lang=HU style='color:darkgray'>,</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span>@{</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>            </span>NodeName </span><span
+lang=HU style='color:darkgray'>=</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkred'>&quot;XYDell&quot;</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>            </span>Owner<span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkred'>&quot;Vegetári János&quot;</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span>}</span><span
+lang=HU style='color:darkgray'>,</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span>@{</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>            </span>NodeName </span><span
+lang=HU style='color:darkgray'>=</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkred'>&quot;ABHP&quot;</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>            </span>Owner<span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkred'>&quot;Beléd Márton&quot;</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span>}</span><span
+lang=HU style='color:darkgray'>,</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span>@{</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>            </span>NodeName </span><span
+lang=HU style='color:darkgray'>=</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkred'>&quot;QWAcer&quot;</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>            </span>Owner<span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkred'>&quot;Fájdalom Csilla&quot;</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span>}</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>)</span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span lang=HU style='color:black;mso-color-alt:windowtext'>} </span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Majd egyszerűen a változó helyett a PSD1 fájl
+elérési útját adjuk mega </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>-ConfigurationData</span></span><span
+lang=HU> paraméternek:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; RegLegyenOtt
+-ConfigurationData C:\PowerShell\ConfigurationData.psd1 -O</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>utputPath
+C:\PowerShell\DSC</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>Directory: C:\PowerShell\DSC</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Mode<span
+style='mso-spacerun:yes'>                </span>LastWriteTime<span
+style='mso-spacerun:yes'>         </span>Length Name</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>                </span>-------------<span
+style='mso-spacerun:yes'>         </span>------ ----</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>-a----<span
+style='mso-spacerun:yes'>      </span>2016.01.11.<span
+style='mso-spacerun:yes'>     </span>22:17<span
+style='mso-spacerun:yes'>           </span>2060 STLeno.mof</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>-a----<span
+style='mso-spacerun:yes'>      </span>2016.01.11.<span
+style='mso-spacerun:yes'>     </span>22:17<span
+style='mso-spacerun:yes'>           </span>2068 XYDell.mof</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>-a----<span
+style='mso-spacerun:yes'>      </span>2016.01.11.<span
+style='mso-spacerun:yes'>     </span>22:17<span
+style='mso-spacerun:yes'>           </span>2056 ABHP.mof</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>-a----<span
+style='mso-spacerun:yes'>      </span>2016.01.11.<span
+style='mso-spacerun:yes'>     </span>22:17<span
+style='mso-spacerun:yes'>           </span>2070 QWAcer.mof</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Ugyanazok a MOF fájlok most is létrejöttek.</span></p>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

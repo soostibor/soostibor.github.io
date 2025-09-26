@@ -1,0 +1,522 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>2.6.16 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><a name="_Toc204716376"></a><a
+name="_Toc209115919"><span style='mso-bookmark:_Toc204716376'>
+<span lang=HU>Alternate
+Data Streams és blokkolt fájlok</span></span></a></span></span></h3>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc189542104'><span lang=HU>Az NTFS rendelkezik egy érdekes képességgel:
+fájlokhoz hozzá tudunk biggyeszteni az „igazi” mellett további adatfolyamokat,
+ezeket hívjuk </span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span class=EnglishChar><span
+style='mso-bidi-font-family:"Times New Roman"'>Alternate Data Stream</span></span></span></span>
+<span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'></span></span>
+<span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span lang=HU>-eknek
+(ADS). Ezt a lehetőséget a Windows és alkalmazások ritkán használják, leginkább
+az internetről letöltött blokkolt fájloknál találkozhatunk ezzel a
+technológiával. De előbb nézzük, hogyan tudunk ilyet létrehozni! Már a command
+prompttal is tudtunk ilyet csinálni. A meglevő üres </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>ads.txt</span></span><span
+lang=HU> fájlhoz hozzábiggyesztek egy kis rejtett szöveget, amire aztán a
+„rejtett.txt” címkével tudok hivatkozni (lásd később):</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=Kd style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>c:\&gt;echo &quot;Titkos
+információ&quot; &gt; c:\PSKönyv\ads.txt:rejtett.txt</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc189542104'><span lang=HU>Ha kilistázzuk a fájlomat, akkor továbbra is
+üresnek tűnik:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; dir
+.\PSKönyv\ads.txt</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>Directory: C:\PSKönyv</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Mode<span
+style='mso-spacerun:yes'>                </span>LastWriteTime<span
+style='mso-spacerun:yes'>     </span>Length Name</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>                </span>-------------<span
+style='mso-spacerun:yes'>     </span>------ ----</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>-a---<span
+style='mso-spacerun:yes'>       </span>2014.08.16.<span
+style='mso-spacerun:yes'>     </span>14:06<span
+style='mso-spacerun:yes'>          </span>0 ads.txt</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc189542104'><span lang=HU>Ha tudjuk a címkét, akkor a restett tartalomhoz is
+hozzáférünk, ha legalább 3.0-ás PowerShell-t használunk:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Get-Content
+.\PSKönyv\ads.txt -Stream rejtett.txt -Encoding Oem</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&quot;Titkos
+információ&quot;</span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU>Látható, hogy a </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Get-Content</span></span><span
+lang=HU>-nek immáron van egy </span></span></span><span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>–Stream</span></span><span
+lang=HU> paramétere is, amellyel ismert ADS-eket lehet kiolvasni. Mivel a
+rejtett szöveget a command prompt felhasználásával készítettem, itt az OEM
+kódolást kellett alkalmaznom az ékezetes karakterek helyes megjelenítéséhez.</span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU>Természetesen a </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Set-Content</span></span><span
+lang=HU>-el írni is tudunk ilyen ADS-t:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Set-Content
+.\PSKönyv\ads.txt -Stream másik.txt -Value &quot;PowerShell&quot;</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Get-Content
+.\PSKönyv\ads.txt -Stream másik.txt</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PowerShell</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc189542104'><span lang=HU>De hogyan találjuk meg azokat a fájlokat,
+amelyeknek van ADS-ük? A </span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Get-Item</span></span><span
+lang=HU>-nek is szerencsére van </span></span></span><span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>&#8209;Stream</span></span><span
+lang=HU> paramétere, ráadásul használhatunk Jolly-Joker karaktereket a </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>Stream</span></span><span
+lang=HU> nevében. A következő kifejezéssel például megtudom a ADS.TXT fájlom
+összes adatfolyamát:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Get-Item -Path
+C:\PSKönyv\ads.txt -Stream *</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>   </span>FileName: C:\PSKönyv\ads.txt</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Stream<span
+style='mso-spacerun:yes'>                   </span>Length</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>------<span
+style='mso-spacerun:yes'>                   </span>------</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>:$DATA<span
+style='mso-spacerun:yes'>                        </span>0</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>másik.txt<span
+style='mso-spacerun:yes'>                    </span>12</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>rejtett.txt<span
+style='mso-spacerun:yes'>                  </span>22</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc189542104'><span lang=HU>Látható, hogy a „</span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>:$Data</span></span><span
+lang=HU>” az igazi adatfolyam, a többi az ADS. Ezek után nem bonyolult egy
+általános ADS kereső-megjelenítő szkriptet megírni:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Get-ChildItem </span><span lang=HU style='color:navy'>-Path</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:blueviolet'>C:\PSKönyv</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:navy'>-Recurse</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>|</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> % {</span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>Add-Member </span><span
+lang=HU style='color:navy'>-InputObject</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:orangered'>$_</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:navy'>-MemberType</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:blueviolet'>NoteProperty</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:navy'>-Name</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:blueviolet'>Streams</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:navy'>-Value</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> (</span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>            </span>Get-Item </span><span
+lang=HU style='color:navy'>-Path</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:orangered'>$_</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>fullname </span><span lang=HU style='color:navy'>-Stream</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:blueviolet'>*</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:darkgray'>|</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'> </span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                </span>?{</span><span
+lang=HU style='color:orangered'>$_</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Stream </span><span
+lang=HU style='color:darkgray'>-ne</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkred'>':$DATA'</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>} </span><span lang=HU
+style='color:darkgray'>|</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                   
+</span>Select-Object </span><span lang=HU style='color:navy'>-ExpandProperty</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:blueviolet'>Stream</span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span>) </span><span
+lang=HU style='color:navy'>-PassThru</span></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>} </span><span lang=HU
+style='color:darkgray'>|</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> ?{</span><span lang=HU style='color:orangered'>$_</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>streams} </span><span lang=HU style='color:darkgray'>|</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> ft </span><span lang=HU
+style='color:navy'>-Property</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:blueviolet'>name</span><span
+lang=HU style='color:darkgray'>,</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:blueviolet'>streams</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:navy'>-AutoSize</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc189542104'><span lang=HU>A fenti kis szkriptben kilistázom a fájljaimat,
+majd hozzáadok a fájlobjektumokoz egy olyan új tulajdonságot, ami a „</span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>:$DATA</span></span><span
+lang=HU>” </span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span class=EnglishChar><span
+style='mso-bidi-font-family:"Times New Roman"'>stream</span></span><span
+lang=HU>-en kívüli adatfolyamok neveit tartalmazza. A fájlokat megszűröm, hogy
+csak azok látszódjak, amelyeknek lesz ilyen nem üres </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Streams</span></span><span
+lang=HU> tulajdonságuk. Az eredmény valahogy így néz ki az én
+munkakönyvtáramban:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>                            </span>Streams<span
+style='mso-spacerun:yes'>                 </span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>                            </span>-------<span
+style='mso-spacerun:yes'>                 </span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ads.txt<span
+style='mso-spacerun:yes'>                         </span>{másik.txt,
+rejtett.txt}</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>VirtualBox-4.3.12-93733-Win.exe
+Zone.Identifier<span style='mso-spacerun:yes'>         </span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc189542104'><span lang=HU>Az már látott </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>ads.txt</span></span><span
+lang=HU> fájlom mellett még találtam egy VirtualBox telepítőt is, aminek egy </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Zone.Identifier</span></span><span
+lang=HU> adatfolyama van. Ez nem más, mint a Windows által a letöltött
+fájlokhoz rendelt biztonsági zónával kapcsolatos információ. Ebben a konkrét
+esetben ennek tartalma így néz ki:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Get-Content
+C:\PSKönyv\Zónák\VirtualBox-4.3.12-93733-Win.exe -Stream Zo</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ne.Identifier</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[ZoneTransfer]</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ZoneId=3</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc189542104'><span lang=HU>Ez tehát egy pici INI fájl, amiben a </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>ZoneTransfer</span></span><span
+lang=HU> szekció a </span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>ZoneID=3</span></span><span
+lang=HU>-at tartalmazza. A 3-as zóna az internetet jelenti, és az ilyen fájlok
+alaphelyzetben blokkolt fájlként látszódnak a fájlböngészőben:</span></span></span></p>
+
+<p class=Kp>
+ <img src="PowerShell5_files/image133.png">
+</p>
+
+<p class=MsoCaption><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'></span></span>
+<span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU><span style='mso-no-proof:yes'>111</span></span></span></span>
+<span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span lang=HU>. ábra
+Internetről letöltött fájlok</span></span></span></p>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc189542104'><span lang=HU>Ha ezek után megnyomjuk az „</span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>Unblock</span></span><span
+lang=HU>” gombot, akkor a Windows letörli a </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>Zone.Identifier</span></span><span
+lang=HU> adatfolyamot. Ezt mi magunk PowerShellből is megtehetjük akár a
+megfelelően felparaméterezett „</span></span></span><span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Remove&#8209;Item
+&#8209;Stream</span></span><span lang=HU>” cmdlettel, vagy a PowerShell 3.0-tól
+már rendelkezésünkre áll az </span></span></span><span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Unblock&#8209;File</span></span></span></span>
+<span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'></span></span>
+<span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdlet is. </span></span></span></p>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

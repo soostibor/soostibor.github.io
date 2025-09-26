@@ -1,0 +1,1103 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>2.4.1 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><span style='mso-bookmark:_Toc189542102'><a
+name="_Toc197149237"></a><a name="_Toc204716319"></a><a name="_Toc209115862"><span
+style='mso-bookmark:_Toc204716319'><span style='mso-bookmark:_Toc197149237'>
+<span lang=HU>Megszakító
+és nem megszakító hibák</span></span></span></a></span></h3>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span lang=HU>Elsőként
+nézzünk pár fogalmat. A PowerShellben két hibafajta van, a „</span></span><span
+style='mso-bookmark:_Toc189542102'><span class=EnglishChar><span
+style='mso-bidi-font-family:"Times New Roman"'>terminating error</span></span></span>
+<span style='mso-bookmark:_Toc189542102'></span>
+<span
+style='mso-bookmark:_Toc189542102'><span lang=HU>”, azaz a futást mindenképpen
+megszakító, és a „</span></span><span style='mso-bookmark:_Toc189542102'><span
+class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>nonterminating
+error</span></span></span>
+<span style='mso-bookmark:_Toc189542102'></span>
+<span
+style='mso-bookmark:_Toc189542102'><span lang=HU>”, azaz a futást nem
+feltétlenül megszakító hiba.</span></span></p>
+
+<p class=SzvegCxSpMiddle><span style='mso-bookmark:_Toc189542102'><span
+lang=HU>Megszakító hibák például a szintaktikai hibák, amikor elgépelünk
+valamit. Vagy például amikor nullával szeretnénk osztani. Mi magunk is
+generálhatunk ilyen hibákat a korábban már látott </span></span><span
+style='mso-bookmark:_Toc189542102'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>throw</span></span></span>
+<span
+style='mso-bookmark:_Toc189542102'></span>
+<span
+style='mso-bookmark:_Toc189542102'><span lang=HU><span
+style='mso-spacerun:yes'> </span>kulcsszóval, amikor például egy függvényünknek
+nem ad át a felhasználó minden fontos paramétert.</span></span></p>
+
+<p class=SzvegCxSpMiddle><span style='mso-bookmark:_Toc189542102'><span
+lang=HU>Előfordulhatnak olyan hibák, amelyek előállásakor nem kívánjuk, hogy a
+szkript futása megszakadjon, de azért szeretnénk értesülni ezekről. Ez főleg
+olyan cmdleteknél és függvényeknél jöhet jól, amelyek csőelemeket dolgoznak
+fel, és egy-két csőelem esetében megengedjük, hogy ne fusson le a szkript, de
+azért a többi elemre nyugodtan próbálkozzon.</span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span lang=HU>Nézzünk
+példát a kétfajta hibára, elsőként a megszakító hibára, rögtön két példát is:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[7] PS C:\old&gt; &quot;Eleje&quot;; 15/0; &quot;Vége&quot;</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'>Attempted to
+divide by zero.<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'>At line:1
+char:13<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'>+
+&quot;Eleje&quot;; 15/ &lt;&lt;&lt;&lt; 0; &quot;Vége&quot;<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'><span
+style='mso-spacerun:yes'>    </span>+ CategoryInfo<span
+style='mso-spacerun:yes'>          </span>: NotSpecified: (:) [],
+ParentContainsErrorRecord<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'><span
+style='mso-spacerun:yes'>   </span>Exception<o:p></o:p></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'><span
+style='mso-spacerun:yes'>    </span>+ FullyQualifiedErrorId : RuntimeException<o:p></o:p></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span lang=HU>A [7]-es
+sorban 0-val osztok. Ez olyannyira „</span></span><span style='mso-bookmark:
+_Toc189542102'><span class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>terminating</span></span><span
+lang=HU>”, hogy már a parancssor ellenőrzése során kiszúrja ezt a hibát, és már
+az „Eleje” sem fut le. </span></span></p>
+
+<div style='mso-element:para-border-div;border:double windowtext 5.25pt;
+border-bottom:none;mso-border-top-alt:thin-thick-large-gap windowtext 5.25pt;
+mso-border-left-alt:thin-thick-large-gap windowtext 5.25pt;mso-border-right-alt:
+thin-thick-large-gap windowtext 5.25pt;padding:1.0pt 4.0pt 0cm 4.0pt;
+background:#C6D9F1;mso-background-themecolor:text2;mso-background-themetint:
+51;margin-left:14.2pt;margin-right:14.2pt'>
+
+<p class=Megjegyzs style='margin-top:12.0pt;margin-right:0cm;margin-bottom:
+0cm;margin-left:0cm;margin-bottom:.0001pt;mso-add-space:auto;background:#C6D9F1;
+mso-background-themecolor:text2;mso-background-themetint:51'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Megjegyzés:</span></span></p>
+
+</div>
+
+<div style='mso-element:para-border-div;border-top:none;border-left:double windowtext 5.25pt;
+border-bottom:none;border-right:double windowtext 5.25pt;mso-border-left-alt:
+thin-thick-large-gap windowtext 5.25pt;mso-border-right-alt:thin-thick-large-gap windowtext 5.25pt;
+padding:0cm 4.0pt 0cm 4.0pt;margin-left:14.2pt;margin-right:14.2pt'>
+
+<p class=Megj-nyitott style='margin-top:0.0pt;margin-right:0cm;margin-bottom:
+0cm;margin-left:0cm;margin-bottom:.0001pt;mso-add-space:auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU>A PowerShell 3.0-tól kezdve a
+0-val való osztás nem megszakító hiba már:</span></span></p>
+
+</div>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>PS C:\&gt; &quot;Eleje&quot;; 15/0; &quot;Vége&quot;</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Eleje</span></span></p>
+
+<p class=HibaKdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU>Attempted to divide by zero.</span></span></p>
+
+<p class=HibaKdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU>At line:1 char:10</span></span></p>
+
+<p class=HibaKdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU>+ &quot;Eleje&quot;; 15/0;
+&quot;Vége&quot;</span></span></p>
+
+<p class=HibaKdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU>+<span
+style='mso-spacerun:yes'>          </span>~~~~</span></span></p>
+
+<p class=HibaKdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU><span
+style='mso-spacerun:yes'>    </span>+ CategoryInfo<span
+style='mso-spacerun:yes'>          </span>: NotSpecified: (:) [],
+RuntimeException</span></span></p>
+
+<p class=HibaKdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU><span
+style='mso-spacerun:yes'>    </span>+ FullyQualifiedErrorId : RuntimeException</span></span></p>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Vége</span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span lang=HU>A </span></span><span
+style='mso-bookmark:_Toc189542102'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>throw</span></span><span
+lang=HU> kulcsszóval mindenképpen megszakító hibát generálunk:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[8] PS C:\old&gt; &quot;Eleje&quot;; throw &quot;kakukk&quot;;
+&quot;Vége&quot;</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Eleje</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'>kakukk<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'>At line:1
+char:15<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'>+
+&quot;Eleje&quot;; throw &lt;&lt;&lt;&lt;<span style='mso-spacerun:yes'> 
+</span>&quot;kakukk&quot;; &quot;Vége&quot;<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'><span
+style='mso-spacerun:yes'>    </span>+ CategoryInfo<span
+style='mso-spacerun:yes'>          </span>: OperationStopped: (kakukk:String)
+[], RuntimeEx<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'><span
+style='mso-spacerun:yes'>   </span>ception<o:p></o:p></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'><span
+style='mso-spacerun:yes'>    </span>+ FullyQualifiedErrorId : kakukk<o:p></o:p></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span lang=HU>A
+[8]-as sorban én magam okoztam egy megszakító hibát a </span></span><span
+style='mso-bookmark:_Toc189542102'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>throw</span></span><span
+lang=HU> kulcsszó segítségével.</span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span lang=HU>Most
+nézzünk nem megszakító hibára példát:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[9] PS C:\old&gt; &quot;Eleje&quot;; Remove-Item c:\old\nincs.txt;
+&quot;Vége&quot;</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Eleje</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'>Remove-Item
+: Cannot find path 'C:\old\nincs.txt' because it does not exist.<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'>At line:1
+char:21<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'>+
+&quot;Eleje&quot;; Remove-Item &lt;&lt;&lt;&lt;<span style='mso-spacerun:yes'> 
+</span>c:\old\nincs.txt; &quot;Vége&quot;<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'><span
+style='mso-spacerun:yes'>    </span>+ CategoryInfo<span
+style='mso-spacerun:yes'>          </span>: ObjectNotFound:
+(C:\old\nincs.txt:String) [Remo<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'><span
+style='mso-spacerun:yes'>   </span>ve-Item], ItemNotFoundException<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'><span
+style='mso-spacerun:yes'>    </span>+ FullyQualifiedErrorId :
+PathNotFound,Microsoft.PowerShell.Commands.Remo<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'><span
+style='mso-spacerun:yes'>   </span>veItemCommand<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Vége</span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span lang=HU>A
+fenti példában nem megszakító hiba történt, amikor törölni akartam egy nem
+létező fájlt, ugyan hibát kaptam, de kiírásra került a „Vége” is.</span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span lang=HU>Mi
+magunk is befolyásolhatjuk a hibák lefolyását. Akár parancsonként vagy akár az
+adott konzolra vonatkozóan is. Először nézzük, hogy a cmdletek esetében mit
+tehetünk. A parancsokhoz tartozó súgókban legtöbbször valami hasonlót látunk:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[18] PS C:\old&gt; (get-help remove-item).syntax</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Remove-Item [-path] &lt;string[]&gt; [-recurse] [-force] [-include
+&lt;string[]&gt;] [-</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>exclude &lt;string[]&gt;] [-filter &lt;string&gt;] [-credential
+&lt;PSCredential&gt;] [-whatI</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>f] [-confirm] [&lt;CommonParameters&gt;]</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Remove-Item [-literalPath] &lt;string[]&gt; [-recurse] [-force]
+[-include &lt;string</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[]&gt;] [-exclude &lt;string[]&gt;] [-filter &lt;string&gt;]
+[-credential &lt;PSCredential&gt;]</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[-whatIf] [-confirm] [&lt;CommonParameters&gt;]</span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span lang=HU>Nézzük
+meg, a „</span></span><span style='mso-bookmark:_Toc189542102'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>CommonParameters</span></span></span>
+<span style='mso-bookmark:_Toc189542102'></span>
+<span
+style='mso-bookmark:_Toc189542102'><span lang=HU>” mi lehet?</span></span></p>
+
+<table class=LightList-Accent11 border=1 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none;mso-border-alt:solid #4F81BD 1.0pt;
+ mso-border-themecolor:accent1;mso-yfti-tbllook:1184;mso-padding-alt:0cm 5.4pt 0cm 5.4pt'>
+ <tr style='mso-yfti-irow:-1;mso-yfti-firstrow:yes;mso-yfti-lastfirstrow:yes'>
+  <td width=143 valign=top style='width:107.6pt;border-top:solid #4F81BD 1.0pt;
+  mso-border-top-themecolor:accent1;border-left:solid #4F81BD 1.0pt;mso-border-left-themecolor:
+  accent1;border-bottom:none;border-right:none;background:#4F81BD;mso-background-themecolor:
+  accent1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpFirst style='mso-yfti-cnfc:5'><span style='mso-bookmark:
+  _Toc189542102'><b><span lang=HU style='color:white;mso-themecolor:background1'>Paraméter&nbsp;
+  </span></b></span><span style='mso-bookmark:_Toc189542102'><b><span lang=HU
+  style='font-family:"Courier New";color:white;mso-themecolor:background1'><o:p></o:p></span></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'></span>
+  <td width=511 valign=top style='width:383.3pt;border-top:solid #4F81BD 1.0pt;
+  mso-border-top-themecolor:accent1;border-left:none;border-bottom:none;
+  border-right:solid #4F81BD 1.0pt;mso-border-right-themecolor:accent1;
+  background:#4F81BD;mso-background-themecolor:accent1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpLast style='mso-yfti-cnfc:1'><span style='mso-bookmark:_Toc189542102'><b><span
+  lang=HU style='color:white;mso-themecolor:background1'>Magyarázat</span></b></span><span
+  style='mso-bookmark:_Toc189542102'><b><span lang=HU style='font-family:"Courier New";
+  color:white;mso-themecolor:background1'><o:p></o:p></span></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'></span>
+ </tr>
+ <tr style='mso-yfti-irow:0'>
+  <td width=143 valign=top style='width:107.6pt;border:solid #4F81BD 1.0pt;
+  mso-border-themecolor:accent1;border-right:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpFirst style='mso-yfti-cnfc:68'><span style='mso-bookmark:
+  _Toc189542102'><b><span lang=HU>Verbose</span></b></span><span
+  style='mso-bookmark:_Toc189542102'><b><span lang=HU style='font-family:"Courier New"'><o:p></o:p></span></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'></span>
+  <td width=511 valign=top style='width:383.3pt;border:solid #4F81BD 1.0pt;
+  mso-border-themecolor:accent1;border-left:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpLast style='mso-yfti-cnfc:64'><span style='mso-bookmark:
+  _Toc189542102'><span lang=HU>Bőbeszédes kimenetet ad a művelet lefolyásáról.</span></span><span
+  style='mso-bookmark:_Toc189542102'><span lang=HU style='font-family:"Courier New"'><o:p></o:p></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'></span>
+ </tr>
+ <tr style='mso-yfti-irow:1'>
+  <td width=143 valign=top style='width:107.6pt;border:none;border-left:solid #4F81BD 1.0pt;
+  mso-border-left-themecolor:accent1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpFirst style='mso-yfti-cnfc:4'><span style='mso-bookmark:
+  _Toc189542102'><b><span lang=HU>Debug&nbsp; </span></b></span><span
+  style='mso-bookmark:_Toc189542102'><b><span lang=HU style='font-family:"Courier New"'><o:p></o:p></span></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'></span>
+  <td width=511 valign=top style='width:383.3pt;border:none;border-right:solid #4F81BD 1.0pt;
+  mso-border-right-themecolor:accent1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpLast><span style='mso-bookmark:_Toc189542102'><span lang=HU>Hibakereső
+  információkat ad, és interaktív módon lekezelhetők a hibák.</span></span><span
+  style='mso-bookmark:_Toc189542102'><span lang=HU style='font-family:"Courier New"'><o:p></o:p></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'></span>
+ </tr>
+ <tr style='mso-yfti-irow:2'>
+  <td width=143 valign=top style='width:107.6pt;border:solid #4F81BD 1.0pt;
+  mso-border-themecolor:accent1;border-right:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpFirst style='mso-yfti-cnfc:68'><span style='mso-bookmark:
+  _Toc189542102'><b><span lang=HU>ErrorAction</span></b></span><span
+  style='mso-bookmark:_Toc189542102'><span lang=HU style='font-family:"Courier New";
+  mso-bidi-font-weight:bold'><o:p></o:p></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'></span>
+  <td width=511 valign=top style='width:383.3pt;border:solid #4F81BD 1.0pt;
+  mso-border-themecolor:accent1;border-left:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpMiddle style='mso-yfti-cnfc:64'><span style='mso-bookmark:
+  _Toc189542102'><span lang=HU>Az</span></span>
+<span
+  style='mso-bookmark:_Toc189542102'></span>
+<span
+  style='mso-bookmark:_Toc189542102'><span lang=HU><span
+  style='mso-spacerun:yes'> </span>előzőhöz hasonló, de nem csak interaktívan,
+  hanem fixen beállítható hibakezelési mód: </span></span></p>
+  <p class=TblaCxSpMiddle style='mso-yfti-cnfc:64'><span style='mso-bookmark:
+  _Toc189542102'><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+  "Times New Roman"'>Continue</span></span><span lang=HU> [default] - folytat, </span></span></p>
+  <p class=TblaCxSpMiddle style='mso-yfti-cnfc:64'><span style='mso-bookmark:
+  _Toc189542102'><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+  "Times New Roman"'>Stop</span></span><span lang=HU> - megáll, </span></span></p>
+  <p class=TblaCxSpMiddle style='mso-yfti-cnfc:64'><span style='mso-bookmark:
+  _Toc189542102'><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+  "Times New Roman"'>SilentlyContinue</span></span><span lang=HU> –
+  figyelmeztetés nélkül továbbmegy,</span></span></p>
+  <p class=TblaCxSpLast style='mso-yfti-cnfc:64'><span style='mso-bookmark:
+  _Toc189542102'><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+  "Times New Roman"'>Inquire</span></span><span lang=HU> - rákérdez.</span></span><span
+  style='mso-bookmark:_Toc189542102'><span lang=HU style='font-family:"Courier New"'><o:p></o:p></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'></span>
+ </tr>
+ <tr style='mso-yfti-irow:3'>
+  <td width=143 valign=top style='width:107.6pt;border:none;border-left:solid #4F81BD 1.0pt;
+  mso-border-left-themecolor:accent1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpFirst style='mso-yfti-cnfc:4'><span style='mso-bookmark:
+  _Toc189542102'><b><span lang=HU>ErrorVariable&nbsp; </span></b></span><span
+  style='mso-bookmark:_Toc189542102'><b><span lang=HU style='font-family:"Courier New"'><o:p></o:p></span></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'></span>
+  <td width=511 valign=top style='width:383.3pt;border:none;border-right:solid #4F81BD 1.0pt;
+  mso-border-right-themecolor:accent1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpLast><span style='mso-bookmark:_Toc189542102'><span lang=HU>Saját
+  hibaváltozónk neve ($ jel nélkül!). Az </span></span><span style='mso-bookmark:
+  _Toc189542102'><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+  "Times New Roman"'>$error</span></span><span lang=HU> változó mellett ide is
+  betöltődik a hibát leíró objektum.</span></span><span style='mso-bookmark:
+  _Toc189542102'><span lang=HU style='font-family:"Courier New"'><o:p></o:p></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'></span>
+ </tr>
+ <tr style='mso-yfti-irow:4'>
+  <td width=143 valign=top style='width:107.6pt;border:solid #4F81BD 1.0pt;
+  mso-border-themecolor:accent1;border-right:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpFirst style='mso-yfti-cnfc:68'><span style='mso-bookmark:
+  _Toc189542102'><b><span lang=HU>OutVariable</span></b></span><span
+  style='mso-bookmark:_Toc189542102'><b><span lang=HU style='font-family:"Courier New"'><o:p></o:p></span></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'></span>
+  <td width=511 valign=top style='width:383.3pt;border:solid #4F81BD 1.0pt;
+  mso-border-themecolor:accent1;border-left:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpLast style='mso-yfti-cnfc:64'><span style='mso-bookmark:
+  _Toc189542102'><span lang=HU>Kimenetet ide tölti be.</span></span><span
+  style='mso-bookmark:_Toc189542102'><span lang=HU style='font-family:"Courier New"'><o:p></o:p></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'></span>
+ </tr>
+ <tr style='mso-yfti-irow:5'>
+  <td width=143 valign=top style='width:107.6pt;border:none;border-left:solid #4F81BD 1.0pt;
+  mso-border-left-themecolor:accent1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpFirst style='mso-yfti-cnfc:4'><span style='mso-bookmark:
+  _Toc189542102'><b><span lang=HU>OutBuffer&nbsp; </span></b></span><span
+  style='mso-bookmark:_Toc189542102'><b><span lang=HU style='font-family:"Courier New"'><o:p></o:p></span></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'></span>
+  <td width=511 valign=top style='width:383.3pt;border:none;border-right:solid #4F81BD 1.0pt;
+  mso-border-right-themecolor:accent1;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpLast><span style='mso-bookmark:_Toc189542102'><span lang=HU>Az
+  objektum-puffer mérete, ennyi elemet „magában” tart, mielőtt továbbítja az
+  outputot a következő csőszakasznak.</span></span><span style='mso-bookmark:
+  _Toc189542102'><span lang=HU style='font-family:"Courier New"'><o:p></o:p></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'></span>
+ </tr>
+ <tr style='mso-yfti-irow:6'>
+  <td width=143 valign=top style='width:107.6pt;border:solid #4F81BD 1.0pt;
+  mso-border-themecolor:accent1;border-right:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpFirst style='mso-yfti-cnfc:68'><span style='mso-bookmark:
+  _Toc189542102'><b><span lang=HU>WarningAction<o:p></o:p></span></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'></span>
+  <td width=511 valign=top style='width:383.3pt;border:solid #4F81BD 1.0pt;
+  mso-border-themecolor:accent1;border-left:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpLast style='mso-yfti-cnfc:64'><span style='mso-bookmark:
+  _Toc189542102'><span lang=HU>Hasonló, mint az </span></span><span
+  style='mso-bookmark:_Toc189542102'><span class=KdInlineChar><span lang=HU
+  style='mso-bidi-font-family:"Times New Roman"'>ErrorAction</span></span><span
+  lang=HU>, csak épp a figyelmeztetések bekövetkezését kezeli.</span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'></span>
+ </tr>
+ <tr style='mso-yfti-irow:7;mso-yfti-lastrow:yes'>
+  <td width=143 valign=top style='width:107.6pt;border-top:none;border-left:
+  solid #4F81BD 1.0pt;mso-border-left-themecolor:accent1;border-bottom:solid #4F81BD 1.0pt;
+  mso-border-bottom-themecolor:accent1;border-right:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpFirst style='mso-yfti-cnfc:4'><span style='mso-bookmark:
+  _Toc189542102'><b><span lang=HU>WarningVariable<o:p></o:p></span></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'></span>
+  <td width=511 valign=top style='width:383.3pt;border-top:none;border-left:
+  none;border-bottom:solid #4F81BD 1.0pt;mso-border-bottom-themecolor:accent1;
+  border-right:solid #4F81BD 1.0pt;mso-border-right-themecolor:accent1;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=TblaCxSpLast><span style='mso-bookmark:_Toc189542102'><span lang=HU>Figyelmeztetések
+  betöltése alternatív változóba.</span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'></span>
+ </tr>
+</table>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span lang=HU>A </span></span><span
+style='mso-bookmark:_Toc189542102'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>-debug</span></span><span
+lang=HU> paraméter pont a mostani témánkba vág, nézzük, milyen opciókat kínál:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[23] PS C:\old&gt; &quot;Eleje&quot;; get-content blabla.txt
+-debug; &quot;Vége&quot;</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Eleje</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Confirm</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Cannot find path 'C:\old\blabla.txt' because it does not exist.</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[Y] Yes<span style='mso-spacerun:yes'>  </span>[A] Yes to All<span
+style='mso-spacerun:yes'>  </span>[H] Halt Command<span
+style='mso-spacerun:yes'>  </span>[S] Suspend<span style='mso-spacerun:yes'> 
+</span>[?] Help</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>(default is &quot;Y&quot;):h</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'>Get-Content
+: Command execution stopped because the user selected the Halt opt<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'>ion.<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'>At line:1
+char:21<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'>+
+&quot;Eleje&quot;; get-content &lt;&lt;&lt;&lt;<span style='mso-spacerun:yes'> 
+</span>blabla.txt -debug; &quot;Vége&quot;<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'><span
+style='mso-spacerun:yes'>    </span>+ CategoryInfo<span
+style='mso-spacerun:yes'>          </span>: OperationStopped: (:)
+[Get-Content], ParentCont<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'><span
+style='mso-spacerun:yes'>   </span>ainsErrorRecordException<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'><span
+style='mso-spacerun:yes'>    </span>+ FullyQualifiedErrorId :
+ActionPreferenceStop,Microsoft.PowerShell.Comma<o:p></o:p></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'><span
+style='mso-spacerun:yes'>   </span>nds.GetContentCommand<o:p></o:p></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span lang=HU>Láthatjuk,
+hogy ezzel a paraméterrel a nem megszakító hibák lefolyásáról dönthetünk
+interaktív módon. Ha a „</span></span><span style='mso-bookmark:_Toc189542102'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Halt</span></span><span
+lang=HU>” opciót választom, akkor kiírta a megállás okát, és a „Vége” nem
+futott le. Nézzünk, hogy hogyan viselkedik más válasz esetén:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[24] PS C:\old&gt; &quot;Eleje&quot;; get-content blabla.txt
+-debug; &quot;Vége&quot;</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Eleje</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Confirm</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Cannot find path 'C:\old\blabla.txt' because it does not exist.</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[Y] Yes<span style='mso-spacerun:yes'>  </span>[A] Yes to All<span
+style='mso-spacerun:yes'>  </span>[H] Halt Command<span
+style='mso-spacerun:yes'>  </span>[S] Suspend<span style='mso-spacerun:yes'> 
+</span>[?] Help</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>(default is &quot;Y&quot;):a</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'>Get-Content
+: Cannot find path 'C:\blabla.txt' because it does not exist.<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'>At line:1
+char:21<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'>+
+&quot;Eleje&quot;; get-content &lt;&lt;&lt;&lt;<span style='mso-spacerun:yes'> 
+</span>blabla.txt -debug; &quot;Vége&quot;<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'><span
+style='mso-spacerun:yes'>    </span>+ CategoryInfo<span
+style='mso-spacerun:yes'>          </span>: ObjectNotFound:
+(C:\blabla.txt:String) [Get-Con<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'><span
+style='mso-spacerun:yes'>   </span>tent], ItemNotFoundException<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'><span
+style='mso-spacerun:yes'>    </span>+ FullyQualifiedErrorId :
+PathNotFound,Microsoft.PowerShell.Commands.GetC<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'><span
+style='mso-spacerun:yes'>   </span>ontentCommand<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Vége</span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span lang=HU>Ha „</span></span><span
+style='mso-bookmark:_Toc189542102'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Yes</span></span><span lang=HU>”
+vagy „</span></span><span style='mso-bookmark:_Toc189542102'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Yes
+to All</span></span><span lang=HU>” opciót választom, akkor a cmdlet úgy fut
+le, ahogy eddig láttuk a nem megszakító hibáknál, azaz kiírta a hibát, de
+tovább futott. Nézzük a további választási lehetőségünket:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[25] PS C:\old&gt; &quot;Eleje&quot;; get-content blabla.txt
+-debug; &quot;Vége&quot;</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Eleje</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Confirm</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Cannot find path 'C:\old\blabla.txt' because it does not exist.</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[Y] Yes<span style='mso-spacerun:yes'>  </span>[A] Yes to All<span
+style='mso-spacerun:yes'>  </span>[H] Halt Command<span
+style='mso-spacerun:yes'>  </span>[S] Suspend<span style='mso-spacerun:yes'> 
+</span>[?] Help</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>(default is &quot;Y&quot;):s</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[26] PS C:\old &gt;&gt;&gt; 1+1</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>2</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[27] PS C:\old&gt;&gt;&gt; exit</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Confirm</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Cannot find path 'C:\Users\tibi\blabla.txt' because it does not
+exist.</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[Y] Yes<span style='mso-spacerun:yes'>  </span>[A] Yes to All<span
+style='mso-spacerun:yes'>  </span>[H] Halt Command<span
+style='mso-spacerun:yes'>  </span>[S] Suspend<span style='mso-spacerun:yes'> 
+</span>[?] Help</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>(default is &quot;Y&quot;):h</span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span lang=HU>Ha
+a „</span></span><span style='mso-bookmark:_Toc189542102'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Suspend</span></span><span
+lang=HU>” opciót választjuk, akkor a szkript futása megszakad, egy alprompt
+nyílik és ott bármit begépelhetünk, ellenőrizhetünk, majd az </span></span><span
+style='mso-bookmark:_Toc189542102'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>exit</span></span><span lang=HU>
+kulcsszót beírva visszatérhetünk a fenti állapothoz, azaz újra rákérdez, hogy
+mi legyen. </span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span lang=HU>Nézzük
+a másik témánkba vágó „</span></span><span style='mso-bookmark:_Toc189542102'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>CommonParameter</span></span><span
+lang=HU>”-t, az </span></span><span style='mso-bookmark:_Toc189542102'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>–ErrorAction</span></span><span
+lang=HU>-t:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[44] PS C:\old&gt; &quot;Eleje&quot;; get-content blabla.txt
+-ErrorAction Stop; &quot;Vége&quot;</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Eleje</span></span></p>
+
+<p class=HibaKdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU>Get-Content : Cannot find path
+'C:\blabla.txt' because it does not exist.</span></span></p>
+
+<p class=HibaKdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU>At line:1 char:21</span></span></p>
+
+<p class=HibaKdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU>+ &quot;Eleje&quot;;
+get-content &lt;&lt;&lt;&lt;<span style='mso-spacerun:yes'>  </span>blabla.txt
+-ErrorAction Stop; &quot;Vége&quot;</span></span></p>
+
+<p class=HibaKdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU><span
+style='mso-spacerun:yes'>    </span>+ CategoryInfo<span
+style='mso-spacerun:yes'>          </span>: ObjectNotFound:
+(C:\blabla.txt:String) [Get-Con</span></span></p>
+
+<p class=HibaKdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU><span
+style='mso-spacerun:yes'>   </span>tent], ItemNotFoundException</span></span></p>
+
+<p class=HibaKdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU><span
+style='mso-spacerun:yes'>    </span>+ FullyQualifiedErrorId :
+PathNotFound,Microsoft.PowerShell.Commands.GetC</span></span></p>
+
+<p class=HibaKdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU><span
+style='mso-spacerun:yes'>   </span>ontentCommand</span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span lang=HU>Ha a </span></span><span
+style='mso-bookmark:_Toc189542102'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Stop</span></span><span lang=HU>
+opciót választjuk, akkor a szkript a nem megszakító hibáknál is megszakítódik. </span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;page-break-after:avoid;background:#F2F2F2;mso-shading:windowtext;
+mso-pattern:gray-5 auto'><span style='mso-bookmark:_Toc189542102'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[45] PS C:\old&gt;
+&quot;Eleje&quot;; get-content blabla.txt -ErrorAction SilentlyContinu</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>e; &quot;Vége&quot;</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Eleje</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Vége</span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span lang=HU>A </span></span><span
+style='mso-bookmark:_Toc189542102'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>SilentlyContinue</span></span><span
+lang=HU> opcióval folytatja a szkriptet és nem is ad semmilyen hibajelzést.</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[46] PS C:\old&gt; &quot;Eleje&quot;; get-content blabla.txt
+-ErrorAction Inquire; &quot;Vége&quot;</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Eleje</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Confirm</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Cannot find path 'C:\old\blabla.txt' because it does not exist.</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[Y] Yes<span style='mso-spacerun:yes'>  </span>[A] Yes to All<span
+style='mso-spacerun:yes'>  </span>[H] Halt Command<span
+style='mso-spacerun:yes'>  </span>[S] Suspend<span style='mso-spacerun:yes'> 
+</span>[?] Help</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>(default is &quot;Y&quot;):a</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'>Get-Content
+: Cannot find path 'C:\blabla.txt' because it does not exist.<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'>At line:1
+char:21<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'>+
+&quot;Eleje&quot;; get-content &lt;&lt;&lt;&lt;<span style='mso-spacerun:yes'> 
+</span>blabla.txt -ErrorAction Inquire; &quot;Vége&quot;<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'><span
+style='mso-spacerun:yes'>    </span>+ CategoryInfo<span
+style='mso-spacerun:yes'>          </span>: ObjectNotFound:
+(C:\blabla.txt:String) [Get-Con<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'><span
+style='mso-spacerun:yes'>   </span>tent], ItemNotFoundException<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'><span
+style='mso-spacerun:yes'>    </span>+ FullyQualifiedErrorId :
+PathNotFound,Microsoft.PowerShell.Commands.GetC<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'><span
+style='mso-spacerun:yes'>   </span>ontentCommand<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Vége</span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span lang=HU>Ha az </span></span><span
+style='mso-bookmark:_Toc189542102'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Inquire</span></span><span
+lang=HU> opciót választjuk, akkor - hasonlóan a </span></span><span
+style='mso-bookmark:_Toc189542102'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>–debug</span></span><span
+lang=HU> paraméter használatakor látottakhoz - rákérdez a folytatás mikéntjére.</span></span></p>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

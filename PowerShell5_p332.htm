@@ -1,0 +1,1315 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>2.31.3 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><a name="_Toc204716508"></a><a
+name="_Toc209116051"><span style='mso-bookmark:_Toc204716508'>
+<span lang=HU>WMIEvent
+kezelése</span></span></a></h3>
+
+<p class=SzvegCxSpFirst><span lang=HU>A harmadik típusú események, amelyeket a
+PowerShell képes kezelni és reagálni rájuk, a WMI események. Ilyen eseményekkel
+a WMI objektumok létrejöttére, megszűnésére és változására lehet reagálni.
+Ilyen lehet például az IP-címzéssel, videó beállításokkal, megosztások és
+processzek megszűnésével vagy létrejöttével, és szolgáltatások leállásával vagy
+indításával kapcsolatot események.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>A WMI események alapját egy lekérdezés
+adja, ami kiszűri a lehetséges több ezer WMI objektum közül azokat, amelyek
+valamilyen jellegű változására kíváncsiak vagyunk. Ennek a lekérdezésnek az
+általános szerkezete:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=Kd style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SELECT &lt;<i
+style='mso-bidi-font-style:normal'>Properties</i>&gt; FROM &lt;<i
+style='mso-bidi-font-style:normal'>EventClass</i>&gt; WITHIN &lt;<i
+style='mso-bidi-font-style:normal'>másodperc</i>&gt; WHERE TargetInstance <span
+style='mso-tab-count:1'>   </span>ISA '&lt;<i style='mso-bidi-font-style:normal'>WmiClass</i>&gt;'
+AND '&lt;<i style='mso-bidi-font-style:normal'>OtherCriteria</i>&gt;'…</span></p>
+
+</div>
+
+<p class=Szveg><span class=htmltxt1><span lang=HU>A fenti kifejezésben a
+lehetséges </span></span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>EventClass</span></span><span
+class=htmltxt1><span lang=HU> kategóriák a következők lehetnek:<o:p></o:p></span></span></p>
+
+<p class=BulletSzvegCxSpFirst style='mso-list:l7 level1 lfo5'>
+<span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>__InstanceCreationEvent</span></span><span
+class=htmltxt1><span lang=HU> – akkor következik be, ha egy WMI osztály egy
+példánya létrejön<o:p></o:p></span></span></p>
+
+<p class=BulletSzvegCxSpMiddle style='mso-list:l7 level1 lfo5'>
+<span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>__InstanceDeletionEvent</span></span><span
+class=htmltxt1><span lang=HU> – akkor következik be, ha egy WMI osztály egy
+példánya megszűnik<o:p></o:p></span></span></p>
+
+<p class=BulletSzvegCxSpMiddle style='mso-list:l7 level1 lfo5'>
+<span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>__InstanceModificationEvent</span></span><span
+class=htmltxt1><span lang=HU> – akkor következik be, ha egy WMI osztály egy
+példányának valamely tulajdonsága megváltozik<o:p></o:p></span></span></p>
+
+<p class=BulletSzvegCxSpLast style='mso-list:l7 level1 lfo5'>
+<span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>__InstanceOperationEvent</span></span><span
+class=htmltxt1><span lang=HU> – akkor következik be, ha a fentiek közül
+bármelyik bekövetkezik<o:p></o:p></span></span></p>
+
+<p class=SzvegCxSpFirst><span class=htmltxt1><span lang=HU>(Az eseményosztályok
+nevében fontos a két aláhúzás az elején!)<o:p></o:p></span></span></p>
+
+<p class=SzvegCxSpLast><span class=htmltxt1><span lang=HU>Ezek alapján első
+nekifutásra összeraktam egy olyan lekérdezést, ami a szolgáltatások körében
+bekövetkező bármilyen változásra reagál:<o:p></o:p></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>[9] PS C:\&gt; $wmiquery = &quot;select * from
+__InstanceModificationEvent within 1 whe<o:p></o:p></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>re TargetInstance ISA 'Win32_Service'&quot;<o:p></o:p></span></span></p>
+
+</div>
+
+<p class=Szveg><span class=htmltxt1><span lang=HU>Ezzel regisztrálom is a
+PowerShell eseményfigyelőt, méghozzá olyan tevékenységgel, hogy adja át az
+általa érzékelt eseménnyel kapcsolatos paramétereket egy globális változóba, és
+jelezze a képernyőn, hogy valami történt:<o:p></o:p></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>[42] PS C:\&gt; Register-WmiEvent -Query $wmiquery
+-Action {$global:wmievent = $ev<o:p></o:p></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>entargs; write-host &quot;Esemény történt!&quot;}<o:p></o:p></span></span></p>
+
+</div>
+
+<p class=Szveg><span class=htmltxt1><span lang=HU>Ezután leállítom az egyik
+szolgáltatást, nézzük, mi történik, illetve mi lesz a globális </span></span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$wmievent</span></span><span
+class=htmltxt1><span lang=HU> változóm tartalma:<o:p></o:p></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>Esemény történt!<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>[46] PS C:\&gt; $wmievent<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>NewEvent<span
+style='mso-spacerun:yes'>                                </span>Context<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>--------<span
+style='mso-spacerun:yes'>                                </span>-------<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>System.Management.ManagementBaseObject<span
+style='mso-spacerun:yes'>  </span>{}<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>[47] PS C:\&gt; $wmievent.NewEvent<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>__GENUS<span style='mso-spacerun:yes'>            
+</span>: 2<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>__CLASS<span style='mso-spacerun:yes'>            
+</span>: __InstanceModificationEvent<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>__SUPERCLASS<span style='mso-spacerun:yes'>       
+</span>: __InstanceOperationEvent<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>__DYNASTY<span style='mso-spacerun:yes'>          
+</span>: __SystemClass<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>__RELPATH<span style='mso-spacerun:yes'>          
+</span>:<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>__PROPERTY_COUNT<span style='mso-spacerun:yes'>   
+</span>: 4<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>__DERIVATION<span style='mso-spacerun:yes'>       
+</span>: {__InstanceOperationEvent, __Event, __IndicationRelated,<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU><span
+style='mso-spacerun:yes'>                       </span>__SystemClass}<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>__SERVER<span style='mso-spacerun:yes'>           
+</span>: DC<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>__NAMESPACE<span style='mso-spacerun:yes'>        
+</span>: //./root/CIMV2<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>__PATH<span style='mso-spacerun:yes'>             
+</span>:<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>PreviousInstance<span style='mso-spacerun:yes'>   
+</span>: System.Management.ManagementBaseObject<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>SECURITY_DESCRIPTOR :<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>TargetInstance<span style='mso-spacerun:yes'>     
+</span>: System.Management.ManagementBaseObject<o:p></o:p></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>TIME_CREATED<span style='mso-spacerun:yes'>       
+</span>: 129116550251633750<o:p></o:p></span></span></p>
+
+</div>
+
+<p class=Szveg><span class=htmltxt1><span lang=HU>Ennek a </span></span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$wmievent</span></span><span
+class=htmltxt1><span lang=HU> objektumnak minket leginkább érdeklő
+tulajdonságai a </span></span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>TargetInstance</span></span><span
+class=htmltxt1><span lang=HU>, ami azt adja meg, hogy a változás után mi lett
+az eseményt kiváltó WMI példány, és a </span></span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>PreviousInstance</span></span><span
+class=htmltxt1><span lang=HU>, ami azt adja meg, hogy mi volt a változás előtti
+WMI példány. Ezen két objektum tulajdonságainak összevetésével ki lehet
+mutatni, hogy pontosan mi is változott:<o:p></o:p></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>[48] PS C:\&gt; $wmievent.NewEvent.TargetInstance<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>__GENUS<span
+style='mso-spacerun:yes'>                 </span>: 2<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>__CLASS<span
+style='mso-spacerun:yes'>                 </span>: Win32_Service<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>__SUPERCLASS<span
+style='mso-spacerun:yes'>            </span>: Win32_BaseService<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>__DYNASTY<span
+style='mso-spacerun:yes'>               </span>: CIM_ManagedSystemElement<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>__RELPATH<span
+style='mso-spacerun:yes'>               </span>:
+Win32_Service.Name=&quot;msiserver&quot;<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>__PROPERTY_COUNT<span
+style='mso-spacerun:yes'>        </span>: 25<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>__DERIVATION<span
+style='mso-spacerun:yes'>            </span>: {Win32_BaseService, CIM_Service,
+CIM_LogicalElement,<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU><span
+style='mso-spacerun:yes'>                          
+</span>CIM_ManagedSystemElement}<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>__SERVER<span
+style='mso-spacerun:yes'>                </span>: DC<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>__NAMESPACE<span
+style='mso-spacerun:yes'>             </span>: root\CIMV2<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>__PATH<span
+style='mso-spacerun:yes'>                  </span>:
+\\DC\root\CIMV2:Win32_Service.Name=&quot;msiserver&quot;<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>AcceptPause<span
+style='mso-spacerun:yes'>             </span>: False<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>AcceptStop<span
+style='mso-spacerun:yes'>              </span>: False<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>Caption<span
+style='mso-spacerun:yes'>                 </span>: Windows Installer<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>CheckPoint<span
+style='mso-spacerun:yes'>              </span>: 0<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>CreationClassName<span
+style='mso-spacerun:yes'>       </span>: Win32_Service<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>Description<span
+style='mso-spacerun:yes'>             </span>: Adds, modifies, and removes
+applications provided as<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU><span
+style='mso-spacerun:yes'>                           </span>a Windows Installer
+(*.msi) package. If this servic<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU><span
+style='mso-spacerun:yes'>                          </span>e is disabled, any
+services that explicitly depend o<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU><span
+style='mso-spacerun:yes'>                          </span>n it will fail to
+start.<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>DesktopInteract<span
+style='mso-spacerun:yes'>         </span>: False<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>DisplayName<span
+style='mso-spacerun:yes'>             </span>: Windows Installer<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>ErrorControl<span
+style='mso-spacerun:yes'>            </span>: Normal<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>ExitCode<span
+style='mso-spacerun:yes'>                </span>: 0<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>InstallDate<span
+style='mso-spacerun:yes'>             </span>:<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>Name<span
+style='mso-spacerun:yes'>                    </span>: msiserver<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>PathName<span
+style='mso-spacerun:yes'>                </span>:
+C:\Windows\system32\msiexec.exe /V<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>ProcessId<span
+style='mso-spacerun:yes'>               </span>: 0<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>ServiceSpecificExitCode : 0<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>ServiceType<span
+style='mso-spacerun:yes'>             </span>: Own Process<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>Started<span
+style='mso-spacerun:yes'>                 </span>: False<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>StartMode<span
+style='mso-spacerun:yes'>               </span>: Manual<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>StartName<span
+style='mso-spacerun:yes'>               </span>: LocalSystem<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>State<span
+style='mso-spacerun:yes'>                   </span>: Stopped<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>Status<span
+style='mso-spacerun:yes'>                  </span>: OK<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>SystemCreationClassName : Win32_ComputerSystem<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>SystemName<span
+style='mso-spacerun:yes'>              </span>: DC<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>TagId<span
+style='mso-spacerun:yes'>                   </span>: 0<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>WaitHint<span
+style='mso-spacerun:yes'>                </span>: 0<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>[49] PS C:\&gt;
+$wmievent.NewEvent.PreviousInstance<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>__GENUS<span
+style='mso-spacerun:yes'>                 </span>: 2<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>__CLASS<span
+style='mso-spacerun:yes'>                 </span>: Win32_Service<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>__SUPERCLASS<span
+style='mso-spacerun:yes'>            </span>: Win32_BaseService<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>__DYNASTY<span
+style='mso-spacerun:yes'>               </span>: CIM_ManagedSystemElement<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>__RELPATH<span
+style='mso-spacerun:yes'>               </span>:
+Win32_Service.Name=&quot;msiserver&quot;<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>__PROPERTY_COUNT<span
+style='mso-spacerun:yes'>        </span>: 25<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>__DERIVATION<span
+style='mso-spacerun:yes'>            </span>: {Win32_BaseService, CIM_Service,
+CIM_LogicalElement,<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU><span
+style='mso-spacerun:yes'>                          
+</span>CIM_ManagedSystemElement}<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>__SERVER<span
+style='mso-spacerun:yes'>                </span>: DC<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>__NAMESPACE<span
+style='mso-spacerun:yes'>             </span>: root\CIMV2<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>__PATH<span
+style='mso-spacerun:yes'>                  </span>:
+\\DC\root\CIMV2:Win32_Service.Name=&quot;msiserver&quot;<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>AcceptPause<span
+style='mso-spacerun:yes'>             </span>: False<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>AcceptStop<span
+style='mso-spacerun:yes'>              </span>: True<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>Caption<span
+style='mso-spacerun:yes'>                 </span>: Windows Installer<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>CheckPoint<span
+style='mso-spacerun:yes'>              </span>: 0<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>CreationClassName<span
+style='mso-spacerun:yes'>       </span>: Win32_Service<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>Description<span
+style='mso-spacerun:yes'>             </span>: Adds, modifies, and removes
+applications provided as<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU><span
+style='mso-spacerun:yes'>                           </span>a Windows Installer
+(*.msi) package. If this servic<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU><span
+style='mso-spacerun:yes'>                          </span>e is disabled, any
+services that explicitly depend o<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU><span
+style='mso-spacerun:yes'>                          </span>n it will fail to
+start.<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>DesktopInteract<span
+style='mso-spacerun:yes'>         </span>: False<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>DisplayName<span
+style='mso-spacerun:yes'>             </span>: Windows Installer<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>ErrorControl<span
+style='mso-spacerun:yes'>            </span>: Normal<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>ExitCode<span
+style='mso-spacerun:yes'>                </span>: 0<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>InstallDate<span
+style='mso-spacerun:yes'>             </span>:<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>Name<span
+style='mso-spacerun:yes'>                    </span>: msiserver<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>PathName<span
+style='mso-spacerun:yes'>                </span>:
+C:\Windows\system32\msiexec.exe /V<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>ProcessId<span
+style='mso-spacerun:yes'>               </span>: 1632<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>ServiceSpecificExitCode : 0<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>ServiceType<span
+style='mso-spacerun:yes'>             </span>: Own Process<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>Started<span
+style='mso-spacerun:yes'>                 </span>: True<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>StartMode<span
+style='mso-spacerun:yes'>               </span>: Manual<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>StartName<span
+style='mso-spacerun:yes'>               </span>: LocalSystem<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>State<span
+style='mso-spacerun:yes'>                   </span>: Running<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>Status<span
+style='mso-spacerun:yes'>                  </span>: OK<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>SystemCreationClassName : Win32_ComputerSystem<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>SystemName<span
+style='mso-spacerun:yes'>              </span>: DC<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>TagId<span
+style='mso-spacerun:yes'>                   </span>: 0<o:p></o:p></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>WaitHint<span
+style='mso-spacerun:yes'>                </span>: 0<o:p></o:p></span></span></p>
+
+</div>
+
+<p class=Szveg><span class=htmltxt1><span lang=HU>Sajnos ezt így szemre
+áttekinteni elég nehéz, ezért készítettem egy objektumtulajdonság
+összehasonlító </span></span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Compare-ObjectProps</span></span><span
+class=htmltxt1><span lang=HU> függvényt. Ez paraméterként két objektumot vár,
+meg lehet adni összehasonlító üzemmódot (</span></span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>eq</span></span><span
+class=htmltxt1><span lang=HU>: csak az egyforma tulajdonságokat jeleníti meg, </span></span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>ne</span></span><span
+class=htmltxt1><span lang=HU>: eltérő tulajdonságokat jeleníti meg, </span></span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>all</span></span><span
+class=htmltxt1><span lang=HU>: minden tulajdonságot megjelenít), és </span></span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Include</span></span><span
+class=htmltxt1><span lang=HU> paraméterként meg lehet adni, hogy mik azok a
+tulajdonságok, amiket mindenképpen szeretnénk látni:<o:p></o:p></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:blue'>function</span><span
+lang=HU style='color:black'> Compare-Objectprops (</span><span lang=HU
+style='color:purple'>$o1</span><span lang=HU style='color:black'>,</span><span
+lang=HU style='color:purple'>$o2</span><span lang=HU style='color:black'>,</span><span
+lang=HU style='color:purple'>$mode</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:red'>=</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:maroon'>&quot;all&quot;</span><span lang=HU
+style='color:black'>,[</span><span lang=HU style='color:teal'>string</span><span
+lang=HU style='color:black'>[]] </span><span lang=HU style='color:purple'>$include</span><span
+lang=HU style='color:black'>)<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'>{<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$props</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> @(</span><span lang=HU style='color:purple'>$o1</span><span
+lang=HU style='color:black'> | <b>Get-Member</b> <i>-MemberType</i> </span><span
+lang=HU style='color:maroon'>Properties</span><span lang=HU style='color:black'>
+| <b>%</b> {</span><span lang=HU style='color:purple'>$_</span><span lang=HU
+style='color:black'>.name})<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$o2</span><span
+lang=HU style='color:black'> | <b>Get-Member</b> <i>-MemberType</i> </span><span
+lang=HU style='color:maroon'>Properties</span><span lang=HU style='color:black'>
+| <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span><b>%</b> {</span><span lang=HU
+style='color:purple'>$_</span><span lang=HU style='color:black'>.name} | ?{</span><span
+lang=HU style='color:purple'>$props</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:red'>-notcontains</span><span lang=HU style='color:black'>
+</span><span lang=HU style='color:purple'>$_</span><span lang=HU
+style='color:black'>} | <b>%</b>{</span><span lang=HU style='color:purple'>$props</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>+=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$_</span><span
+lang=HU style='color:black'>}<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$mat</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> @{}<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$props</span><span
+lang=HU style='color:black'> | <b>%</b>{</span><span lang=HU style='color:purple'>$mat</span><span
+lang=HU style='color:black'>.</span><span lang=HU style='color:purple'>$_</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> @(</span><span lang=HU style='color:purple'>$o1</span><span
+lang=HU style='color:black'>.</span><span lang=HU style='color:purple'>$_</span><span
+lang=HU style='color:black'>,</span><span lang=HU style='color:purple'>$o2</span><span
+lang=HU style='color:black'>.</span><span lang=HU style='color:purple'>$_</span><span
+lang=HU style='color:black'>)}<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:blue'>foreach</span><span
+lang=HU style='color:black'>(</span><span lang=HU style='color:purple'>$key</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:blue'>in</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$mat</span><span
+lang=HU style='color:black'>.keys)<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span>{ <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>        </span></span><span lang=HU style='color:blue'>if</span><span
+lang=HU style='color:black'>(</span><span lang=HU style='color:purple'>$include</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>-contains</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$key</span><span
+lang=HU style='color:black'>)<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>        </span>{<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>            </span><b>New-Object</b> <i>-TypeName</i> </span><span
+lang=HU style='color:maroon'>psobject</span><span lang=HU style='color:black'> <i>-Property</i>
+@{<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:4'>                      </span>name </span><span lang=HU
+style='color:red'>=</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:purple'>$key</span><span lang=HU style='color:black'>; <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:4'>                      </span>Object1 </span><span
+lang=HU style='color:red'>=</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:purple'>$mat</span><span lang=HU style='color:black'>.</span><span
+lang=HU style='color:purple'>$key</span><span lang=HU style='color:black'>[0]; <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:4'>                      </span>Object2 </span><span
+lang=HU style='color:red'>=</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:purple'>$mat</span><span lang=HU style='color:black'>.</span><span
+lang=HU style='color:purple'>$key</span><span lang=HU style='color:black'>[1]}<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>        </span>}<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>        </span></span><span lang=HU style='color:blue'>else</span><span
+lang=HU style='color:black'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span>{<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>            </span></span><span lang=HU
+style='color:blue'>switch</span><span lang=HU style='color:black'>(</span><span
+lang=HU style='color:purple'>$mode</span><span lang=HU style='color:black'>)<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span><span style='mso-spacerun:yes'>   
+</span>{<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span><span style='mso-tab-count:2'>      </span><span
+style='mso-spacerun:yes'> </span><span style='mso-tab-count:1'>     </span></span><span
+lang=HU style='color:maroon'>&quot;eq&quot;</span><span lang=HU
+style='color:black'> {</span><span lang=HU style='color:blue'>if</span><span
+lang=HU style='color:black'>(</span><span lang=HU style='color:purple'>$mat</span><span
+lang=HU style='color:black'>.</span><span lang=HU style='color:purple'>$key</span><span
+lang=HU style='color:black'>[0] </span><span lang=HU style='color:red'>-eq</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$mat</span><span
+lang=HU style='color:black'>.</span><span lang=HU style='color:purple'>$key</span><span
+lang=HU style='color:black'>[1]){<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:5'>                            </span><b>New-Object</b> <i>-TypeName</i>
+</span><span lang=HU style='color:maroon'>psobject</span><span lang=HU
+style='color:black'> <i>-Property</i> @{<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:6'>                                  </span>name </span><span
+lang=HU style='color:red'>=</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:purple'>$key</span><span lang=HU style='color:black'>; <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:6'>                                  </span>Object1 </span><span
+lang=HU style='color:red'>=</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:purple'>$mat</span><span lang=HU style='color:black'>.</span><span
+lang=HU style='color:purple'>$key</span><span lang=HU style='color:black'>[0]; <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:6'>                                  </span>Object2 </span><span
+lang=HU style='color:red'>=</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:purple'>$mat</span><span lang=HU style='color:black'>.</span><span
+lang=HU style='color:purple'>$key</span><span lang=HU style='color:black'>[1]}<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:5'>                            </span></span><span
+lang=HU style='color:blue'>break</span><span lang=HU style='color:black'>}}<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:3'>                </span><span
+style='mso-spacerun:yes'> </span></span><span lang=HU style='color:maroon'>&quot;ne&quot;</span><span
+lang=HU style='color:black'> {</span><span lang=HU style='color:blue'>if</span><span
+lang=HU style='color:black'>(</span><span lang=HU style='color:purple'>$mat</span><span
+lang=HU style='color:black'>.</span><span lang=HU style='color:purple'>$key</span><span
+lang=HU style='color:black'>[0] </span><span lang=HU style='color:red'>-ne</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$mat</span><span
+lang=HU style='color:black'>.</span><span lang=HU style='color:purple'>$key</span><span
+lang=HU style='color:black'>[1]){<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:5'>                            </span><b>New-Object</b> <i>-TypeName</i>
+</span><span lang=HU style='color:maroon'>psobject</span><span lang=HU
+style='color:black'> <i>-Property</i> @{<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:6'>                                  </span>name </span><span
+lang=HU style='color:red'>=</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:purple'>$key</span><span lang=HU style='color:black'>; <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:6'>                                  </span>Object1 </span><span
+lang=HU style='color:red'>=</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:purple'>$mat</span><span lang=HU style='color:black'>.</span><span
+lang=HU style='color:purple'>$key</span><span lang=HU style='color:black'>[0]; <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:6'>                                  </span>Object2 </span><span
+lang=HU style='color:red'>=</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:purple'>$mat</span><span lang=HU style='color:black'>.</span><span
+lang=HU style='color:purple'>$key</span><span lang=HU style='color:black'>[1]}<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:5'>                            </span></span><span
+lang=HU style='color:blue'>break</span><span lang=HU style='color:black'>}}<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:3'>                </span><span
+style='mso-spacerun:yes'> </span></span><span lang=HU style='color:maroon'>&quot;all&quot;</span><span
+lang=HU style='color:black'> {<b>New-Object</b> <i>-TypeName</i> </span><span
+lang=HU style='color:maroon'>psobject</span><span lang=HU style='color:black'> <i>-Property</i>
+@{<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:5'>                            </span>name </span><span
+lang=HU style='color:red'>=</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:purple'>$key</span><span lang=HU style='color:black'>; <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:5'>                            </span>Object1 </span><span
+lang=HU style='color:red'>=</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:purple'>$mat</span><span lang=HU style='color:black'>.</span><span
+lang=HU style='color:purple'>$key</span><span lang=HU style='color:black'>[0]; <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:5'>                            </span>Object2 </span><span
+lang=HU style='color:red'>=</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:purple'>$mat</span><span lang=HU style='color:black'>.</span><span
+lang=HU style='color:purple'>$key</span><span lang=HU style='color:black'>[1]}}<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:3'>                </span>} <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span>}<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span>}<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span lang=HU style='color:black'>}<span class=htmltxt1><o:p></o:p></span></span></p>
+
+</div>
+
+<p class=Szveg><span class=htmltxt1><span lang=HU>Nézzük, ezzel mit láthatunk:<o:p></o:p></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>[54] PS C:\&gt; Compare-Objectprops
+$wmievent.NewEvent.PreviousInstance $wmievent.<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>NewEvent.TargetInstance -mode ne -include
+displayname<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>name<span
+style='mso-spacerun:yes'>                       </span>Object2<span
+style='mso-spacerun:yes'>                   </span>Object1<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>----<span
+style='mso-spacerun:yes'>                       </span>-------<span
+style='mso-spacerun:yes'>                   </span>-------<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>DisplayName<span
+style='mso-spacerun:yes'>                </span>Windows Installer<span
+style='mso-spacerun:yes'>         </span>Windows Installer<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>AcceptStop<span
+style='mso-spacerun:yes'>                 </span>False<span
+style='mso-spacerun:yes'>                     </span>True<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>State<span
+style='mso-spacerun:yes'>                      </span>Stopped<span
+style='mso-spacerun:yes'>                   </span>Running<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>ProcessId<span
+style='mso-spacerun:yes'>                  </span>0<span
+style='mso-spacerun:yes'>                         </span>3140<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>Started<span
+style='mso-spacerun:yes'>                    </span>False<span
+style='mso-spacerun:yes'>                     </span>True<o:p></o:p></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+class=htmltxt1><span lang=HU>__DERIVATION<span
+style='mso-spacerun:yes'>               </span>{Win32_BaseService, CI...
+{Win32_BaseService, CI...<o:p></o:p></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span class=htmltxt1><span lang=HU>Látható, hogy a </span></span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Windows
+Installer</span></span><span class=htmltxt1><span lang=HU> szolgáltatást
+állítottam le, ez okozta az eseményt, hiszen a korábbi állapot (</span></span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Object1</span></span><span
+class=htmltxt1><span lang=HU> oszlop) volt a „</span></span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Running</span></span><span
+class=htmltxt1><span lang=HU>”, most meg „</span></span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Stopped</span></span><span
+class=htmltxt1><span lang=HU>”.<o:p></o:p></span></span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>Az előbb látott objektumok (</span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>TargetInstance</span></span><span
+lang=HU> és </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>PreviousInstance</span></span><span lang=HU>) a WMI
+eseménylekérdezésben is felhasználható. Azaz ha én csak olyan jellegű
+szolgáltatás-változásokra vagyok kíváncsi, amikor a szolgáltatás leállt, és
+arra nem vagyok kíváncsi, amikor egy szolgáltatás elindult, akkor a lekérdezést
+így lehet pontosítani:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[62] PS C:\&gt; $wmiquery
+= &quot;select * from __InstanceModificationEvent within 1 wh</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ere TargetInstance ISA
+'Win32_Service' AND targetinstance.State = 'Stopped'&quot;</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[63] PS C:\&gt;
+Register-WmiEvent -Query $wmiquery -Action {$global:wmievent = $ev</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>entargs; write-host
+&quot;Esemény történt!&quot;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>WARNING: column
+&quot;Command&quot; does not fit into the display and was removed.</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Id<span
+style='mso-spacerun:yes'>              </span>Name<span
+style='mso-spacerun:yes'>            </span>State<span
+style='mso-spacerun:yes'>      </span>HasMoreData<span
+style='mso-spacerun:yes'>     </span>Location</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>--<span
+style='mso-spacerun:yes'>              </span>----<span
+style='mso-spacerun:yes'>            </span>-----<span
+style='mso-spacerun:yes'>      </span>-----------<span
+style='mso-spacerun:yes'>     </span>--------</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>5<span
+style='mso-spacerun:yes'>               </span>c2fbcf0d-af2... NotStarted False</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[64] PS C:\&gt; Esemény
+történt!</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Compare-Objectprops
+$wmievent.NewEvent.PreviousInstance $wmievent.NewEvent.Targ</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>etInstance -mode ne
+-include displayname | ft name, object1, object2</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>name<span
+style='mso-spacerun:yes'>                       </span>Object1<span
+style='mso-spacerun:yes'>                   </span>Object2</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>                       </span>-------<span
+style='mso-spacerun:yes'>                   </span>-------</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>DisplayName<span
+style='mso-spacerun:yes'>                </span>Windows Installer<span
+style='mso-spacerun:yes'>         </span>Windows Installer</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>AcceptStop<span
+style='mso-spacerun:yes'>                 </span>True<span
+style='mso-spacerun:yes'>                      </span>False</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>State<span
+style='mso-spacerun:yes'>                      </span>Running<span
+style='mso-spacerun:yes'>                   </span>Stopped</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Status<span
+style='mso-spacerun:yes'>                     </span>Degraded<span
+style='mso-spacerun:yes'>                  </span>OK</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ProcessId<span
+style='mso-spacerun:yes'>                  </span>3608<span
+style='mso-spacerun:yes'>                      </span>0</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Started<span
+style='mso-spacerun:yes'>                    </span>True<span
+style='mso-spacerun:yes'>                      </span>False</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__DERIVATION<span
+style='mso-spacerun:yes'>               </span>{Win32_BaseService, CI...
+{Win32_BaseService, CI...</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>A fenti példa úgy született, hogy töröltem a
+korábbi eseményfigyelést, és a módosított WMI lekérdezés létrehozása és az
+eseményfigyelés regisztrálása után elindítottam a korábban leállított Windows
+Installer szolgáltatást. Erre nem történt semmi, ellenben amikor újra
+leállítottam, akkor megkaptam a fenti eseményjelzést.</span></p>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

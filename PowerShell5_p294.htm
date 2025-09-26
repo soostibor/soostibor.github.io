@@ -1,0 +1,1567 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>2.24.1 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><a name="_Toc204716467"></a><a
+name="_Toc209116010"><span style='mso-bookmark:_Toc204716467'>
+<span lang=HU>Parancskészlet
+szűkítése</span></span></a></span></span></span></span></h3>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span lang=HU>Az én példám egy helpdesk
+csapat számára kialakított speciális távoli hozzáférési felület a
+tartományvezérlőhöz, amin keresztül a helpdesk szakemberek az Active Directory
+csak lekérdező parancsaihoz férnek hozzá, ezen kívül csak a munkájukhoz
+szükséges </span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Set-ADAccountPassword</span></span><span
+lang=HU> és </span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Set-ADUser</span></span><span
+lang=HU> parancsokhoz. Nem ez jelenti a tényleges biztonsági beállítást, hiszen
+az AD-ben jogok delegálásával kell azt beállítani, de a PowerShell lehetőségek
+szűkítése hatékonyabbá teszi a munkavégzést, hiszen még véletlenül sem
+tévedhetnek a munkatársak olyan cmdletek közelébe, amelyek futtatása során
+úgyis jogosultsági hibajelzéseket kapnának.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span lang=HU>Elsőként létrehozom a
+tartományvezérlőn azt a szkriptet, amelyik majd kialakítja a lekorlátozott
+környezetet. Ehhez Windows Server 2008 R2 tartományvezérlő vagy Management
+Gateway kell, hiszen ott áll rendelkezésre az ActiveDirectory modul:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><b><span lang=HU style='color:cadetblue'>Import-Module</span></b><span
+lang=HU style='color:black'> activedirectory<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span lang=HU style='color:black'><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span lang=HU style='color:purple'>$commands</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> (</span><b><span lang=HU style='color:cadetblue'>Get-Command</span></b><span
+lang=HU style='color:black'> </span><i><span lang=HU style='color:cadetblue'>-Module</span></i><span
+lang=HU style='color:black'> activedirectory | <o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><b><span lang=HU style='color:cadetblue'>where-object</span></b><span
+lang=HU style='color:black'> {</span><span lang=HU style='color:purple'>$_</span><span
+lang=HU style='color:black'>.verb </span><span lang=HU style='color:red'>-eq</span><span
+lang=HU style='color:black'> &quot;get&quot;} | </span><b><span lang=HU
+style='color:cadetblue'>%</span></b><span lang=HU style='color:black'>{</span><span
+lang=HU style='color:purple'>$_</span><span lang=HU style='color:black'>.name}
+)<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span lang=HU style='color:purple'>$commands</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>+=</span><span
+lang=HU style='color:black'> &quot;Set-ADUser&quot;<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span lang=HU style='color:purple'>$commands</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>+=</span><span
+lang=HU style='color:black'> &quot;Set-ADAccountPassword&quot;<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&quot;Get-Command&quot;, &quot;Get-FormatData&quot;, &quot;Select-Object&quot;,
+<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span>&quot;Get-Help&quot;, &quot;Measure-Object&quot;
+| </span><b><span lang=HU style='color:cadetblue'>ForEach-Object</span></b><span
+lang=HU style='color:black'> {</span><span lang=HU style='color:purple'>$commands</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>+=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$_</span><span
+lang=HU style='color:black'> }<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span lang=HU style='color:black'><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span lang=HU style='color:purple'>$ExecutionContext</span><span
+lang=HU style='color:black'>.</span><span lang=HU style='color:saddlebrown'>SessionState</span><span
+lang=HU style='color:black'>.</span><span lang=HU style='color:saddlebrown'>Applications</span><span
+lang=HU style='color:black'>.</span><span lang=HU style='color:saddlebrown'>Clear</span><span
+lang=HU style='color:black'>()<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span lang=HU style='color:purple'>$ExecutionContext</span><span
+lang=HU style='color:black'>.</span><span lang=HU style='color:saddlebrown'>SessionState</span><span
+lang=HU style='color:black'>.</span><span lang=HU style='color:saddlebrown'>Scripts</span><span
+lang=HU style='color:black'>.</span><span lang=HU style='color:saddlebrown'>Clear</span><span
+lang=HU style='color:black'>()<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span lang=HU style='color:black'><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><b><span lang=HU style='color:cadetblue'>Get-Command</span></b><span
+lang=HU style='color:black'> | ?{</span><span lang=HU style='color:purple'>$Commands</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>-notcontains</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$_</span><span
+lang=HU style='color:black'>.name} | <o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><b><span lang=HU style='color:cadetblue'>ForEach-Object</span></b><span
+lang=HU style='color:black'> {</span><span lang=HU style='color:purple'>$_</span><span
+lang=HU style='color:black'>.Visibility</span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&quot;Private&quot;}<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span lang=HU style='color:black'><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:purple'>$ExecutionContext</span><span lang=HU
+style='color:black'>.</span><span lang=HU style='color:saddlebrown'>SessionState</span><span
+lang=HU style='color:black'>.LanguageMode</span><span lang=HU style='color:
+red'>=</span><span lang=HU style='color:black;mso-color-alt:windowtext'>&quot;RestrictedLanguage&quot;</span></span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span lang=HU>Első lépésként importálom tehát
+az ActiveDirectory modult, hiszen a helpdeskeseknek biztosítani akarom a
+címtárral kapcsolatos cmdletek egy részét. Ezután pont a számukra szükséges
+parancskészletet alakítom ki azzal, hogy kiválogatom a számukra elérhető
+cmdleteket a </span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$commands</span></span><span
+lang=HU> változóba. Ezek a cmdletek az AD modul összes </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Get</span></span><span
+lang=HU> igéjű cmdletje, plusz az ő tevékenységükhöz szükséges két </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Set</span></span><span
+lang=HU> cmdlet, a </span></span></span></span></span><span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:
+_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Set-ADUser</span></span><span
+lang=HU> és a </span></span></span></span></span><span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:
+_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Set-ADAccountPassword</span></span><span
+lang=HU>. Valamint van néhány kötelezően engedélyezendő cmdlet, ezeket látjuk a
+következő sorban. Ezekkel túl sok kárt nem lehet okozni, így ennek semmilyen
+biztonsági kockázata sincsen, viszont enélkül nem működik a távoli futtatási
+környezet.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpMiddle><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span lang=HU>Ezután az </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$ExecutionContext</span></span><span
+lang=HU> automatikus változó </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>SessionState</span></span><span
+lang=HU> tulajdonságának jellemzőit állítom be. Egyrészt letiltom az elérhető
+alkalmazásokat. Ilyen alkalmazás pl. a WinRM szolgáltatás használata, azaz
+letiltom, hogy az ide, a tartományvezérlőhöz kapcsolódó személy még távolabbi
+gépre kezdeményezhessen távoli kapcsolatot. Hasonló módon a szkripteket is
+letiltom, azaz például a helyi profilok szkriptjeit.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpMiddle><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span lang=HU>Ezután az összes elérhető
+cmdletet, amelyek nincsenek rajta az engedélyezett cmdletek listáján,
+láthatatlanná teszem azáltal, hogy a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Visibility</span></span><span
+lang=HU> tulajdonságukat </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Private</span></span><span
+lang=HU>-ra állítom.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpMiddle><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span lang=HU>A legvégén az egész
+környezetet ebben a formában lezárom, hogy nehogy ezeket a beállításokat vissza
+tudja csinálni a leleményes helpdeskes. Ezt a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>LanguageMode</span></span><span
+lang=HU> tulajdonság beállításával tettem meg.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span lang=HU>Ezután szintén a
+tartományvezérlőn létrehozok egy új távoli kapcsolódási környezetet, egy un. </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>PSSessionConfiguration</span></span><span
+lang=HU> objektumot. Előtte, ha szükséges, engedélyezzük a távoli futtatás
+lehetőségét:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Enable-PSRemoting # ha még nem volt engedélyezve</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>register-pssessionConfiguration
+-name HelpDesk -startupScript ` C:\lurdy\startup.ps1 –ShowSecurityDescriptorUI</span></span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span lang=HU>Ez létrehoz egy HelpDesk nevű
+„játszóteret” távoli futtatás céljára, ahol tehát eleve be lesz importálva az
+ActiveDirectory modul, viszont egy csomó cmdlet nem lesz elérhető. Mindezt a
+korábban látott </span></span></span></span></span><span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:
+_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>startup.ps1</span></span><span
+lang=HU> szkript alakítja ki. Ezt a játszóteret még a jogosultság megfelelő
+beállításával is védjük, hogy ne csatlakozhasson ide bárki, mindjárt látjuk,
+hogy hogyan.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span lang=HU>Ezt futtatva ilyen kimenetet
+kapunk:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[62] PS C:\&gt;
+register-pssessionConfiguration -name HelpDesk -startupScript ` C:\lurdy\startup.ps1
+–ShowSecurityDescriptorUI</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Confirm</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Are you sure you want to
+perform this action?</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Performing operation
+&quot;Register-PSSessionConfiguration&quot; on Target &quot;Name:</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>HelpDesk. This will allow
+administrators to remotely run Windows PowerShell</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>commands on this
+computer&quot;.</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[Y] Yes<span
+style='mso-spacerun:yes'>  </span>[A] Yes to All<span
+style='mso-spacerun:yes'>  </span>[N] No<span style='mso-spacerun:yes'> 
+</span>[L] No to All<span style='mso-spacerun:yes'>  </span>[S] Suspend<span
+style='mso-spacerun:yes'>  </span>[?] Help</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>(default is
+&quot;Y&quot;):y</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>   </span>WSManConfig:
+Microsoft.WSMan.Management\WSMan::localhost\Plugin</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>                      </span>Type<span
+style='mso-spacerun:yes'>                 </span>Keys</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>                      </span>----<span
+style='mso-spacerun:yes'>                 </span>----</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>HelpDesk<span
+style='mso-spacerun:yes'>                  </span>Container<span
+style='mso-spacerun:yes'>            </span>{Name=HelpDesk}</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Confirm</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Are you sure you want to
+perform this action?</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Performing operation
+&quot;&quot;Restart-Service&quot;&quot; on Target &quot;Name: WinRM&quot;.</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[Y] Yes<span
+style='mso-spacerun:yes'>  </span>[A] Yes to All<span
+style='mso-spacerun:yes'>  </span>[N] No<span style='mso-spacerun:yes'> 
+</span>[L] No to All<span style='mso-spacerun:yes'>  </span>[S] Suspend<span
+style='mso-spacerun:yes'>  </span>[?] Help</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>(default is
+&quot;Y&quot;):y</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Confirm</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Are you sure you want to
+perform this action?</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Performing operation
+&quot;Restart-Service&quot; on Target &quot;Windows Remote Management</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>(WS-Management)
+(winrm)&quot;.</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[Y] Yes<span
+style='mso-spacerun:yes'>  </span>[A] Yes to All<span
+style='mso-spacerun:yes'>  </span>[N] No<span style='mso-spacerun:yes'> 
+</span>[L] No to All<span style='mso-spacerun:yes'>  </span>[S] Suspend<span
+style='mso-spacerun:yes'>  </span>[?] Help</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>(default is
+&quot;Y&quot;):y</span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:
+_Toc197149272'><span lang=HU>Néhány megerősítést kért tőlünk, és megjelent
+(lásd alább) a </span></span></span></span></span><span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:
+_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>–ShowSecurityDescriptorUI</span></span><span
+lang=HU> kapcsoló hatására a következő grafikus dialógusablak:</span></span></span></span></span></p>
+
+<p class=Kp>
+ <img src="PowerShell5_files/image159.png">
+</p>
+
+<p class=MsoCaption><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'></span></span></span></span>
+<span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU><span style='mso-no-proof:yes'>137</span></span></span></span></span></span>
+<span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:
+_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span lang=HU>. ábra
+Grafikus - karakteres együttműködés</span></span></span></span></span></p>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span lang=HU>Ezen a felületen megadtam a
+Helpdesk Hugó részére (a demó rendszeremen ő szimbolizálja a helpdesk
+csoportot) a szükséges </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Execute
+(Invoke)</span></span><span lang=HU> jogot. Itt ezt sokkal egyszerűbb
+beállítani, mint a karakteres konzolon, de ott is meg lehetett volna tenni.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span lang=HU>Nézzük, hogy a távoli gépen
+hogyan lehet ehhez a környezethez csatlakozni:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=Kd style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; $s =
+New-PSSession -ComputerName dc -ConfigurationName helpdesk</span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:
+_Toc197149272'><span lang=HU>Ez nem túl bonyolult, de vajon hogyan tudja
+lekérdezni Hugó a felhasználókat az AD-ből?</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Invoke-Command
+-Session $s -ScriptBlock {get-aduser -filter 'name -like</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'> </span>&quot;főn*&quot;'}</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PSComputerName<span
+style='mso-spacerun:yes'>     </span>: dc</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>RunspaceId<span
+style='mso-spacerun:yes'>         </span>: 81cb2f79-afa9-4e9a-8552-f8d296380932</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PSShowComputerName : True</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>DistinguishedName<span
+style='mso-spacerun:yes'>  </span>: CN=Főnök Ferenc,OU=Managed
+Users,DC=r2,DC=dom</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Enabled<span
+style='mso-spacerun:yes'>            </span>: True</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>GivenName<span
+style='mso-spacerun:yes'>          </span>: Ferenc</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>               </span>: Főnök Ferenc</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ObjectClass<span
+style='mso-spacerun:yes'>        </span>: user</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ObjectGUID<span
+style='mso-spacerun:yes'>         </span>: a067ce05-b902-4f26-812e-4bbb62280ea8</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SamAccountName<span
+style='mso-spacerun:yes'>     </span>: ff</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SID<span
+style='mso-spacerun:yes'>                </span>:
+S-1-5-21-3398938913-3940250523-927435294-1123</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Surname<span
+style='mso-spacerun:yes'>            </span>: Főnök</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>UserPrincipalName<span
+style='mso-spacerun:yes'>  </span>: ff@r2.dom</span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:
+_Toc197149272'><span lang=HU>Itt már némi szomorúságot vélek felfedezni lelki
+szemeim előtt Hugó arcán. Elég macerás ez neki, főleg, hogy a „restricted”
+üzemmódú környezetben nem használhat scriptblock adattípust, így a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>–Filter</span></span><span
+lang=HU>-hez idézőjellel kell megadnia a feltételt. Szerencsére a PowerShell
+nagyon humánus, nem kárhoztatja a szegény helpdeskeseket állandó </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Invoke-Command</span></span><span
+lang=HU> parancsok használatára, mert be lehet importálni a távoli környezet
+lehetőségeit a lokális környezetbe az </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Import-PSSession</span></span><span
+lang=HU> cmdlet segítségével:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt;
+Import-PSSession -Session $s</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ModuleType Name<span
+style='mso-spacerun:yes'>                      </span>ExportedCommands</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>---------- ----<span
+style='mso-spacerun:yes'>                      </span>----------------</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Script<span
+style='mso-spacerun:yes'>     </span>tmp_e8a8b3de-e7fe-472a... {Get-ADUser,
+Get-ADServiceAccount, Get...</span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:
+_Toc197149272'><span lang=HU>Ez a parancs „áthozza” a távoli környezet
+cmdleteit, valójában ugyanolyan nevű függvényeket hoz létre, mint a távoli cmdletek,
+és ebbe a függvénybe ágyazza be azt az </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Invoke-Command</span></span><span
+lang=HU> kifejezést, ami valójában a távoli parancsot végrehajtja. Nézzünk
+ezeket a függvényeket:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Get-Command
+-CommandType function | ?{$_.name -match &quot;-AD&quot;}</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>CommandType<span
+style='mso-spacerun:yes'>     </span>Name<span
+style='mso-spacerun:yes'>                            </span>Definition</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>-----------<span
+style='mso-spacerun:yes'>     </span>----<span
+style='mso-spacerun:yes'>                            </span>----------</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Function<span
+style='mso-spacerun:yes'>        </span>Get-ADAccountAuthorizationGroup ...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Function<span
+style='mso-spacerun:yes'>        </span>Get-ADAccountResultantPasswo... ...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Function<span
+style='mso-spacerun:yes'>        </span>Get-ADComputer<span
+style='mso-spacerun:yes'>                  </span>...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Function<span
+style='mso-spacerun:yes'>        </span>Get-ADComputerServiceAccount<span
+style='mso-spacerun:yes'>    </span>...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Function<span
+style='mso-spacerun:yes'>        </span>Get-ADDefaultDomainPasswordP... ...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Function<span
+style='mso-spacerun:yes'>        </span>Get-ADDomain<span
+style='mso-spacerun:yes'>                    </span>...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Function<span
+style='mso-spacerun:yes'>        </span>Get-ADDomainController<span
+style='mso-spacerun:yes'>          </span>...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Function<span
+style='mso-spacerun:yes'>        </span>Get-ADDomainControllerPasswo... ...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Function<span
+style='mso-spacerun:yes'>        </span>Get-ADDomainControllerPasswo... ...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Function<span
+style='mso-spacerun:yes'>        </span>Get-ADFineGrainedPasswordPolicy ...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Function<span
+style='mso-spacerun:yes'>        </span>Get-ADFineGrainedPasswordPol... ...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Function<span
+style='mso-spacerun:yes'>        </span>Get-ADForest<span
+style='mso-spacerun:yes'>                    </span>...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Function<span
+style='mso-spacerun:yes'>        </span>Get-ADGroup<span
+style='mso-spacerun:yes'>                     </span>...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Function<span
+style='mso-spacerun:yes'>        </span>Get-ADGroupMember<span
+style='mso-spacerun:yes'>               </span>...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Function<span
+style='mso-spacerun:yes'>        </span>Get-ADObject<span
+style='mso-spacerun:yes'>                    </span>...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Function<span
+style='mso-spacerun:yes'>        </span>Get-ADOptionalFeature<span
+style='mso-spacerun:yes'>           </span>...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Function<span
+style='mso-spacerun:yes'>        </span>Get-ADOrganizationalUnit<span
+style='mso-spacerun:yes'>        </span>...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Function<span
+style='mso-spacerun:yes'>        </span>Get-ADPrincipalGroupMembership<span
+style='mso-spacerun:yes'>  </span>...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Function<span
+style='mso-spacerun:yes'>        </span>Get-ADRootDSE<span
+style='mso-spacerun:yes'>                   </span>...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Function<span
+style='mso-spacerun:yes'>        </span>Get-ADServiceAccount<span
+style='mso-spacerun:yes'>            </span>...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Function<span
+style='mso-spacerun:yes'>        </span>Get-ADUser<span
+style='mso-spacerun:yes'>                      </span>...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Function<span
+style='mso-spacerun:yes'>        </span>Get-ADUserResultantPasswordP... ...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Function<span
+style='mso-spacerun:yes'>        </span>Set-ADAccountPassword<span
+style='mso-spacerun:yes'>           </span>...</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Function<span
+style='mso-spacerun:yes'>        </span>Set-ADUser<span
+style='mso-spacerun:yes'>                      </span>...</span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:
+_Toc197149272'><span lang=HU>Láthatjuk, hogy az elérhető AD cmdletek tényleg
+csak a </span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Get</span></span><span lang=HU>
+igéjűeket tartalmazzák, plusz a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Set-ADAccountPassword</span></span><span
+lang=HU> és a </span></span></span></span></span><span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:
+_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Set-ADUser</span></span><span
+lang=HU>. Pillantsunk bele egy függvénydefinícióba is (kicsit megvágtam a
+paraméterdefiníciós rész):</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt;
+${function:get-aduser}</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>param(</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>[Alias('db')]</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>[Switch]</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>${Debug},</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>[Alias('wv')]</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>${WarningVariable},</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>[Alias('Property')]</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>${Properties},</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>${SearchBase},</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>${ResultPageSize},</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>${Credential},</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>…</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>begin {</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>try {</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>            </span>$positionalArguments = &amp;
+$script:NewObject collections.arraylist</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>            </span>foreach ($parameterName in
+$PSBoundParameters.BoundPositionally)</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>            </span>{</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                </span>$null =
+$positionalArguments.Add( $PSBoundParameters[$paramete</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>rName] )</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                </span>$null =
+$PSBoundParameters.Remove($parameterName)</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>            </span>}</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>           
+</span>$positionalArguments.AddRange($args)</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>            </span>$clientSideParameters =
+Get-PSImplicitRemotingClientSideParameters</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'> </span>$PSBoundParameters $True</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>            </span>$scriptCmd = { &amp;
+$script:InvokeCommand `</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                           
+</span>@clientSideParameters `</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                            </span>-HideComputerName `</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                            </span>-Session
+(Get-PSImplicitRemotingSession -CommandNa</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>me 'Get-ADUser') `</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                            </span>-Arg ('Get-ADUser',
+$PSBoundParameters, $positiona</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>lArguments) `</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                            </span>-Script {
+param($name, $boundParams, $unboundParam</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>s) &amp; $name
+@boundParams @unboundParams } `</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                         </span>}</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>            </span>$steppablePipeline =
+$scriptCmd.GetSteppablePipeline($myInvocation</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>.CommandOrigin)</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>           
+</span>$steppablePipeline.Begin($myInvocation.ExpectingInput, $ExecutionC</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ontext)</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>…</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>}</span></span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span lang=HU>Ez tulajdonképpen
+szerkezetileg egy olyan függvény, mint amit a </span></span></span></span></span>
+<span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU><i style='mso-bidi-font-style:normal'>2.5.7</i>
+</span></span></span></span></span>
+<span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:
+_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span lang=HU><i
+style='mso-bidi-font-style:normal'> </i></span></span></span></span></span>
+<span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU><i style='mso-bidi-font-style:normal'>Meglevő cmdletek kiegészítése,
+átalakítása</i>
+</span></span></span></span></span>
+<span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:
+_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span lang=HU>
+fejezetben láttunk. Az elején ugyanolyan paramétereket definiál a függvény,
+mint ami az eredeti cmdletnek van, majd a paraméterátadáshoz szétválogatja a
+pozícionális paramétereket és a nevesítetteket. Nem mondom, hogy minden világos
+pontosan számomra, hogy mi is történik, a lényeg, hogy meg lesz hívva távoli
+módon az eredeti cmdlet.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span lang=HU>Ráadásul így a TAB kiegészítés
+is működik, ezzel még kényelmesebb lesz a helpdeskes munkája. Nézzük, hogyan
+tudja a korábbi parancsot futtatni:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Get-ADUser
+-Filter {name -like &quot;főn*&quot;}</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>RunspaceId<span
+style='mso-spacerun:yes'>        </span>: 81cb2f79-afa9-4e9a-8552-f8d296380932</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>DistinguishedName :
+CN=Főnök Ferenc,OU=Managed Users,DC=r2,DC=dom</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Enabled<span
+style='mso-spacerun:yes'>           </span>: True</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>GivenName<span
+style='mso-spacerun:yes'>         </span>: Ferenc</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>              </span>: Főnök Ferenc</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ObjectClass<span
+style='mso-spacerun:yes'>       </span>: user</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ObjectGUID<span
+style='mso-spacerun:yes'>        </span>: a067ce05-b902-4f26-812e-4bbb62280ea8</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SamAccountName<span
+style='mso-spacerun:yes'>    </span>: ff</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SID<span
+style='mso-spacerun:yes'>               </span>:
+S-1-5-21-3398938913-3940250523-927435294-1123</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Surname<span
+style='mso-spacerun:yes'>           </span>: Főnök</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>UserPrincipalName : ff@r2.dom</span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:
+_Toc197149272'><span lang=HU>Láthatjuk, hogy minden ugyanúgy működik, mintha
+ott ülne az illető a tartományvezérlőre bejelentkezve! Mindezt úgy, hogy nem
+kellett telepíteni semmit sem a helpdeskes munkaállomására.</span></span></span></span></span></p>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

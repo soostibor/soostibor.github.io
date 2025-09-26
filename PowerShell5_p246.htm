@@ -1,0 +1,410 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>2.16.3 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><a name="_Toc204716415"></a><a
+name="_Toc209115958"><span style='mso-bookmark:_Toc204716415'>
+<span lang=HU>CIM
+cmdletek futtatása távoli gépekre</span></span></a></span></span></h3>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU>Az igazán nagy előrelépést a
+WMI cmdletekhez képest a távoli futtatásnál találjuk. A WMI cmdletek a nem
+szabványos DCOM protokollt használják távoli elérés esetén. Ez egy nem túl
+friss protokoll, amit a Windows rendszereken kívül nem nagyon támogat senki. Az
+igazán nagy baj ezzel, hogy nagyon lassú, nehézkes a kapcsolat felépítése, és
+minden parancsnál ráadásul felépül, vegrehajtódik a parancs, majd bontásra
+kerül. Hiába adunk ki több parancsot ugyanarra a gépre vonatkozólag az egész
+koreográfia az elejétől megismétlődik.</span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU>A CIM cmdleteknél van
+lehetőség külön CIM kapcsolatok kezelésére, ha erre szükség van, például amikor
+nem csak egy CIM parancsot akarunk futtatni egy géppel kapcsolatban. De akár a
+hagyományos módon is kezelhetjük a távoli kapcsolatokat. Elsőként nézzük a
+hagyományos kapcsolatot, ilyenkor a </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>-ComputerName</span></span><span
+lang=HU> paramétert használjuk:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Get-CimInstance
+-ComputerName DC2016 -ClassName Win32_computersystem</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>             </span>PrimaryOwn Domain<span
+style='mso-spacerun:yes'>     </span>TotalPhys Model<span
+style='mso-spacerun:yes'>     </span>Manufactu PSCompute</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                 </span>erName<span
+style='mso-spacerun:yes'>                </span>icalMemor<span
+style='mso-spacerun:yes'>           </span>rer<span
+style='mso-spacerun:yes'>       </span>rName</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                                       </span>y</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>             </span>---------- ------<span
+style='mso-spacerun:yes'>     </span>--------- -----<span
+style='mso-spacerun:yes'>     </span>--------- ---------</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>DC2016<span
+style='mso-spacerun:yes'>           </span>Windows... mydomai... 429449...
+Virtua... innote... DC2016</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc189542103'><span lang=HU>Ha pedig szeretnénk hosszantartó kapcsolatot
+kiépíteni, használhatjuk a </span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>New-CimSession</span></span></span></span>
+<span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'></span></span>
+<span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdletet:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=Kd style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; $cimsess =
+New-CimSession -ComputerName dc2016</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc189542103'><span lang=HU>Majd a </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>session</span></span><span
+lang=HU> objektum birtokában ezzel hívhatjuk meg a CIM cmdletet:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Get-CimInstance
+-CimSession $cimsess -ClassName Win32_computersystem</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>             </span>PrimaryOwn Domain<span
+style='mso-spacerun:yes'>     </span>TotalPhys Model<span
+style='mso-spacerun:yes'>     </span>Manufactu PSCompute</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                 </span>erName<span
+style='mso-spacerun:yes'>                </span>icalMemor<span
+style='mso-spacerun:yes'>           </span>rer<span
+style='mso-spacerun:yes'>       </span>rName</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                                       </span>y</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>             </span>---------- ------<span
+style='mso-spacerun:yes'>     </span>--------- -----<span
+style='mso-spacerun:yes'>     </span>--------- ---------</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>DC2016<span
+style='mso-spacerun:yes'>           </span>Windows... mydomai... 429449...
+Virtua... innote... dc2016</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc189542103'><span lang=HU>Ha nincs szükségünk a kapcsolatra, akkor a </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Remove-CimSession</span></span></span></span>
+<span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'></span></span>
+<span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdlettel bonthatjuk azt:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=Kd style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt;
+Remove-CimSession -CimSession $cimsess</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc189542103'><span lang=HU>Mindez nagyon hasonlatos a PowerShell távoli
+futtatásánál látottakhoz. Itt is igaz az, hogy a kapcsolatot akár egyszerre
+több gép irányába kiépíthetjük:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; $cimsess =
+New-CimSession -ComputerName dc2016, Server1</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; $cimsess</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Id<span
+style='mso-spacerun:yes'>           </span>: 2</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>         </span>: CimSession2</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>InstanceId<span
+style='mso-spacerun:yes'>   </span>: 3f131da7-5840-4b68-90a7-669d3cc06f21</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ComputerName : dc2016</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Protocol<span
+style='mso-spacerun:yes'>     </span>: WSMAN</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Id<span
+style='mso-spacerun:yes'>           </span>: 3</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>         </span>: CimSession3</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>InstanceId<span
+style='mso-spacerun:yes'>   </span>: 09d472b3-b0b6-44f0-8341-e6af13478ecd</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ComputerName : Server1</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Protocol<span
+style='mso-spacerun:yes'>     </span>: WSMAN</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc189542103'><span lang=HU>Sőt! Ami még nagyon hiányzott, hogy
+szabályozhatjuk a időtúllépés értékét az </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>-OperationTimeoutSec</span></span><span
+lang=HU> paraméterrel:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Get-CimInstance
+-CimSession $cimsess -ClassName Win32_ComputerSystem -O</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>perationTimeoutSec 1</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>             </span>PrimaryOwn Domain<span
+style='mso-spacerun:yes'>     </span>TotalPhys Model<span
+style='mso-spacerun:yes'>     </span>Manufactu PSCompute</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                 </span>erName<span
+style='mso-spacerun:yes'>                </span>icalMemor<span
+style='mso-spacerun:yes'>           </span>rer<span
+style='mso-spacerun:yes'>       </span>rName</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                                       </span>y</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>             </span>---------- ------<span
+style='mso-spacerun:yes'>     </span>--------- -----<span
+style='mso-spacerun:yes'>     </span>--------- ---------</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>DC2016<span
+style='mso-spacerun:yes'>           </span>Windows... mydomai... 429449...
+Virtua... innote... dc2016</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SERVER1<span
+style='mso-spacerun:yes'>          </span>Windows... mydomai... 429449...
+Virtua... innote... Server1</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc189542103'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<span style='mso-bookmark:_Toc189542103'></span>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

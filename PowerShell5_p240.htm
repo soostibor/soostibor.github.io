@@ -1,0 +1,727 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>2.15.6 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><a name="_Toc204716409"></a><a
+name="_Toc209115952"><span style='mso-bookmark:_Toc204716409'>
+<span lang=HU>WMI
+objektumok tulajdonságainak módosítása, új objektumok létrehozása és
+eltávolítása (Set-WMIInstance, Remove-WMIObject)</span></span></a></span></span></h3>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc189542103'><span lang=HU>Új WMI példányok és meglevők tulajdonságainak
+módosítására a </span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Set-WMIInstance</span></span></span></span>
+<span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'></span></span>
+<span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdletet használhatjuk. Ahhoz, hogy ezt
+megfelelően használhassuk, meg kell tudnunk a keresett WMI objektum példány
+elérési útját. Ezt azért fontos, mert egy WMI osztálynak több példánya is
+lehet, így nem mindegy, hogy melyiknek módosítjuk a tulajdonságait. Elsőként
+tehát keressük meg az objektumot, jelen esetben példaként a Restore Point
+(helyreállítási pontok) konfigurációját tartalmazó WMI objektumot:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Get-WmiObject
+-Namespace ROOT\DEFAULT -Class systemrestoreconfig</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__GENUS<span
+style='mso-spacerun:yes'>           </span>: 2</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__CLASS<span
+style='mso-spacerun:yes'>           </span>: SystemRestoreConfig</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__SUPERCLASS<span
+style='mso-spacerun:yes'>      </span>:</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__DYNASTY<span
+style='mso-spacerun:yes'>         </span>: SystemRestoreConfig</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__RELPATH<span
+style='mso-spacerun:yes'>         </span>:
+SystemRestoreConfig.MyKey=&quot;SR&quot;</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__PROPERTY_COUNT<span
+style='mso-spacerun:yes'>  </span>: 5</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__DERIVATION<span
+style='mso-spacerun:yes'>      </span>: {}</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__SERVER<span
+style='mso-spacerun:yes'>          </span>: TIBI-PC</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__NAMESPACE<span
+style='mso-spacerun:yes'>       </span>: ROOT\DEFAULT</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__PATH<span
+style='mso-spacerun:yes'>            </span>:
+\\TIBI-PC\ROOT\DEFAULT:SystemRestoreConfig.MyKey=&quot;SR&quot;</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>DiskPercent<span
+style='mso-spacerun:yes'>       </span>: 15</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>MyKey<span
+style='mso-spacerun:yes'>             </span>: SR</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>RPGlobalInterval<span
+style='mso-spacerun:yes'>  </span>:</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>RPLifeInterval<span
+style='mso-spacerun:yes'>    </span>: </span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>RPSessionInterval : 1</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc189542103'><span lang=HU>Ez azért kell nekem, hogy beállíthassam, hogy a
+helyreállítási pontokat mennyi ideig őrizze a rendszer. Ezt az </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>RPLifeInterval</span></span><span
+lang=HU> tulajdonság módosításával tehetem be, itt másodpercekben kell megadni
+az időt. A </span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Set-WMIInstace</span></span><span
+lang=HU> cmdletnek a </span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>–Path</span></span><span
+lang=HU> paraméterének az előbb látott keresés </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>__PATH</span></span><span
+lang=HU> adatát kell átadni, ezzel teljesen egyértelmű, hogy melyik objektumot
+is akarjuk módosítani:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Set-WmiInstance
+-Path '\\TIBI-PC\ROOT\DEFAULT:SystemRestoreConfig.MyKey</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>=&quot;SR&quot;'
+-arguments @{RPLifeInterval = 864000}</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__GENUS<span
+style='mso-spacerun:yes'>           </span>: 2</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__CLASS<span
+style='mso-spacerun:yes'>           </span>: SystemRestoreConfig</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__SUPERCLASS<span
+style='mso-spacerun:yes'>      </span>:</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__DYNASTY<span
+style='mso-spacerun:yes'>         </span>: SystemRestoreConfig</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__RELPATH<span
+style='mso-spacerun:yes'>         </span>:
+SystemRestoreConfig.MyKey=&quot;SR&quot;</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__PROPERTY_COUNT<span
+style='mso-spacerun:yes'>  </span>: 5</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__DERIVATION<span
+style='mso-spacerun:yes'>      </span>: {}</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__SERVER<span
+style='mso-spacerun:yes'>          </span>: TIBI-PC</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__NAMESPACE<span
+style='mso-spacerun:yes'>       </span>: ROOT\DEFAULT</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__PATH<span
+style='mso-spacerun:yes'>            </span>:
+\\TIBI-PC\ROOT\DEFAULT:SystemRestoreConfig.MyKey=&quot;SR&quot;</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>DiskPercent<span
+style='mso-spacerun:yes'>       </span>: 15</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>MyKey<span
+style='mso-spacerun:yes'>             </span>: SR</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>RPGlobalInterval<span
+style='mso-spacerun:yes'>  </span>:</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>RPLifeInterval<span
+style='mso-spacerun:yes'>    </span>: 864000</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>RPSessionInterval : 1</span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU>Az </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>arguments</span></span><span
+lang=HU> paraméternek egy olyan hashtáblát kell átadni, amelyben a
+tulajdonságnév – érték párok vannak.</span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU>Nézzük meg, hogy mi történt
+volna, ha csak az osztályt határozzuk meg a </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Set-WMIInstance</span></span><span
+lang=HU> számára:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; set-Wmiinstance
+-Namespace ROOT\DEFAULT -Class systemrestoreconfig -Arg</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>uments @{RPLifeInterval =
+864000}</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__GENUS<span
+style='mso-spacerun:yes'>           </span>: 2</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__CLASS<span
+style='mso-spacerun:yes'>           </span>: SystemRestoreConfig</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__SUPERCLASS<span
+style='mso-spacerun:yes'>      </span>:</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__DYNASTY<span
+style='mso-spacerun:yes'>         </span>: SystemRestoreConfig</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__RELPATH<span
+style='mso-spacerun:yes'>         </span>:
+SystemRestoreConfig.MyKey=&quot;{0F45EB5A-31C3-4161-BB1A-3CCFC2</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                    </span>50DC20}&quot;</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__PROPERTY_COUNT<span
+style='mso-spacerun:yes'>  </span>: 5</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__DERIVATION<span
+style='mso-spacerun:yes'>      </span>: {}</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__SERVER<span
+style='mso-spacerun:yes'>          </span>: TIBI-PC</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__NAMESPACE<span
+style='mso-spacerun:yes'>       </span>: ROOT\DEFAULT</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__PATH<span
+style='mso-spacerun:yes'>            </span>:
+\\TIBI-PC\ROOT\DEFAULT:SystemRestoreConfig.MyKey=&quot;{0F45EB5</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                   
+</span>A-31C3-4161-BB1A-3CCFC250DC20}&quot;</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>DiskPercent<span
+style='mso-spacerun:yes'>       </span>:</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>MyKey<span
+style='mso-spacerun:yes'>             </span>:
+{0F45EB5A-31C3-4161-BB1A-3CCFC250DC20}</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>RPGlobalInterval<span
+style='mso-spacerun:yes'>  </span>:</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>RPLifeInterval<span
+style='mso-spacerun:yes'>    </span>: 864000</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>RPSessionInterval :</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc189542103'><span lang=HU>Látszólag minden úgy történt majdnem, mint eddig,
+de ha újra kilistázom a </span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>SystemRestoreConfig</span></span><span
+lang=HU> osztály elemeit, akkor láthatjuk, hogy most nem a meglevő elemet
+módosítottunk, hanem egy új objektumot hoztunk létre:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Get-WmiObject
+-Namespace ROOT\DEFAULT -Class systemrestoreconfig</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__GENUS<span
+style='mso-spacerun:yes'>           </span>: 2</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__CLASS<span
+style='mso-spacerun:yes'>           </span>: SystemRestoreConfig</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__SUPERCLASS<span
+style='mso-spacerun:yes'>      </span>:</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__DYNASTY<span
+style='mso-spacerun:yes'>         </span>: SystemRestoreConfig</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__RELPATH<span
+style='mso-spacerun:yes'>         </span>:
+SystemRestoreConfig.MyKey=&quot;{0F45EB5A-31C3-4161-BB1A-3CCFC2</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                    </span>50DC20}&quot;</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__PROPERTY_COUNT<span
+style='mso-spacerun:yes'>  </span>: 5</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__DERIVATION<span
+style='mso-spacerun:yes'>      </span>: {}</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__SERVER<span
+style='mso-spacerun:yes'>          </span>: TIBI-PC</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__NAMESPACE<span
+style='mso-spacerun:yes'>       </span>: ROOT\DEFAULT</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__PATH<span
+style='mso-spacerun:yes'>            </span>:
+\\TIBI-PC\ROOT\DEFAULT:SystemRestoreConfig.MyKey=&quot;{0F45EB5</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                   
+</span>A-31C3-4161-BB1A-3CCFC250DC20}&quot;</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>DiskPercent<span
+style='mso-spacerun:yes'>       </span>:</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>MyKey<span
+style='mso-spacerun:yes'>             </span>:
+{0F45EB5A-31C3-4161-BB1A-3CCFC250DC20}</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>RPGlobalInterval<span
+style='mso-spacerun:yes'>  </span>:</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>RPLifeInterval<span
+style='mso-spacerun:yes'>    </span>: 864000</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>RPSessionInterval :</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__GENUS<span
+style='mso-spacerun:yes'>           </span>: 2</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__CLASS<span
+style='mso-spacerun:yes'>           </span>: SystemRestoreConfig</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__SUPERCLASS<span
+style='mso-spacerun:yes'>      </span>:</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__DYNASTY<span
+style='mso-spacerun:yes'>         </span>: SystemRestoreConfig</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__RELPATH<span
+style='mso-spacerun:yes'>         </span>:
+SystemRestoreConfig.MyKey=&quot;SR&quot;</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__PROPERTY_COUNT<span
+style='mso-spacerun:yes'>  </span>: 5</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__DERIVATION<span
+style='mso-spacerun:yes'>      </span>: {}</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__SERVER<span
+style='mso-spacerun:yes'>          </span>: TIBI-PC</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__NAMESPACE<span
+style='mso-spacerun:yes'>       </span>: ROOT\DEFAULT</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__PATH<span
+style='mso-spacerun:yes'>            </span>:
+\\TIBI-PC\ROOT\DEFAULT:SystemRestoreConfig.MyKey=&quot;SR&quot;</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>DiskPercent<span
+style='mso-spacerun:yes'>       </span>: 15</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>MyKey<span
+style='mso-spacerun:yes'>             </span>: SR</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>RPGlobalInterval<span
+style='mso-spacerun:yes'>  </span>:</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>RPLifeInterval<span
+style='mso-spacerun:yes'>    </span>: 864000</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>RPSessionInterval : 1</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc189542103'><span lang=HU>A nem szükséges példányt a </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Remove-WMIObject</span></span></span></span>
+<span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'></span></span>
+<span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdlettel tudjuk eltávolítani, itt is a pontos
+elérési utat kell megadni az objektum pontos azonosítása érdekében:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt;
+Remove-WmiObject -Path '\\TIBI-PC\ROOT\DEFAULT:SystemRestoreConfig.MyKe</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>y=&quot;{0F45EB5A-31C3-4161-BB1A-3CCFC250DC20}&quot;'</span></span></span></p>
+
+</div>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

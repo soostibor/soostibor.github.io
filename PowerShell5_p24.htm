@@ -1,0 +1,1221 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>1.2.8 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><a name="_Toc204716088"></a><a
+name="_Toc209115631"></a><a name="_Toc197149143"><span style='mso-bookmark:
+_Toc209115631'><span style='mso-bookmark:_Toc204716088'>
+<span lang=HU>PSDrive</span></span></span></a><span
+style='mso-bookmark:_Toc209115631'><span style='mso-bookmark:_Toc204716088'><span
+lang=HU>, PSProvider</span></span></span></h3>
+
+<p class=SzvegCxSpFirst><span lang=HU>Mivel a PowerShellnek kiterjedt saját
+parancskészlete van ezért logikus az elképzelés, hogy egy-egy parancs hasonló
+objektumokon is ugyanabban a formában futtatható lehessen. Például a
+fájlrendszer és a registry is hasonló mappastruktúra-szerűen épül fel. Ebből
+jöhetett a PowerShell alkotóinak az az ötlete, hogy kiterjesztették a meghajtó
+fogalmát, PSmeghajtó lett így a fájlrendszeren kívül a registry, a tanúsítványtár,
+de a függvényeinket és a környezeti és saját változóinkat is ilyen </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>PSDrive</span></span>
+
+<span lang=HU>-okon
+keresztül is megnézhetjük.</span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU>Ezekhez a különböző </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>PSDrive</span></span><span
+lang=HU>-okhoz tartozik egy-egy provider (ami egy .NET alapú program), ami
+biztosítja az egységes felületet, amelyhez a PowerShell cmdletjei
+csatlakozhatnak. A meghajtók (illetve a mögöttük álló providerek) teszik
+lehetővé, hogy a </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Set-Location</span></span><span
+lang=HU>, a </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>Get-ChildItem</span></span><b style='mso-bidi-font-weight:
+normal'><span lang=HU>, </span></b><span lang=HU>stb. parancsok a
+fájlrendszerben, a registryben, a tanúsítványtárban és még számos más helyen is
+teljesen azonos módon működhessenek. A provider által támogatott cmdletek
+mindegyike használható a providerre alapuló meghajtókon, illetve vannak
+speciálisan egy meghatározott providerhez készült cmdletek is. Az egyes
+providerek úgynevezett dinamikus paramétereket is adhatnak a cmdletekhez,
+amelyek csak akkor használhatók, ha a cmdletet az adott provider segítségével
+létrehozott adatforráson használjuk. A PowerShell rendszerrel kapott providerek
+készlete tovább bővíthető, így újabb adatforrások (például az Active
+Directory!) is elérhetővé tehetők a szokásos cmdletek számára (lásd később).</span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU>A PowerShell meghajtók tehát olyan
+logikai adattárak, amelyek a megfelelő provider közreműködésével a fizikai
+meghajtókhoz hasonló módon érhetők el. A PowerShell meghajtók semmilyen módon
+nem használhatók a shell környezeten kívülről, de természetesen a fizikai és
+hálózati meghajtók csatlakoztatását, illetve eltávolítását a shell is érzékeli.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>A PSmeghajtók kilistázásához használhatjuk
+a </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>Get-PSDrive</span></span>
+
+<span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdletet, egy ilyen drive-on belül érvényes
+például a </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>get-childitem</span></span><span lang=HU> parancs, azaz
+alias </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>dir</span></span><span lang=HU>:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[1] PS C:\&gt; Get-PSDrive</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>           </span>Used (GB)<span
+style='mso-spacerun:yes'>     </span>Free (GB) Provider<span
+style='mso-spacerun:yes'>      </span>Root</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>           </span>---------<span
+style='mso-spacerun:yes'>     </span>--------- --------<span
+style='mso-spacerun:yes'>      </span>----</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>A<span
+style='mso-spacerun:yes'>                                     
+</span>FileSystem<span style='mso-spacerun:yes'>    </span>A:\</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Alias<span
+style='mso-spacerun:yes'>                                  </span>Alias</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>C<span
+style='mso-spacerun:yes'>                   </span>8,64<span
+style='mso-spacerun:yes'>         </span>71,26 FileSystem<span
+style='mso-spacerun:yes'>    </span>C:\</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>cert<span
+style='mso-spacerun:yes'>                                  
+</span>Certificate<span style='mso-spacerun:yes'>   </span>\</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>D<span
+style='mso-spacerun:yes'>                                     
+</span>FileSystem<span style='mso-spacerun:yes'>    </span>D:\</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Env<span
+style='mso-spacerun:yes'>                                    </span>Environment</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Function<span
+style='mso-spacerun:yes'>                               </span>Function</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>HKCU<span
+style='mso-spacerun:yes'>                                  
+</span>Registry<span style='mso-spacerun:yes'>      </span>HKEY_CURRENT_USER</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>HKLM<span
+style='mso-spacerun:yes'>                                  
+</span>Registry<span style='mso-spacerun:yes'>      </span>HKEY_LOCAL_MACHINE</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Variable<span
+style='mso-spacerun:yes'>                               </span>Variable</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>WSMan<span
+style='mso-spacerun:yes'>                                  </span>WSMan</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[2] PS C:\&gt; dir hkcu:</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>Hive: HKEY_CURRENT_USER</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SKC<span
+style='mso-spacerun:yes'>  </span>VC Name<span
+style='mso-spacerun:yes'>                           </span>Property</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>---<span
+style='mso-spacerun:yes'>  </span>-- ----<span
+style='mso-spacerun:yes'>                           </span>--------</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>  </span>2<span style='mso-spacerun:yes'>   </span>0
+AppEvents<span style='mso-spacerun:yes'>                      </span>{}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>  </span>0<span style='mso-spacerun:yes'>  </span>36
+Console<span style='mso-spacerun:yes'>                       
+</span>{ColorTable00, ColorTable01, Co...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'> </span>11<span style='mso-spacerun:yes'>   </span>0
+Control Panel<span style='mso-spacerun:yes'>                  </span>{}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>  </span>0<span style='mso-spacerun:yes'>   </span>2
+Environment<span style='mso-spacerun:yes'>                    </span>{TEMP,
+TMP}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>  </span>3<span style='mso-spacerun:yes'>   </span>0
+Keyboard Layout<span style='mso-spacerun:yes'>                </span>{}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>  </span>0<span style='mso-spacerun:yes'>   </span>0
+Network<span style='mso-spacerun:yes'>                        </span>{}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>  </span>3<span style='mso-spacerun:yes'>   </span>0
+Printers<span style='mso-spacerun:yes'>                       </span>{}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>  </span>5<span style='mso-spacerun:yes'>   </span>0
+Software<span style='mso-spacerun:yes'>                       </span>{}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>  </span>1<span style='mso-spacerun:yes'>   </span>0
+System<span style='mso-spacerun:yes'>                         </span>{}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>  </span>1<span style='mso-spacerun:yes'>   </span>9
+Volatile Environment<span style='mso-spacerun:yes'>          
+</span>{LOGONSERVER, USERDNSDOMAIN, US...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[3] PS C:\&gt; dir
+cert:\CurrentUser</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name : SmartCardRoot</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name : UserDS</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name : AuthRoot</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name : CA</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name : Trust</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name : Disallowed</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name : My</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name : Root</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name : TrustedPeople</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name : ACRS</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name : TrustedPublisher</span></p>
+
+</div>
+
+<p class=Szveg><a name="_Toc189542080"></a><a name="_Toc189542081"></a><a
+name="_Ref192562198"></a><a name="_Ref192562213"></a><a name="_Toc179036923"><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU>A PSProvider</span></span></span></span></span></a>
+<span
+style='mso-bookmark:_Toc179036923'><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'></span></span></span></span></span>
+<span style='mso-bookmark:
+_Toc179036923'><span style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:
+_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:
+_Toc189542080'><span lang=HU>eket is kilistázhatjuk a </span></span></span></span></span></span><span
+style='mso-bookmark:_Toc179036923'><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>get-psprovider</span></span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Toc179036923'><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'></span></span></span></span></span>
+<span style='mso-bookmark:
+_Toc179036923'><span style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:
+_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:
+_Toc189542080'><span lang=HU><span style='mso-spacerun:yes'> </span>cmdlet
+segítségével:</span></span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036923'><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[12] PS C:\&gt; Get-PSProvider</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036923'><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036923'><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Name<span style='mso-spacerun:yes'>                
+</span>Capabilities<span style='mso-spacerun:yes'>               </span>Drives</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036923'><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>----<span style='mso-spacerun:yes'>                
+</span>------------<span style='mso-spacerun:yes'>               </span>------</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036923'><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>WSMan<span style='mso-spacerun:yes'>               
+</span>Credentials<span style='mso-spacerun:yes'>                </span>{WSMan}</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036923'><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Alias<span style='mso-spacerun:yes'>               
+</span>ShouldProcess<span style='mso-spacerun:yes'>              </span>{Alias}</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036923'><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Environment<span style='mso-spacerun:yes'>         
+</span>ShouldProcess<span style='mso-spacerun:yes'>              </span>{Env}</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036923'><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>FileSystem<span style='mso-spacerun:yes'>           </span>Filter,
+ShouldProcess<span style='mso-spacerun:yes'>      </span>{C, A, D}</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036923'><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Function<span style='mso-spacerun:yes'>            
+</span>ShouldProcess<span style='mso-spacerun:yes'>             
+</span>{Function}</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036923'><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Registry<span style='mso-spacerun:yes'>            
+</span>ShouldProcess, Transact... {HKLM, HKCU}</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036923'><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Variable<span style='mso-spacerun:yes'>            
+</span>ShouldProcess<span style='mso-spacerun:yes'>             
+</span>{Variable}</span></span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036923'><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Certificate<span style='mso-spacerun:yes'>         
+</span>ShouldProcess<span style='mso-spacerun:yes'>              </span>{cert}</span></span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc179036923'><span style='mso-bookmark:
+_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:
+_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span lang=HU>Ebben a
+listában láthatjuk, hogy az egyes providerek milyen képességek</span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Toc179036923'><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'></span></span></span></span></span>
+<span style='mso-bookmark:
+_Toc179036923'><span style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:
+_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:
+_Toc189542080'><span lang=HU>kel bírnak. Az összes lehetséges képességet le is
+kérdezhetjük (ettől a kifejezéstől most ne ijedjen meg senki, később világossá
+válik a jelentése): </span></span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036923'><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[13] PS C:\&gt;
+[enum]::getValues(“System.Management.Automation.Provider.ProviderC</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036923'><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>apabilities&quot;)</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036923'><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>None</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036923'><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Include</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036923'><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Exclude</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036923'><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Filter</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036923'><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>ExpandWildcards</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036923'><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>ShouldProcess</span></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036923'><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Credentials</span></span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc179036923'><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Transactions</span></span></span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst style='margin-left:35.0pt;mso-add-space:auto;
+text-indent:-18.0pt;mso-list:l11 level1 lfo10'><span style='mso-bookmark:_Toc179036923'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'>
+<b style='mso-bidi-font-weight:normal'><span
+lang=HU>None</span></b><span lang=HU>: az adott provider semmilyen újabb
+képességgel nem rendelkezik az alap PowerShell provider képességekhez képest. </span></span></span></span></span></span></p>
+
+<p class=SzvegCxSpMiddle style='margin-left:35.0pt;mso-add-space:auto;
+text-indent:-18.0pt;mso-list:l11 level1 lfo10'><span style='mso-bookmark:_Toc179036923'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'>
+<b style='mso-bidi-font-weight:normal'><span
+lang=HU>Include, Exclude</span></b><span lang=HU>: elemekre történő hivatkozás
+lehetősége dzsóker karakterekkel (*, ?, stb.) . Az </span></span></span></span></span></span><span
+style='mso-bookmark:_Toc179036923'><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Include</span></span><span
+lang=HU> jelzi, hogy milyen elemekre szeretnénk kiterjeszteni a parancsunk
+hatását, az </span></span></span></span></span></span><span style='mso-bookmark:
+_Toc179036923'><span style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:
+_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:
+_Toc189542080'><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>Exclude</span></span><span lang=HU>, hogy milyenekre nem.
+Természetesen a PowerShell akkor is támogathatja a dzsókerkarakterek
+használatát, ha maga a provider nem. Ilyenkor „saját hatáskörben” végzi el a
+szükséges műveleteket. Ha a provider támogatja ezeket a képességeket, akkor
+teljesítményben kapunk előnyt, azaz gyorsabban hajtódnak végre a műveletek,
+vagy akár kisebb hálózati forgalmat generál a művelet végrehajtása.</span></span></span></span></span></span></p>
+
+<p class=SzvegCxSpMiddle style='margin-left:35.0pt;mso-add-space:auto;
+text-indent:-18.0pt;mso-list:l11 level1 lfo10'><span style='mso-bookmark:_Toc179036923'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'>
+<b style='mso-bidi-font-weight:normal'><span
+lang=HU>Filter</span></b><span lang=HU>: támogatja a provider-specifikus szűrő
+kifejezéseket. Igazán „profi” filterekkel majd az Active Directory részben
+fogunk találkozni.</span></span></span></span></span></span></p>
+
+<p class=SzvegCxSpMiddle style='margin-left:35.0pt;mso-add-space:auto;
+text-indent:-18.0pt;mso-list:l11 level1 lfo10'><span style='mso-bookmark:_Toc179036923'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'>
+<b style='mso-bidi-font-weight:normal'><span
+lang=HU>ExpandWildCards</span></b><span lang=HU>: ez megint csak egy olyan
+képesség, ami teljesítménynövelő lehet, de azt a funkcionalitást alapban is
+nyújtja a PowerShell, így jelenleg még egyetlen provider sem rendelkezik ezzel.</span></span></span></span></span></span></p>
+
+<p class=SzvegCxSpMiddle style='margin-left:35.0pt;mso-add-space:auto;
+text-indent:-18.0pt;mso-list:l11 level1 lfo10'><span style='mso-bookmark:_Toc179036923'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'>
+<b style='mso-bidi-font-weight:normal'><span
+lang=HU>ShouldProcess</span></b><span lang=HU>: Ennek birtokában a provider meghívja
+a </span></span></span></span></span></span><span style='mso-bookmark:_Toc179036923'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>ShouldProcess</span></span><span
+lang=HU> metódust, mielőtt módosításokat végezne az adatokon. Így lehetővé
+válik a </span></span></span></span></span></span><span style='mso-bookmark:
+_Toc179036923'><span style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:
+_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:
+_Toc189542080'><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>–WhatIf</span></span><span lang=HU> és a </span></span></span></span></span></span><span
+style='mso-bookmark:_Toc179036923'><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>–Confirm</span></span><span
+lang=HU> paraméterek használatával óvatosan megnézni, hogy mi történne, ha
+végrehajtanánk a változtatásokat, illetve szabályozhatjuk, hogy megerősítést
+kérjen-e minden változtatásnál.</span></span></span></span></span></span></p>
+
+<p class=SzvegCxSpMiddle style='margin-left:35.0pt;mso-add-space:auto;
+text-indent:-18.0pt;mso-list:l11 level1 lfo10'><span style='mso-bookmark:_Toc179036923'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'>
+<b style='mso-bidi-font-weight:normal'><span
+lang=HU>Credentials</span></b><span lang=HU>: Lehetőséget ad, hogy a
+műveleteket ne a saját nevünkben, hanem valamilyen más felhasználói fiók
+nevében végezzük el.</span></span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast style='margin-left:35.0pt;mso-add-space:auto;text-indent:
+-18.0pt;mso-list:l11 level1 lfo10'><span style='mso-bookmark:_Toc179036923'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'>
+<b style='mso-bidi-font-weight:normal'><span
+lang=HU>Tranzactions</span></b><span lang=HU>: Engedi a tranzakcionált, azaz
+mindent vagy semmit elv alapján történő végrehajtást. Jelenleg ezt csak a
+Registry provider tudja, de várható, hogy majd a fájlrendszer is tudni fogja.</span></span></span></span></span></span></p>
+
+<h4 style='mso-list:l1 level4 lfo1'><span style='mso-bookmark:_Toc179036923'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><a
+name="_Toc204716089"></a><a name="_Toc209115632"><span style='mso-bookmark:
+_Toc204716089'>
+<span
+lang=HU>Meghajtók létrehozása és törlése (New-PSDrive, Remove-PSDrive)</span></span></a></span></span></span></span></span><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'></span></span></span></span></h4>
+
+<p class=Szveg><span style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:
+_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:
+_Toc189542080'><span lang=HU>PSDrive létrehozásával a gyakran használt helyek
+elérését jelentősen megkönnyíthetjük. Ha például szeretnénk készíteni egy </span></span></span></span></span><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>MSReg</span></span><span
+lang=HU> nevű PS meghajtót, amely a registry </span></span></span></span></span><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>HKEY_CURRENT_USER\Software\Microsoft</span></span><span
+lang=HU> helyére mutat, akkor a </span></span></span></span></span><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>New-PSDrive</span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'></span></span></span></span>
+<span style='mso-bookmark:
+_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:
+_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span lang=HU><span
+style='mso-spacerun:yes'> </span>paramétereként az új meghajtó nevét, a
+használandó providert és a gyökér elérési útját kell megadnunk az alábbiak
+szerint, és máris használhatjuk a frissen létrehozott meghajtót:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[13] PS C:\&gt;
+New-PSDrive -Name MSReg -PSProvider Registry -Root HKEY_CURRE</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>NT_USER\Software\Microsoft</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>           </span>Used (GB)<span
+style='mso-spacerun:yes'>     </span>Free (GB) Provider<span
+style='mso-spacerun:yes'>      </span>Root</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>           </span>---------<span
+style='mso-spacerun:yes'>     </span>--------- --------<span
+style='mso-spacerun:yes'>      </span>----</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>MSReg<span
+style='mso-spacerun:yes'>                                  </span>Registry<span
+style='mso-spacerun:yes'>      </span>HKEY_CURRENT_USER...</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[14] PS C:\&gt; dir msreg:</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>Hive: HKEY_CURRENT_USER\Software\Microsoft</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SKC<span
+style='mso-spacerun:yes'>  </span>VC Name<span
+style='mso-spacerun:yes'>                           </span>Property</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>---<span
+style='mso-spacerun:yes'>  </span>-- ----<span
+style='mso-spacerun:yes'>                           </span>--------</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>  </span>1<span style='mso-spacerun:yes'>   </span>0
+Active Setup<span style='mso-spacerun:yes'>                   </span>{}</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>  </span>1<span style='mso-spacerun:yes'>   </span>0
+ADs<span style='mso-spacerun:yes'>                            </span>{}</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>  </span>4<span style='mso-spacerun:yes'>   </span>0
+Advanced INF Setup<span style='mso-spacerun:yes'>             </span>{}</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>  </span>1<span style='mso-spacerun:yes'>   </span>0
+Assistance<span style='mso-spacerun:yes'>                     </span>{}</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>  </span>0<span style='mso-spacerun:yes'>   </span>4
+Command Processor<span style='mso-spacerun:yes'>             
+</span>{CompletionChar, DefaultColor, ...</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>…</span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:
+_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:
+_Toc189542080'><span lang=HU>A létrehozott meghajtó csak az adott PowerShell
+munkamenetben használható, kilépéskor egyszerűen elvész. A rendszeresen
+használt meghajtókat mégsem kell minden egyes alkalommal újra létrehoznunk, a
+megfelelő parancsok beilleszthetők a PowerShell indításakor automatikusan
+lefutó profil-szkriptbe is (lásd később). Ha a munkameneten belül törölni
+szeretnénk a létrehozott meghajtót, ezt nagyon egyszerűen megtehetjük, csupán a
+nevét kell paraméterként megadnunk a </span></span></span></span></span><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Remove-PSDrive</span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'></span></span></span></span>
+<span style='mso-bookmark:
+_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:
+_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdletnek:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=Kd style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Remove-PSDrive MSReg</span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:
+_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:
+_Toc189542080'><span lang=HU>Korábban említettük, hogy a PSmeghajtók csak a
+PowerShellből érhetők el, a Windows, és más alkalmazások nem ismerik fel az
+ilyen módon létrehozott útvonalakat. Ha azonban egy külső programot a shellből
+indítunk el, akkor mégis van mód a korlátozás megkerülésére. Hozzuk létre a „</span></span></span></span></span><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>C:\munka</span></span><span
+lang=HU>” mappát és készítsünk benne egy </span></span></span></span></span><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>szöveg.txt</span></span><span
+lang=HU> nevű szöveges fájlt tetszőleges tartalommal, majd rendeljük a mappához
+a </span></span></span></span></span><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'><span class=EnglishChar><span
+style='mso-bidi-font-family:"Times New Roman"'>scripts</span></span><span
+lang=HU> nevű PowerShell-meghajtót!</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[15] PS C:\&gt;
+New-PSDrive -name munka -PSProvider FileSystem -Root 'C:\munka'</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>           </span>Used (GB)<span
+style='mso-spacerun:yes'>     </span>Free (GB) Provider<span
+style='mso-spacerun:yes'>      </span>Root</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>           </span>---------<span
+style='mso-spacerun:yes'>     </span>--------- --------<span
+style='mso-spacerun:yes'>      </span>----</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>munka<span
+style='mso-spacerun:yes'>                            </span>71,26
+FileSystem<span style='mso-spacerun:yes'>    </span>C:\munka</span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:
+_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:
+_Toc189542080'><span lang=HU>Próbáljuk Notepad segítségével megnyitni a </span></span></span></span></span><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>szöveg.txt</span></span><span
+lang=HU> fájlt!</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=Kd style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; notepad munka:\szöveg.txt</span></span></span></span></span></p>
+
+</div>
+
+<p class=Kp>
+ <img src="PowerShell5_files/image050.png">
+</p>
+
+<p class=MsoCaption><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'></span></span></span></span>
+<span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU><span style='mso-no-proof:yes'>34</span></span></span></span></span></span>
+<span style='mso-bookmark:
+_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:
+_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span lang=HU>. ábra
+Hibajelzés a Notepadban</span></span></span></span></span></p>
+
+<p class=Szveg><span style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:
+_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:
+_Toc189542080'><span lang=HU>Elég rosszul néz ki, igaz? Az a baj, hogy ilyen
+esetben a beírt útvonalat nem a PowerShell, hanem az elindított alkalmazás
+értelmezi (illetve esetünkben nem értelmezi). Az eredmény csakis egy szép
+hibaüzenet lehet, amit nem a PowerShell, hanem a </span></span></span></span></span><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>notepad</span></span><span
+lang=HU> jelenít meg. Azt kéne megoldanunk, hogy a PowerShell (aki persze tudja
+az igazságot), ne a beírt karakterláncot, hanem az annak alapján megfejtett
+igazi útvonalat adja oda szegény, buta Notepadnak, hiszen az még soha nem is
+hallhatott a „</span></span></span></span></span><span style='mso-bookmark:
+_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:
+_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>munka:</span></span><span
+lang=HU>” meghajtó létezéséről. A PowerShell belső használatú útvonalainak
+megfejtésére, feloldására a </span></span></span></span></span><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Resolve-Path</span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'></span></span></span></span>
+<span style='mso-bookmark:
+_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:
+_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdlet szolgál, ami az alábbi módon
+használható:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[16] PS C:\&gt;
+(Resolve-Path munka:\szöveg.txt).ProviderPath</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>C:\munka\szöveg.txt</span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:
+_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:
+_Toc189542080'><span lang=HU>Az így átalakított útvonalat már bármely külső
+alkalmazásnak, így a Notepadnak is odaadhatjuk.</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=Kd style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[17] PS C:\&gt; notepad
+(Resolve-Path munka:\szöveg.txt).ProviderPath</span></span></span></span></span></p>
+
+</div>
+
+<h4 style='mso-list:l1 level4 lfo1'><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'><a name="_Toc204716090"></a><a
+name="_Toc209115633"><span style='mso-bookmark:_Toc204716090'>
+<span lang=HU>Állandó
+PSDrive létrehozása</span></span></a></span></span></span></span></h4>
+
+<p class=Szveg><span style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:
+_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:
+_Toc189542080'><span lang=HU>PowerShell 3.0-tól kezdődően a PSDrive-ok nem csak
+egy adott PowerShell processzben létezhetnek, hanem egy „igazi” meghajtó felcsatolásként,
+akár PowerShellen kívülről is elérhetők. Ehhez a </span></span></span></span></span><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>New-PSDrive</span></span><span
+lang=HU> cmdlettel a </span></span></span></span></span><span style='mso-bookmark:
+_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:
+_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>&#8209;Scope</span></span><span
+lang=HU> paramétert a </span></span></span></span></span><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Global</span></span><span
+lang=HU> értékkel és a </span></span></span></span></span><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>-Persist</span></span><span
+lang=HU> kapcsolót kell használjuk:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; New-PSDrive
+-Name P -PSProvider FileSystem -Scope Global -Root \\dc2016</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>\PowerShell -Persist</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>           </span>Used (GB)<span
+style='mso-spacerun:yes'>     </span>Free (GB) Provider<span
+style='mso-spacerun:yes'>      </span>Root</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>           </span>---------<span
+style='mso-spacerun:yes'>     </span>--------- --------<span
+style='mso-spacerun:yes'>      </span>----</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>P<span
+style='mso-spacerun:yes'>                  </span>10,82<span
+style='mso-spacerun:yes'>         </span>92,08 FileSystem<span
+style='mso-spacerun:yes'>    </span></span></span></span></span></span><a
+href="file://dc2016/PowerShell"><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'><span lang=HU>\\dc2016\PowerShell</span></span></span></span></span><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'></span></span></span></span></a><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'></span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'><span lang=HU>Ilyenkor van jónéhány
+megszorításunk:</span></span></span></span></span></p>
+
+<p class=SzvegCxSpMiddle style='margin-left:35.0pt;mso-add-space:auto;
+text-indent:-18.0pt;mso-list:l21 level1 lfo26'><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'>
+<span lang=HU>A meghajtó neve csak egybetűs
+lehet, ami nem ütközhet már meglevő meghajtó betűjelével</span></span></span></span></span></p>
+
+<p class=SzvegCxSpMiddle style='margin-left:35.0pt;mso-add-space:auto;
+text-indent:-18.0pt;mso-list:l21 level1 lfo26'><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'>
+<span lang=HU>A </span></span></span></span></span><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>-Root</span></span><span
+lang=HU> csak hálózati megosztás lehet</span></span></span></span></span></p>
+
+<p class=SzvegCxSpMiddle style='margin-left:35.0pt;mso-add-space:auto;
+text-indent:-18.0pt;mso-list:l21 level1 lfo26'><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'>
+<span lang=HU>Csak a </span></span></span></span></span><span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Global</span></span><span
+lang=HU> PSDrive-ok lesznek ténylegesen állandóra létrehozva</span></span></span></span></span></p>
+
+<p class=SzvegCxSpMiddle style='margin-left:35.0pt;mso-add-space:auto;
+text-indent:-18.0pt;mso-list:l21 level1 lfo26'><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'>
+<span lang=HU>A felcsatolt meghajtó csak azt
+létrehozó felhasználó számára lesz látható</span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast style='margin-left:17.0pt;mso-add-space:auto;text-indent:
+0cm'><span style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+lang=HU>Ha ezek teljesülnek, akkor a fájlböngésző ablakban is látszódni fog a
+meghajtó:</span></span></span></span></span></p>
+
+<p class=Kp>
+ <img src="PowerShell5_files/image051.png">
+</p>
+
+<p class=MsoCaption><span style='mso-bookmark:_Ref192562213'><span
+style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:_Toc189542081'><span
+style='mso-bookmark:_Toc189542080'><a name="_Ref195611159"></a><a
+name="_Toc197149144"><span style='mso-bookmark:_Ref195611159'></span></a></span></span></span></span>
+<span
+style='mso-bookmark:_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span
+style='mso-bookmark:_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span
+style='mso-bookmark:_Toc197149144'><span style='mso-bookmark:_Ref195611159'><span
+lang=HU><span style='mso-no-proof:yes'>35</span></span></span></span></span></span></span></span>
+<span style='mso-bookmark:
+_Ref192562213'><span style='mso-bookmark:_Ref192562198'><span style='mso-bookmark:
+_Toc189542081'><span style='mso-bookmark:_Toc189542080'><span style='mso-bookmark:
+_Toc197149144'><span style='mso-bookmark:_Ref195611159'><span lang=HU>. ábra
+Állandóra felcsatolt meghajtó</span></span></span></span></span></span></span></p>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

@@ -1,0 +1,661 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>2.21.10 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><a name="_Toc204716457"></a><a
+name="_Toc209116000"><span style='mso-bookmark:_Toc204716457'>
+<span lang=HU>Összetett
+feladat ADSI műveletekkel</span></span></a></span></span></span></span></span></span></span></span></h3>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU>Végezetül nézzünk egy
+összetettebb feladatot a Windows Server 2008 tartományi környezetben felmerülő
+problémára. Egy új lehetőség itt az un. „<i style='mso-bidi-font-style:normal'>Fine
+grained password policy</i>”, azaz a tartományi szintnél alacsonyabb szinten
+beállítható jelszó házirendek létrehozásának lehetősége. Ezzel csak egy
+probléma van: nem szervezeti egységekre, hanem biztonsági csoportokra tudjuk
+ezeket kiosztani. Ha konzisztensek szeretnénk maradni a házirendek
+tekintetében, akkor érdemes „árnyékcsoportokat” létrehozni, azaz olyan csoportokat,
+amelyek egy adott szervezeti egység összes felhasználóját tartalmazzák. Erre
+készítettem ezt a függvényt, amely automatikusan létrehozza „<i
+style='mso-bidi-font-style:normal'>shadow</i>” névelőtaggal és az OU nevével
+mint utótaggal a csoportot az adott OU-ban, ha még nincs ilyen. Belerakja az
+összes olyan felhasználót ebbe a csoportba, akik még nem tagjai. Paraméterként
+egy OU <i style='mso-bidi-font-style:normal'>distinguished name</i> adatát kell
+megadni. Ha egy felhasználót kitörlünk az adott OU-ból, akkor azt az AD
+automatikusan kiszedi a shadowgroup-ból, viszont ha csak átmozgatjuk a
+felhasználót egy másik tárolóba, akkor annak a csoport tagjaiból való
+eltávolításáról nekünk kell gondoskodni. Ezt hajtja végre a szkript vége.</span></span></span></span></span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU>Rendszeresen futtatva
+szinkronban tarthatjuk az árnyékcsoportok tagságát az OU felhasználói
+objektumaival.</span></span></span></span></span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:blue'>function</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:cadetblue'>update-shadowgroup</span><span
+lang=HU style='color:black'> ([</span><span lang=HU style='color:teal'>string</span><span
+lang=HU style='color:black'>] </span><span lang=HU style='color:purple'>$ou</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> &quot;OU=Demó 2,DC=iqjb,DC=w08&quot;)<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'>{<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$adou</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> [</span><span lang=HU style='color:teal'>ADSI</span><span
+lang=HU style='color:black'>] &quot;LDAP://$ou&quot;<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><o:p>&nbsp;</o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$query</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><b><span lang=HU style='color:cadetblue'>new-object</span></b><span
+lang=HU style='color:black'> system.directoryservices.directorysearcher<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$query</span><span
+lang=HU style='color:black'>.SearchScope </span><span lang=HU style='color:
+red'>=</span><span lang=HU style='color:black'> &quot;OneLevel&quot;<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$query</span><span
+lang=HU style='color:black'>.SearchRoot </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$adou</span><span
+lang=HU style='color:black'><o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$query</span><span
+lang=HU style='color:black'>.filter </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> &quot;(&amp;(objectCategory=group)(name=shadow-$($adou.name)))&quot;<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$sg</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$query</span><span
+lang=HU style='color:black'>.FindOne() <o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:blue'>if</span><span
+lang=HU style='color:black'>(</span><span lang=HU style='color:red'>-not</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$sg</span><span
+lang=HU style='color:black'>)<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span>{<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span></span><span lang=HU style='color:
+purple'>$ADS_GROUP_TYPE_GLOBAL_GROUP</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:red'>=</span><span lang=HU style='color:black'> 0x00000002<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span></span><span lang=HU style='color:
+purple'>$ADS_GROUP_TYPE_DOMAIN_LOCAL_GROUP</span><span lang=HU
+style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> 0x00000004<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span></span><span lang=HU style='color:
+purple'>$ADS_GROUP_TYPE_LOCAL_GROUP</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:red'>=</span><span lang=HU style='color:black'> 0x00000004<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span></span><span lang=HU style='color:
+purple'>$ADS_GROUP_TYPE_UNIVERSAL_GROUP</span><span lang=HU style='color:black'>
+</span><span lang=HU style='color:red'>=</span><span lang=HU style='color:black'>
+0x00000008<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span></span><span lang=HU style='color:
+purple'>$ADS_GROUP_TYPE_SECURITY_ENABLED</span><span lang=HU style='color:black'>
+</span><span lang=HU style='color:red'>=</span><span lang=HU style='color:black'>
+0x80000000<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span><o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span></span><span lang=HU style='color:
+purple'>$groupType</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:red'>=</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:purple'>$ADS_GROUP_TYPE_SECURITY_ENABLED</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>-bor</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$ADS_GROUP_TYPE_GLOBAL_GROUP</span><span
+lang=HU style='color:black'><o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span></span><span lang=HU style='color:
+purple'>$sg</span><span lang=HU style='color:black'> </span><span lang=HU
+style='color:red'>=</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:purple'>$adou</span><span lang=HU style='color:black'>.Create(&quot;Group&quot;,
+&quot;CN=shadow-$($adou.name)&quot;)<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span></span><b><span lang=HU
+style='color:cadetblue'>Write-Host</span></b><span lang=HU style='color:black'>
+&quot;Creating group: shadow-$($adou.name)...&quot;<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span></span><span lang=HU style='color:
+purple'>$sg</span><span lang=HU style='color:black'>.Put(&quot;groupType&quot;,
+</span><span lang=HU style='color:purple'>$groupType</span><span lang=HU
+style='color:black'>)<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span></span><span lang=HU style='color:
+purple'>$sg</span><span lang=HU style='color:black'>.SetInfo()<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span>}<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:blue'>else</span><span
+lang=HU style='color:black'><o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span>{<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span></span><span lang=HU style='color:
+purple'>$sg</span><span lang=HU style='color:black'> </span><span lang=HU
+style='color:red'>=</span><span lang=HU style='color:black'> [</span><span
+lang=HU style='color:teal'>ADSI</span><span lang=HU style='color:black'>] </span><span
+lang=HU style='color:purple'>$sg</span><span lang=HU style='color:black'>.Path <o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span>}<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$query</span><span
+lang=HU style='color:black'>.SearchScope </span><span lang=HU style='color:
+red'>=</span><span lang=HU style='color:black'> &quot;OneLevel&quot;<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$query</span><span
+lang=HU style='color:black'>.SearchRoot </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$adou</span><span
+lang=HU style='color:black'><o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$query</span><span
+lang=HU style='color:black'>.filter </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> &quot;(objectCategory=user)&quot;<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$users</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$query</span><span
+lang=HU style='color:black'>.FindAll()<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span><o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:blue'>foreach</span><span
+lang=HU style='color:black'>(</span><span lang=HU style='color:purple'>$user</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:blue'>in</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$users</span><span
+lang=HU style='color:black'>)<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span>{<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span></span><span lang=HU style='color:
+blue'>if</span><span lang=HU style='color:black'>(</span><span lang=HU
+style='color:purple'>$user</span><span lang=HU style='color:black'>.properties.memberof
+</span><span lang=HU style='color:red'>-notcontains</span><span lang=HU
+style='color:black'> </span><span lang=HU style='color:purple'>$sg</span><span
+lang=HU style='color:black'>.distinguishedname)<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:3'>                </span>{<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:4'>                      </span></span><span lang=HU
+style='color:purple'>$sg</span><span lang=HU style='color:black'>.member </span><span
+lang=HU style='color:red'>+=</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:purple'>$user</span><span lang=HU style='color:black'>.properties.distinguishedname<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:4'>                      </span></span><b><span lang=HU
+style='color:cadetblue'>write-host</span></b><span lang=HU style='color:black'>
+&quot;Inserting $($user.properties.name)...&quot;<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:3'>                </span>}<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span>}<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$sg</span><span
+lang=HU style='color:black'>.setinfo()<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span><o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:purple'>$members</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$sg</span><span
+lang=HU style='color:black'>.member<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span></span><span lang=HU style='color:blue'>foreach</span><span
+lang=HU style='color:black'>(</span><span lang=HU style='color:purple'>$member</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:blue'>in</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$members</span><span
+lang=HU style='color:black'>)<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span>{<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span></span><span lang=HU style='color:
+blue'>if</span><span lang=HU style='color:black'>(</span><span lang=HU
+style='color:red'>-not</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:purple'>$member</span><span lang=HU style='color:black'>.Contains(&quot;,OU=$($adou.name),&quot;))
+<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span>{<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:3'>                </span></span><b><span lang=HU
+style='color:cadetblue'>write-host</span></b><span lang=HU style='color:black'>
+&quot;Removing $member...&quot;<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:3'>                </span></span><span lang=HU
+style='color:purple'>$sg</span><span lang=HU style='color:black'>.Remove(&quot;LDAP://$member&quot;)<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:3'>                </span></span><span lang=HU
+style='color:purple'>$sg</span><span lang=HU style='color:black'>.setinfo()<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span>}<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref246910890'><span style='mso-bookmark:_Ref246910886'><span
+style='mso-bookmark:_Toc197149407'><span style='mso-bookmark:_Toc197149346'><span
+style='mso-bookmark:_Toc197149272'><span style='mso-bookmark:_Ref255415641'><span
+style='mso-bookmark:_Ref255415638'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span>}<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref246910890'><span
+style='mso-bookmark:_Ref246910886'><span style='mso-bookmark:_Toc197149407'><span
+style='mso-bookmark:_Toc197149346'><span style='mso-bookmark:_Toc197149272'><span
+style='mso-bookmark:_Ref255415641'><span style='mso-bookmark:_Ref255415638'><span
+lang=HU style='color:black'>}<o:p></o:p></span></span></span></span></span></span></span></span></span></p>
+
+</div>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

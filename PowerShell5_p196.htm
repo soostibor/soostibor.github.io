@@ -1,0 +1,1541 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>2.5.12 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span style='mso-bookmark:_Ref255369958'><span
+style='mso-bookmark:_Ref255369954'><a name="_Ref125789080"></a><a
+name="_Ref125789085"></a><a name="_Toc204716353"></a><a name="_Toc209115896"><span
+style='mso-bookmark:_Toc204716353'><span style='mso-bookmark:_Ref125789085'><span
+style='mso-bookmark:_Ref125789080'>
+<span lang=HU>Súgó
+készítése</span></span></span></span></a></span></span></span></span></span></span></h3>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU>Ha készítünk függvényeket és
+szkripteket, akkor nem árt magyarázatokkal ellátni a „forráskódot”, hogy ha a
+függvényünket, szkriptünket akár mi, akár mások is megérthessék, ha használni,
+megérteni vagy továbbfejleszteni szeretnék. Ha pedig nem PowerShellhez értők
+kezébe adjuk, akkor őket is jó lenne ellátni valamilyen útmutatással a
+használatot illetően. Nem biztos, hogy ők értenek annyira a forráskód elemzéséhez,
+hogy abból mindent megértsenek, viszont nagy valószínűséggel rávehetők, hogy a
+PowerShell beépített súgóját kezelő G</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>et-Help</span></span><span
+lang=HU> cmdletet használják. A két szempontot a PowerShell fejlesztői
+egyesítették, hogy ne kelljen a kettővel nekünk külön-külön, más helyen és más technológiával
+bajlódnunk. A megoldás az un. „comment based help”, azaz a megjegyzések
+formájában beágyazott súgó.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU>Ez azt jelenti, hogy speciális
+megjegyzéseket helyezhetünk el a függvényünkbe vagy szkriptünkbe, amelyeket a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Get-Help</span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'></span></span></span></span>
+<span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:
+_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span lang=HU><span
+style='mso-spacerun:yes'> </span>ugyanúgy jelenít meg, mint a „gyári”
+súgótémákat. Nézzünk erre egy példát a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Pithagoras</span></span><span
+lang=HU> függvény segítségével:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:blue'>function</span><span
+lang=HU style='color:black'> Pithagoras <o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'>{<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'>&lt;#<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><span
+style='mso-spacerun:yes'>    </span>.SYNOPSIS <o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><span
+style='mso-spacerun:yes'>    </span>Kiszámolja a derégszögű háromszög átfogóját
+a befogókból.<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><span
+style='mso-spacerun:yes'>    </span>.DESCRIPTION<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><span
+style='mso-spacerun:yes'>    </span>Ez a függvény Pithagoras a^2+b^2=c^2 tétele
+alapján kiszámolja a <o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><span
+style='mso-tab-count:1'>     </span>derékszögű háromszög átfogóját a
+befogókból. <o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><span
+style='mso-spacerun:yes'>    </span>.NOTES<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><span
+style='mso-spacerun:yes'>    </span>Version: 0.1.0<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><span
+style='mso-spacerun:yes'>    </span>Version history:<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><span
+style='mso-spacerun:yes'>    </span>0.1.0<span style='mso-tab-count:1'> </span>26-Oct-2011
+- Tibor Soos &lt;soostibor@citromail.hu&gt;<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><span
+style='mso-spacerun:yes'>            </span>First version<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><span
+style='mso-spacerun:yes'>    </span>.INPUTS<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><span
+style='mso-spacerun:yes'>    </span>Nincs, csővezetéken nem fogad
+paramétereket.<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><span
+style='mso-spacerun:yes'>    </span>.OUTPUTS<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><span
+style='mso-spacerun:yes'>    </span>System.Double. Kimenet a c átfogó hossza.<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><span
+style='mso-spacerun:yes'>    </span>.EXAMPLE<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><span
+style='mso-spacerun:yes'>    </span>C:\PS&gt; Pithagoras 3 4<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><span
+style='mso-spacerun:yes'>    </span>5<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><span
+style='mso-spacerun:yes'>            </span><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><span
+style='mso-spacerun:yes'>    </span>.EXAMPLE<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><span
+style='mso-spacerun:yes'>    </span>C:\PS&gt; Pithagoras 4<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><span
+style='mso-spacerun:yes'>    </span>5,65685424949238<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><span
+style='mso-spacerun:yes'>    </span>Ebben a példában az egyenlő oldalú
+derékszögű háromszög átfogóját <o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><span
+style='mso-tab-count:1'>     </span>számolta ki.<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><span
+style='mso-spacerun:yes'>    </span>.LINK<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><span
+style='mso-spacerun:yes'>    </span>További információ Pithagorasz tételéről: <o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><span
+style='mso-tab-count:1'>     </span>http://hu.wikipedia.org/wiki/Pitagorasz-t%C3%A9tel<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><span
+style='mso-spacerun:yes'>    </span>.LINK<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><span
+style='mso-spacerun:yes'>    </span>about_Arithmetic_Operators<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><span
+style='mso-spacerun:yes'>        </span><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:green'><span
+style='mso-spacerun:yes'>    </span>#&gt;</span><span lang=HU style='color:
+black'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:blue'>param</span><span
+lang=HU style='color:black'> <o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>(<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>        </span>[Parameter(<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>        </span>Mandatory </span><span lang=HU
+style='color:red'>=</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:purple'>$true</span><span lang=HU style='color:black'>,<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>        </span>Position </span><span lang=HU
+style='color:red'>=</span><span lang=HU style='color:black'> 0,<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>        </span>HelpMessage </span><span lang=HU
+style='color:red'>=</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:maroon'>&quot;Ez kötelezően kitöltendő&quot;</span><span
+lang=HU style='color:black'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>        </span>)]<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>        </span>[</span><span lang=HU style='color:
+teal'>double</span><span lang=HU style='color:black'>]<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>        </span></span><span lang=HU style='color:green'>#
+A derékszögű háromszög egyik befogója<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>        </span></span><span lang=HU style='color:purple'>$a</span><span
+lang=HU style='color:black'>,<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>        </span>[Parameter(<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>        </span>Mandatory </span><span lang=HU
+style='color:red'>=</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:purple'>$false</span><span lang=HU style='color:black'>,<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>        </span>Position </span><span lang=HU
+style='color:red'>=</span><span lang=HU style='color:black'> 1<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>        </span>)]<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>        </span>[</span><span lang=HU style='color:
+teal'>double</span><span lang=HU style='color:black'>]<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>        </span></span><span lang=HU style='color:green'>#
+A derékszögű háromszög másik befogója<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>        </span></span><span lang=HU style='color:purple'>$b</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$a</span><span
+lang=HU style='color:black'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>)<span style='mso-spacerun:yes'>           
+</span><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>[</span><span lang=HU style='color:teal'>math</span><span
+lang=HU style='color:black'>]::</span><span lang=HU style='color:saddlebrown'>Sqrt</span><span
+lang=HU style='color:black'>(</span><span lang=HU style='color:purple'>$a</span><span
+lang=HU style='color:red'>*</span><span lang=HU style='color:purple'>$a</span><span
+lang=HU style='color:red'>+</span><span lang=HU style='color:purple'>$b</span><span
+lang=HU style='color:red'>*</span><span lang=HU style='color:purple'>$b</span><span
+lang=HU style='color:black'>)<span style='mso-spacerun:yes'>     </span><span
+style='mso-tab-count:1'>      </span><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black'>}<o:p></o:p></span></span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU>Látható, hogy a függvény
+definíciójának elejére egy speciális megjegyzésblokk (</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>&lt;#...#&gt;</span></span><span
+lang=HU>) került. Ezen belül ponttal kezdődő címkék a súgón belüli részek
+kulcsszavai, utánuk meg az adott részhez tartozó leírás van. Vannak olyan
+részek, amelyek csak egyszer fordulhatnak elő, mint például a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>.SYNOPSIS</span></span><span
+lang=HU> vagy a </span></span></span></span></span><span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:
+_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>.DESCRIPTION</span></span><span
+lang=HU>, de vannak olyanok is, amelyekből több is lehet, mint például az </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>.EXAMPLE</span></span><span
+lang=HU>.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU>Nézzük meg, hogy mit ad a
+függvény definiálása után a teljes változatú </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Get-Help</span></span><span
+lang=HU>:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[55] PS C:\&gt; get-help
+Pithagoras -full</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>NAME</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>Pithagoras</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SYNOPSIS</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>Kiszámolja a derégszögű háromszög átfogóját
+a befogókból.</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SYNTAX</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>Pithagoras [-a] &lt;Double&gt; [[-b]
+&lt;Double&gt;] [&lt;CommonParameters&gt;]</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>DESCRIPTION</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>Ez a függvény Pithagoras a^2+b^2=c^2 tétele
+alapján kiszámolja a</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>derékszögű háromszög átfogóját a
+befogókból.</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PARAMETERS</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>-a &lt;Double&gt;</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>A derékszögű háromszög egyik befogója</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>Required?<span
+style='mso-spacerun:yes'>                    </span>true</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>Position?<span
+style='mso-spacerun:yes'>                    </span>1</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>Default value</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>Accept pipeline input?<span
+style='mso-spacerun:yes'>       </span>false</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>Accept wildcard characters?</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>-b &lt;Double&gt;</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>A derékszögű háromszög másik befogója</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>Required?<span
+style='mso-spacerun:yes'>                    </span>false</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>Position?<span
+style='mso-spacerun:yes'>                    </span>2</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>Default value</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>Accept pipeline input?<span
+style='mso-spacerun:yes'>       </span>false</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>Accept wildcard characters?</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>&lt;CommonParameters&gt;</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>This cmdlet supports the common
+parameters: Verbose, Debug,</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>ErrorAction, ErrorVariable,
+WarningAction, WarningVariable,</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>OutBuffer and OutVariable. For more
+information, type,</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>&quot;get-help
+about_commonparameters&quot;.</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>INPUTS</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>Nincs, csővezetéken nem fogad
+paramétereket.</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>OUTPUTS</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>System.Double. Kimenet a c átfogó hossza.</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>-------------------------- EXAMPLE 1
+--------------------------</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>C:\PS&gt;Pithagoras 3 4</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>5</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>-------------------------- EXAMPLE 2
+--------------------------</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>C:\PS&gt;Pithagoras 4</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>5,65685424949238</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>Ebben a példában az egyenlő oldalú
+derékszögű háromszög átfogóját</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>számolta ki.</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>RELATED LINKS</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>További információ Pithagorasz tételéről:</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>   
+</span>http://hu.wikipedia.org/wiki/Pitagorasz-t%C3%A9tel</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>about_Arithmetic_Operators</span></span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU>Látszik, hogy vannak olyan
+részek, amelyeket nem én definiáltam, hanem a PowerShell automatikusan rakja
+össze a függvénydefiníció alapján. Ilyenek például a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>NAME</span></span><span
+lang=HU>, </span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>SYNTAX</span></span><span
+lang=HU>, </span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>PARAMETERS</span></span><span
+lang=HU>, </span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>REMARKS</span></span><span
+lang=HU>. Apropó </span></span></span></span></span><span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:
+_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>PARAMETERS</span></span><span
+lang=HU>! A függvénydefinícióban látható, hogy a paraméterdefiníciós részbe
+elhelyezett megjegyzéseket is kiemeli a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Get-Help</span></span><span
+lang=HU>, és ennél a szekciónál megjeleníti.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU>Erre a súgót tartalmazó
+megjegyzésblokkra van néhány szigorú szabály és alternatív lehetőség. Ez a
+blokk függvények esetében három különböző helyen lehet, de egy függvény
+esetében el kell döntenünk, hogy melyiket választjuk. Lehet a súgóblokk a
+függvény definíciós részének elején, közvetlenül a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>function</span></span><span
+lang=HU> kulcsszót követő sorban, lehet a függvénydefiníciós rész végén, a
+lezáró kapcsos zárójel előtt, vagy a függvénydefiníció előtt, azaz a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>function</span></span><span
+lang=HU> kulcsszót közvetlenül megelőző részben. Szerintem a legjobb az a hely,
+amit én használtam, azaz a függvény eleje, de végül is ez ízlés dolga.</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:double windowtext 5.25pt;
+border-bottom:none;mso-border-top-alt:thin-thick-large-gap windowtext 5.25pt;
+mso-border-left-alt:thin-thick-large-gap windowtext 5.25pt;mso-border-right-alt:
+thin-thick-large-gap windowtext 5.25pt;padding:1.0pt 4.0pt 0cm 4.0pt;
+background:#C6D9F1;mso-background-themecolor:text2;mso-background-themetint:
+51;margin-left:14.2pt;margin-right:14.2pt'>
+
+<p class=Megjegyzs style='margin-top:12.0pt;margin-right:0cm;margin-bottom:
+0cm;margin-left:0cm;margin-bottom:.0001pt;mso-add-space:auto;background:#C6D9F1;
+mso-background-themecolor:text2;mso-background-themetint:51'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Megjegyzés</span></span></span></span></span></p>
+
+</div>
+
+<div style='mso-element:para-border-div;border:double windowtext 5.25pt;
+border-top:none;mso-border-left-alt:thin-thick-large-gap windowtext 5.25pt;
+mso-border-bottom-alt:thin-thick-large-gap windowtext 5.25pt;mso-border-right-alt:
+thin-thick-large-gap windowtext 5.25pt;padding:0cm 4.0pt 1.0pt 4.0pt;
+margin-left:14.2pt;margin-right:14.2pt'>
+
+<p class=Megjegyezs2 style='margin-top:0.0pt;margin-right:0cm;margin-bottom:
+0cm;margin-left:0cm;margin-bottom:.0001pt;mso-add-space:auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU>Ha bármelyik súgórészt szimbolizáló kulcsszót elírjuk, vagy nem létező
+kulcsszót használunk, akkor az egész súgónk érvénytelen lesz és ilyenkor a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Get-Help</span></span><span
+lang=HU> csak az automatikusan generálódó súgórészeket adja vissza.</span></span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU>Súgót lehet készíteni XML
+formátumban is, erre példát találhatunk a „gyári” súgótémák között a PowerShell
+telepítési könyvtárában. Ezt itt nem ismertetem, ezt hagyjuk meg a profi
+fejlesztőknek.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU>A szkripteket ugyanilyen módon
+láthatjuk el súgóval. Tegyük fel, hogy az előbb látott Pithagoras függvényt sok
+más matematikával kapcsolatos függvénnyel együtt egy szkriptfájlba mentjük el </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>matek.ps1</span></span><span
+lang=HU> néven, és ennek is generálok egy megjegyzés-alapú súgót:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&lt;#</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>.SYNOPSIS </span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>Ebben a szkriptben a
+matematikai függvényeim vannak.</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>.DESCRIPTION</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>Függvények:</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>Pithagoras</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>#&gt;<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:blue'>function</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:cadetblue'>Pithagoras</span><span
+lang=HU style='color:black'> <o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black'>{<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&lt;#</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>.SYNOPSIS </span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>Kiszámolja a derégszögű
+háromszög átfogóját a befogókból.</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>…</span></span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU>Itt is lehet a fájl elejére
+vagy végére tenni a súgóblokkot. Az elejénél vigyázni kell, mert ha a szkriptem
+egy függvénydefinícióval kezdődik, mint a fenti példában is, akkor a PowerShell
+értelmezője ezt a blokkot a függvényhez sorolja. Ezt meg tudjuk akadályozni, ha
+a súgóblokk és a </span></span></span></span></span><span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:
+_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>function</span></span><span
+lang=HU> kulcsszó sora közé legalább két üres sort teszünk.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span
+style='mso-bookmark:_Toc197149244'><span lang=HU>Nézzük, hogyan kapjuk meg a
+szkript súgóját:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[56] PS C:\&gt; Get-Help
+.\munka\matek.ps1</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>NAME</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>C:\munka\matek.ps1</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SYNOPSIS</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>Ebben a szkriptben a matematikai
+függvényeim vannak.</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SYNTAX</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>C:\munka\matek.ps1
+[&lt;CommonParameters&gt;]</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>DESCRIPTION</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>Függvények:</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>Pithagoras</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>RELATED LINKS</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>REMARKS</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>To see the examples, type: &quot;get-help
+C:\munka\matek.ps1 -examples&quot;.</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>For more information, type: &quot;get-help
+C:\munka\matek.ps1 -detailed&quot;.</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149400'><span
+style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:_Toc197149244'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>For technical information, type:
+&quot;get-help C:\munka\matek.ps1 -full&quot;.</span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc197149400'><span style='mso-bookmark:_Toc197149339'><span style='mso-bookmark:
+_Toc197149244'><span lang=HU>Természetesen ez nem egy „igazi” szkript, így a
+helpnek is csak elég jelképes értelme van.</span></span></span></span></span></p>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

@@ -1,0 +1,805 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>2.15.8 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><a name="_Ref525415783"></a><a
+name="_Ref525415784"></a><a name="_Toc204716411"></a><a name="_Toc209115954"><span
+style='mso-bookmark:_Toc204716411'><span style='mso-bookmark:_Ref525415784'><span
+style='mso-bookmark:_Ref525415783'>
+<span lang=HU>Új WMI
+osztály létrehozása</span></span></span></span></a></span></span></h3>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU>A WMI objektumokat
+felhasználhatjuk Group Policy Objektumok szűrésére, azaz köthetjük bizonyos
+jellemzők meglétéhez a csoportos házirendek érvényességét akár felhasználók
+vagy gépek számára. Például csak laptopokra akarjuk az adott házirendet
+kiterjeszteni. Hasonló célokra felhasználhatók a WMI objektumok a Microsoft
+System Center Configuration Manager gépgyűjteményei (collection)
+lekérdezés-alapú összeállítására.</span></span></span></p>
+
+<p class=SzvegCxSpMiddle><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU>Azonban lehet olyan helyzet,
+amikor ez a jellemző nincs benne a WMI-ben, viszont akár bele tudnánk tenni ezt
+oda. Érdemes lehet ilyenkor a saját, egyedi WMI objektumainknak külön névteret
+létrehozni, hogy ne keveredjenek és esetlegesen ütközzenek más gyártók
+objektumaival.</span></span></span></p>
+
+<p class=SzvegCxSpMiddle><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU>Az alábbi függvény a
+következőket végzi el nekünk:</span></span></span></p>
+
+<p class=SzvegCxSpMiddle style='margin-left:35.0pt;mso-add-space:auto;
+text-indent:-18.0pt;mso-list:l8 level1 lfo22'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'>
+<span lang=HU>Ha olyan névteret adunk meg az új
+WMI osztály létrehozására, ami még nincs, akkor létrehozza azt.</span></span></span></p>
+
+<p class=SzvegCxSpMiddle style='margin-left:35.0pt;mso-add-space:auto;
+text-indent:-18.0pt;mso-list:l8 level1 lfo22'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'>
+<span lang=HU>Új, egyedi osztályt hoz létre a
+megadott névtérben.</span></span></span></p>
+
+<p class=SzvegCxSpLast style='margin-left:35.0pt;mso-add-space:auto;text-indent:
+-18.0pt;mso-list:l8 level1 lfo22'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'>
+<span lang=HU>Egy hashtábla alapján létrehozza
+az osztály tulajdonságait.</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:darkblue'>Function</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> New-STWMIClass {</span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span></span><span lang=HU
+style='color:darkblue'>param</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>(</span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span></span><span lang=HU
+style='color:darkgray'>[</span><span lang=HU style='color:deepskyblue'>parameter</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>(Mandatory </span><span
+lang=HU style='color:darkgray'>=</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:orangered'>$true</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>)</span><span lang=HU
+style='color:darkgray'>]</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:darkgray'>[</span><span lang=HU
+style='color:teal'>string</span><span lang=HU style='color:darkgray'>]</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$Name</span><span lang=HU style='color:darkgray'>,</span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span></span><span lang=HU
+style='color:darkgray'>[</span><span lang=HU style='color:teal'>hashtable</span><span
+lang=HU style='color:darkgray'>[]]</span><span lang=HU style='color:orangered'>$PropertyHashArray</span><span
+lang=HU style='color:darkgray'>,</span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span></span><span lang=HU
+style='color:orangered'>$NameSpace</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkred'>&quot;root\cimv2&quot;</span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>)</span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span></span><span lang=HU
+style='color:orangered'>$namespaceroot</span><span lang=HU style='color:darkgray'>,</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$namespacename</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$NameSpace</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>-split</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkred'>&quot;\\(?!.*\\)&quot;</span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span></span><span lang=HU
+style='color:darkblue'>if</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>(</span><span lang=HU style='color:darkgray'>!</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'>(</span><span lang=HU
+style='color:blue'>Get-WmiObject</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:navy'>-Namespace</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$namespaceroot</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:navy'>-Class</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> __NAMESPACE </span><span
+lang=HU style='color:navy'>-Filter</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkred'>&quot;Name
+= '</span><span lang=HU style='color:orangered'>$namespacename</span><span
+lang=HU style='color:darkred'>'&quot;</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>)){</span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span></span><span lang=HU
+style='color:orangered'>$NameSpaceInstance</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> (</span><span lang=HU style='color:darkgray'>[</span><span
+lang=HU style='color:teal'>WMICLASS</span><span lang=HU style='color:darkgray'>]</span><span
+lang=HU style='color:darkred'>&quot;\\.\</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>$(</span><span lang=HU style='color:orangered'>$namespaceroot</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>)</span><span lang=HU
+style='color:darkred'>:__Namespace&quot;</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>)</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>CreateInstance()</span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span></span><span lang=HU
+style='color:orangered'>$NameSpaceInstance</span><span lang=HU
+style='color:darkgray'>.</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>name </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$namespacename</span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span></span><span lang=HU
+style='color:orangered'>$NameSpaceInstance</span><span lang=HU
+style='color:darkgray'>.</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>put()</span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>}</span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:1'>     </span></span><span lang=HU
+style='color:orangered'>$Class</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>[</span><span lang=HU style='color:teal'>System.Management.ManagementClass</span><span
+lang=HU style='color:darkgray'>]::</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>new(</span><span lang=HU style='color:orangered'>$NameSpace</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>)</span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span></span><span lang=HU
+style='color:orangered'>$Class</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:orangered'>$Name</span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span></span><span lang=HU
+style='color:darkblue'>foreach</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>(</span><span lang=HU style='color:orangered'>$PropertyHash</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkblue'>in</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:orangered'>$PropertyHashArray</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>){</span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span></span><span lang=HU
+style='color:darkblue'>if</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>(</span><span lang=HU style='color:orangered'>$PropertyHash</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>keys</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>count){</span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:1'>     </span><span
+style='mso-spacerun:yes'>        </span></span><span lang=HU style='color:orangered'>$Class</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>Properties</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Add(</span><span lang=HU
+style='color:orangered'>$PropertyHash</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name</span><span lang=HU
+style='color:darkgray'>,</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:darkgray'>[</span><span lang=HU
+style='color:teal'>System.Management.CimType</span><span lang=HU
+style='color:darkgray'>]::</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>(</span><span lang=HU style='color:orangered'>$PropertyHash</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>Type)</span><span lang=HU style='color:darkgray'>,</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$PropertyHash</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>IsArray)</span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:1'>     </span><span
+style='mso-spacerun:yes'>        </span></span><span lang=HU style='color:darkblue'>if</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>(</span><span lang=HU
+style='color:orangered'>$PropertyHash</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>IsKey){</span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                </span></span><span
+lang=HU style='color:orangered'>$Class</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Properties</span><span
+lang=HU style='color:darkgray'>[</span><span lang=HU style='color:orangered'>$PropertyHash</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>Name</span><span lang=HU style='color:darkgray'>].</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Qualifiers</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>Add(</span><span lang=HU style='color:darkred'>'key'</span><span
+lang=HU style='color:darkgray'>,</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:orangered'>$PropertyHash</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>IsKey)</span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>            </span>}</span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:1'>     </span><span
+style='mso-spacerun:yes'>        </span></span><span lang=HU style='color:orangered'>$Class</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>Properties</span><span lang=HU style='color:darkgray'>[</span><span
+lang=HU style='color:orangered'>$PropertyHash</span><span lang=HU
+style='color:darkgray'>.</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Name</span><span lang=HU style='color:darkgray'>].</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Qualifiers</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>Add(</span><span lang=HU style='color:darkred'>'read'</span><span
+lang=HU style='color:darkgray'>,</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>[</span><span
+lang=HU style='color:teal'>bool</span><span lang=HU style='color:darkgray'>]</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$PropertyHash</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Read)</span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>            </span></span><span
+lang=HU style='color:orangered'>$Class</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Properties</span><span
+lang=HU style='color:darkgray'>[</span><span lang=HU style='color:orangered'>$PropertyHash</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>Name</span><span lang=HU style='color:darkgray'>].</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Qualifiers</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>Add(</span><span lang=HU style='color:darkred'>'write'</span><span
+lang=HU style='color:darkgray'>,</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>[</span><span
+lang=HU style='color:teal'>bool</span><span lang=HU style='color:darkgray'>]</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$PropertyHash</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>write)</span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span>}</span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>}</span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:1'>     </span></span><span lang=HU
+style='color:orangered'>$Class</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Put()</span></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>}</span></span></span></p>
+
+</div>
+
+<p class=Szveg style='margin-left:17.0pt;mso-add-space:auto;text-indent:0cm'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU>A WMI osztály tulajdonságait a függvénybe egy hashtáblákból álló
+tömbbel lehet megadni. Példaként álljon itt a </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Root\Cimv2</span></span><span
+lang=HU> alatt létrehozott </span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Sajat</span></span><span
+lang=HU> névtérben definiált </span></span></span><span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>MyClass3</span></span><span
+lang=HU> osztályt eredményező kifejezés:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#DBE5F1;
+mso-shading:windowtext;mso-pattern:solid #DBE5F1;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=ISECxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#DBE5F1;mso-shading:windowtext;mso-pattern:solid #DBE5F1'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:blue'>New-STWMIClass</span><span lang=HU> </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:navy'>-NameSpace</span><span lang=HU> </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:blueviolet'>root\cimv2\Sajat</span><span lang=HU> </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:navy'>-Name</span><span lang=HU> </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:blueviolet'>MyClass3</span><span lang=HU> </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:navy'>-PropertyHash</span><span lang=HU> @{Name </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:darkgray'>=</span><span lang=HU> </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:darkred'>&quot;Prop1&quot;</span><span lang=HU>; Type </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:darkgray'>=</span><span lang=HU> </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:darkred'>&quot;String&quot;</span><span lang=HU>; IsKey </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:darkgray'>=</span><span lang=HU> </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:orangered'>$true</span><span lang=HU>; Read </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:darkgray'>=</span><span lang=HU> </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:orangered'>$true</span><span lang=HU>}</span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:darkgray'>,</span><span lang=HU> </span></span></span></p>
+
+<p class=ISECxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#DBE5F1;mso-shading:windowtext;mso-pattern:solid #DBE5F1'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU><span
+style='mso-spacerun:yes'>                                           
+</span>@{Name </span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:darkgray'>=</span><span
+lang=HU> </span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:darkred'>&quot;Prop2&quot;</span><span
+lang=HU>; Type </span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:darkgray'>=</span><span
+lang=HU> </span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:darkred'>&quot;UInt16&quot;</span><span
+lang=HU>; Read </span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:darkgray'>=</span><span
+lang=HU> </span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:orangered'>$true</span><span
+lang=HU>; Write </span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:darkgray'>=</span><span
+lang=HU> </span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:orangered'>$true</span><span
+lang=HU>; IsArray </span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:darkgray'>=</span><span
+lang=HU> </span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:orangered'>$true</span><span
+lang=HU>}</span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU>Ennek az osztálynak két
+tulajdonsága van, a </span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Prop1</span></span><span
+lang=HU>, ami szöveges típusú és egyértelműen azonosítja majd az osztály
+objektumait (</span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>IsKey = $true</span></span><span
+lang=HU>) és csak olvasható. A másik tulajdonság a </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Prop2</span></span><span
+lang=HU>, ami 2 bájtos előjel nélküli egész, írható és olvasható is, valamint
+tömb típusú, azaz több számot is lehet tárolni ott.</span></span></span></p>
+
+<p class=SzvegCxSpLast style='margin-left:17.0pt;mso-add-space:auto;text-indent:
+0cm'><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU>Ezután már a „gyári” </span></span></span><span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>New-CimInstance</span></span></span></span>
+<span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'></span></span>
+<span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdlettel létre lehet hozni az új osztályunk
+egy elemét:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#DBE5F1;
+mso-shading:windowtext;mso-pattern:solid #DBE5F1;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=ISE style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#DBE5F1;mso-shading:windowtext;mso-pattern:solid #DBE5F1'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:blue'>New-CimInstance</span><span lang=HU> -ClassName </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:blueviolet'>MyClass3</span><span lang=HU> -Key </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:blueviolet'>Kakukk</span><span lang=HU> -Property @{Prop1 </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:darkgray'>=</span><span lang=HU> </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:darkred'>&quot;valami&quot;</span><span lang=HU>; Prop2 </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:darkgray'>=</span><span lang=HU> </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:darkgray'>[</span></span></span><span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span lang=HU
+style='color:teal'>uint16</span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:darkgray'>[]]</span><span
+lang=HU> (</span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:purple'>1</span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:darkgray'>,</span></span></span><span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span lang=HU
+style='color:purple'>2</span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:darkgray'>,</span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:purple'>3</span><span lang=HU>)} -Namespace </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:blueviolet'>root\cimv2\Sajat</span></span></span></p>
+
+</div>
+
+<p class=Szveg style='margin-left:17.0pt;mso-add-space:auto;text-indent:0cm'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU>Természetesen ki is olvashatjuk ezt az objektumot:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Get-CimInstance
+-ClassName MyClass3 -Namespace root\cimv2\sajat</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Prop1<span
+style='mso-spacerun:yes'>  </span>Prop2<span style='mso-spacerun:yes'>    
+</span>PSComputerName</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>-----<span
+style='mso-spacerun:yes'>  </span>-----<span style='mso-spacerun:yes'>    
+</span>--------------</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>valami {1, 2, 3}</span></span></span></p>
+
+</div>
+
+<p class=Szveg style='margin-left:17.0pt;mso-add-space:auto;text-indent:0cm'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU>És át is írhatjuk a tulajdonságot:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; $y =
+Get-WmiObject -Class MyClass3 -Namespace root\cimv2\sajat</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; $y.Prop2 =
+@(4,5)</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; $y.Put()</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Path<span
+style='mso-spacerun:yes'>          </span>:
+\\localhost\root\cimv2\sajat:MyClass3.Prop1=&quot;valami&quot;</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>RelativePath<span
+style='mso-spacerun:yes'>  </span>: MyClass3.Prop1=&quot;valami&quot;</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Server<span
+style='mso-spacerun:yes'>        </span>: localhost</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>NamespacePath :
+root\cimv2\sajat</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ClassName<span
+style='mso-spacerun:yes'>     </span>: MyClass3</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>IsClass<span
+style='mso-spacerun:yes'>       </span>: False</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>IsInstance<span
+style='mso-spacerun:yes'>    </span>: True</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>IsSingleton<span
+style='mso-spacerun:yes'>   </span>: False</span></span></span></p>
+
+</div>
+
+<p class=Szveg style='margin-left:17.0pt;mso-add-space:auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU>És újra kiolvasva (most a </span></span></span><span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Get-WMIObject</span></span><span
+lang=HU>-el):</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Get-WmiObject
+-Class MyClass3 -Namespace root\cimv2\sajat</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__GENUS<span
+style='mso-spacerun:yes'>          </span>: 2</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__CLASS<span
+style='mso-spacerun:yes'>          </span>: MyClass3</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__SUPERCLASS<span
+style='mso-spacerun:yes'>     </span>:</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__DYNASTY<span
+style='mso-spacerun:yes'>        </span>: MyClass3</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__RELPATH<span
+style='mso-spacerun:yes'>        </span>: MyClass3.Prop1=&quot;valami&quot;</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__PROPERTY_COUNT : 2</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__DERIVATION<span
+style='mso-spacerun:yes'>     </span>: {}</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__SERVER<span
+style='mso-spacerun:yes'>         </span>: STLENO</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__NAMESPACE<span
+style='mso-spacerun:yes'>      </span>: ROOT\cimv2\sajat</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__PATH<span
+style='mso-spacerun:yes'>           </span>:
+\\STLENO\ROOT\cimv2\sajat:MyClass3.Prop1=&quot;valami&quot;</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Prop1<span
+style='mso-spacerun:yes'>            </span>: valami</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Prop2<span
+style='mso-spacerun:yes'>            </span>: {4, 5}</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PSComputerName<span
+style='mso-spacerun:yes'>   </span>: STLENO</span></span></span></p>
+
+</div>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

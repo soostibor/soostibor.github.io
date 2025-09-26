@@ -1,0 +1,478 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>2.6.15 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><a name="_Toc204716375"></a><a
+name="_Toc209115918"><span style='mso-bookmark:_Toc204716375'>
+<span lang=HU>Kivonatok
+készítése fájlokhoz (Filehash)</span></span></a></span></span></h3>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU>Fájlok egyszerű azonosításához
+érdemes lehet az ő kivonatukat előállítani. Ez a kivonat egy szám, ami kellően
+nagy ahhoz, hogy kis esélye legyen annak, hogy két különböző fájlnak is éppen
+egyforma legyen a kivonata, de kellően kicsi ahhoz, hogy egyszerűen,
+„helytakarékosan” tároljuk ezeket az azonosítókat.</span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU>A következő szkript Lee Holmes
+PowerShell Cookbook könyvéből származik ( </span></span></span><a
+href="http://poshcode.org/2154"><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU>http://poshcode.org/2154</span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'></span></span></a><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU> ), a fájlt a futószalagon várja és választható, hogy milyen kivonatot
+kérünk egy fájlhoz:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>param(<o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU style='color:black'>[ValidateSet(</span><span
+lang=HU style='color:maroon'>&quot;MD5&quot;</span><span lang=HU
+style='color:black'>, </span><span lang=HU style='color:maroon'>&quot;SHA1&quot;</span><span
+lang=HU style='color:black'>, </span><span lang=HU style='color:maroon'>&quot;SHA256&quot;</span><span
+lang=HU style='color:black'>, </span><span lang=HU style='color:maroon'>&quot;SHA384&quot;</span><span
+lang=HU style='color:black'>, </span><span lang=HU style='color:maroon'>&quot;SHA512&quot;</span><span
+lang=HU style='color:black'>)]<o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU style='color:purple'>$HashAlgorithm</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:maroon'>&quot;MD5&quot;</span><span
+lang=HU style='color:black'><o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU style='color:black'>)<o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>process {<o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>if(</span><span lang=HU style='color:red'>!</span><span lang=HU
+style='color:purple'>$_</span><span lang=HU style='color:black'>.psiscontainer){<o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU style='color:green'>## Create
+the hash object that calculates the hash of our file.<o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU style='color:purple'>$hashType</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> [</span><span lang=HU style='color:teal'>Type</span><span
+lang=HU style='color:black'>] </span><span lang=HU style='color:maroon'>&quot;System.Security.Cryptography.$HashAlgorithm&quot;</span><span
+lang=HU style='color:black'><o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU style='color:purple'>$hasher</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$hashType</span><span
+lang=HU style='color:black'>::Create()<o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU style='color:black'><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU style='color:purple'>$inputStream</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><b><span lang=HU style='color:cadetblue'>New-Object</span></b><span
+lang=HU style='color:black'> </span><span lang=HU style='color:maroon'>IO.StreamReader</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$_</span><span
+lang=HU style='color:black'>.fullname<o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU style='color:purple'>$hashBytes</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$hasher</span><span
+lang=HU style='color:black'>.ComputeHash(</span><span lang=HU style='color:
+purple'>$inputStream</span><span lang=HU style='color:black'>.BaseStream)<o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU style='color:purple'>$inputStream</span><span
+lang=HU style='color:black'>.Close()<o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU style='color:green'>## Convert
+the result to hexadecimal<o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU style='color:purple'>$builder</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><b><span lang=HU style='color:cadetblue'>New-Object</span></b><span
+lang=HU style='color:black'> </span><span lang=HU style='color:maroon'>System.Text.StringBuilder</span><span
+lang=HU style='color:black'><o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU style='color:purple'>$hashBytes</span><span
+lang=HU style='color:black'> | </span><b><span lang=HU style='color:cadetblue'>Foreach-Object</span></b><span
+lang=HU style='color:black'> { [</span><span lang=HU style='color:teal'>void</span><span
+lang=HU style='color:black'>] </span><span lang=HU style='color:purple'>$builder</span><span
+lang=HU style='color:black'>.Append(</span><span lang=HU style='color:purple'>$_</span><span
+lang=HU style='color:black'>.ToString(</span><span lang=HU style='color:maroon'>&quot;X2&quot;</span><span
+lang=HU style='color:black'>)) }<o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU style='color:green'>## Return
+a custom object with the important details from the hashing<o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU style='color:purple'>$output</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><b><span lang=HU style='color:cadetblue'>New-Object</span></b><span
+lang=HU style='color:black'> </span><span lang=HU style='color:maroon'>PsObject</span><span
+lang=HU style='color:black'> </span><i><span lang=HU style='color:cadetblue'>-Property</span></i><span
+lang=HU style='color:black'> @{<o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>Path </span><span lang=HU style='color:
+red'>=</span><span lang=HU style='color:black'> </span><span lang=HU
+style='color:purple'>$_</span><span lang=HU style='color:black'>.fullname;<o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>HashAlgorithm </span><span lang=HU
+style='color:red'>=</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:purple'>$hashAlgorithm</span><span lang=HU
+style='color:black'>;<o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>HashValue </span><span lang=HU
+style='color:red'>=</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:purple'>$builder</span><span lang=HU style='color:black'>.ToString();<o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>Size </span><span lang=HU style='color:
+red'>=</span><span lang=HU style='color:black'> </span><span lang=HU
+style='color:purple'>$_</span><span lang=HU style='color:black'>.length<o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU style='color:black'>}<o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU style='color:purple'>$output</span><span
+lang=HU style='color:black'><o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU style='color:black'>}<o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black'>}</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc189542104'><span lang=HU>Nézzük ennek működését:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[23] PS C:\&gt; dir
+c:\ee\d* | C:\_munka\filehash.ps1 | ft path, hashvalue</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Path<span
+style='mso-spacerun:yes'>                                    </span>HashValue</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>                                    </span>---------</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>C:\ee\dat03 -
+Copy.csv<span style='mso-spacerun:yes'>                 
+</span>CBB3578F8223955A11558FE4F0599CC7</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>C:\ee\dat03.csv<span
+style='mso-spacerun:yes'>                        
+</span>CBB3578F8223955A11558FE4F0599CC7</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc189542104'><span lang=HU>Látható, hogy rázúdítva erre a FileHash.ps1
+szkriptre a fájljaimat ez kiadja – többek között – a fájl elérési útját és a
+kiszámított kivonat értékét. Látható, hogy annak ellenére, hogy a két fájlnak
+más a neve, a kivonat – mivel az csak a fájl tartama alapján készült –
+egyforma. Nézzük, mi lesz a kivonatok értéke, ha egy karakter írok csak át az
+egyik fájlban:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[24] PS C:\&gt; dir
+c:\ee\d* | C:\_munka\filehash.ps1 | ft path, hashvalue</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Path<span
+style='mso-spacerun:yes'>                                    </span>HashValue</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>                                    </span>---------</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>C:\ee\dat03 -
+Copy.csv<span style='mso-spacerun:yes'>                 
+</span>CD982847FF6212858624FB385947F30B</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>C:\ee\dat03.csv<span
+style='mso-spacerun:yes'>                        
+</span>CBB3578F8223955A11558FE4F0599CC7</span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU>Látható, hogy a másolati
+fájlnak nagyon megváltozott a kivonatértéke.</span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU>PowerShell 5.0-ba már bekerült
+natívan ez a funkció a </span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Get-FileHash</span></span></span></span>
+<span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'></span></span>
+<span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdlettel:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Get-FileHash
+-Path C:\Downloads\BiosUpdate.exe | fl</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Algorithm : SHA256</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Hash<span
+style='mso-spacerun:yes'>      </span>:
+E9ED64C39C2DA440AE7950DB6EF35F7804C1D84CAFB7694BF74004C7C56C368D</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Path<span
+style='mso-spacerun:yes'>      </span>: C:\Downloads\BiosUpdate.exe</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc189542104'><span lang=HU>Megválaszthatjuk a hashalgoritmust és a
+futószalagról is betölthetjük a fájlokat:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; dir
+C:\Downloads\*.exe | Get-FileHash -Algorithm MD5</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Algorithm<span
+style='mso-spacerun:yes'>       </span>Hash</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>---------<span
+style='mso-spacerun:yes'>       </span>----</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>MD5<span
+style='mso-spacerun:yes'>             </span>50F1AE22F540CE3737D0C31EF0CF7144</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>MD5<span
+style='mso-spacerun:yes'>             </span>DC7D985E03B8F315EBE88A4A89818FFE</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>MD5<span
+style='mso-spacerun:yes'>             </span>27033DD8BF332B2037253F91D87205A6</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>MD5<span
+style='mso-spacerun:yes'>             </span>9D4CFD9EA30DA6CA3507FB72CDD029C4</span></span></span></p>
+
+</div>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

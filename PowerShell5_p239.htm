@@ -1,0 +1,997 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>2.15.5 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><a name="_Toc204716408"></a><a
+name="_Toc209115951"><span style='mso-bookmark:_Toc204716408'>
+<span lang=HU>Megosztási
+engedélyek</span></span></a></span></span></h3>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc189542103'><span lang=HU>A megosztások engedélyeinek beállítása sem
+egyszerű feladat, hasonlóan a többi objektuméhoz. Ráadásul itt WMI objektumok
+metódusainak hívásával tudunk engedélyeket állítani, ami tovább bonyolítja a
+helyzetet. Úgyhogy példaként ne is nulláról kezdjük egy megosztás engedélyeinek
+beállítását, hanem legyen az a feladta, hogy egy távoli kiszolgálón levő
+meglevő megosztásokat másoljuk át a helyi gépre. Ez jól jöhet akkor például, ha
+egy régi kiszolgálóról át szeretnénk migrálni az adatokat egy újra. Ráadásul
+nem csak a megosztási szintű jogosultságokat szeretnénk lemásolni, hanem az
+NTFS szintű jogokat is. Nézzük az ezt megvalósító függvényt, aztán egy kis
+magyarázatot:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:blue'>function</span><span
+lang=HU style='color:black'> copy-share (</span><span lang=HU style='color:
+purple'>$remote</span><span lang=HU style='color:black'>){<o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>  </span><o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:purple'>$wc</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> <b>New-Object</b> <i>-TypeName</i> </span><span
+lang=HU style='color:maroon'>WMIClass</span><span lang=HU style='color:black'> <i>-ArgumentList</i>
+</span><span lang=HU style='color:maroon'>Win32_Share</span><span lang=HU
+style='color:black'><o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>  </span><o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><b><span lang=HU style='color:black;
+mso-color-alt:windowtext'>Get-WmiObject</span></b><span lang=HU
+style='color:black'> <i>-Class</i> </span><span lang=HU style='color:maroon'>Win32_ShareToDirectory</span><span
+lang=HU style='color:black'> <i>-ComputerName</i> </span><span lang=HU
+style='color:purple'>$remote</span><span lang=HU style='color:black'> | <b>%</b>{<span
+style='mso-spacerun:yes'>  </span><o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:purple'>$share</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:blue'>if</span><span
+lang=HU style='color:black'>(</span><span lang=HU style='color:purple'>$_</span><span
+lang=HU style='color:black'>.share </span><span lang=HU style='color:red'>-match</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:maroon'>'&quot;(.+)&quot;'</span><span
+lang=HU style='color:black'>){</span><span lang=HU style='color:purple'>$matches</span><span
+lang=HU style='color:black'>[1] </span><span lang=HU style='color:red'>-replace</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:maroon'>&quot;\\\\&quot;</span><span
+lang=HU style='color:black'>,</span><span lang=HU style='color:maroon'>&quot;\&quot;</span><span
+lang=HU style='color:black'>}<span style='mso-spacerun:yes'>  </span><o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:purple'>$dir</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:blue'>if</span><span
+lang=HU style='color:black'>(</span><span lang=HU style='color:purple'>$_</span><span
+lang=HU style='color:black'>.sharedelement </span><span lang=HU
+style='color:red'>-match</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:maroon'>'&quot;(.+)&quot;'</span><span lang=HU
+style='color:black'>){</span><span lang=HU style='color:purple'>$matches</span><span
+lang=HU style='color:black'>[1] </span><span lang=HU style='color:red'>-replace</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:maroon'>&quot;\\\\&quot;</span><span
+lang=HU style='color:black'>,</span><span lang=HU style='color:maroon'>&quot;\&quot;</span><span
+lang=HU style='color:black'>}<span style='mso-spacerun:yes'>  </span><o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span><b>New-Object</b> <i>-TypeName</i> </span><span
+lang=HU style='color:maroon'>PSObject</span><span lang=HU style='color:black'> <i>-Property</i>
+@{share </span><span lang=HU style='color:red'>=</span><span lang=HU
+style='color:black'> </span><span lang=HU style='color:purple'>$share</span><span
+lang=HU style='color:black'>; <b>dir</b> </span><span lang=HU style='color:
+maroon'>=</span><span lang=HU style='color:black'> </span><span lang=HU
+style='color:purple'>$dir</span><span lang=HU style='color:black'>}<span
+style='mso-spacerun:yes'>  </span><o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black'>} | ?{</span><span
+lang=HU style='color:purple'>$_</span><span lang=HU style='color:black'>.share </span><span
+lang=HU style='color:red'>-notmatch</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:maroon'>'\$$'</span><span lang=HU style='color:black'>} | <b>%</b>{<span
+style='mso-spacerun:yes'>  </span><o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:blue'>if</span><span
+lang=HU style='color:black'>(</span><span lang=HU style='color:red'>!</span><span
+lang=HU style='color:black'>(<b>test-path</b> </span><span lang=HU
+style='color:purple'>$_</span><span lang=HU style='color:black'>.dir)){<span
+style='mso-spacerun:yes'>  </span><o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>        </span><b>New-Item</b> <i>-Path</i> (<b>Split-Path</b>
+</span><span lang=HU style='color:purple'>$_</span><span lang=HU
+style='color:black'>.dir <i>-Parent</i>) <i>-Name</i> (<b>Split-Path</b> </span><span
+lang=HU style='color:purple'>$_</span><span lang=HU style='color:black'>.dir <i>-Leaf</i>)
+<i>-ItemType</i> </span><span lang=HU style='color:maroon'>directory</span><span
+lang=HU style='color:black'> &gt; </span><span lang=HU style='color:purple'>$null</span><span
+lang=HU style='color:black'><span style='mso-spacerun:yes'>  </span><o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>}<span style='mso-spacerun:yes'>  </span><o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:purple'>$shpath</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$_</span><span
+lang=HU style='color:black'>.dir </span><span lang=HU style='color:red'>-replace</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:maroon'>&quot;^(\w):&quot;</span><span
+lang=HU style='color:black'>, </span><span lang=HU style='color:maroon'>&quot;\\$remote\`$1`$&quot;</span><span
+lang=HU style='color:black'><span style='mso-spacerun:yes'>  </span><o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span><b>get-acl</b> <i>-Path</i> </span><span
+lang=HU style='color:purple'>$shpath</span><span lang=HU style='color:black'> |
+<b>set-acl</b> </span><span lang=HU style='color:purple'>$_</span><span
+lang=HU style='color:black'>.dir<span style='mso-spacerun:yes'>  </span><o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:purple'>$wc</span><span
+lang=HU style='color:black'>.Create(</span><span lang=HU style='color:purple'>$_</span><span
+lang=HU style='color:black'>.dir,</span><span lang=HU style='color:purple'>$_</span><span
+lang=HU style='color:black'>.share,0) &gt; </span><span lang=HU
+style='color:purple'>$null</span><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>  </span><o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:purple'>$sharesec</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> ([</span><span lang=HU style='color:teal'>WMI</span><span
+lang=HU style='color:black'>] </span><span lang=HU style='color:maroon'>&quot;\\$remote\root\cimv2:Win32_LogicalShareSecuritySetting.Name='$share'&quot;</span><span
+lang=HU style='color:black'>).GetSecurityDescriptor().descriptor<span
+style='mso-spacerun:yes'>  </span><o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>([</span><span lang=HU style='color:teal'>WMI</span><span
+lang=HU style='color:black'>] </span><span lang=HU style='color:maroon'>&quot;\\localhost\root\cimv2:Win32_LogicalShareSecuritySetting.Name='$share'&quot;</span><span
+lang=HU style='color:black'>).setSecurityDescriptor(</span><span lang=HU
+style='color:purple'>$sharesec</span><span lang=HU style='color:black'>) &gt; </span><span
+lang=HU style='color:purple'>$null</span><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>  </span><o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span><b>Get-ChildItem</b> <i>-Path</i> </span><span
+lang=HU style='color:maroon'>&quot;\\$remote\$share&quot;</span><span lang=HU
+style='color:black'> <i>-Force</i> | <b>Copy-Item</b> <i>-Destination</i> </span><span
+lang=HU style='color:purple'>$dir</span><span lang=HU style='color:black'> <i>-Recurse</i><span
+style='mso-spacerun:yes'>  </span><o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span><b>Get-ChildItem</b> <i>-Path</i> </span><span
+lang=HU style='color:maroon'>&quot;\\$remote\$share&quot;</span><span lang=HU
+style='color:black'> <i>-Recurse</i> <i>-Force</i> | <b>get-acl</b> | <b>%</b>{<span
+style='mso-spacerun:yes'>  </span><o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>        </span><b>set-acl</b> <i>-Path</i> (</span><span
+lang=HU style='color:purple'>$_</span><span lang=HU style='color:black'>.path </span><span
+lang=HU style='color:red'>-replace</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:maroon'>&quot;\\\\$remote\\&quot;</span><span lang=HU
+style='color:black'>,</span><span lang=HU style='color:maroon'>&quot;\\localhost\&quot;</span><span
+lang=HU style='color:black'>) -AclObject </span><span lang=HU style='color:
+purple'>$_</span><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>  </span><o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>}<span style='mso-spacerun:yes'>  </span><o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU style='color:black'>}<o:p></o:p></span></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black'>}</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc189542103'><span lang=HU>A függvény fejléce után létrehozom a </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$wc</span></span><span
+lang=HU> változóba a korábban már látott WMIClass objektumomat. Utána elkezdem
+listázni a távoli gép </span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Win32_ShareToDirectory</span></span><span
+lang=HU> objektumait. Ez azért jó nekünk, mert ebben a </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Share</span></span><span
+lang=HU> és </span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>SharedElement</span></span><span
+lang=HU> tulajdonságokban a megosztások és a hozzájuk tartozó helyi elérési
+utak is elérhetők. Nézzük mit is ad ez a WMI osztály:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[1] PS C:\&gt;
+Get-WmiObject -Class Win32_ShareToDirectory</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__GENUS<span
+style='mso-spacerun:yes'>          </span>: 2</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__CLASS<span
+style='mso-spacerun:yes'>          </span>: Win32_ShareToDirectory</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__SUPERCLASS<span
+style='mso-spacerun:yes'>     </span>:</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__DYNASTY<span
+style='mso-spacerun:yes'>        </span>: Win32_ShareToDirectory</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__RELPATH<span
+style='mso-spacerun:yes'>        </span>:
+Win32_ShareToDirectory.Share=&quot;\\\\SOOST-PC\\root\\cimv2:Win</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                  
+</span>32_Share.Name=\&quot;ADMIN$\&quot;&quot;,SharedElement=&quot;\\\\SOOST-PC\\root</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                  
+</span>\\CIMV2:Win32_Directory.Name=\&quot;c:\\\\windows\&quot;&quot;</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__PROPERTY_COUNT : 2</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__DERIVATION<span
+style='mso-spacerun:yes'>     </span>: {}</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__SERVER<span
+style='mso-spacerun:yes'>         </span>: SOOST-PC</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__NAMESPACE<span
+style='mso-spacerun:yes'>      </span>: root\cimv2</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__PATH<span
+style='mso-spacerun:yes'>           </span>:
+\\SOOST-PC\root\cimv2:Win32_ShareToDirectory.Share=&quot;\\\\SOO</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                  
+</span>ST-PC\\root\\cimv2:Win32_Share.Name=\&quot;ADMIN$\&quot;&quot;,SharedEleme</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                  
+</span>nt=&quot;\\\\SOOST-PC\\root\\CIMV2:Win32_Directory.Name=\&quot;c:\\\\</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                   </span>windows\&quot;&quot;</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Share<span
+style='mso-spacerun:yes'>            </span>:
+\\SOOST-PC\root\cimv2:Win32_Share.Name=&quot;ADMIN$&quot;</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SharedElement<span
+style='mso-spacerun:yes'>    </span>: \\SOOST-PC\root\CIMV2:Win32_Directory.Name=&quot;c:\\windows&quot;</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>…</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc189542103'><span lang=HU>A </span></span></span><span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Share</span></span><span
+lang=HU> és </span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>SharedElement</span></span><span
+lang=HU> tényleg jó lesz nekünk. Némi kis regex-szel és egyedi objektum
+létrehozásával, valamint a $-ra végződő </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>admin</span></span><span
+lang=HU> megosztások kiszűrésével egész jó kis áttekintést kapunk:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[2] PS C:\&gt; $remote =
+&quot;.&quot;</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[3] PS C:\&gt;
+Get-WmiObject -Class Win32_ShareToDirectory -ComputerName $remote |</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'> </span>%{</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&gt;&gt;<span
+style='mso-spacerun:yes'>     </span>$share = if($_.share -match
+'&quot;(.+)&quot;'){$matches[1] -replace &quot;\\\\&quot;,&quot;\&quot;}</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&gt;&gt;<span
+style='mso-spacerun:yes'>     </span>$dir = if($_.sharedelement -match
+'&quot;(.+)&quot;'){$matches[1] -replace &quot;\\\\&quot;,</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&quot;\&quot;}</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&gt;&gt;<span
+style='mso-spacerun:yes'>     </span>New-Object -TypeName PSObject -Property
+@{share = $share; dir = $dir}</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&gt;&gt; } | ?{$_.share
+-notmatch '\$$'}</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&gt;&gt;</span><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>share<span
+style='mso-spacerun:yes'>                                   </span>dir</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>-----<span
+style='mso-spacerun:yes'>                                   </span>---</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>download<span
+style='mso-spacerun:yes'>                                </span>c:\download</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>e14<span
+style='mso-spacerun:yes'>                                    
+</span>c:\_munka\e14</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>powershell<span
+style='mso-spacerun:yes'>                             
+</span>c:\_munka\powershell</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Users<span
+style='mso-spacerun:yes'>                                   </span>c:\users</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>_munka<span
+style='mso-spacerun:yes'>                                  </span>c:\_munka</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc189542103'><span lang=HU>A függvény következő soraiban sok újdonság
+nincsen, ellenőrzöm, és ha nincsen, akkor létrehozom a helyi gépen a szükséges
+mappákat, lemásolom a jogosultságokat, majd megosztom ezeket. Ezután jön a
+fejezetünk fő motívuma, a megosztásszintű jogosultságok lekérdezése:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[16] PS C:\&gt; ([WMI]
+&quot;\\SOOST-PC\root\cimv2:Win32_LogicalShareSecuritySetting.Na</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>me='_munka'&quot;).getsecuritydescriptor().descriptor</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__GENUS<span
+style='mso-spacerun:yes'>          </span>: 2</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__CLASS<span
+style='mso-spacerun:yes'>          </span>: Win32_SecurityDescriptor</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__SUPERCLASS<span
+style='mso-spacerun:yes'>     </span>: __SecurityDescriptor</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__DYNASTY<span
+style='mso-spacerun:yes'>        </span>: __SecurityRelatedClass</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__RELPATH<span
+style='mso-spacerun:yes'>        </span>:</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__PROPERTY_COUNT : 6</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__DERIVATION<span
+style='mso-spacerun:yes'>     </span>: {__SecurityDescriptor,
+__SecurityRelatedClass}</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__SERVER<span
+style='mso-spacerun:yes'>         </span>:</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__NAMESPACE<span
+style='mso-spacerun:yes'>      </span>:</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__PATH<span
+style='mso-spacerun:yes'>           </span>:</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ControlFlags<span
+style='mso-spacerun:yes'>     </span>: 32772</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>DACL<span
+style='mso-spacerun:yes'>             </span>:
+{System.Management.ManagementBaseObject}</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Group<span
+style='mso-spacerun:yes'>            </span>:</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Owner<span
+style='mso-spacerun:yes'>            </span>:</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SACL<span
+style='mso-spacerun:yes'>             </span>:</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>TIME_CREATED<span
+style='mso-spacerun:yes'>     </span>:</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc189542103'><span lang=HU>A nehézséget itt az jelenti, hogy például a </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>ControlFlags</span></span><span
+lang=HU> egy szám, amit így elég nehéz értelmezni. De ha jobban beljebb megyünk
+a </span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>DACL</span></span><span lang=HU>
+irányába, akkor sem túl olvasmányos a tartalma:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[17] PS C:\&gt; ([WMI]
+&quot;\\SOOST-PC\root\cimv2:Win32_LogicalShareSecuritySetting.Na</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>me='_munka'&quot;).getsecuritydescriptor().descriptor.dacl</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__GENUS<span
+style='mso-spacerun:yes'>                 </span>: 2</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__CLASS<span
+style='mso-spacerun:yes'>                 </span>: Win32_ACE</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__SUPERCLASS<span
+style='mso-spacerun:yes'>            </span>: __ACE</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__DYNASTY<span
+style='mso-spacerun:yes'>               </span>: __SecurityRelatedClass</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__RELPATH<span
+style='mso-spacerun:yes'>               </span>:</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__PROPERTY_COUNT<span
+style='mso-spacerun:yes'>        </span>: 7</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__DERIVATION<span
+style='mso-spacerun:yes'>            </span>: {__ACE, __SecurityRelatedClass}</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__SERVER<span
+style='mso-spacerun:yes'>                </span>:</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__NAMESPACE<span
+style='mso-spacerun:yes'>             </span>:</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__PATH<span
+style='mso-spacerun:yes'>                  </span>:</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>AccessMask<span
+style='mso-spacerun:yes'>              </span>: 2032127</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>AceFlags<span
+style='mso-spacerun:yes'>                </span>: 0</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>AceType<span
+style='mso-spacerun:yes'>                 </span>: 0</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>GuidInheritedObjectType :</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>GuidObjectType<span
+style='mso-spacerun:yes'>          </span>:</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>TIME_CREATED<span
+style='mso-spacerun:yes'>            </span>:</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Trustee<span
+style='mso-spacerun:yes'>                 </span>:
+System.Management.ManagementBaseObject</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc189542103'><span lang=HU>Még tovább is lehet ásni a </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>Trustee</span></span><span
+lang=HU> tulajdonság irányába:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[19] PS C:\&gt; ([WMI]
+&quot;\\SOOST-PC\root\cimv2:Win32_LogicalShareSecuritySetting.Na</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>me='_munka'&quot;).getsecuritydescriptor().descriptor.dacl[0].trustee</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__GENUS<span
+style='mso-spacerun:yes'>          </span>: 2</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__CLASS<span
+style='mso-spacerun:yes'>          </span>: Win32_Trustee</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__SUPERCLASS<span
+style='mso-spacerun:yes'>     </span>: __Trustee</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__DYNASTY<span
+style='mso-spacerun:yes'>        </span>: __SecurityRelatedClass</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__RELPATH<span
+style='mso-spacerun:yes'>        </span>:</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__PROPERTY_COUNT : 6</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__DERIVATION<span
+style='mso-spacerun:yes'>     </span>: {__Trustee, __SecurityRelatedClass}</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__SERVER<span
+style='mso-spacerun:yes'>         </span>:</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__NAMESPACE<span
+style='mso-spacerun:yes'>      </span>:</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>__PATH<span
+style='mso-spacerun:yes'>           </span>:</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Domain<span
+style='mso-spacerun:yes'>           </span>:</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>             </span>: Everyone</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SID<span
+style='mso-spacerun:yes'>              </span>: {1, 1, 0, 0...}</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SidLength<span
+style='mso-spacerun:yes'>        </span>: 12</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SIDString<span
+style='mso-spacerun:yes'>        </span>: S-1-1-0</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>TIME_CREATED<span
+style='mso-spacerun:yes'>     </span>:</span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU>Szóval nem túl egyszerű, ezért
+nem akartam én új jogosultságot definiálni, hanem csak a meglevőt másolni. Azaz
+először eltárolom a teljes biztonsági leírót a </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$sharesec</span></span><span
+lang=HU> változóba, majd a<span style='mso-spacerun:yes'>  </span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542103'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>SetSecurityDescriptor</span></span><span
+lang=HU> metódussal az újonnan létrehozott megosztásra ráteszem, azaz
+átmásolom. Ezután már csak a mappa tartalmát kell átmásolni és az alacsonyabb
+szinteken esetlegesen eltérő jogosultságokat átmásolni. És készen is vagyunk. </span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span lang=HU>Valószínű valamilyen migráló
+eszköz, vagy akár a </span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542103'><span class=EnglishChar><span
+style='mso-bidi-font-family:"Times New Roman"'>RoboCopy</span></span><span
+lang=HU> mindezt egyszerűbben megoldaná, de ezeknél nincs a kezünkben a testre
+szabás lehetősége, így egy saját megoldás mindig nagyobb szabadságot ad nekünk,
+nem beszélve a sikerélményről!</span></span></span></p>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

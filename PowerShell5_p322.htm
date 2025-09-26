@@ -1,0 +1,466 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>2.29.2 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><a name="_Toc204716495"></a><a
+name="_Toc209116038"><span style='mso-bookmark:_Toc204716495'>
+<span lang=HU>WScript
+osztály használata</span></span></a></h3>
+
+<p class=Szveg><span lang=HU>Az előzőekben láttuk, hogy a Windows Shellt hogyan
+lehet szkriptből megszólítani. Van egy másik COM objektum, a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>WScript</span></span><span
+lang=HU>, amelynek </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Shell</span></span><span
+lang=HU> alosztálya is hasonló célokat, de még mélyebb szinten valósít meg.
+Például szeretnénk egy olyan alkalmazással kommunikálni, amely nem COM
+alkalmazás, például a Notepaddal. Jobb híján billentyűzetleütéseket tudunk neki
+küldeni a </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>WScript.Shell</span></span><span lang=HU> osztály </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>SendKeys</span></span><span
+lang=HU> metódusával:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[1] PS C:\&gt; $sh =
+new-object -com wscript.shell</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[2] PS C:\&gt;
+$sh.Run(&quot;notepad&quot;)</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>0</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[3] PS C:\&gt;
+$sh.AppActivate(&quot;notepad&quot;)</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>True</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[4] PS C:\&gt;
+$sh.AppActivate(&quot;notepad&quot;); $sh.SendKeys(&quot;kakukk!&quot;)</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>True</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Az [1]-es sorban elindítom a Notepad-et a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Run</span></span><span
+lang=HU> metódussal. Aztán előtérbe helyezem az ablakát, hogy ő kapja a
+billentyűleütéseket, majd kiküldőm a billentyűzetütéseket. Az alábbi
+képernyőfotón látszik, hogy a kiadott karakterek tényleg beíródtak a Notepad
+szerkesztőfelületére.</span></p>
+
+<p class=Kp>
+ <img src="PowerShell5_files/image163.png">
+</p>
+
+<p class=MsoCaption>
+<span lang=HU><span
+style='mso-no-proof:yes'>141</span></span>
+<span
+lang=HU>. ábra Nem COM alkalmazás vezérlése WScrip.Shell objektummal</span></p>
+
+<p class=Szveg><span lang=HU>Bonyolultabb billentyűkombinációkat is küldhetünk
+(részletek: <a
+href="http://msdn.microsoft.com/en-us/library/8c6yea83(VS.85).aspx">http://msdn.microsoft.com/en-us/library/8c6yea83(VS.85).aspx</a>
+), például egy „mentés másként” művelet:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:purple'>$sh</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>.AppActivate(</span><span
+lang=HU style='color:maroon'>&quot;notepad&quot;</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'>)</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:purple'>$sh</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>.SendKeys(</span><span
+lang=HU style='color:maroon'>&quot;%(F)A&quot;</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'>) <span style='mso-tab-count:1'>      </span></span><span
+lang=HU style='color:green'># Alt+F és A a ’Send As’ párbeszédablak
+előhívásához<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><b><span lang=HU style='color:cadetblue'>start-sleep</span></b><span
+lang=HU style='color:black;mso-color-alt:windowtext'> 1<span style='mso-tab-count:
+4'>                     </span></span><span lang=HU style='color:green'>#
+hagyjunk időt a megnyíláshoz<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:purple'>$sh</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>.SendKeys(</span><span
+lang=HU style='color:maroon'>&quot;abcdefghijk.txt&quot;</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'>)<span style='mso-tab-count:1'>   </span></span><span
+lang=HU style='color:green'># fájlnév kiküldése<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><b><span lang=HU style='color:cadetblue'>start-sleep</span></b><span
+lang=HU style='color:black;mso-color-alt:windowtext'> 1<span style='mso-tab-count:
+4'>                     </span></span><span lang=HU style='color:green'># kis
+várakozás<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span lang=HU style='color:purple'>$sh</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'>.SendKeys(</span><span lang=HU
+style='color:maroon'>&quot;~&quot;</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>)<span style='mso-tab-count:3'>                 </span></span><span
+lang=HU style='color:green'># Enter kiküldése<o:p></o:p></span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Nézzük ennek az objektumnak a tagjellemzőit:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[5] PS C:\&gt; $sh | gm</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>   </span>TypeName:
+System.__ComObject#{41904400-be18-11d3-a28b-00104bd35090}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>                     </span>MemberType<span
+style='mso-spacerun:yes'>            </span>Definition</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>                     </span>----------<span
+style='mso-spacerun:yes'>            </span>----------</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>AppActivate<span
+style='mso-spacerun:yes'>              </span>Method<span
+style='mso-spacerun:yes'>                </span>bool AppActivate (Variant...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>CreateShortcut<span
+style='mso-spacerun:yes'>           </span>Method<span
+style='mso-spacerun:yes'>                </span>IDispatch CreateShortcut ...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Exec<span
+style='mso-spacerun:yes'>                     </span>Method<span
+style='mso-spacerun:yes'>                </span>IWshExec Exec (string)</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ExpandEnvironmentStrings
+Method<span style='mso-spacerun:yes'>                </span>string
+ExpandEnvironmentS...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>LogEvent<span
+style='mso-spacerun:yes'>                 </span>Method<span
+style='mso-spacerun:yes'>                </span>bool LogEvent (Variant, s...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Popup<span
+style='mso-spacerun:yes'>                    </span>Method<span
+style='mso-spacerun:yes'>                </span>int Popup (string, Varian...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>RegDelete<span
+style='mso-spacerun:yes'>                </span>Method<span
+style='mso-spacerun:yes'>                </span>void RegDelete (string)</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>RegRead<span
+style='mso-spacerun:yes'>                  </span>Method<span
+style='mso-spacerun:yes'>                </span>Variant RegRead (string)</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>RegWrite<span
+style='mso-spacerun:yes'>                 </span>Method<span
+style='mso-spacerun:yes'>                </span>void RegWrite (string, Va...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Run<span
+style='mso-spacerun:yes'>                      </span>Method<span
+style='mso-spacerun:yes'>                </span>int Run (string, Variant,...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SendKeys<span
+style='mso-spacerun:yes'>                 </span>Method<span
+style='mso-spacerun:yes'>                </span>void SendKeys (string, Va...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Environment<span
+style='mso-spacerun:yes'>              </span>ParameterizedProperty
+IWshEnvironment Environme...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>CurrentDirectory<span
+style='mso-spacerun:yes'>         </span>Property<span
+style='mso-spacerun:yes'>              </span>string CurrentDirectory (...</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SpecialFolders<span
+style='mso-spacerun:yes'>           </span>Property<span
+style='mso-spacerun:yes'>              </span>IWshCollection SpecialFol...</span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span lang=HU>Látható, hogy a billentyűleütések mellet
+többek között registry-szerkesztő, shortcut-létrehozó és dialógusablak-kirakó
+metódusai is vannak.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>A WScriptnek nem csak Shell alosztálya
+van, hanem Network is. Ezzel számtalan hasznos, hálózattal kapcsolatos
+műveletet tudunk végrehajtani:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[10] PS I:\&gt;$ws =
+New-Object -com WScript.Network</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[11] PS I:\&gt;$ws | gm</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>   </span>TypeName:
+System.__ComObject#{24be5a31-edfe-11d2-b933-00104b365c9f}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>                        </span>MemberType Definition</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>                        </span>---------- ----------</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>AddPrinterConnection<span
+style='mso-spacerun:yes'>        </span>Method<span
+style='mso-spacerun:yes'>     </span>void AddPrinterConnection (string...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>AddWindowsPrinterConnection
+Method<span style='mso-spacerun:yes'>     </span>void
+AddWindowsPrinterConnection ...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>EnumNetworkDrives<span
+style='mso-spacerun:yes'>           </span>Method<span
+style='mso-spacerun:yes'>     </span>IWshCollection EnumNetworkDrives ()</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>EnumPrinterConnections<span
+style='mso-spacerun:yes'>      </span>Method<span style='mso-spacerun:yes'>    
+</span>IWshCollection EnumPrinterConnect...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>MapNetworkDrive<span
+style='mso-spacerun:yes'>             </span>Method<span
+style='mso-spacerun:yes'>     </span>void MapNetworkDrive (string, str...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>RemoveNetworkDrive<span
+style='mso-spacerun:yes'>          </span>Method<span
+style='mso-spacerun:yes'>     </span>void RemoveNetworkDrive (string, ...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>RemovePrinterConnection<span
+style='mso-spacerun:yes'>     </span>Method<span style='mso-spacerun:yes'>    
+</span>void RemovePrinterConnection (str...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SetDefaultPrinter<span
+style='mso-spacerun:yes'>           </span>Method<span
+style='mso-spacerun:yes'>     </span>void SetDefaultPrinter (string)</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ComputerName<span
+style='mso-spacerun:yes'>                </span>Property<span
+style='mso-spacerun:yes'>   </span>string ComputerName () {get}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Organization<span
+style='mso-spacerun:yes'>                </span>Property<span
+style='mso-spacerun:yes'>   </span>string Organization () {get}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Site<span
+style='mso-spacerun:yes'>                        </span>Property<span
+style='mso-spacerun:yes'>   </span>string Site () {get}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>UserDomain<span
+style='mso-spacerun:yes'>                  </span>Property<span
+style='mso-spacerun:yes'>   </span>string UserDomain () {get}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>UserName<span
+style='mso-spacerun:yes'>                    </span>Property<span
+style='mso-spacerun:yes'>   </span>string UserName () {get}</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>UserProfile<span
+style='mso-spacerun:yes'>                 </span>Property<span
+style='mso-spacerun:yes'>   </span>string UserProfile () {get}</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Nézzünk például egy hálózati meghajtók
+felsorolását:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[12] PS C:\&gt; $ws =
+New-Object -com WScript.Network</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[13] PS C:\&gt;
+$ws.EnumNetworkDrives()</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>I:</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>\\K-FILE1\soostibor$</span></p>
+
+</div>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

@@ -1,0 +1,565 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>Háttérfolyamatok időkorlátozása</title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><a
+name="_Toc204716271"></a><a name="_Toc209115814"><span style='mso-bookmark:
+_Toc204716271'>
+<span
+lang=HU>Háttérfolyamatok időkorlátozása</span></span></a></span></span></span></h3>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:
+_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span lang=HU>Mindezek figyelembevételével
+a munkamenetekkel készíthetünk egy olyan megoldást, amellyel biztosíthatjuk,
+hogy egy szkriptünk egy </span></span></span></span><span style='mso-bookmark:
+_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:
+_Toc197149224'><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>-TimeOut</span></span><span lang=HU> paraméterhez megadható
+maximális ideig futhat csak. Ehhez a </span></span></span></span><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Wait-Job</span></span><span
+lang=HU> </span></span></span></span><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>-timeout</span></span><span
+lang=HU> paraméterét használhatjuk fel. Íme az </span></span></span></span><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Invoke-Job</span></span><span
+lang=HU> függvény:</span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:darkblue'>function</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> Invoke-Job{</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:darkblue'>param</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>(</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:darkgray'>[</span><span
+lang=HU style='color:teal'>scriptblock</span><span lang=HU style='color:darkgray'>]</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$ScriptBlock</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> = {}</span><span lang=HU style='color:darkgray'>,</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:darkgray'>[</span><span
+lang=HU style='color:teal'>int</span><span lang=HU style='color:darkgray'>]</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$timeout</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:purple'>-1</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>)</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:orangered'>$job</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:blue'>start-job</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:navy'>-ScriptBlock</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:orangered'>$ScriptBlock</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:blue'>Wait-Job</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:navy'>-Timeout</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:orangered'>$timeout</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:navy'>-Job</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:orangered'>$job</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:blue'>Stop-Job</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:navy'>-Job</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:orangered'>$job</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:blue'>Receive-Job</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:navy'>-Job</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:orangered'>$job</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:blue'>Remove-Job</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:navy'>-Job</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:orangered'>$job</span></span></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>}</span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:
+_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span lang=HU><span
+style='mso-spacerun:yes'> </span>Ezzel például a teljes C: kilistázása maximum
+3 másodpercig ezt eredményezi:</span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>PS C:\&gt; Invoke-Job -ScriptBlock {Get-ChildItem c:\ -Recurse
+-ErrorAction Silent</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>lyContinue} -timeout 3</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>Directory: C:\</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Mode<span style='mso-spacerun:yes'>               
+</span>LastWriteTime<span style='mso-spacerun:yes'>     </span>Length Name</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>----<span style='mso-spacerun:yes'>               
+</span>-------------<span style='mso-spacerun:yes'>     </span>------ ----</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>d-r--<span style='mso-spacerun:yes'>       </span>2014.11.29.<span
+style='mso-spacerun:yes'>     </span>11:43<span
+style='mso-spacerun:yes'>            </span>Documents</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>d----<span style='mso-spacerun:yes'>       </span>2014.12.13.<span
+style='mso-spacerun:yes'>     </span>22:38<span
+style='mso-spacerun:yes'>            </span>Downloads</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>d----<span style='mso-spacerun:yes'>       </span>2014.10.28.<span
+style='mso-spacerun:yes'>     </span>12:51<span
+style='mso-spacerun:yes'>            </span>drivers</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>d----<span style='mso-spacerun:yes'>       </span>2014.10.28.<span
+style='mso-spacerun:yes'>     </span>14:36<span
+style='mso-spacerun:yes'>            </span>Intel</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>d----<span style='mso-spacerun:yes'>       </span>2014.10.28.<span
+style='mso-spacerun:yes'>     </span>13:27<span
+style='mso-spacerun:yes'>            </span>NVIDIA</span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>d----<span style='mso-spacerun:yes'>       </span>2009.07.14.<span
+style='mso-spacerun:yes'>      </span>5:20<span
+style='mso-spacerun:yes'>            </span>PerfLogs</span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU>Azaz korántsem kaptuk meg az összes fájlt, de sok esetben praktikus
+valamilyen felső határt szabni a szkriptjeink futásának. Természetesen ezt a
+megoldást lehetne finomítani, például valamilyen hibát, vagy figyelmeztetést
+lehetne kiírni, ha a timeout miatt kellett megállítani a futtatást és nem pedig
+magától fejezte be a teendőjét.</span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU><span style='mso-spacerun:yes'> </span>Háttérfolyamatok tehát főleg
+olyan parancsok futtatása esetén fontosak, amelyek hosszú ideig futnak. Néhány
+parancs már előre tudhatóan hosszú ideig fog futni, így ezek esetében van egy </span></span></span></span><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>&#8209;AsJob</span></span><span
+lang=HU> kapcsoló, amely a fenti külön munkamenet létrehozása nélkül már eleve
+háttérfolyamatként futtatja a parancsot. Keressük ki ezeket a parancsokat:</span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[1] PS C:\&gt; PS C:\&gt; Get-Help * -Parameter asjob</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Name<span style='mso-spacerun:yes'>                             
+</span>Category<span style='mso-spacerun:yes'>  </span>Synopsis</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>----<span style='mso-spacerun:yes'>                             
+</span>--------<span style='mso-spacerun:yes'>  </span>--------</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Invoke-Command<span style='mso-spacerun:yes'>                   
+</span>Cmdlet<span style='mso-spacerun:yes'>    </span>Runs commands on local
+and...</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Get-WmiObject<span style='mso-spacerun:yes'>                    
+</span>Cmdlet<span style='mso-spacerun:yes'>    </span>Gets instances of
+Windows ...</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Invoke-WmiMethod<span style='mso-spacerun:yes'>                 
+</span>Cmdlet<span style='mso-spacerun:yes'>    </span>Calls Windows Management
+I...</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Remove-WmiObject<span style='mso-spacerun:yes'>                 
+</span>Cmdlet<span style='mso-spacerun:yes'>    </span>Deletes an instance of
+an ...</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Set-WmiInstance<span style='mso-spacerun:yes'>                  
+</span>Cmdlet<span style='mso-spacerun:yes'>    </span>Creates or updates an
+inst...</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Test-Connection<span style='mso-spacerun:yes'>                  
+</span>Cmdlet<span style='mso-spacerun:yes'>    </span>Sends ICMP echo request
+pa...</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Restart-Computer<span style='mso-spacerun:yes'>                 
+</span>Cmdlet<span style='mso-spacerun:yes'>    </span>Restarts
+(&quot;reboots&quot;) the o...</span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Stop-Computer<span style='mso-spacerun:yes'>                    
+</span>Cmdlet<span style='mso-spacerun:yes'>    </span>Stops (shuts down) local
+a...</span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:
+_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span lang=HU>Például a
+</span></span></span></span><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Restart-Computer</span></span><span
+lang=HU> biztos hosszadalmas folyamat, hiszen le kell állítani a futó
+folyamatokat, ami nem két pillanat. Vagy hasonlóan a </span></span></span></span><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Test-Connection</span></span></span></span></span>
+<span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'></span></span></span>
+<span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU><span style='mso-spacerun:yes'> </span>is ilyen cmdlet, amellyel
+gyakorlatilag „pingetni” lehet gépeket:</span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>PS C:\Users\TEMP&gt; Test-Connection dc -AsJob</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>WARNING: column &quot;Command&quot; does not fit into the display
+and was removed.</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Id<span style='mso-spacerun:yes'>              </span>Name<span
+style='mso-spacerun:yes'>            </span>State<span
+style='mso-spacerun:yes'>      </span>HasMoreData<span
+style='mso-spacerun:yes'>     </span>Location</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>--<span style='mso-spacerun:yes'>              </span>----<span
+style='mso-spacerun:yes'>            </span>-----<span
+style='mso-spacerun:yes'>      </span>-----------<span
+style='mso-spacerun:yes'>     </span>--------</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>5<span style='mso-spacerun:yes'>               </span>Job5<span
+style='mso-spacerun:yes'>            </span>Running<span
+style='mso-spacerun:yes'>    </span>False<span
+style='mso-spacerun:yes'>           </span>.</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>PS C:\Users\TEMP&gt; Receive-Job 5</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>WARNING: 2 columns do not fit into the display and were removed.</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Source<span style='mso-spacerun:yes'>       
+</span>Destination<span style='mso-spacerun:yes'>     </span>IPV4Address<span
+style='mso-spacerun:yes'>      </span>IPV6Address</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>------<span style='mso-spacerun:yes'>       
+</span>-----------<span style='mso-spacerun:yes'>     </span>-----------<span
+style='mso-spacerun:yes'>      </span>-----------</span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>MEMBER<span style='mso-spacerun:yes'>        </span>dc<span
+style='mso-spacerun:yes'>              </span>192.168.1.10<span
+style='mso-spacerun:yes'>     </span>{}</span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU>Itt tehát a parancs maga hozta létre a munkamenetet, a lekérdezése
+ugyanúgy </span></span></span></span><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Receive-Job</span></span><span
+lang=HU> cmdlet segítségével történhet.</span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU>És ilyen lehet az </span></span></span></span><span style='mso-bookmark:
+_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:
+_Toc197149224'><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>invoke-command</span></span></span></span></span>
+<span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'></span></span></span>
+<span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU><span style='mso-spacerun:yes'> </span>cmdlet is, amellyel parancsokat
+hajtathatunk végre akár saját gépünkön, akár más gépeken is távolról. Ez utóbbi
+már átvezet minket a következő témánkba, a távoli parancsfuttatás világába.</span></span></span></span></p>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

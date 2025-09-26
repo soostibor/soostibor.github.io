@@ -1,0 +1,470 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>2.4.5 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><span style='mso-bookmark:_Toc189542102'><a
+name="_Toc197149241"></a><a name="_Toc204716326"></a><a name="_Toc209115869"><span
+style='mso-bookmark:_Toc204716326'><span style='mso-bookmark:_Toc197149241'>
+<span lang=HU>Nem
+megszakító hibák kezelése függvényeinkben</span></span></span></a></span></h3>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span lang=HU>A
+</span></span><span style='mso-bookmark:_Toc189542102'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>trap</span></span><span
+lang=HU> tárgyalásának elején már láthattuk, hogy azzal hibakezelést csak
+megszakító hibákra tudunk készíteni, legfeljebb a </span></span><span
+style='mso-bookmark:_Toc189542102'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>trap</span></span><span lang=HU>
+végére tett </span></span><span style='mso-bookmark:_Toc189542102'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>continue</span></span><span
+lang=HU> kulcsszóval átalakítjuk a hibát nem megszakítóra. De vajon hogyan
+tudunk nem megszakító hibákat kezelni? Erre nincs külön kulcsszó, a többi
+PowerShelles nyelvi eszközzel kell ezt megoldani. </span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span lang=HU>Az
+egyik ilyen helyzet, hogy a nem megszakító hibát nem akarom csak azért
+megszakítóvá alakítani, hogy aztán egy </span></span><span style='mso-bookmark:
+_Toc189542102'><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>continue</span></span><span lang=HU>-val elnyomhassam a
+hibajelzést, hanem eleve nem akarok látni semmilyen hibainformációt a konzolon.
+Ehhez azt kell tudni, hogy külön outputja van a hibajelzéseknek, így lehet
+olyat is csinálni, hogy csak ezeket a hibajelzéseket küldjük át egy fájlba, vagy
+akár a semmibe. Nézzünk erre példát:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=Kd style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[43] PS C:\&gt; Remove-Item nemlétezőfájl.txt 2&gt; $null</span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span lang=HU>Ez
+tehát a „</span></span><span style='mso-bookmark:_Toc189542102'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>2&gt;</span></span></span>
+<span
+style='mso-bookmark:_Toc189542102'></span>
+<span
+style='mso-bookmark:_Toc189542102'><span lang=HU>” operátor, ami a 2-es számú
+outputot, a hibajelzések outputját irányítja a semmibe. (Amúgy „</span></span><span
+style='mso-bookmark:_Toc189542102'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>1&gt;</span></span><span
+lang=HU>” nem létezik, csak a kettessel kezdődő változat.)</span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span lang=HU>Ha
+pont ellentétes lenne a feladat, azaz valami egyedi, saját hibajelzést
+szeretnénk adni a „gyári” jelzés helyett, arra külön </span></span><span
+style='mso-bookmark:_Toc189542102'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>write-...</span></span><span
+lang=HU> kezdetű cmdletek állnak rendelkezésünkre. Ezekkel szintén nem a
+„normál” outputra, hanem erre a hibajelzések számára elkülönített outputra
+küldhetjük a jelzést.</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[67] PS C:\powershell2\scripts&gt; filter bulk-remove</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&gt;&gt; {</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&gt;&gt;<span style='mso-spacerun:yes'>     </span>if (-not
+(Test-Path $_))</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&gt;&gt;<span style='mso-spacerun:yes'>         </span>{
+Write-Warning &quot;Nincs ilyen file: $_!&quot; }</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&gt;&gt;<span style='mso-spacerun:yes'>     </span>else</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&gt;&gt;<span style='mso-spacerun:yes'>         </span>{
+Remove-Item $_ }</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&gt;&gt; }</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&gt;&gt;</span><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span lang=HU>A fenti </span></span><span
+style='mso-bookmark:_Toc189542102'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>filter</span></span><span
+lang=HU> kifejezéssel definiálok egy olyan fájltörlő függvényt, amely először
+ellenőrzi, hagy van-e ott ténylegesen fájl, amit megadott a felhasználó, és ha
+nincs, akkor nem csúnya hibajelzést ad, hanem csak egy sárga színű
+figyelmeztetést a </span></span><span style='mso-bookmark:_Toc189542102'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>write-warning</span></span></span>
+<span
+style='mso-bookmark:_Toc189542102'></span>
+<span
+style='mso-bookmark:_Toc189542102'><span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdlet segítségével.</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[68] PS C:\powershell2\scripts&gt; &quot;nincs.txt&quot;,
+&quot;file.txt&quot; | bulk-remove</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext;background:yellow;mso-highlight:yellow'>WARNING: Nincs ilyen file:
+nincs.txt!</span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span lang=HU>Ez
+azért is jó, mert ez nem kerül be a </span></span><span style='mso-bookmark:
+_Toc189542102'><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>$error</span></span><span lang=HU> tömbbe, így nem „terheli”
+azt. Természetesen lehetne piros feliratú </span></span><span style='mso-bookmark:
+_Toc189542102'><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>write-error</span></span></span>
+<span
+style='mso-bookmark:_Toc189542102'></span>
+<span
+style='mso-bookmark:_Toc189542102'><span lang=HU>-t is használni, ekkor olyan
+hibajelzést kapunk, ami bekerül az </span></span><span style='mso-bookmark:
+_Toc189542102'><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>$error</span></span><span lang=HU> tömbbe.</span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span lang=HU>Nem
+csak ilyen következményei vannak a </span></span><span style='mso-bookmark:
+_Toc189542102'><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>write-error</span></span><span lang=HU> és </span></span><span
+style='mso-bookmark:_Toc189542102'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>write-warning</span></span><span
+lang=HU> használatának. Ha átállítjuk a következő automatikus változókat, akkor
+szabályozhatjuk függvényünk, szkriptünk futását is:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[79] PS C:\powershell2\scripts&gt; $WarningPreference</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Continue</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[80] PS C:\powershell2\scripts&gt; $ErrorActionPreference</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Continue</span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span lang=HU>Természetesen
+a </span></span><span style='mso-bookmark:_Toc189542102'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>write-error</span></span><span
+lang=HU> még profibbá tehető az </span></span><span style='mso-bookmark:_Toc189542102'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Exception</span></span><span
+lang=HU> objektum</span></span>
+<span style='mso-bookmark:_Toc189542102'></span>
+<span
+style='mso-bookmark:_Toc189542102'><span lang=HU>ok használatával:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>filter bulk-remove<o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+lang=HU style='color:black'>{<o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+lang=HU style='color:black'><span style='mso-tab-count:1'>     </span>if (</span><span
+lang=HU style='color:red'>-not</span><span lang=HU style='color:black'> (<b>Test-Path</b>
+</span><span lang=HU style='color:navy'>$_</span><span lang=HU
+style='color:black'>))<o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+lang=HU style='color:black'><span style='mso-tab-count:2'>          </span>{ <b>Write-Error</b>
+<i>-Exception</i> <b>`</b><o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+lang=HU style='color:black'><span style='mso-tab-count:3'>                </span>(<b>New-Object</b>
+</span><span lang=HU style='color:maroon'>System.IO.FileNotFoundException</span><span
+lang=HU style='color:black'> <b>`</b><o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+lang=HU style='color:black'><span style='mso-tab-count:4'>                      </span>-arg
+</span><span lang=HU style='color:maroon'>&quot;Nincs ilyen file!&quot;</span><span
+lang=HU style='color:black'>,</span><span lang=HU style='color:navy'>$_</span><span
+lang=HU style='color:black'>) }<o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+lang=HU style='color:black'><span style='mso-tab-count:1'>     </span>else<o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+lang=HU style='color:black'><span style='mso-tab-count:2'>          </span>{ <o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+lang=HU style='color:black'><span style='mso-tab-count:3'>                </span><b>Remove-Item</b>
+</span><span lang=HU style='color:navy'>$_</span><span lang=HU
+style='color:black'><o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+lang=HU style='color:black'><span style='mso-tab-count:2'>          </span>}<o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black'>}<o:p></o:p></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span lang=HU>És ennek
+kimenete hiba esetén:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[2] PS C:\&gt; &quot;semmi.txt&quot; | bulk-remove</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'>bulk-remove
+: Nincs ilyen file!<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'>At line:1
+char:26<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'>+
+&quot;semmi.txt&quot; | bulk-remove &lt;&lt;&lt;&lt;<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'><span
+style='mso-spacerun:yes'>    </span>+ CategoryInfo<span
+style='mso-spacerun:yes'>          </span>: NotSpecified: (:) [Write-Error],
+FileNotFoundEx<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'><span
+style='mso-spacerun:yes'>   </span>ception<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:red'><span
+style='mso-spacerun:yes'>    </span>+ FullyQualifiedErrorId :
+System.IO.FileNotFoundException,bulk-remove <o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[3] PS C:\&gt; $error[0].exception.gettype()</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>IsPublic IsSerial Name<span
+style='mso-spacerun:yes'>                                     </span>BaseType</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>-------- -------- ----<span
+style='mso-spacerun:yes'>                                     </span>--------</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>True<span style='mso-spacerun:yes'>     </span>True<span
+style='mso-spacerun:yes'>     </span>FileNotFoundException<span
+style='mso-spacerun:yes'>                    </span>System.IO.IOExce...</span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span lang=HU>A
+[83]-as sorban láthatjuk, hogy ez a hiba már „igazi” </span></span><span
+style='mso-bookmark:_Toc189542102'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>FileNotFoundException</span></span><span
+lang=HU> lett.</span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span lang=HU>A
+másik lehetőség a </span></span><span style='mso-bookmark:_Toc189542102'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$?</span></span><span
+lang=HU> automatikus változó vizsgálatával történő hibakezelés. Ez a változó az
+előző kifejezés végrehajtásának eredményét tartalmazza.</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+lang=HU style='color:blue'>filter</span><span lang=HU style='color:black'> bulk-remove<o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+lang=HU style='color:black'>{<o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+lang=HU style='color:black'><span style='mso-spacerun:yes'>    </span><b>remove-item</b>
+</span><span lang=HU style='color:purple'>$_</span><span lang=HU
+style='color:black'> <i>-ErrorAction</i> </span><span lang=HU style='color:
+maroon'>silentlycontinue</span><span lang=HU style='color:black'><o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+lang=HU style='color:black'><span style='mso-tab-count:1'>     </span></span><span
+lang=HU style='color:blue'>if</span><span lang=HU style='color:black'> (</span><span
+lang=HU style='color:red'>!</span><span lang=HU style='color:purple'>$?</span><span
+lang=HU style='color:black'>)<o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+lang=HU style='color:black'><span style='mso-tab-count:2'>          </span>{ </span><span
+lang=HU style='color:purple'>$Error</span><span lang=HU style='color:black'>[0].categoryinfo.reason}<o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc189542102'><span lang=HU style='color:black'>}<o:p></o:p></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span lang=HU>A fenti,
+módosított filterben maga a </span></span><span style='mso-bookmark:_Toc189542102'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>remove-item</span></span><span
+lang=HU> hibajelzése el van nyomva (</span></span><span style='mso-bookmark:
+_Toc189542102'><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>silentlycontinue</span></span><span lang=HU>), ennek
+ellenére azért a hibakód belekerül az </span></span><span style='mso-bookmark:
+_Toc189542102'><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>$error</span></span><span lang=HU> változóba, illetve a hiba
+ténye miatt </span></span><span style='mso-bookmark:_Toc189542102'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$false</span></span><span
+lang=HU> lesz a </span></span><span style='mso-bookmark:_Toc189542102'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$?</span></span><span
+lang=HU> változó, így reagálhatunk rá. Az </span></span><span style='mso-bookmark:
+_Toc189542102'><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>if</span></span><span lang=HU> szerkezet szkriptblokkjára
+akkor adódik rá a vezérlés, ha hibát adott az aktuális elem eltávolítása.</span></span></p>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

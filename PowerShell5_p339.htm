@@ -1,0 +1,1439 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>2.33.2 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><a name="_Ref408950903"></a><a
+name="_Ref408950910"></a><a name="_Toc204716515"></a><a name="_Toc209116058"><span
+style='mso-bookmark:_Toc204716515'><span style='mso-bookmark:_Ref408950910'><span
+style='mso-bookmark:_Ref408950903'>
+<span lang=HU>Szkriptek
+elemzése - tokenizer</span></span></span></span></a></h3>
+
+<p class=Szveg><span lang=HU>Előfordulhat olyan feladat, amelyben szkripteket
+szeretnénk elemezni. Ez egyszerű szövegelemzéssel általában nem biztos, hogy
+könnyű. Nézzük a következő értelem nélküli, ámde szintaktikailag helyes
+szkriptet:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'># Kezdés $i lesz mindjárt</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:orangered'>$i</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:purple'>0</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:orangered'>$hostinfo</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:darkgray'>[</span><span lang=HU
+style='color:teal'>net.dns</span><span lang=HU style='color:darkgray'>]::</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Resolve(</span><span
+lang=HU style='color:darkred'>&quot;www.microsoft.com&quot;</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>)</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:blue'>dir</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>|</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:blue'>%</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'>{</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span></span><span lang=HU
+style='color:blue'>Add-Member</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:navy'>-MemberType</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:blueviolet'>NoteProperty</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:navy'>-Name</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:blueviolet'>ExtensionName</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:navy'>-InputObject</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$_</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:navy'>-Value</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> (</span><span lang=HU
+style='color:orangered'>$_</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>extension </span><span
+lang=HU style='color:darkgray'>-replace</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkred'>&quot;^\.&quot;</span><span
+lang=HU style='color:darkgray'>,</span><span lang=HU style='color:darkred'>&quot;&quot;</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>) </span><span lang=HU
+style='color:navy'>-PassThru</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>} </span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:orangered'>$i</span><span
+lang=HU style='color:darkgray'>++</span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span lang=HU style='color:black;mso-color-alt:windowtext'># Vége</span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span lang=HU>Ha csak annyi a feladat, hogy listázzuk
+ki a használt változókat, már ez sem lenne annyira triviális, hiszen látható,
+hogy a </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>$i</span></span><span lang=HU> karakterkombináció az első
+sor kommentjében is megtalálható. Ez még itt egyszerű, hiszen ez csak egy
+egysoros megjegyzés, de ha a többsorosokra is gondolunk, akkor már bonyolultabb
+lenne nyilvántartani, hogy hol a komment blokk eleje és vége.</span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU>De minek is akarnánk egy ilyen bonyolult
+elemzőt mi magunk készíteni, ha a PowerShellnek úgyis elemeznie kell a
+szkriptjeinket, ha helyesen akarja azokat futtatni? Hátha ezt a képességét mi
+is igénybe tudjuk venni! </span></p>
+
+<p class=SzvegCxSpLast><span lang=HU><span style='mso-spacerun:yes'> </span>És
+szerencsére így is van, a </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>[system.management.automation.psparser]</span></span><span
+lang=HU> osztály </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Tokenize</span></span><span
+lang=HU> statikus metódusa végzi el a szkriptek elemzését:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; [ref] $errors =
+$null </span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt;
+[system.management.automation.psparser]::Tokenize((Get-Content &quot;C:\PSKö</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>nyv\ToTokenize.ps1&quot;),
+$errors)<span style='mso-spacerun:yes'>  </span>| ft -AutoSize</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Content<span
+style='mso-spacerun:yes'>                       </span>Type Start Length
+StartLine StartColumn EndLine</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>-------<span
+style='mso-spacerun:yes'>                       </span>---- ----- ------
+--------- ----------- -------</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'># Kezdés $i-vel<span
+style='mso-spacerun:yes'>            </span>Comment<span
+style='mso-spacerun:yes'>     </span>0<span style='mso-spacerun:yes'>    
+</span>15<span style='mso-spacerun:yes'>         </span>1<span
+style='mso-spacerun:yes'>           </span>1<span
+style='mso-spacerun:yes'>       </span>1</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>...<span
+style='mso-spacerun:yes'>                        </span>NewLine<span
+style='mso-spacerun:yes'>    </span>15<span style='mso-spacerun:yes'>     
+</span>2<span style='mso-spacerun:yes'>         </span>1<span
+style='mso-spacerun:yes'>          </span>16<span
+style='mso-spacerun:yes'>       </span>2</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>i<span
+style='mso-spacerun:yes'>                         </span>Variable<span
+style='mso-spacerun:yes'>    </span>17<span style='mso-spacerun:yes'>     
+</span>2<span style='mso-spacerun:yes'>         </span>2<span
+style='mso-spacerun:yes'>           </span>1<span
+style='mso-spacerun:yes'>       </span>2</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>=<span
+style='mso-spacerun:yes'>                         </span>Operator<span
+style='mso-spacerun:yes'>    </span>20<span style='mso-spacerun:yes'>     
+</span>1<span style='mso-spacerun:yes'>         </span>2<span
+style='mso-spacerun:yes'>           </span>4<span
+style='mso-spacerun:yes'>       </span>2</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>0<span
+style='mso-spacerun:yes'>                           </span>Number<span
+style='mso-spacerun:yes'>    </span>22<span style='mso-spacerun:yes'>     
+</span>1<span style='mso-spacerun:yes'>         </span>2<span
+style='mso-spacerun:yes'>           </span>6<span
+style='mso-spacerun:yes'>       </span>2</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>...<span
+style='mso-spacerun:yes'>                        </span>NewLine<span
+style='mso-spacerun:yes'>    </span>23<span style='mso-spacerun:yes'>     
+</span>2<span style='mso-spacerun:yes'>         </span>2<span
+style='mso-spacerun:yes'>           </span>7<span
+style='mso-spacerun:yes'>       </span>3</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>hostinfo<span
+style='mso-spacerun:yes'>                  </span>Variable<span
+style='mso-spacerun:yes'>    </span>25<span style='mso-spacerun:yes'>     
+</span>9<span style='mso-spacerun:yes'>         </span>3<span
+style='mso-spacerun:yes'>           </span>1<span
+style='mso-spacerun:yes'>       </span>3</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>=<span
+style='mso-spacerun:yes'>                         </span>Operator<span
+style='mso-spacerun:yes'>    </span>35<span style='mso-spacerun:yes'>     
+</span>1<span style='mso-spacerun:yes'>         </span>3<span
+style='mso-spacerun:yes'>          </span>11<span
+style='mso-spacerun:yes'>       </span>3</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[net.dns]<span
+style='mso-spacerun:yes'>                     </span>Type<span
+style='mso-spacerun:yes'>    </span>37<span style='mso-spacerun:yes'>     
+</span>9<span style='mso-spacerun:yes'>         </span>3<span
+style='mso-spacerun:yes'>          </span>13<span
+style='mso-spacerun:yes'>       </span>3</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>::<span
+style='mso-spacerun:yes'>                        </span>Operator<span
+style='mso-spacerun:yes'>    </span>46<span style='mso-spacerun:yes'>     
+</span>2<span style='mso-spacerun:yes'>         </span>3<span
+style='mso-spacerun:yes'>          </span>22<span
+style='mso-spacerun:yes'>       </span>3</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Resolve<span
+style='mso-spacerun:yes'>                     </span>Member<span
+style='mso-spacerun:yes'>    </span>48<span style='mso-spacerun:yes'>     
+</span>7<span style='mso-spacerun:yes'>         </span>3<span
+style='mso-spacerun:yes'>          </span>24<span
+style='mso-spacerun:yes'>       </span>3</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>(<span
+style='mso-spacerun:yes'>                       </span>GroupStart<span
+style='mso-spacerun:yes'>    </span>55<span style='mso-spacerun:yes'>     
+</span>1<span style='mso-spacerun:yes'>         </span>3<span
+style='mso-spacerun:yes'>          </span>31<span
+style='mso-spacerun:yes'>       </span>3</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>www.microsoft.com<span
+style='mso-spacerun:yes'>           </span>String<span
+style='mso-spacerun:yes'>    </span>56<span style='mso-spacerun:yes'>    
+</span>19<span style='mso-spacerun:yes'>         </span>3<span
+style='mso-spacerun:yes'>          </span>32<span
+style='mso-spacerun:yes'>       </span>3</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>)<span
+style='mso-spacerun:yes'>                         </span>GroupEnd<span
+style='mso-spacerun:yes'>    </span>75<span style='mso-spacerun:yes'>     
+</span>1<span style='mso-spacerun:yes'>         </span>3<span
+style='mso-spacerun:yes'>          </span>51<span
+style='mso-spacerun:yes'>       </span>3</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>...<span
+style='mso-spacerun:yes'>                        </span>NewLine<span
+style='mso-spacerun:yes'>    </span>76<span style='mso-spacerun:yes'>     
+</span>2<span style='mso-spacerun:yes'>         </span>3<span
+style='mso-spacerun:yes'>          </span>52<span
+style='mso-spacerun:yes'>       </span>4</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>dir<span
+style='mso-spacerun:yes'>                        </span>Command<span
+style='mso-spacerun:yes'>    </span>78<span style='mso-spacerun:yes'>     
+</span>3<span style='mso-spacerun:yes'>         </span>4<span
+style='mso-spacerun:yes'>           </span>1<span
+style='mso-spacerun:yes'>       </span>4</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>|<span
+style='mso-spacerun:yes'>                         </span>Operator<span
+style='mso-spacerun:yes'>    </span>82<span style='mso-spacerun:yes'>     
+</span>1<span style='mso-spacerun:yes'>         </span>4<span
+style='mso-spacerun:yes'>           </span>5<span
+style='mso-spacerun:yes'>       </span>4</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>%<span
+style='mso-spacerun:yes'>                          </span>Command<span
+style='mso-spacerun:yes'>    </span>84<span style='mso-spacerun:yes'>     
+</span>1<span style='mso-spacerun:yes'>         </span>4<span
+style='mso-spacerun:yes'>           </span>7<span
+style='mso-spacerun:yes'>       </span>4</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>{<span
+style='mso-spacerun:yes'>                       </span>GroupStart<span
+style='mso-spacerun:yes'>    </span>85<span style='mso-spacerun:yes'>     
+</span>1<span style='mso-spacerun:yes'>         </span>4<span
+style='mso-spacerun:yes'>           </span>8<span
+style='mso-spacerun:yes'>       </span>4</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>...<span
+style='mso-spacerun:yes'>                        </span>NewLine<span
+style='mso-spacerun:yes'>    </span>86<span style='mso-spacerun:yes'>     
+</span>2<span style='mso-spacerun:yes'>         </span>4<span
+style='mso-spacerun:yes'>           </span>9<span
+style='mso-spacerun:yes'>       </span>5</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Add-Member<span
+style='mso-spacerun:yes'>                 </span>Command<span
+style='mso-spacerun:yes'>    </span>92<span style='mso-spacerun:yes'>    
+</span>10<span style='mso-spacerun:yes'>         </span>5<span
+style='mso-spacerun:yes'>           </span>5<span
+style='mso-spacerun:yes'>       </span>5</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>-MemberType<span
+style='mso-spacerun:yes'>       </span>CommandParameter<span
+style='mso-spacerun:yes'>   </span>103<span style='mso-spacerun:yes'>    
+</span>11<span style='mso-spacerun:yes'>         </span>5<span
+style='mso-spacerun:yes'>          </span>16<span
+style='mso-spacerun:yes'>       </span>5</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>NoteProperty<span
+style='mso-spacerun:yes'>       </span>CommandArgument<span
+style='mso-spacerun:yes'>   </span>115<span style='mso-spacerun:yes'>    
+</span>12<span style='mso-spacerun:yes'>         </span>5<span
+style='mso-spacerun:yes'>          </span>28<span
+style='mso-spacerun:yes'>       </span>5</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>-Name<span
+style='mso-spacerun:yes'>             </span>CommandParameter<span
+style='mso-spacerun:yes'>   </span>128<span style='mso-spacerun:yes'>     
+</span>5<span style='mso-spacerun:yes'>         </span>5<span
+style='mso-spacerun:yes'>          </span>41<span
+style='mso-spacerun:yes'>       </span>5</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ExtensionName<span
+style='mso-spacerun:yes'>      </span>CommandArgument<span
+style='mso-spacerun:yes'>   </span>134<span style='mso-spacerun:yes'>    
+</span>13<span style='mso-spacerun:yes'>         </span>5<span
+style='mso-spacerun:yes'>          </span>47<span
+style='mso-spacerun:yes'>       </span>5</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>-InputObject<span
+style='mso-spacerun:yes'>      </span>CommandParameter<span
+style='mso-spacerun:yes'>   </span>148<span style='mso-spacerun:yes'>    
+</span>12<span style='mso-spacerun:yes'>         </span>5<span
+style='mso-spacerun:yes'>          </span>61<span
+style='mso-spacerun:yes'>       </span>5</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>_<span
+style='mso-spacerun:yes'>                         </span>Variable<span
+style='mso-spacerun:yes'>   </span>161<span style='mso-spacerun:yes'>     
+</span>2<span style='mso-spacerun:yes'>         </span>5<span
+style='mso-spacerun:yes'>          </span>74<span
+style='mso-spacerun:yes'>       </span>5</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>-Value<span
+style='mso-spacerun:yes'>            </span>CommandParameter<span
+style='mso-spacerun:yes'>   </span>164<span style='mso-spacerun:yes'>     
+</span>6<span style='mso-spacerun:yes'>         </span>5<span
+style='mso-spacerun:yes'>          </span>77<span
+style='mso-spacerun:yes'>       </span>5</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>(<span
+style='mso-spacerun:yes'>                       </span>GroupStart<span
+style='mso-spacerun:yes'>   </span>171<span style='mso-spacerun:yes'>     
+</span>1<span style='mso-spacerun:yes'>         </span>5<span
+style='mso-spacerun:yes'>          </span>84<span
+style='mso-spacerun:yes'>       </span>5</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>_<span
+style='mso-spacerun:yes'>                         </span>Variable<span
+style='mso-spacerun:yes'>   </span>172<span style='mso-spacerun:yes'>     
+</span>2<span style='mso-spacerun:yes'>         </span>5<span
+style='mso-spacerun:yes'>          </span>85<span
+style='mso-spacerun:yes'>       </span>5</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>.<span
+style='mso-spacerun:yes'>                         </span>Operator<span
+style='mso-spacerun:yes'>   </span>174<span style='mso-spacerun:yes'>     
+</span>1<span style='mso-spacerun:yes'>         </span>5<span
+style='mso-spacerun:yes'>          </span>87<span
+style='mso-spacerun:yes'>       </span>5</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>extension<span
+style='mso-spacerun:yes'>                   </span>Member<span
+style='mso-spacerun:yes'>   </span>175<span style='mso-spacerun:yes'>     
+</span>9<span style='mso-spacerun:yes'>         </span>5<span
+style='mso-spacerun:yes'>          </span>88<span
+style='mso-spacerun:yes'>       </span>5</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>-replace<span
+style='mso-spacerun:yes'>                  </span>Operator<span
+style='mso-spacerun:yes'>   </span>185<span style='mso-spacerun:yes'>     
+</span>8<span style='mso-spacerun:yes'>         </span>5<span
+style='mso-spacerun:yes'>          </span>98<span
+style='mso-spacerun:yes'>       </span>5</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>^\.<span
+style='mso-spacerun:yes'>                         </span>String<span
+style='mso-spacerun:yes'>   </span>194<span style='mso-spacerun:yes'>     
+</span>5<span style='mso-spacerun:yes'>         </span>5<span
+style='mso-spacerun:yes'>         </span>107<span
+style='mso-spacerun:yes'>       </span>5</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>,<span
+style='mso-spacerun:yes'>                         </span>Operator<span
+style='mso-spacerun:yes'>   </span>199<span style='mso-spacerun:yes'>     
+</span>1<span style='mso-spacerun:yes'>         </span>5<span
+style='mso-spacerun:yes'>         </span>112<span
+style='mso-spacerun:yes'>       </span>5</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                            </span>String<span
+style='mso-spacerun:yes'>   </span>200<span style='mso-spacerun:yes'>     
+</span>2<span style='mso-spacerun:yes'>         </span>5<span
+style='mso-spacerun:yes'>         </span>113<span
+style='mso-spacerun:yes'>       </span>5</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>)<span
+style='mso-spacerun:yes'>                         </span>GroupEnd<span
+style='mso-spacerun:yes'>   </span>202<span style='mso-spacerun:yes'>     
+</span>1<span style='mso-spacerun:yes'>         </span>5<span
+style='mso-spacerun:yes'>         </span>115<span
+style='mso-spacerun:yes'>       </span>5</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>-PassThru<span
+style='mso-spacerun:yes'>         </span>CommandParameter<span
+style='mso-spacerun:yes'>   </span>204<span style='mso-spacerun:yes'>     
+</span>9<span style='mso-spacerun:yes'>         </span>5<span
+style='mso-spacerun:yes'>         </span>117<span
+style='mso-spacerun:yes'>       </span>5</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>...<span
+style='mso-spacerun:yes'>                        </span>NewLine<span
+style='mso-spacerun:yes'>   </span>213<span style='mso-spacerun:yes'>     
+</span>2<span style='mso-spacerun:yes'>         </span>5<span
+style='mso-spacerun:yes'>         </span>126<span
+style='mso-spacerun:yes'>       </span>6</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>}<span
+style='mso-spacerun:yes'>                         </span>GroupEnd<span
+style='mso-spacerun:yes'>   </span>215<span style='mso-spacerun:yes'>     
+</span>1<span style='mso-spacerun:yes'>         </span>6<span
+style='mso-spacerun:yes'>           </span>1<span
+style='mso-spacerun:yes'>       </span>6</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>...<span
+style='mso-spacerun:yes'>                        </span>NewLine<span
+style='mso-spacerun:yes'>   </span>217<span style='mso-spacerun:yes'>     
+</span>2<span style='mso-spacerun:yes'>         </span>6<span
+style='mso-spacerun:yes'>           </span>3<span
+style='mso-spacerun:yes'>       </span>7</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>i<span
+style='mso-spacerun:yes'>                         </span>Variable<span
+style='mso-spacerun:yes'>   </span>219<span style='mso-spacerun:yes'>     
+</span>2<span style='mso-spacerun:yes'>         </span>7<span
+style='mso-spacerun:yes'>           </span>1<span
+style='mso-spacerun:yes'>       </span>7</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>++<span
+style='mso-spacerun:yes'>                        </span>Operator<span
+style='mso-spacerun:yes'>   </span>221<span style='mso-spacerun:yes'>     
+</span>2<span style='mso-spacerun:yes'>         </span>7<span
+style='mso-spacerun:yes'>           </span>3<span
+style='mso-spacerun:yes'>       </span>7</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>...<span
+style='mso-spacerun:yes'>                        </span>NewLine<span
+style='mso-spacerun:yes'>   </span>223<span style='mso-spacerun:yes'>     
+</span>2<span style='mso-spacerun:yes'>         </span>7<span
+style='mso-spacerun:yes'>           </span>5<span
+style='mso-spacerun:yes'>       </span>8</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'># Vége<span
+style='mso-spacerun:yes'>                     </span>Comment<span
+style='mso-spacerun:yes'>   </span>225<span style='mso-spacerun:yes'>     
+</span>6<span style='mso-spacerun:yes'>         </span>8<span
+style='mso-spacerun:yes'>           </span>1<span
+style='mso-spacerun:yes'>       </span>8</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>...<span
+style='mso-spacerun:yes'>                        </span>NewLine<span
+style='mso-spacerun:yes'>   </span>231<span style='mso-spacerun:yes'>     
+</span>2<span style='mso-spacerun:yes'>         </span>8<span
+style='mso-spacerun:yes'>           </span>7<span
+style='mso-spacerun:yes'>       </span>9</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Látható, hogy elég alapos elemzést végzett ez a
+metódus. Minden szintaktikai elem szerepel a kimeneten, a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Start</span></span><span
+lang=HU> oszlopban karakterpozícióban, a StartLine, </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>StartColumn</span></span><span
+lang=HU> oszlopokban pedig a sortörések figyelembevételével mutatja az adott
+elem helyzetét. (A fenti kimeneten a könyv keskeny formátuma miatt az </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>EndColumn</span></span><span
+lang=HU> oszlop már nem fért ki.) A </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>Type</span></span><span
+lang=HU> oszlopban a szintaktikai elem típusa látható, ezt felhasználva
+szűrhetünk a minket érdeklő elemekre, például a változókra:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt;
+[system.management.automation.psparser]::Tokenize((Get-Content &quot;C:\PSKö</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>nyv\ToTokenize.ps1&quot;),
+$errors) | Where-Object {$_.type -eq &quot;Variable&quot;} | ft -Au</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>toSize</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Content<span
+style='mso-spacerun:yes'>      </span>Type Start Length StartLine StartColumn
+EndLine EndColumn</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>-------<span
+style='mso-spacerun:yes'>      </span>---- ----- ------ --------- -----------
+------- ---------</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>i<span
+style='mso-spacerun:yes'>        </span>Variable<span
+style='mso-spacerun:yes'>    </span>17<span style='mso-spacerun:yes'>     
+</span>2<span style='mso-spacerun:yes'>         </span>2<span
+style='mso-spacerun:yes'>           </span>1<span
+style='mso-spacerun:yes'>       </span>2<span style='mso-spacerun:yes'>        
+</span>3</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>hostinfo Variable<span
+style='mso-spacerun:yes'>    </span>25<span style='mso-spacerun:yes'>     
+</span>9<span style='mso-spacerun:yes'>         </span>3<span
+style='mso-spacerun:yes'>           </span>1<span
+style='mso-spacerun:yes'>       </span>3<span style='mso-spacerun:yes'>       
+</span>10</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>_<span
+style='mso-spacerun:yes'>        </span>Variable<span
+style='mso-spacerun:yes'>   </span>161<span style='mso-spacerun:yes'>     
+</span>2<span style='mso-spacerun:yes'>         </span>5<span
+style='mso-spacerun:yes'>          </span>74<span
+style='mso-spacerun:yes'>       </span>5<span style='mso-spacerun:yes'>       
+</span>76</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>_<span
+style='mso-spacerun:yes'>        </span>Variable<span
+style='mso-spacerun:yes'>   </span>172<span style='mso-spacerun:yes'>     
+</span>2<span style='mso-spacerun:yes'>         </span>5<span
+style='mso-spacerun:yes'>          </span>85<span
+style='mso-spacerun:yes'>       </span>5<span style='mso-spacerun:yes'>       
+</span>87</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>i<span
+style='mso-spacerun:yes'>        </span>Variable<span
+style='mso-spacerun:yes'>   </span>219<span style='mso-spacerun:yes'>     
+</span>2<span style='mso-spacerun:yes'>         </span>7<span
+style='mso-spacerun:yes'>           </span>1<span
+style='mso-spacerun:yes'>       </span>7<span style='mso-spacerun:yes'>        
+</span>3</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>A </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$errors</span></span><span
+lang=HU> változót referenciaként adtuk át a metódusnak, így lehetősége van,
+hogy az elsődleges kimenet mellett oda is adjon át értékeket. Jelen esetben a
+szintaktikai hibákra vonatkozó adatokat teszi le oda. Nézzünk erre is egy
+példát: </span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; $sb = &quot;1 +
+get-date&quot;</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt;
+Invoke-Expression $sb</span></p>
+
+<p class=HibaKdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU>Invoke-Expression : At line:1 char:4</span></p>
+
+<p class=HibaKdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU>+ 1 + get-date</span></p>
+
+<p class=HibaKdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU>+<span style='mso-spacerun:yes'>    </span>~</span></p>
+
+<p class=HibaKdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU>You must provide a value expression following the '+' operator.</span></p>
+
+<p class=HibaKdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU>At line:1 char:5</span></p>
+
+<p class=HibaKdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU>+ 1 + get-date</span></p>
+
+<p class=HibaKdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU>+<span style='mso-spacerun:yes'>     </span>~~~~~~~~</span></p>
+
+<p class=HibaKdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU>Unexpected token 'get-date' in expression or statement.</span></p>
+
+<p class=HibaKdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU>At line:1 char:1</span></p>
+
+<p class=HibaKdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU>+ Invoke-Expression $sb</span></p>
+
+<p class=HibaKdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU>+ ~~~~~~~~~~~~~~~~~~~~~</span></p>
+
+<p class=HibaKdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><span style='mso-spacerun:yes'>    </span>+ CategoryInfo<span
+style='mso-spacerun:yes'>          </span>: ParserError: (:)
+[Invoke-Expression], ParseExce</span></p>
+
+<p class=HibaKdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><span style='mso-spacerun:yes'>   </span>ption</span></p>
+
+<p class=HibaKdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><span style='mso-spacerun:yes'>    </span>+ FullyQualifiedErrorId :
+ExpectedValueExpression,Microsoft.PowerShell.Co</span></p>
+
+<p class=HibaKdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><span style='mso-spacerun:yes'>   </span>mmands.InvokeExpressionCommand</span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span lang=HU>Az első sorban, az idézőjelben levő
+kifejezés abban a formában nem helyes, a </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>get-date</span></span><span
+lang=HU>-et zárójelbe kellene tenni (persze nem sok értelme lenne a
+kifejezésnek úgy sem). A hibajelzés többszörös. Egyrészt az összeadás után
+reklamál, hogy valami érték kellene oda, másrészt a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>get-date</span></span><span
+lang=HU>, mint felismert, végrehajtható elem jön számára váratlanul.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>Nézzük, hogyan bánik el ezzel a tokenizer:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; [ref] $errors =
+$null</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt;
+[system.management.automation.psparser]::Tokenize($sb, $errors) | ft -A</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>utoSize</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Content<span
+style='mso-spacerun:yes'>      </span>Type Start Length StartLine StartColumn
+EndLine EndColumn</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>-------<span
+style='mso-spacerun:yes'>      </span>---- ----- ------ --------- -----------
+------- ---------</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>1<span
+style='mso-spacerun:yes'>          </span>Number<span
+style='mso-spacerun:yes'>     </span>0<span style='mso-spacerun:yes'>     
+</span>1<span style='mso-spacerun:yes'>         </span>1<span
+style='mso-spacerun:yes'>           </span>1<span
+style='mso-spacerun:yes'>       </span>1<span style='mso-spacerun:yes'>        
+</span>2</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>+<span
+style='mso-spacerun:yes'>        </span>Operator<span
+style='mso-spacerun:yes'>     </span>2<span style='mso-spacerun:yes'>     
+</span>1<span style='mso-spacerun:yes'>         </span>1<span
+style='mso-spacerun:yes'>           </span>3<span
+style='mso-spacerun:yes'>       </span>1<span style='mso-spacerun:yes'>        
+</span>4</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>get-date<span
+style='mso-spacerun:yes'>  </span>Command<span style='mso-spacerun:yes'>    
+</span>4<span style='mso-spacerun:yes'>      </span>8<span
+style='mso-spacerun:yes'>         </span>1<span
+style='mso-spacerun:yes'>           </span>5<span
+style='mso-spacerun:yes'>       </span>1<span style='mso-spacerun:yes'>       
+</span>13</span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span lang=HU>Idáig semmi meglepő. Nézzük, mi van az </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$errors</span></span><span
+lang=HU>-ban:</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; $errors</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Value</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>-----</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>{System.Management.Automation.PSParseError,
+System.Management.Automation.PS...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; $errors.Value</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Token<span
+style='mso-spacerun:yes'>                                   </span>Message</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>-----<span
+style='mso-spacerun:yes'>                                   </span>-------</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>System.Management.Automation.PSToken<span
+style='mso-spacerun:yes'>    </span>You must provide a value expression...</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>System.Management.Automation.PSToken<span
+style='mso-spacerun:yes'>    </span>Unexpected token 'get-date' in expr...</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>A </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Value</span></span><span
+lang=HU> tulajdonság </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Message</span></span><span
+lang=HU> tulajdonságában már felsejlenek a korábban látott hibajelzések. A </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Token</span></span><span
+lang=HU> tulajdonság meg megadja a hiba pozícióját:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt;
+$errors.Value[0].Token</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Content<span
+style='mso-spacerun:yes'>     </span>:</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Type<span
+style='mso-spacerun:yes'>        </span>: Position</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Start<span
+style='mso-spacerun:yes'>       </span>: 3</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Length<span
+style='mso-spacerun:yes'>      </span>: 0</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>StartLine<span
+style='mso-spacerun:yes'>   </span>: 1</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>StartColumn : 4</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>EndLine<span
+style='mso-spacerun:yes'>     </span>: 1</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>EndColumn<span
+style='mso-spacerun:yes'>   </span>: 4</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Visszatérve a Tokenizer felhasználásához,
+összeraktam egy kis függvény-kezdeményt, ami kicseréli egy szkriptben az összes
+változónevet egy másikra:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:darkblue'>function</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> Replace-Variable {</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:darkblue'>param</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>(</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span></span><span lang=HU
+style='color:orangered'>$scriptpath</span><span lang=HU style='color:darkgray'>,</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span></span><span lang=HU
+style='color:orangered'>$fromvariable</span><span lang=HU style='color:darkgray'>,</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span></span><span lang=HU
+style='color:orangered'>$tovariable</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>)</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:darkgray'>[</span><span
+lang=HU style='color:teal'>ref</span><span lang=HU style='color:darkgray'>]</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$errors</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$null</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:orangered'>$escapedfrom</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:darkred'>'\$'</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>+</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:darkgray'>[</span><span lang=HU
+style='color:teal'>regex</span><span lang=HU style='color:darkgray'>]::</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Escape(</span><span
+lang=HU style='color:orangered'>$fromvariable</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'>)</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:orangered'>$scriptcontent</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:blue'>Get-Content</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$scriptpath</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:orangered'>$prevvariablecommand</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:orangered'>$false</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:orangered'>$előfordulások</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:darkgray'>[</span><span lang=HU
+style='color:teal'>system.management.automation.psparser</span><span lang=HU
+style='color:darkgray'>]::</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Tokenize(</span><span lang=HU style='color:orangered'>$scriptcontent</span><span
+lang=HU style='color:darkgray'>,</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:orangered'>$errors</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>) </span><span lang=HU
+style='color:darkgray'>|</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span></span><span lang=HU
+style='color:blue'>Where-Object</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> {</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>            </span></span><span
+lang=HU style='color:orangered'>$feltétel1</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:darkred'>&quot;Variable&quot;</span><span
+lang=HU style='color:darkgray'>,</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkred'>&quot;Comment&quot;</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>-eq</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:orangered'>$_</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>type</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>            </span></span><span
+lang=HU style='color:orangered'>$feltétel2</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:orangered'>$prevvariablecommand</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>-and</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:orangered'>$_</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>Type </span><span lang=HU style='color:darkgray'>-eq</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkred'>&quot;CommandArgument&quot;</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>-and</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:orangered'>$_</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>Content </span><span lang=HU style='color:darkgray'>-eq</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$fromvariable</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>            </span></span><span
+lang=HU style='color:darkblue'>if</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>(</span><span lang=HU style='color:orangered'>$feltétel1</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>){<span
+style='mso-spacerun:yes'>                </span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                </span>(</span><span
+lang=HU style='color:orangered'>$_</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Type </span><span lang=HU
+style='color:darkgray'>-eq</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:darkred'>&quot;Variable&quot;</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>-and</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:orangered'>$_</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>Content </span><span lang=HU style='color:darkgray'>-eq</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$fromvariable</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>) </span><span lang=HU style='color:darkgray'>-or</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                </span>(</span><span
+lang=HU style='color:orangered'>$_</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Type </span><span lang=HU
+style='color:darkgray'>-eq</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:darkred'>&quot;Comment&quot;</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>-and</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:orangered'>$_</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>Content </span><span lang=HU style='color:darkgray'>-match</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkred'>&quot;</span><span lang=HU style='color:orangered'>$escapedfrom</span><span
+lang=HU style='color:darkred'>\b&quot;</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>)</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>            </span>}</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>            </span></span><span
+lang=HU style='color:darkblue'>else</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>{</span><span lang=HU style='color:orangered'>$feltétel2</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>}</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>            </span></span><span
+lang=HU style='color:darkblue'>if</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>(</span><span lang=HU style='color:orangered'>$_</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>Type </span><span lang=HU style='color:darkgray'>-eq</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkred'>&quot;Command&quot;</span><span lang=HU style='color:
+black;mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>-and</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$_</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>content </span><span
+lang=HU style='color:darkgray'>-match</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkred'>&quot;-Variable$&quot;</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>){</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                </span></span><span
+lang=HU style='color:orangered'>$prevvariablecommand</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:orangered'>$true</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>            </span>}</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>            </span></span><span
+lang=HU style='color:darkblue'>else</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>{</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>                </span></span><span
+lang=HU style='color:orangered'>$prevvariablecommand</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:orangered'>$false</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>            </span>}</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span>}</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:orangered'>$előfordulások</span><span
+lang=HU style='color:darkgray'>[</span><span lang=HU style='color:purple'>-1</span><span
+lang=HU style='color:darkgray'>..-</span><span lang=HU style='color:orangered'>$előfordulások</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>length</span><span lang=HU style='color:darkgray'>]</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>|</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:blue'>ForEach-Object</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> {</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span></span><span lang=HU
+style='color:orangered'>$sor</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$_</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>StartLine </span><span
+lang=HU style='color:darkgray'>-</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:purple'>1</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span></span><span lang=HU
+style='color:darkblue'>if</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>(</span><span lang=HU style='color:darkred'>&quot;variable&quot;</span><span
+lang=HU style='color:darkgray'>,</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkred'>&quot;commandargument&quot;</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>-eq</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:orangered'>$_</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>Type){</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span></span><span lang=HU
+style='color:orangered'>$scriptcontent</span><span lang=HU style='color:darkgray'>[</span><span
+lang=HU style='color:orangered'>$sor</span><span lang=HU style='color:darkgray'>]</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:orangered'>$scriptcontent</span><span
+lang=HU style='color:darkgray'>[</span><span lang=HU style='color:orangered'>$sor</span><span
+lang=HU style='color:darkgray'>].</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>Substring(</span><span lang=HU style='color:purple'>0</span><span
+lang=HU style='color:darkgray'>,</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:orangered'>$_</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>StartColumn</span><span lang=HU style='color:darkgray'>-</span><span
+lang=HU style='color:purple'>1</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>) </span><span lang=HU style='color:darkgray'>+</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>            </span>$(</span><span
+lang=HU style='color:darkblue'>if</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>(</span><span lang=HU style='color:orangered'>$_</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>Type </span><span lang=HU style='color:darkgray'>-eq</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkred'>&quot;variable&quot;</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'>){</span><span lang=HU
+style='color:darkred'>&quot;$&quot;</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>}) </span><span lang=HU style='color:darkgray'>+</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$tovariable</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>+</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>            </span></span><span
+lang=HU style='color:orangered'>$scriptcontent</span><span lang=HU
+style='color:darkgray'>[</span><span lang=HU style='color:orangered'>$sor</span><span
+lang=HU style='color:darkgray'>].</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>Substring(</span><span lang=HU style='color:orangered'>$_</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>EndColumn </span><span lang=HU style='color:darkgray'>-</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:purple'>1</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> )</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>}</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span></span><span lang=HU
+style='color:darkblue'>elseif</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>(</span><span lang=HU style='color:orangered'>$_</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>Type </span><span lang=HU style='color:darkgray'>-eq</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkred'>&quot;comment&quot;</span><span lang=HU style='color:
+black;mso-color-alt:windowtext'>){</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>        </span></span><span lang=HU
+style='color:orangered'>$scriptcontent</span><span lang=HU style='color:darkgray'>[</span><span
+lang=HU style='color:orangered'>$sor</span><span lang=HU style='color:darkgray'>]</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:orangered'>$scriptcontent</span><span
+lang=HU style='color:darkgray'>[</span><span lang=HU style='color:orangered'>$sor</span><span
+lang=HU style='color:darkgray'>]</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>-replace</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkred'>&quot;</span><span lang=HU style='color:orangered'>$escapedfrom</span><span
+lang=HU style='color:darkred'>\b&quot;</span><span lang=HU style='color:darkgray'>,</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkred'>&quot;`$</span><span lang=HU style='color:orangered'>$tovariable</span><span
+lang=HU style='color:darkred'>&quot;</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span>}</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>}</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:orangered'>$scriptcontent</span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span lang=HU style='color:black;mso-color-alt:windowtext'>} </span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span lang=HU>A függvény két lényegi része:</span></p>
+
+<p class=SzvegCxSpMiddle style='margin-left:35.0pt;mso-add-space:auto;
+text-indent:-18.0pt;mso-list:l20 level1 lfo21'>
+<span lang=HU>A változó előfordulásainak
+felderítése</span></p>
+
+<p class=SzvegCxSpMiddle style='margin-left:35.0pt;mso-add-space:auto;
+text-indent:-18.0pt;mso-list:l20 level1 lfo21'>
+<span lang=HU>A változó nevének a cseréje az
+előfordulási helyeken</span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU>Az első részben a tokenizer kimentében
+mind a változó típusú elemek, mind a kommentek potenciálisan vizsgálandó. Ezen
+kívül még a </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>Variable</span></span><span lang=HU> főnevű cmdletek is
+vizsgálandók, hiszen azokkal is dolgozhatunk változókkal. Itt az a nehézség,
+hogy a változó a </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$</span></span><span lang=HU>
+jel nélkül szerepek paraméterként.</span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU>A második részben, a tényleges cserénél
+visszafele kell haladni, hiszen ha előröl cserélnénk, akkor ha nem ugyanolyan
+hosszú a változó új neve, akkor a későbbi pozíciók elcsúsznak az elemzéskori
+állapothoz képest, így a cserék elrontanák a teljes szkriptet.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>A </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>Replace-Variable</span></span><span
+lang=HU> függvény ebben a formában félkész, hiszen a változásokat nem menti el,
+csak kiírja a konzolra, de innen már nem olyan nehéz folytatni.</span></p>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

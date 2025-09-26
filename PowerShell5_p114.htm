@@ -1,0 +1,481 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>1.8.15 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><span style='mso-bookmark:_Toc197149222'><span
+style='mso-bookmark:_Toc179036946'><a name="_Toc204716243"></a><a
+name="_Toc209115786"><span style='mso-bookmark:_Toc204716243'>
+<span lang=HU>Táblázatok
+kezelése (Import-Csv, ConvertFrom-Csv, ConvertTo-Csv)</span></span></a></span></span></h3>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc197149222'><span
+style='mso-bookmark:_Toc179036946'><span lang=HU>Előre bocsátom, hogy nem Excel
+fájlok kezeléséről lesz itt szó, hanem olyan szövegfájlokról, amelyek
+valamilyen elválasztójellel értékeket tartalmaznak. Ilyet elő tudunk állítani a
+korábban már látott </span></span></span><span style='mso-bookmark:_Toc197149222'><span
+style='mso-bookmark:_Toc179036946'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Export-Csv</span></span><span
+lang=HU> cmdlettel, de természetesen bármilyen más forrásból származó CSV
+fájlokat és adatokat tudunk ezekkel a cmdletekkel kezelni.</span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc197149222'><span
+style='mso-bookmark:_Toc179036946'><span lang=HU>Az </span></span></span><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Import-Csv</span></span></span></span>
+<span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'></span></span>
+<span style='mso-bookmark:
+_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span lang=HU>, </span></span></span><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Export-Csv</span></span></span></span>
+<span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'></span></span>
+<span style='mso-bookmark:
+_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdletek párja a </span></span></span><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>ConvertTo-Csv</span></span></span></span>
+<span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'></span></span>
+<span style='mso-bookmark:
+_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span lang=HU><span
+style='mso-spacerun:yes'> </span>és </span></span></span><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>ConvertFrom-Csv</span></span></span></span>
+<span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'></span></span>
+<span style='mso-bookmark:
+_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdletek, majdnem ugyanolyan a
+paraméterezésük, csak az első kettő fájlokkal dolgozik, a második kettő meg a
+memóriában, változókban található adatokkal. A CSV szó szerint „</span></span></span><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>comma
+separated values</span></span><span lang=HU>”, azaz „vesszővel elválasztott
+értékek” jelentéssel bír, de szerencsére nem csak vessző, hanem tetszőlegesen
+megadható elválasztó karakterrel tudnak dolgozni. Nézzünk erre egy példát. Van
+egy eredetileg vesszőkkel elválasztott fájlunk, szeretnénk kicserélni a
+vesszőket mondjuk pontosvesszőre:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[3] PS C:\munka&gt;
+Import-Csv .\futók.txt | ConvertTo-Csv -NoTypeInformation -Del</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>imiter &quot;;&quot;</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&quot;Név&quot;;&quot;Idő&quot;</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&quot;Béla&quot;;&quot;5:12&quot;</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&quot;Dezső&quot;;&quot;5:37&quot;</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&quot;Karcsi&quot;;&quot;5:36&quot;</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&quot;Marci&quot;;&quot;5:49&quot;</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&quot;Tódor&quot;;&quot;5:25&quot;</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&quot;Tibi&quot;;&quot;4:45&quot;</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&quot;Gabi&quot;;&quot;5:18&quot;</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&quot;Andris&quot;;&quot;4:52&quot;</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&quot;Bence&quot;;&quot;4:48&quot;</span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc197149222'><span
+style='mso-bookmark:_Toc179036946'><span lang=HU>A </span></span></span><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>–NoTypeInformation</span></span><span
+lang=HU> kapcsolóval nem rak egy extra kezdősort a kimenetre, amely az adatok
+típusát hivatott volna jelezni.</span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc197149222'><span
+style='mso-bookmark:_Toc179036946'><span lang=HU>Ha Microsoft Excel
+táblázatszerkesztővel készítünk CSV fájlokat, némi gondunk lehet a fájl
+kódolásával. Nézzük a következő Excel fájlt:</span></span></span></p>
+
+<p class=Kp>
+ <img src="PowerShell5_files/image076.png">
+</p>
+
+<p class=MsoCaption><span style='mso-bookmark:_Toc197149222'><span
+style='mso-bookmark:_Toc179036946'></span></span>
+<span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU><span style='mso-no-proof:yes'>58</span></span></span></span>
+<span style='mso-bookmark:
+_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span lang=HU>. ábra
+Ékezetes karaktereket tartalmazó Excel fájl</span></span></span></p>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:
+_Toc179036946'><span lang=HU>Ha ezt elmentem CSV formában magyar területi
+beállítások mellett, majd megpróbálom beimportálni, akkor a következőt kapom:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Import-Csv
+-Path C:\PowerShell\állatok.csv</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>?llat;Db</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>--------</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Cs?kos b?z?sborz;1</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>?hes sak?l;5</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>B?bos banka;3</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>?lyv?s kesely?;6</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Sz?r?s s?n;8</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>B?reg?r;2</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:
+_Toc179036946'><span lang=HU>Hát nem néz ki valami szépen! Egyrészt az
+elválasztó karakterem vessző helyett pontosvessző, másrészt az ékezetes
+karakterek helyett kérdőjelek jelentek meg. Próbáljuk meg </span></span></span><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Get-Content</span></span><span
+lang=HU>-el beolvasni a fájlt:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Get-Content
+-Path C:\PowerShell\állatok.csv</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Állat;Db</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Csíkos bűzösborz;1</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Éhes sakál;5</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Búbos banka;3</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Ölyvös keselyű;6</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Szúrós sün;8</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Bőregér;2</span></span></span></p>
+
+</div>
+
+<p class=Szveg style='tab-stops:338.5pt'><span style='mso-bookmark:_Toc197149222'><span
+style='mso-bookmark:_Toc179036946'><span lang=HU>Érdekes, a </span></span></span><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Get-Content</span></span><span
+lang=HU> sokkal jobban elbánik ezzel. Az egyik lehetőség, hogy akkor folytassuk
+innen a </span></span></span><span style='mso-bookmark:_Toc197149222'><span
+style='mso-bookmark:_Toc179036946'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>ConvertFrom-CSV</span></span><span
+lang=HU>-vel, meghatározva, hogy az elválasztó karakter a pontosvessző:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Get-Content
+-Path C:\PowerShell\állatok.csv | ConvertFrom-Csv -Delimite</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>r &quot;;&quot;</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Állat<span
+style='mso-spacerun:yes'>            </span>Db</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>-----<span
+style='mso-spacerun:yes'>            </span>--</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Csíkos bűzösborz 1</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Éhes sakál<span
+style='mso-spacerun:yes'>       </span>5</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Búbos banka<span
+style='mso-spacerun:yes'>      </span>3</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Ölyvös keselyű<span
+style='mso-spacerun:yes'>   </span>6</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Szúrós sün<span
+style='mso-spacerun:yes'>       </span>8</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Bőregér<span
+style='mso-spacerun:yes'>          </span>2</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:
+_Toc179036946'><span lang=HU><span style='mso-tab-count:1'>        </span>PowerShell
+3.0-val kezdődően már közvetlenül az </span></span></span><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Import-CSV</span></span><span
+lang=HU>-hez is megadható az </span></span></span><span style='mso-bookmark:
+_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>-Encoding</span></span><span
+lang=HU> paraméter, így azzal már lehet közvetlenül is helyesen importálni:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Import-Csv
+-Path C:\PowerShell\állatok.csv -Delimiter &quot;;&quot; -Encoding Def</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ault</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Állat<span
+style='mso-spacerun:yes'>            </span>Db</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>-----<span
+style='mso-spacerun:yes'>            </span>--</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Csíkos bűzösborz 1</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Éhes sakál<span
+style='mso-spacerun:yes'>       </span>5</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Búbos banka<span
+style='mso-spacerun:yes'>      </span>3</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Ölyvös keselyű<span
+style='mso-spacerun:yes'>   </span>6</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Szúrós sün<span
+style='mso-spacerun:yes'>       </span>8</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Bőregér<span
+style='mso-spacerun:yes'>          </span>2</span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc197149222'><span
+style='mso-bookmark:_Toc179036946'><span lang=HU>Hogy a „</span></span></span><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Default</span></span><span
+lang=HU>” kódolás mit is jelent, és hogy az </span></span></span><span
+style='mso-bookmark:_Toc197149222'><span style='mso-bookmark:_Toc179036946'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Import-CSV</span></span><span
+lang=HU> miért nem használja azt ténylegesen, azt nem sikerült kiderítenem.</span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc197149222'><span
+style='mso-bookmark:_Toc179036946'><span lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

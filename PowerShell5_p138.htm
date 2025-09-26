@@ -1,0 +1,1354 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>Háttérben futtatás egy alternatív módja</title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><a
+name="_Toc204716272"></a><a name="_Toc209115815"><span style='mso-bookmark:
+_Toc204716272'>
+<span
+lang=HU>Háttérben futtatás egy alternatív módja</span></span></a></span></span></span></h3>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU>Az előző fejezetben látott „</span></span></span></span><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span class=EnglishChar><span
+style='mso-bidi-font-family:"Times New Roman"'>job</span></span><span lang=HU>”-ok,
+bár nagyon kényelmesen használhatók a kapcsolódó cmdletek segítségével, mégis
+rendelkeznek néhány hátrányos tulajdonsággal:</span></span></span></span></p>
+
+<p class=SzvegCxSpMiddle style='margin-left:35.0pt;mso-add-space:auto;
+text-indent:-18.0pt;mso-list:l8 level1 lfo22'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'>
+<span lang=HU>Létrehozásuk viszonylag lassú, így
+csak akkor éri meg a használatuk, ha egy-egy job tényleg hosszú ideig fut. Ha
+sok rövid job-ot akarunk futtatni, akkor a „hasznos teher” feldolgozására
+fordított idő kevesebb lehet, mint maguknak a joboknak a létrehozása.</span></span></span></span></p>
+
+<p class=SzvegCxSpMiddle style='margin-left:35.0pt;mso-add-space:auto;
+text-indent:-18.0pt;mso-list:l8 level1 lfo22'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'>
+<span lang=HU>A job kimenete szerializáláson
+esik keresztül, azaz a bonyolult objektumok tulajdonságai egy rekurzív
+eljárással a háttérben XML dokumentummá alakulnak át, melyek a globális
+scope-ban visszaalakulnak objektummá (deszerializálás). Miután az XML nem egy
+nagyon tömör adattárolási módszer, ezért ha sok objektum van a kimenetben,
+akkor ez a folyamat is elég időigényes lehet.</span></span></span></span></p>
+
+<p class=SzvegCxSpMiddle><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU>Jó hír, hogy a </span></span></span></span><span style='mso-bookmark:
+_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:
+_Toc197149224'><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>[powershell]</span></span><span lang=HU> osztály
+felhasználásával a háttérben futtatás egy alternatív módját is használhatjuk.
+Rögtön mérjük is le a hagyományos </span></span></span></span><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span class=EnglishChar><span
+style='mso-bidi-font-family:"Times New Roman"'>job</span></span><span lang=HU>-ok
+és az alternatív módszer sebességének különbségét!</span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU>Az első szkriptben létrehozok 10 hagyományos </span></span></span></span><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span class=EnglishChar><span
+style='mso-bidi-font-family:"Times New Roman"'>job</span></span><span lang=HU>-ot,
+ami valójában egy </span></span></span></span><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Get-Process</span></span><span
+lang=HU> cmdletet futtat. Most, miután a </span></span></span></span><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$parameters</span></span><span
+lang=HU> a 4. sorban az éppen futó PowerShell folyamatra szűr, ezért a
+háttérben futó folyamat csak egy processz objektumot ad vissza.</span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:orangered'>$script</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:blue'>New-Object</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> -TypeName </span><span lang=HU style='color:blueviolet'>object[]</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> -ArgumentList </span><span
+lang=HU style='color:purple'>10</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:orangered'>$output</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:blue'>New-Object</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> -TypeName </span><span lang=HU style='color:blueviolet'>object[]</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> -ArgumentList </span><span
+lang=HU style='color:purple'>10</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:orangered'>$job</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:blue'>New-Object</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> -TypeName </span><span lang=HU style='color:blueviolet'>object[]</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> -ArgumentList </span><span
+lang=HU style='color:purple'>10</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:orangered'>$parameters</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:darkred'>&quot;-id </span><span
+lang=HU style='color:orangered'>$pid</span><span lang=HU style='color:darkred'>&quot;</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:darkgreen'>#$parameters = &quot;&quot;</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:orangered'>$start</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:blue'>Get-Date</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:darkblue'>for</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>(</span><span lang=HU style='color:orangered'>$i</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:purple'>0</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'>; </span><span lang=HU
+style='color:orangered'>$i</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:darkgray'>-lt</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:purple'>10</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>; </span><span lang=HU style='color:orangered'>$i</span><span
+lang=HU style='color:darkgray'>++</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>){</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:blue'>Write-Host</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkred'>&quot;Creating job </span><span lang=HU style='color:
+orangered'>$i</span><span lang=HU style='color:darkred'>&quot;</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:orangered'>$script</span><span
+lang=HU style='color:darkgray'>[</span><span lang=HU style='color:orangered'>$i</span><span
+lang=HU style='color:darkgray'>]</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>[</span><span lang=HU style='color:teal'>scriptblock</span><span
+lang=HU style='color:darkgray'>]::</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>create(</span><span lang=HU style='color:darkred'>&quot;Get-Process
+</span><span lang=HU style='color:orangered'>$parameters</span><span lang=HU
+style='color:darkred'>; &quot;&quot;Thread </span><span lang=HU
+style='color:orangered'>$i</span><span lang=HU style='color:darkred'>&quot;&quot;&quot;</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>)</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:orangered'>$job</span><span
+lang=HU style='color:darkgray'>[</span><span lang=HU style='color:orangered'>$i</span><span
+lang=HU style='color:darkgray'>]</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:blue'>Start-Job</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> -ScriptBlock </span><span lang=HU style='color:orangered'>$script</span><span
+lang=HU style='color:darkgray'>[</span><span lang=HU style='color:orangered'>$i</span><span
+lang=HU style='color:darkgray'>]</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>}</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:orangered'>$createend</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:blue'>Get-Date</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:orangered'>$creationtime</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> (</span><span lang=HU style='color:orangered'>$createend</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>-</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:orangered'>$start</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>)</span><span lang=HU
+style='color:darkgray'>.</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Totalseconds</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:blue'>write-host</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkred'>&quot;Létrehozás
+tartott: </span><span lang=HU style='color:orangered'>$creationtime</span><span
+lang=HU style='color:darkred'> mp&quot;</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:darkblue'>do</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> { </span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:orangered'>$stillrunning</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:orangered'>$false</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:blue'>Start-Sleep</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> -Milliseconds </span><span
+lang=HU style='color:purple'>100</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:darkblue'>for</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>(</span><span lang=HU
+style='color:orangered'>$i</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:purple'>0</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>; </span><span lang=HU style='color:orangered'>$i</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>-lt</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:purple'>10</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'>; </span><span lang=HU
+style='color:orangered'>$i</span><span lang=HU style='color:darkgray'>++</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>){</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span></span><span lang=HU style='color:darkblue'>if</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>(</span><span lang=HU
+style='color:orangered'>$job</span><span lang=HU style='color:darkgray'>[</span><span
+lang=HU style='color:orangered'>$i</span><span lang=HU style='color:darkgray'>]</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>){</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>            </span></span><span lang=HU
+style='color:darkblue'>if</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>(</span><span lang=HU style='color:orangered'>$job</span><span
+lang=HU style='color:darkgray'>[</span><span lang=HU style='color:orangered'>$i</span><span
+lang=HU style='color:darkgray'>].</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>state </span><span lang=HU style='color:darkgray'>-eq</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkred'>&quot;Completed&quot;</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'>){</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                </span></span><span lang=HU
+style='color:orangered'>$output</span><span lang=HU style='color:darkgray'>[</span><span
+lang=HU style='color:orangered'>$i</span><span lang=HU style='color:darkgray'>]</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:blue'>Receive-Job</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> -Job </span><span
+lang=HU style='color:orangered'>$job</span><span lang=HU style='color:darkgray'>[</span><span
+lang=HU style='color:orangered'>$i</span><span lang=HU style='color:darkgray'>]</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                </span></span><span lang=HU
+style='color:blue'>Remove-Job</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> -Job </span><span lang=HU style='color:orangered'>$job</span><span
+lang=HU style='color:darkgray'>[</span><span lang=HU style='color:orangered'>$i</span><span
+lang=HU style='color:darkgray'>]</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                </span></span><span lang=HU
+style='color:orangered'>$job</span><span lang=HU style='color:darkgray'>[</span><span
+lang=HU style='color:orangered'>$i</span><span lang=HU style='color:darkgray'>]</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:orangered'>$null</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>            </span>}</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>            </span></span><span lang=HU
+style='color:darkblue'>else</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>{</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                </span></span><span lang=HU
+style='color:orangered'>$stillrunning</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$true</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>            </span>}</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>}</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>}</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>} </span><span lang=HU
+style='color:darkblue'>while</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> (</span><span lang=HU style='color:orangered'>$stillrunning</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>)</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'> </span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:orangered'>$executiontime</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> ((</span><span lang=HU style='color:blue'>Get-Date</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>) </span><span lang=HU
+style='color:darkgray'>-</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:orangered'>$createend</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>)</span><span lang=HU
+style='color:darkgray'>.</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Totalseconds</span></span></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:blue'>write-host</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkred'>&quot;Futtatás tartott (</span><span lang=HU
+style='color:orangered'>$parameters</span><span lang=HU style='color:darkred'>):
+</span><span lang=HU style='color:orangered'>$executiontime</span><span
+lang=HU style='color:darkred'> mp&quot;</span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:
+_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span lang=HU>Nézzük
+futtatásának eredményét:</span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>PS C:\&gt; . C:\PSKönyv\Realjobs.ps1</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 0</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 1</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 2</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 3</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 4</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 5</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 6</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 7</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 8</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 9</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Létrehozás tartott: 3.0151724 mp</span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Futtatás tartott (-id 6292): 2.5181441 mp</span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU>Látható, hogy a 10 job létrehozása kb. 3 másodpercig tartott és
+futtatásuk csak 1-1-processz objektummal kb. 2.5 másodpercig.</span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU>Az </span></span></span></span><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$output</span></span><span
+lang=HU> tömbbe gyűjtött processz objektumok típusa a
+szerializálás-deszerializálás után így néz ki:</span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>PS C:\&gt; $output[0][0].pstypenames[0]</span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Deserialized.System.Diagnostics.Process</span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:
+_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span lang=HU>Ha
+kiveszem a kommentet az 5. sorból és berakom a 4. sor elejére, akkor az összes
+processz kilistázásra kerül. A futási idők ezzel így alakulnak:</span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>PS C:\&gt; C:\PSKönyv\Realjobs.ps1</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 0</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 1</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 2</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 3</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 4</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 5</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 6</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 7</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 8</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 9</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Létrehozás tartott: 3.3111893 mp</span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Futtatás tartott (): 9.5175444 mp</span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU>Látható, hogy így a </span></span></span></span><span style='mso-bookmark:
+_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:
+_Toc197149224'><span class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>job</span></span><span
+lang=HU>-ok futtatása, a sokkal nagyobb kimenetnek köszönhetően sokkal több,
+kb. négyszer annyi ideig tartott, ez a szerializálás-deszerializálás számlájára
+írható.</span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU>Nézzük ugyanezt a szkriptet az alternatív módon:</span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:orangered'>$script</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:blue'>New-Object</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> -TypeName </span><span lang=HU style='color:blueviolet'>object[]</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> -ArgumentList </span><span
+lang=HU style='color:purple'>10</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:orangered'>$thread</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:blue'>New-Object</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> -TypeName </span><span lang=HU style='color:blueviolet'>object[]</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> -ArgumentList </span><span
+lang=HU style='color:purple'>10</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:orangered'>$output</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:blue'>New-Object</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> -TypeName </span><span lang=HU style='color:blueviolet'>object[]</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> -ArgumentList </span><span
+lang=HU style='color:purple'>10</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:orangered'>$job</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:blue'>New-Object</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> -TypeName </span><span lang=HU style='color:blueviolet'>object[]</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> -ArgumentList </span><span
+lang=HU style='color:purple'>10</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:orangered'>$parameters</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:darkred'>&quot;-id </span><span
+lang=HU style='color:orangered'>$pid</span><span lang=HU style='color:darkred'>&quot;</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:darkgreen'>#$parameters = &quot;&quot;</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:orangered'>$start</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:blue'>Get-Date</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:darkblue'>for</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>(</span><span lang=HU style='color:orangered'>$i</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:purple'>0</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'>; </span><span lang=HU
+style='color:orangered'>$i</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:darkgray'>-lt</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:purple'>10</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>; </span><span lang=HU style='color:orangered'>$i</span><span
+lang=HU style='color:darkgray'>++</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>){</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:blue'>Write-Host</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkred'>&quot;Creating job </span><span lang=HU style='color:
+orangered'>$i</span><span lang=HU style='color:darkred'>&quot;</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:orangered'>$script</span><span
+lang=HU style='color:darkgray'>[</span><span lang=HU style='color:orangered'>$i</span><span
+lang=HU style='color:darkgray'>]</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>[</span><span lang=HU style='color:teal'>scriptblock</span><span
+lang=HU style='color:darkgray'>]::</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>create(</span><span lang=HU style='color:darkred'>&quot;Get-Process
+</span><span lang=HU style='color:orangered'>$parameters</span><span lang=HU
+style='color:darkred'>; &quot;&quot;Thread </span><span lang=HU
+style='color:orangered'>$i</span><span lang=HU style='color:darkred'>&quot;&quot;&quot;</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>)</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:orangered'>$thread</span><span
+lang=HU style='color:darkgray'>[</span><span lang=HU style='color:orangered'>$i</span><span
+lang=HU style='color:darkgray'>]</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>[</span><span lang=HU style='color:teal'>powershell</span><span
+lang=HU style='color:darkgray'>]::</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>Create()</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:darkgray'>[</span><span
+lang=HU style='color:teal'>void</span><span lang=HU style='color:darkgray'>]</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$thread</span><span lang=HU style='color:darkgray'>[</span><span
+lang=HU style='color:orangered'>$i</span><span lang=HU style='color:darkgray'>].</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>AddScript(</span><span
+lang=HU style='color:orangered'>$script</span><span lang=HU style='color:darkgray'>[</span><span
+lang=HU style='color:orangered'>$i</span><span lang=HU style='color:darkgray'>]</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>)</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:orangered'>$job</span><span
+lang=HU style='color:darkgray'>[</span><span lang=HU style='color:orangered'>$i</span><span
+lang=HU style='color:darkgray'>]</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$thread</span><span lang=HU style='color:darkgray'>[</span><span
+lang=HU style='color:orangered'>$i</span><span lang=HU style='color:darkgray'>].</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>BeginInvoke()</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>}</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:orangered'>$createend</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:blue'>Get-Date</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:orangered'>$creationtime</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> (</span><span lang=HU style='color:orangered'>$createend</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>-</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:orangered'>$start</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>)</span><span lang=HU
+style='color:darkgray'>.</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Totalseconds</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:blue'>write-host</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkred'>&quot;Létrehozás
+tartott: </span><span lang=HU style='color:orangered'>$creationtime</span><span
+lang=HU style='color:darkred'> mp&quot;</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:darkblue'>do</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> { </span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:orangered'>$stillrunning</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:orangered'>$false</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:blue'>Start-Sleep</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> -Milliseconds </span><span
+lang=HU style='color:purple'>100</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:darkblue'>for</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>(</span><span lang=HU
+style='color:orangered'>$i</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:purple'>0</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>; </span><span lang=HU style='color:orangered'>$i</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>-lt</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:purple'>10</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'>; </span><span lang=HU
+style='color:orangered'>$i</span><span lang=HU style='color:darkgray'>++</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>){</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span></span><span lang=HU style='color:darkblue'>if</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>(</span><span lang=HU
+style='color:orangered'>$job</span><span lang=HU style='color:darkgray'>[</span><span
+lang=HU style='color:orangered'>$i</span><span lang=HU style='color:darkgray'>]</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>){</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>            </span></span><span lang=HU
+style='color:darkblue'>if</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>(</span><span lang=HU style='color:orangered'>$job</span><span
+lang=HU style='color:darkgray'>[</span><span lang=HU style='color:orangered'>$i</span><span
+lang=HU style='color:darkgray'>].</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>IsCompleted){</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                </span></span><span lang=HU
+style='color:orangered'>$output</span><span lang=HU style='color:darkgray'>[</span><span
+lang=HU style='color:orangered'>$i</span><span lang=HU style='color:darkgray'>]</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:orangered'>$thread</span><span
+lang=HU style='color:darkgray'>[</span><span lang=HU style='color:orangered'>$i</span><span
+lang=HU style='color:darkgray'>].</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>EndInvoke(</span><span lang=HU style='color:orangered'>$job</span><span
+lang=HU style='color:darkgray'>[</span><span lang=HU style='color:orangered'>$i</span><span
+lang=HU style='color:darkgray'>]</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>) </span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                </span></span><span lang=HU
+style='color:orangered'>$thread</span><span lang=HU style='color:darkgray'>[</span><span
+lang=HU style='color:orangered'>$i</span><span lang=HU style='color:darkgray'>].</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Runspace</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>Close()</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                </span></span><span lang=HU
+style='color:orangered'>$thread</span><span lang=HU style='color:darkgray'>[</span><span
+lang=HU style='color:orangered'>$i</span><span lang=HU style='color:darkgray'>].</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Dispose()</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                </span></span><span lang=HU
+style='color:orangered'>$job</span><span lang=HU style='color:darkgray'>[</span><span
+lang=HU style='color:orangered'>$i</span><span lang=HU style='color:darkgray'>]</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:orangered'>$null</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>            </span>}</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>            </span></span><span lang=HU
+style='color:darkblue'>else</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>{</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                </span></span><span lang=HU
+style='color:orangered'>$stillrunning</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$true</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>            </span>}</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>}</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>}</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>} </span><span lang=HU
+style='color:darkblue'>while</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> (</span><span lang=HU style='color:orangered'>$stillrunning</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>)</span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'> </span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149396'><span
+style='mso-bookmark:_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span
+lang=HU style='color:orangered'>$executiontime</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> ((</span><span lang=HU style='color:blue'>Get-Date</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>) </span><span lang=HU
+style='color:darkgray'>-</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:orangered'>$createend</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>)</span><span lang=HU
+style='color:darkgray'>.</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Totalseconds</span></span></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:blue'>write-host</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkred'>&quot;Futtatás tartott (</span><span lang=HU
+style='color:orangered'>$parameters</span><span lang=HU style='color:darkred'>):
+</span><span lang=HU style='color:orangered'>$executiontime</span><span
+lang=HU style='color:darkred'> mp&quot;</span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:
+_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span lang=HU><span
+style='mso-spacerun:yes'> </span>És a futtatási eredmények, először egy
+processzel:</span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>PS C:\&gt; . C:\PSKönyv\Alternatívjobs.ps1</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 0</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 1</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 2</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 3</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 4</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 5</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 6</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 7</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 8</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 9</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Létrehozás tartott: 0.1460084 mp</span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Futtatás tartott (-id 8680): 0.4150237 mp</span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:
+_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span lang=HU>Látható,
+hogy jóval gyorsabb lett mind a job-ok elkészítése és a futtatásuk. Ráadásul a
+kapott eredmény natív processz objektum, nem pedig egy szerializáláson átesett
+módosított objektum:</span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>PS C:\&gt; $output[0][0].pstypenames[0]</span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>System.Diagnostics.Process</span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:
+_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span lang=HU>És nézzük
+az összes processzel:</span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 0</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 1</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 2</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 3</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 4</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 5</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 6</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 7</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 8</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Creating job 9</span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Létrehozás tartott: 0.7194031 mp</span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:_Toc197149335'><span
+style='mso-bookmark:_Toc197149224'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Futtatás tartott (): 1.9968035 mp </span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149396'><span style='mso-bookmark:
+_Toc197149335'><span style='mso-bookmark:_Toc197149224'><span lang=HU>Itt még
+nagyobb a nyereség, hiszen a nagyobb kimenet hatékonyabb átadásán többet
+spóroltunk.</span></span></span></span></p>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

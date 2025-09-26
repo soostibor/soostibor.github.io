@@ -1,0 +1,510 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>1.8.2 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><span style='mso-bookmark:_Toc197149212'><a
+name="_Ref250388638"></a><a name="_Ref250388646"></a><a name="_Toc204716226"></a><a
+name="_Toc209115769"><span style='mso-bookmark:_Toc204716226'><span
+style='mso-bookmark:_Ref250388646'><span style='mso-bookmark:_Ref250388638'>
+<span lang=HU>Csővezeték
+feldolgozása (Foreach-Object) – újra</span></span></span></span></a></span></h3>
+
+<p class=SzvegCxSpFirst><span lang=HU>Ugyan már volt szó a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>ForEach-Object</span></span>
+
+<span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdletről a </span>
+<span
+lang=HU><i style='mso-bidi-font-style:normal'>1.5.5</i>
+</span>
+<span lang=HU><i
+style='mso-bidi-font-style:normal'> </i></span>
+<span
+lang=HU><i style='mso-bidi-font-style:normal'>ForEach-Object cmdlet</i>
+</span>
+<span lang=HU>
+fejezetben, de most már ismerjük a függvényeket és filtereket, így tisztában
+vagyunk azzal, hogy hogyan történik a csővezetéken érkező objektumok
+feldolgozása paraméterként átadott szkriptblokkok segítségével. </span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU>Tulajdonképpen már mi magunk is meg tudnánk
+írni egy </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>ForEach-Object</span></span><span lang=HU> cmdlethez hasonló
+működésű függvényt, de mivel ezt olyan gyakran használnánk, hogy érdemesebb
+volt ez gyorsabban lefutó, natív PowerShell parancsként implementálni.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>Ennek ellenére elég tanulságos lenne egy
+ilyen függvényt írni. Ehhez először nézzük meg a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>ForEach-Object</span></span><span
+lang=HU> szintaxisát:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[1] PS C:\&gt; (get-help
+foreach-object).syntax</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ForEach-Object [-process]
+&lt;ScriptBlock[]&gt; [-inputObject &lt;psobject&gt;] [-begin</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'> </span>&lt;scriptblock&gt;] [-end
+&lt;scriptblock&gt;] [&lt;CommonParameters&gt;]</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Most a </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>CommonParameters</span></span><span
+lang=HU> részt kihagyom, de a többit én is definiálom a függvényemben:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:blue'>function</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> saját-foreachobject ([</span><span
+lang=HU style='color:teal'>scriptblock</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>] </span><span lang=HU style='color:purple'>$process</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:red'>=</span><span lang=HU style='color:black;mso-color-alt:windowtext'>
+$(</span><span lang=HU style='color:blue'>throw</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:maroon'>&quot;Kötelező!&quot;</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'>),</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:1'>     </span>[</span><span lang=HU
+style='color:teal'>PSObject</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>] </span><span lang=HU style='color:purple'>$inputObject</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>, [</span><span lang=HU
+style='color:teal'>scriptblock</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>] </span><span lang=HU style='color:purple'>$begin</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>, [</span><span lang=HU
+style='color:teal'>scriptblock</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>] </span><span lang=HU style='color:purple'>$end</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>)</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>{</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>     </span></span><span lang=HU
+style='color:blue'>begin</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>     </span>{</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>       </span></span><span lang=HU
+style='color:blue'>if</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>(</span><span lang=HU style='color:purple'>$inputObject</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>)</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>       </span>{</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>          </span></span><span
+lang=HU style='color:purple'>$inputObject</span><span lang=HU style='color:
+black;mso-color-alt:windowtext'> | saját-foreachobject -p </span><span lang=HU
+style='color:purple'>$process</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> -b </span><span lang=HU style='color:purple'>$begin</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> -e </span><span lang=HU
+style='color:purple'>$end</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>          </span></span><span
+lang=HU style='color:blue'>return</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>       </span>}</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>       </span></span><span lang=HU
+style='color:blue'>if</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>(</span><span lang=HU style='color:purple'>$begin</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>) {&amp;</span><span
+lang=HU style='color:purple'>$begin</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>}</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>     </span>}</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>     </span></span><span lang=HU
+style='color:blue'>process</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> {&amp;</span><span lang=HU style='color:purple'>$process</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>}</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>     </span></span><span lang=HU
+style='color:blue'>end</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>     </span>{</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>         </span></span><span
+lang=HU style='color:blue'>if</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>(</span><span lang=HU style='color:purple'>$end</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>) {&amp;</span><span
+lang=HU style='color:purple'>$end</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>}</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>     </span>}</span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'> </span>}</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Itt a </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>$process</span></span><span
+lang=HU> paraméter kötelezően kitöltendő, hibát ad a függvényem, ha ez
+hiányzik:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[3] PS C:\&gt; 222 |
+saját-foreachobject</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:red'>Kötelező!<o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:red'>At line:1 char:63<o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:red'>+ function saját-foreachobject ([scriptblock]
+$process = $(throw &lt;&lt;&lt;&lt;<span style='mso-spacerun:yes'> 
+</span>&quot;Kötele<o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:red'>ző!&quot;),<o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:red'><span style='mso-spacerun:yes'>    </span>+
+CategoryInfo<span style='mso-spacerun:yes'>          </span>: OperationStopped:
+(Kötelező!:String) [], Runtim<o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:red'><span style='mso-spacerun:yes'>   </span>eException<o:p></o:p></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:red'><span style='mso-spacerun:yes'>    </span>+
+FullyQualifiedErrorId : Kötelező!<o:p></o:p></span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Ha ez helyesen van kitöltve, akkor akár
+csővezetékkel is jól működik:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[4] PS C:\&gt; 1,3,44,
+&quot;q&quot; | saját-foreachobject {$_*3}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>3</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>9</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>132</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>qqq</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>De működik úgy is, ha nem „belecsövezzük” a
+feldolgozandó objektumot, hanem </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>&#8209;inputobject</span></span><span
+lang=HU> paraméterként átadjuk: </span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[5] PS C:\&gt;
+saját-foreachobject {$_*2} -i 654</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>1308</span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span lang=HU>Ehhez a függvénydefinícióban egy kicsit
+trükköztem, ha ez utóbbi módszerrel akarnék objektumot átadni, akkor nem lenne </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$_</span></span><span
+lang=HU> változó, ezért a </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>begin</span></span><span
+lang=HU> szekcióban meghívom rekurzív módon a függvényből saját magát, immár
+csövezős módszerrel. Azért, hogy a rekurzív hívásból visszatérve ne fusson le
+még egyszer a függvényem, ezért ott egy </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>return</span></span><span
+lang=HU>-nel kilépek. </span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>Ilyen jellegű csövezhető paraméterátadást
+a PowerShell 2.0 fejlett függvényeivel sokkal egyszerűbben és profibban meg
+tudunk valósítani, ott nem kell rekurzív hívást külön leprogramozni. (Ld. </span>
+<span
+lang=HU><i style='mso-bidi-font-style:normal'>2.5</i>
+</span>
+<span lang=HU><i
+style='mso-bidi-font-style:normal'> </i></span>
+<span
+lang=HU><i style='mso-bidi-font-style:normal'>Fejlett függvények – script
+cmdletek</i>
+</span>
+<span lang=HU>
+fejezet!)</span></p>
+
+<div style='mso-element:para-border-div;border:double windowtext 5.25pt;
+border-bottom:none;mso-border-top-alt:thin-thick-large-gap windowtext 5.25pt;
+mso-border-left-alt:thin-thick-large-gap windowtext 5.25pt;mso-border-right-alt:
+thin-thick-large-gap windowtext 5.25pt;padding:1.0pt 4.0pt 0cm 4.0pt;
+background:#C6D9F1;mso-background-themecolor:text2;mso-background-themetint:
+51;margin-left:14.2pt;margin-right:14.2pt'>
+
+<p class=Megjegyzs style='margin-top:12.0pt;margin-right:0cm;margin-bottom:
+0cm;margin-left:0cm;margin-bottom:.0001pt;mso-add-space:auto;background:#C6D9F1;
+mso-background-themecolor:text2;mso-background-themetint:51'><span lang=HU
+style='color:black;mso-color-alt:windowtext'>Megjegyzés</span></p>
+
+</div>
+
+<div style='mso-element:para-border-div;border-top:none;border-left:double windowtext 5.25pt;
+border-bottom:none;border-right:double windowtext 5.25pt;mso-border-left-alt:
+thin-thick-large-gap windowtext 5.25pt;mso-border-right-alt:thin-thick-large-gap windowtext 5.25pt;
+padding:0cm 4.0pt 0cm 4.0pt;margin-left:14.2pt;margin-right:14.2pt'>
+
+<p class=Megj-nyitott style='margin-top:0.0pt;margin-right:0cm;margin-bottom:
+0cm;margin-left:0cm;margin-bottom:.0001pt;mso-add-space:auto'><span lang=HU>Vizsgáljuk
+meg egy kicsit jobban ezt a futószalag-rendszert! Nézzük a következő példát,
+ahol a bemeneti elemeket ráteszem a futószalagra, majd 3 </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>foreach-object</span></span><span
+lang=HU> „gépen” is keresztülmegy a nyersanyag:</span></p>
+
+</div>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; 'a', 'b', 'c' |</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&gt;&gt;<span
+style='mso-spacerun:yes'>     </span>ForEach-Object -Begin {Write-Host &quot;Az
+1. gép beindul&quot;} -Process {&quot;$_ 1&quot;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'> </span>-End {write-host &quot;Az 1. gép leáll&quot;}
+|</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&gt;&gt;<span
+style='mso-spacerun:yes'>     </span>ForEach-Object -Begin {Write-Host &quot;Az
+2. gép beindul&quot;} -Process {&quot;$_ 2&quot;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'> </span>-End {write-host &quot;Az 2. gép leáll&quot;}
+|</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&gt;&gt;<span
+style='mso-spacerun:yes'>     </span>ForEach-Object -Begin {Write-Host &quot;Az
+3. gép beindul&quot;} -Process {&quot;$_ 3&quot;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'> </span>-End {write-host &quot;Az 3. gép leáll&quot;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&gt;&gt;</span><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Az 1. gép beindul</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Az 2. gép beindul</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Az 3. gép beindul</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>a 1 2 3</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>b 1 2 3</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>c 1 2 3</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Az 1. gép leáll</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Az 2. gép leáll</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Az 3. gép leáll</span></p>
+
+</div>
+
+<div style='mso-element:para-border-div;border:double windowtext 5.25pt;
+border-top:none;mso-border-left-alt:thin-thick-large-gap windowtext 5.25pt;
+mso-border-bottom-alt:thin-thick-large-gap windowtext 5.25pt;mso-border-right-alt:
+thin-thick-large-gap windowtext 5.25pt;padding:0cm 4.0pt 1.0pt 4.0pt;
+margin-left:14.2pt;margin-right:14.2pt'>
+
+<p class=Megjegyezs2 style='margin-top:0.0pt;margin-right:0cm;margin-bottom:
+0cm;margin-left:0cm;margin-bottom:.0001pt;mso-add-space:auto'><span lang=HU>A
+kimenetből látható, hogy az egymás utáni szakaszok gépeinek </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>begin</span></span><span
+lang=HU> szekciói szépen egymás után lefutnak, mint ahogy az elinduló
+futószalag is minden gép előtt elindul. Ezután az egyes elemek, ahogy végig haladnak
+a gépek előtt, úgy dolgoznak rajtuk a gépek, először az első, majd második,
+végül a harmadik. A futószalag leállása megint mindhárom gépet egyszerre
+érinti.</span></p>
+
+</div>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

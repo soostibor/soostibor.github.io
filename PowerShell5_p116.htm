@@ -1,0 +1,338 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>1.8.17 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><a name="_Toc179036947"></a><a
+name="_Toc197149223"></a><a name="_Toc204716245"></a><a name="_Toc209115788"><span
+style='mso-bookmark:_Toc204716245'><span style='mso-bookmark:_Toc197149223'><span
+style='mso-bookmark:_Toc179036947'>
+<span lang=HU>Lista-tulajdonságok
+módosítása (Update-List)</span></span></span></span></a><span style='mso-bookmark:
+_Toc197149223'><span style='mso-bookmark:_Toc179036947'></span></span></h3>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:
+_Toc179036947'><span lang=HU>Majd az ActiveDirectory-nál fogjuk látni, hogy
+nagyon gyakori az, hogy egy objektumnak olyan tulajdonsága van, ami nem egy
+konkrét érték, hanem az értékeknek egy tömbje. Ezt az ActiveDirectory-nál <i
+style='mso-bidi-font-style:normal'>multivalued property</i>-nek hívjuk. Ezeket
+többféleképpen lehet módosítani: hozzáadunk a listához egy újabb
+tulajdonságértéket, elveszünk egy tulajdonságértéket vagy eldobjuk az eddigi
+értékeket és valami mást töltünk be helyette. Nézzünk erre egy példát, egyelőre
+még nem ActiveDirectory objektumokkal, az </span></span></span><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Update-List</span></span></span></span>
+<span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'></span></span>
+<span style='mso-bookmark:
+_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdlet segítségével:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[52] PS C:\&gt; $ember =
+New-Object psobject</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[53] PS C:\&gt; $ember |
+Add-Member -Name Név -Value &quot;Kovács Ödön&quot; -MemberTyp</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>e noteproperty</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[54] PS C:\&gt; $tul =
+New-Object system.collections.arraylist</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[55] PS C:\&gt;
+$tul.add(&quot;okos&quot;)</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>0</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[56] PS C:\&gt;
+$tul.add(&quot;ügyes&quot;)</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>1</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[57] PS C:\&gt; $ember |
+Add-Member -Name Tulajdonságok -Value $tul -MemberTy</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>pe noteproperty</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[58] PS C:\&gt; $ember</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Név<span
+style='mso-spacerun:yes'>                                  </span>Tulajdonságok</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>---<span
+style='mso-spacerun:yes'>                                  </span>-------------</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Kovács Ödön<span
+style='mso-spacerun:yes'>                          </span>{okos, ügyes}</span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc197149223'><span
+style='mso-bookmark:_Toc179036947'><span lang=HU>Készítettem egy egyedi
+objektumot az </span></span></span><span style='mso-bookmark:_Toc197149223'><span
+style='mso-bookmark:_Toc179036947'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$ember</span></span><span
+lang=HU> változóba [52]. Hozzáadtam egy </span></span></span><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Név</span></span><span
+lang=HU> tulajdonságot [53], és definiáltam egy </span></span></span><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$tul</span></span><span
+lang=HU> változót, ami bővíthető tömbtípusú [54]. Ebbe a </span></span></span><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$tul</span></span><span
+lang=HU> változóba betöltöttem két értéket [55], [56], majd ezt is hozzáadtam
+az </span></span></span><span style='mso-bookmark:_Toc197149223'><span
+style='mso-bookmark:_Toc179036947'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$ember</span></span><span
+lang=HU>-emhez [57]. Legvégén kiírattam az </span></span></span><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$ember</span></span><span
+lang=HU> tartalmát [58], látszik, hogy ott van a „</span></span></span><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>multivalued
+property</span></span><span lang=HU>” jellegű </span></span></span><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Tulajdonságok</span></span><span
+lang=HU> nevű tulajdonság. Ez tehát az alaphelyzet.</span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc197149223'><span
+style='mso-bookmark:_Toc179036947'><span lang=HU>Hogyan lehetne ehhez a
+tulajdonságlistához további értékeket betölteni?</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[61] PS C:\&gt; $ember |
+Update-List -Property Tulajdonságok -Add &quot;szép&quot;, &quot;sz</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>erény&quot;</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Név<span
+style='mso-spacerun:yes'>                                  </span>Tulajdonságok</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>---<span
+style='mso-spacerun:yes'>                                  </span>-------------</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Kovács Ödön<span
+style='mso-spacerun:yes'>                          </span>{okos, ügyes, szép,
+szerény}</span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc197149223'><span
+style='mso-bookmark:_Toc179036947'><span lang=HU>Azaz nem nekem kellett külön
+tömbműveletekkel kibővíteni a </span></span></span><span style='mso-bookmark:
+_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Tulajdonságok</span></span><span
+lang=HU> tömböt, hanem ezt elvégezte helyettem az </span></span></span><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Update-List</span></span><span
+lang=HU>.</span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc197149223'><span
+style='mso-bookmark:_Toc179036947'><span lang=HU>Vagy hogyan lehet eltávolítani
+egy tulajdonságértéket?</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[62] PS C:\&gt; $ember |
+Update-List -Property Tulajdonságok -Remove &quot;okos&quot;</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Név<span
+style='mso-spacerun:yes'>                                  </span>Tulajdonságok</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>---<span
+style='mso-spacerun:yes'>                                  </span>-------------</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Kovács Ödön<span
+style='mso-spacerun:yes'>                          </span>{ügyes, szép,
+szerény}</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:
+_Toc179036947'><span lang=HU>Ezt még körülményesebb lenne tömbműveletekkel
+elvégezni, így meg ez is nagyon egyszerű. Nézzünk egy teljes
+tulajdonság-cserét:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[63] PS C:\&gt; $ember |
+Update-List -Property Tulajdonságok -Replace &quot;buta&quot;,</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'> </span>&quot;csúnya&quot;</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Név<span
+style='mso-spacerun:yes'>                                  </span>Tulajdonságok</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>---<span
+style='mso-spacerun:yes'>                                  </span>-------------</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:_Toc179036947'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Kovács Ödön<span
+style='mso-spacerun:yes'>                          </span>{buta, csúnya}</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149223'><span style='mso-bookmark:
+_Toc179036947'><span lang=HU>Ez a cmdlet tehát csak tulajdonságként szereplő
+tömböket tud módosítani, közvetlenül tömbelemeket nem tud kiszedni, betenni
+vagy kicserélni. A másik előfeltétel, hogy tömb nem lehet fix méretű, azaz a
+PowerShell által használt alap tömbtípus nem jó erre a célra.</span></span></span></p>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

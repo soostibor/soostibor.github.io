@@ -1,0 +1,960 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>2.2.4 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><span style='mso-bookmark:_Ref196107511'><span
+style='mso-bookmark:_Ref196107505'><span style='mso-bookmark:_Toc189542096'><span
+style='mso-bookmark:_Toc197149232'><a name="_Toc204716303"></a><a
+name="_Toc209115846"><span style='mso-bookmark:_Toc204716303'>
+<span lang=HU>Moduljegyzék
+készítése (Module Manifest)</span></span></a></span></span></span></span></h3>
+
+<p class=Szveg><span style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:
+_Ref196107505'><span style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:
+_Toc197149232'><span lang=HU>Korábban láthattuk a </span></span></span></span></span><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>get-module</span></span><span
+lang=HU> futtatása során, hogy egy modulnak lehetne verziója, leírása és sok
+egyéb metaadata, de vajon hogyan lehet ezeket megadni? Erre egy újabb
+fájltípus, a moduljegyzék</span></span></span></span></span>
+<span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'></span></span></span></span>
+<span style='mso-bookmark:
+_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span style='mso-bookmark:
+_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span lang=HU>, vagy
+eredeti nevén </span></span></span></span></span><span style='mso-bookmark:
+_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span style='mso-bookmark:
+_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>module
+manifest</span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'></span></span></span></span>
+<span style='mso-bookmark:
+_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span style='mso-bookmark:
+_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span lang=HU><span
+style='mso-spacerun:yes'> </span>szolgál. Ez egy szövegfájl, amiben egy
+hashtábla formátumban vannak megadva a modulhoz tartozó leíró adatok. Hogyan
+lehet ilyen fájlt létrehozni? Erre a </span></span></span></span></span><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>New-ModuleManifest</span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'></span></span></span></span>
+<span style='mso-bookmark:
+_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span style='mso-bookmark:
+_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdletet használhatjuk:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[16] PS C:\&gt;
+New-ModuleManifest -Path $pshome\modules\popup\popup.psd1 -Autho</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>r &quot;Soós Tibor&quot;
+-ModuleToProcess popup -ModuleVersion 1.0.0.0 -Description &quot;Gr</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>afikus Popup ablak&quot;</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>cmdlet New-ModuleManifest
+at command pipeline position 1</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Supply values for the
+following parameters:</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>NestedModules[0]:</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>CompanyName:</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Copyright:</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>TypesToProcess[0]:</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>FormatsToProcess[0]:</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>RequiredAssemblies[0]:</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>FileList[0]:</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[17] PS C:\&gt;</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[18] PS C:\&gt;
+Remove-Module popup</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[19] PS C:\&gt;
+Import-Module popup</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[20] PS C:\&gt; Get-Module
+popup | fl</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>              </span>: popup</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Path<span
+style='mso-spacerun:yes'>              </span>:
+C:\Windows\system32\WindowsPowerShell\v1.0\Modules\popup</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                    </span>\popup.psm1</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Description<span
+style='mso-spacerun:yes'>       </span>: Grafikus Popup ablak</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ModuleType<span
+style='mso-spacerun:yes'>        </span>: Script</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Version<span
+style='mso-spacerun:yes'>           </span>: 1.0.0.0</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>NestedModules<span
+style='mso-spacerun:yes'>     </span>: {}</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ExportedFunctions :
+Read-Popup</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ExportedCmdlets<span
+style='mso-spacerun:yes'>   </span>: {}</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ExportedVariables :
+ReturnButtons</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ExportedAliases<span
+style='mso-spacerun:yes'>   </span>: popup</span></span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Ref196107511'><span
+style='mso-bookmark:_Ref196107505'><span style='mso-bookmark:_Toc189542096'><span
+style='mso-bookmark:_Toc197149232'><span lang=HU>A moduljegyzék létrehozása
+során én csak a legfontosabb adatokat adtam meg a [16]-os sorban, de a
+PowerShell szíve szerint minden további adatokat is bekérne, amelyekre rá is
+kérdez, de nem szükséges ezekre megadni a választ. Ezután eltávolítottam a modul
+korábban jegyzék nélkül importált változatát [18], majd az újat beimportáltam
+[19], majd látható, hogy az így lekérdezett modulinformációk [20] már tartalmazzák
+a jegyzékben meghatározott adatokat is.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Ref196107511'><span
+style='mso-bookmark:_Ref196107505'><span style='mso-bookmark:_Toc189542096'><span
+style='mso-bookmark:_Toc197149232'><span lang=HU>Nézzük meg magát a
+jegyzékfájlt:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[23] PS C:\&gt;
+Get-Content $pshome\modules\popup\popup.psd1</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>#</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'># Module manifest for
+module 'popup'</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>#</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'># Generated by: Soós Tibor</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>#</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'># Generated on: 2009. 12.
+06.</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>#</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>@{</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'># Script module or binary
+module file associated with this manifest</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ModuleToProcess = 'popup'</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'># Version number of this
+module.</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ModuleVersion = '1.0.0.0'</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'># ID used to uniquely
+identify this module</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>GUID =
+'200a1d9f-ae8f-4bca-8e70-cd44b23dc294'</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'># Author of this module</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Author = 'Soós Tibor'</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'># Company or vendor of
+this module</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>CompanyName = 'Unknown'</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'># Copyright statement for
+this module</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Copyright = '(c) 2009 Soós
+Tibor. All rights reserved.'</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'># Description of the
+functionality provided by this module</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Description = 'Grafikus
+Popup ablak'</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'># Minimum version of the
+Windows PowerShell engine required by this module</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PowerShellVersion = ''</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'># Name of the Windows
+PowerShell host required by this module</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PowerShellHostName = ''</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'># Minimum version of the
+Windows PowerShell host required by this module</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PowerShellHostVersion = ''</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'># Minimum version of the
+.NET Framework required by this module</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>DotNetFrameworkVersion =
+''</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'># Minimum version of the
+common language runtime (CLR) required by this modu</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>le</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>CLRVersion = ''</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'># Processor architecture
+(None, X86, Amd64, IA64) required by this module</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ProcessorArchitecture = ''</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'># Modules that must be
+imported into the global environment prior to importi</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ng this module</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>RequiredModules = @()</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'># Assemblies that must be
+loaded prior to importing this module</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>RequiredAssemblies = @()</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'># Script files (.ps1) that
+are run in the caller's environment prior to impo</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>rting this module</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ScriptsToProcess = @()</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'># Type files (.ps1xml) to
+be loaded when importing this module</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>TypesToProcess = @()</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'># Format files (.ps1xml)
+to be loaded when importing this module</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>FormatsToProcess = @()</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'># Modules to import as
+nested modules of the module specified in ModuleToPro</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>cess</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>NestedModules = @()</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'># Functions to export from
+this module</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>FunctionsToExport = '*'</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'># Cmdlets to export from
+this module</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>CmdletsToExport = '*'</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'># Variables to export from
+this module</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>VariablesToExport = '*'</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'># Aliases to export from
+this module</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>AliasesToExport = '*'</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'># List of all modules
+packaged with this module</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ModuleList = @()</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'># List of all files
+packaged with this module</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>FileList = @()</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'># Private data to pass to
+the module specified in ModuleToProcess</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PrivateData = ''</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>}</span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:
+_Ref196107505'><span style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:
+_Toc197149232'><span lang=HU>Ebben látható, hogy milyen adatok kitöltése
+lehetséges, ráadásul minden adatmező kis magyarázattal is el van látva.</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:double windowtext 5.25pt;
+border-bottom:none;mso-border-top-alt:thin-thick-large-gap windowtext 5.25pt;
+mso-border-left-alt:thin-thick-large-gap windowtext 5.25pt;mso-border-right-alt:
+thin-thick-large-gap windowtext 5.25pt;padding:1.0pt 4.0pt 0cm 4.0pt;
+background:#C6D9F1;mso-background-themecolor:text2;mso-background-themetint:
+51;margin-left:14.2pt;margin-right:14.2pt'>
+
+<p class=Megjegyzs style='margin-top:12.0pt;margin-right:0cm;margin-bottom:
+0cm;margin-left:0cm;margin-bottom:.0001pt;mso-add-space:auto;background:#C6D9F1;
+mso-background-themecolor:text2;mso-background-themetint:51'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Megjegyzés</span></span></span></span></span></p>
+
+</div>
+
+<div style='mso-element:para-border-div;border:double windowtext 5.25pt;
+border-top:none;mso-border-left-alt:thin-thick-large-gap windowtext 5.25pt;
+mso-border-bottom-alt:thin-thick-large-gap windowtext 5.25pt;mso-border-right-alt:
+thin-thick-large-gap windowtext 5.25pt;padding:0cm 4.0pt 1.0pt 4.0pt;
+margin-left:14.2pt;margin-right:14.2pt'>
+
+<p class=Megjegyezs2 style='margin-top:0.0pt;margin-right:0cm;margin-bottom:
+0cm;margin-left:0cm;margin-bottom:.0001pt;mso-add-space:auto'><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+lang=HU>Annak ellenére, hogy az </span></span></span></span></span><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Import-Module</span></span><span
+lang=HU> cmdletnek van </span></span></span></span></span><span
+style='mso-bookmark:_Ref196107511'><span style='mso-bookmark:_Ref196107505'><span
+style='mso-bookmark:_Toc189542096'><span style='mso-bookmark:_Toc197149232'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>-version</span></span><span
+lang=HU> paramétere, és a jegyzékfájlban lehet verziót definiálni sajnos a
+különböző modulverziók párhuzamos tárolása és kezelése nem megoldott. A
+mappanevek kötöttsége miatt egy modulmappában nem lehet egyidejűleg két
+verziója a modulunknak.</span></span></span></span></span></p>
+
+</div>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

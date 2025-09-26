@@ -1,0 +1,703 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>1.2.14 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><a name="_Toc189542085"></a><a
+name="_Toc189542087"></a><a name="_Toc197149149"></a><a name="_Toc204716096"></a><a
+name="_Toc209115639"><span style='mso-bookmark:_Toc204716096'><span
+style='mso-bookmark:_Toc197149149'><span style='mso-bookmark:_Toc189542087'><span
+style='mso-bookmark:_Toc189542085'>
+<span lang=HU>Csővezeték,
+futószalag (Pipeline)</span></span></span></span></span></a><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'></span></span></h3>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542087'><span
+style='mso-bookmark:_Toc189542085'><span lang=HU>A hagyományos shellekhez
+hasonlóan a PowerShellnek is fontos eleme a csővezeték</span></span></span>
+<span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'></span></span>
+<span style='mso-bookmark:
+_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span lang=HU><span
+style='mso-spacerun:yes'> </span>(pipeline</span></span></span>
+<span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'></span></span>
+<span style='mso-bookmark:
+_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span lang=HU>), azzal
+a lényeges különbséggel, hogy a PowerShell-féle csővezetékben komplett
+objektumok (illetve objektumreferenciák) közlekednek, így a csővezeték minden
+eleme megkapja az előtte álló parancs által generált teljes adathalmazt,
+függetlenül attól, hogy az adott kimenet hogyan jelenne meg a képernyőn.</span></span></span></p>
+
+<p class=SzvegCxSpMiddle><span style='mso-bookmark:_Toc189542087'><span
+style='mso-bookmark:_Toc189542085'><span lang=HU>De mi is az a csővezeték, és
+hogyan működik? Talán nem is szerencsés a csővezeték elnevezés, hiszen ha
+valamit beöntünk egy csővezeték elején, az általában változatlan formában
+bukkan fel a végén, a PowerShell-féle csővezeték lényege pedig éppen a benne utazó
+dolgok (objektumok) átalakítása, megfelelő formára hozása. Sokkal
+szemléletesebb, ha csövek helyett egy futószalagot képzelünk el, amelyen
+objektumok utaznak, a szalag mellett álló munkásaink (a cmdletek) pedig
+szorgalmasan elvégzik rajtuk a megfelelő átalakításokat, mindegyikük azt,
+amihez éppen ő ért a legjobban. Egyikük lefaragja és eldobja a fölösleget, a
+következő kiválogatja a hibás darabokat, egy másik kiválogatja, és szépen
+becsomagolja az egybetartozókat, stb. A szalag végén pedig mi megkapjuk a
+készterméket, ha ügyesek voltunk (vagyis a megfelelő munkásokat állítottuk a
+szalag mellé, és pontosan megmondtuk nekik, hogy mit kell csinálniuk), akkor
+éppen azt, és olyan formában, amire és ahogyan szükségünk volt.</span></span></span></p>
+
+<p class=SzvegCxSpMiddle><span style='mso-bookmark:_Toc189542087'><span
+style='mso-bookmark:_Toc189542085'><span lang=HU>A csövezhetőség azzal is jár, hogy
+az egyik cmdlet kimenete a következő cmdlet bemeneteként megy tovább, anélkül
+hogy nekünk az első kimenetet el kellene mentenünk változóba. Ezt a
+paraméterátadást a PowerShell helyettünk elvégzi. Ez - annak
+figyelembevételével - különösen praktikus, hogy a különböző cmdletek
+kimeneteként többfajta, előre nem biztos, hogy pontosan meghatározható típusú
+kimenet, általánosan gyűjtemény, azaz </span></span></span><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>collection</span></span><span
+lang=HU> lehet.</span></span></span></p>
+
+<p class=SzvegCxSpMiddle><span style='mso-bookmark:_Toc189542087'><span
+style='mso-bookmark:_Toc189542085'><span lang=HU>Ráadásul, ha ilyen gyűjtemény
+a kimenet, akkor lehet, hogy annak első tagja hamar előáll. Ha ügyesen van
+megírva a következő csőszakasz helyén álló cmdlet, akkor az már a rendelkezésre
+álló első gyűjteményelemet el is kezdheti feldolgozni, sőt, akár tovább is
+adhatja az ő utána következő csőszakasznak. Ez jóval hatékonyabb feldolgozást
+tesz lehetővé memória-felhasználás tekintetében, hiszen nem kell bevárni az
+utolsó elem megérkezését és eltárolni az addigi elemeket.</span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542087'><span
+style='mso-bookmark:_Toc189542085'><span lang=HU>Nézzünk egy nagyon egyszerű
+példát, a már többször alkalmazott </span></span></span><span style='mso-bookmark:
+_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>get-member</span></span></span></span>
+<span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'></span></span>
+<span style='mso-bookmark:
+_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdlet példáján. Látható, hogy a csőszakaszok
+csatlakozását a |</span></span></span>
+<span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'></span></span>
+<span style='mso-bookmark:
+_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span lang=HU><span
+style='mso-spacerun:yes'> </span>jel (Alt Gr + W) jelenti:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[4] PS C:\&gt;
+&quot;sztring&quot; | get-member</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>   </span>TypeName: System.String</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>             </span>MemberType<span
+style='mso-spacerun:yes'>            </span>Definition</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>             </span>----------<span
+style='mso-spacerun:yes'>            </span>----------</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Clone<span
+style='mso-spacerun:yes'>            </span>Method<span
+style='mso-spacerun:yes'>                </span>System.Object Clone()</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>CompareTo<span
+style='mso-spacerun:yes'>        </span>Method<span
+style='mso-spacerun:yes'>                </span>System.Int32 CompareTo(Object
+val...</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Contains<span
+style='mso-spacerun:yes'>         </span>Method<span
+style='mso-spacerun:yes'>                </span>System.Boolean Contains(String
+va...</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>CopyTo<span
+style='mso-spacerun:yes'>           </span>Method<span
+style='mso-spacerun:yes'>                </span>System.Void CopyTo(Int32
+sourceIn...</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>EndsWith<span
+style='mso-spacerun:yes'>         </span>Method<span
+style='mso-spacerun:yes'>                </span>System.Boolean EndsWith(String
+va...</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Equals<span
+style='mso-spacerun:yes'>           </span>Method<span
+style='mso-spacerun:yes'>                </span>System.Boolean Equals(Object
+obj)...</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>...</span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542087'><span
+style='mso-bookmark:_Toc189542085'><span lang=HU>A beírt „sztring” kimenete
+maga a „sztring”, ezt küldjük tovább a </span></span></span><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>get-member</span></span><span
+lang=HU> cmdletnek, amely kilistázza a sztring objektum tagjait.</span></span></span></p>
+
+<p class=SzvegCxSpMiddle><span style='mso-bookmark:_Toc189542087'><span
+style='mso-bookmark:_Toc189542085'><span lang=HU>De vajon honnan tudja a
+PowerShell, hogy a </span></span></span><span style='mso-bookmark:_Toc189542087'><span
+style='mso-bookmark:_Toc189542085'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>get-member</span></span></span></span><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='font-family:"Courier New"'> </span><span lang=HU>számos
+paramétere közül melyik legyen a csőből kieső kimenet?</span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542087'><span
+style='mso-bookmark:_Toc189542085'><span lang=HU>Ehhez az adott cmdlet helpje (itt
+most kicsit megkurtítva) ad segítséget:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[5] PS C:\&gt; get-help
+get-member -full</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>NAME</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>Get-Member</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SYNOPSIS</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>Gets information about objects or
+collections of objects.</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>SYNTAX</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>Get-Member [[-name] &lt;string[]&gt;]
+[-inputObject &lt;psobject&gt;] [-memberType</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>{&lt;AliasProperty&gt; |
+&lt;CodeProperty&gt; | &lt;Property&gt; | &lt;NoteProperty&gt; | &lt;Scri</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>ptProperty&gt; | &lt;Properties&gt; |
+&lt;PropertySet&gt; | &lt;Method&gt; | &lt;CodeMethod&gt; |</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>&lt;ScriptMethod&gt; | &lt;Methods&gt; |
+&lt;ParameterizedProperty&gt; | &lt;MemberSet&gt; | &lt;A</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>ll&gt;}] [-static]
+[&lt;CommonParameters&gt;]</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>DETAILED DESCRIPTION</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>Gets information about the members of
+objects. Get-Member can accept in</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>...</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PARAMETERS</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>-name &lt;string[]&gt;</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>Specifies the member names to retrieve
+information about.</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>Required?<span
+style='mso-spacerun:yes'>                    </span>false</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>Position?<span
+style='mso-spacerun:yes'>                    </span>1</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>Default value<span
+style='mso-spacerun:yes'>                </span>*</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>Accept pipeline input?<span
+style='mso-spacerun:yes'>       </span>false</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>Accept wildcard characters?<span
+style='mso-spacerun:yes'>  </span>true</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>-inputObject &lt;psobject&gt;</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>Specifies the objects to retrieve
+information about. Using this par</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>ameter to provide input to Get-Member
+results in different output t</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>han pipelining the same input. When you
+pipeline input to Get-Membe</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>r, if the input is a container, the
+cmdlet returns information abou</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>t each unique type of element in the
+container. If you provide the</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>same input by using the InputObject
+parameter, the cmdlet returns i</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>nformation about the container object
+itself. If you want to use pi</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>pelining to retrieve information about
+a container, you must procee</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>d the pipelined input by a comma (,).
+For example, if you informati</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>on about processes stored in a variable
+named $process, you would t</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>ype ,$process | get-member to retrieve
+information about the contai</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>ner.</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>Required?<span
+style='mso-spacerun:yes'>                    </span>false</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>Position?<span
+style='mso-spacerun:yes'>                    </span>named</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>Default value</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>Accept pipeline input?<span
+style='mso-spacerun:yes'>       </span>true (ByValue)</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>        </span>Accept wildcard characters?<span
+style='mso-spacerun:yes'>  </span>false</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>... </span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542087'><span
+style='mso-bookmark:_Toc189542085'><span lang=HU>Tehát a cmdlet azon
+paramétere, amely fogadja a csővezetéken érkező adatot az általában „</span></span></span><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>inputObject</span></span><span
+lang=HU>” névre hallgat, illetve a súgóban fel van tüntetve, hogy „</span></span></span><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Accept
+pipeline input? true</span></span><span lang=HU>”. </span></span></span></p>
+
+<p class=SzvegCxSpMiddle><span style='mso-bookmark:_Toc189542087'><span
+style='mso-bookmark:_Toc189542085'><span lang=HU>Látható tehát, hogy a </span></span></span><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>get-member</span></span><span
+lang=HU> képes csőből adatokat feldolgozni, de vajon mi van akkor, ha egy
+cmdlet erre nem képes, vagy nincs is a mi céljainknak megfelelő cmdlet? Azaz a
+futószalag mellé nem tudunk beállítani egy kész, komplett gépet, hanem a gépet
+nekünk kell összerakni. Szerencsére erre is van lehetőség, számos ilyen
+„csőkezelő”, vagy „futószalag-melletti-gép-összerakó” cmdlet van, amelyekkel
+ezt meg lehet oldani. Most itt egyelőre csak kettőt vegyünk előre: a </span></span></span><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>ForEach-Object</span></span></span></span>
+<span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'></span></span>
+<span style='mso-bookmark:
+_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span lang=HU><span
+style='mso-spacerun:yes'> </span>és a </span></span></span><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Where-Object</span></span><span
+lang=HU> cmdleteket.</span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542087'><span
+style='mso-bookmark:_Toc189542085'><span lang=HU>A </span></span></span><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>ForEach-Object</span></span><span
+lang=HU> a futószalag melletti üres gépház, a belsejét kapcsoszárójel-pár közé
+kell beírni. A következő példában a futószalagon érkező elemeket duplázza az
+általam összerakott gép:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[63] PS C:\&gt; 1,8,3 |
+ForEach-Object {$_ * 2}</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>2</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>16</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>6</span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542087'><span
+style='mso-bookmark:_Toc189542085'><span lang=HU>Mi van a gép belsejében? Egy
+olyan utasítássor, hogy: „Vedd az aktuális futószalagon érkező elemet, és
+szorozd meg kettővel!”. Az „aktuális futószalagon érkező elemet” a </span></span></span><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$_</span></span><span
+lang=HU> furcsa nevű változó szimbolizálja. Ezzel a </span></span></span><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>ForEach-Object</span></span><span
+lang=HU> belsejébe bekerül minden elem, azokon az előírt művelet végrehajtódik,
+majd az így módosított elem megy tovább a szalagon, jelen esetben itt vége is a
+szalagnak és az eredmény kihullott a képernyőre.</span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542087'><span
+style='mso-bookmark:_Toc189542085'><span lang=HU>A másik fontos alapgép a
+futószalag mellett a szelektáló gép, ez csak azokat az elemeket engedi tovább,
+amelyek valamilyen általunk felállított kritériumot teljesítik. Ez a gép tehát
+magukat az elemeket nem módosítja, csak kicsit „megegyeli” azokat, mint a
+konzervgyárban az alul méretes almákat. Az ezt megvalósító cmdlet neve </span></span></span><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Where-Object</span></span></span></span>
+<span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'></span></span>
+<span style='mso-bookmark:
+_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span lang=HU>. Nézzünk
+erre is példát:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[64] PS C:\&gt; 15,2,11,5
+| Where-Object {$_ -gt 10}</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>15</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>11</span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542087'><span
+style='mso-bookmark:_Toc189542085'><span lang=HU>Itt azokat az elemeket
+engedjük csak tovább, amelyek teljesítik azt a megadott feltételt, hogy
+nagyobbak, mint 10.</span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542087'><span
+style='mso-bookmark:_Toc189542085'><span lang=HU>Az </span></span></span>
+<span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><i
+style='mso-bidi-font-style:normal'><span lang=HU>1.6.9
+</span></i></span></span>
+<span style='mso-bookmark:
+_Toc189542087'><span style='mso-bookmark:_Toc189542085'><i style='mso-bidi-font-style:
+normal'><span lang=HU> </span></i></span></span>
+<span
+style='mso-bookmark:_Toc189542087'><span style='mso-bookmark:_Toc189542085'><i
+style='mso-bidi-font-style:normal'><span lang=HU>Pipe kezelése, filter
+</span></i></span></span>
+<span style='mso-bookmark:
+_Toc189542087'><span style='mso-bookmark:_Toc189542085'><i style='mso-bidi-font-style:
+normal'><span lang=HU> </span></i><span lang=HU>c. fejezetben még
+részletesebben ismertetem a csövezést, hiszen ott majd mi magunk is írunk ilyen
+„csőképes” függvényt.</span></span></span></p>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

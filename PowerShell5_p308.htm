@@ -1,0 +1,559 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>2.25.10 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><a name="_Toc204716481"></a><a
+name="_Toc209116024"><span style='mso-bookmark:_Toc204716481'>
+<span lang=HU>Adatfolyamok
+kezelése ([FileStream], [MemoryStream])</span></span></a></span></span></span></span></h3>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU>Gyakran előfordul, hogy az
+adathalmazunkat nem akarjuk egy egységként kezelni, hanem ahogy jönnek az elemi
+adatok, azokat folyamatosan szeretnénk feldolgozni. Ezen feldolgozásra a fájl
+és memória adatfolyamok (</span></span></span></span></span><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>stream</span></span><span
+lang=HU>) állnak rendelkezésre. Ilyennel már az előző fejezetben is dolgoztunk,
+hiszen a fájlok megragadása során a fogantyúk valójában ilyen adatfolyam
+objektumok voltak, csak ott nem használtuk ki ezen tulajdonságukat.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU>A következő példákban
+fájltömörítést és kibontást végzek. Az ehhez szükséges </span></span></span></span></span><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>System.IO.Compression.GzipStream</span></span><span
+lang=HU> osztály ilyen adatfolyamon dolgozik, így itt kényszerűség is ennek
+használata. Nézzük tehát a tömörítést végző függvényt:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:blue'>function</span><span
+lang=HU style='color:black'> Compress-GZip<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'>{<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:blue'>param</span><span
+lang=HU style='color:black'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>(<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>        </span>[</span><span lang=HU style='color:
+teal'>String</span><span lang=HU style='color:black'>]</span><span lang=HU
+style='color:purple'>$FilePath</span><span lang=HU style='color:black'>,<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><span
+style='mso-tab-count:2'>          </span>[</span><span lang=HU
+style='color:teal'>string</span><span lang=HU style='color:black'>] </span><span
+lang=HU style='color:purple'>$OutFilePath</span><span lang=HU style='color:
+black'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>)<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:purple'>$inputstream</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> <b>New-Object</b> </span><span lang=HU
+style='color:maroon'>System.IO.FileStream</span><span lang=HU style='color:
+black'> </span><span lang=HU style='color:purple'>$FilePath</span><span
+lang=HU style='color:black'>, ([</span><span lang=HU style='color:teal'>IO.FileMode</span><span
+lang=HU style='color:black'>]::</span><span lang=HU style='color:saddlebrown'>Open</span><span
+lang=HU style='color:black'>), ([</span><span lang=HU style='color:teal'>IO.FileAccess</span><span
+lang=HU style='color:black'>]::</span><span lang=HU style='color:saddlebrown'>Read</span><span
+lang=HU style='color:black'>), ([</span><span lang=HU style='color:teal'>IO.FileShare</span><span
+lang=HU style='color:black'>]::</span><span lang=HU style='color:saddlebrown'>Read</span><span
+lang=HU style='color:black'>)<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:purple'>$buffer</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> <b>New-Object</b> byte[](1mb)<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:purple'>$output</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> <b>New-Object</b> </span><span lang=HU
+style='color:maroon'>System.IO.FileStream</span><span lang=HU style='color:
+black'> </span><span lang=HU style='color:purple'>$outFilePath</span><span
+lang=HU style='color:black'>, ([</span><span lang=HU style='color:teal'>IO.FileMode</span><span
+lang=HU style='color:black'>]::</span><span lang=HU style='color:saddlebrown'>Create</span><span
+lang=HU style='color:black'>), ([</span><span lang=HU style='color:teal'>IO.FileAccess</span><span
+lang=HU style='color:black'>]::</span><span lang=HU style='color:saddlebrown'>Write</span><span
+lang=HU style='color:black'>)<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:purple'>$gzipStream</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> <b>New-Object</b> </span><span lang=HU
+style='color:maroon'>System.IO.Compression.GzipStream</span><span lang=HU
+style='color:black'> </span><span lang=HU style='color:purple'>$output</span><span
+lang=HU style='color:black'>, ([</span><span lang=HU style='color:teal'>IO.Compression.CompressionMode</span><span
+lang=HU style='color:black'>]::</span><span lang=HU style='color:saddlebrown'>Compress</span><span
+lang=HU style='color:black'>)<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:blue'>while</span><span
+lang=HU style='color:black'>((</span><span lang=HU style='color:purple'>$byteCount</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$inputstream</span><span
+lang=HU style='color:black'>.Read(</span><span lang=HU style='color:purple'>$buffer</span><span
+lang=HU style='color:black'>, 0, 1mb))){<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span><span style='mso-spacerun:yes'>    </span></span><span
+lang=HU style='color:purple'>$gzipStream</span><span lang=HU style='color:black'>.Write(</span><span
+lang=HU style='color:purple'>$buffer</span><span lang=HU style='color:black'>,
+0, </span><span lang=HU style='color:purple'>$bytecount</span><span lang=HU
+style='color:black'>)<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><span
+style='mso-tab-count:1'>     </span>}<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:purple'>$inputstream</span><span
+lang=HU style='color:black'>.Close()<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:purple'>$gzipStream</span><span
+lang=HU style='color:black'>.Close()<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:purple'>$output</span><span
+lang=HU style='color:black'>.Close()<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black'>}</span></span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU>Ez a függvény a tömörítendő
+fájlra és az eredményfájlra mutató elérési utakat várja paraméterként. A
+függvényben három adatfolyam is van. Az </span></span></span></span></span><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$inputstream</span></span><span
+lang=HU> végzi a fájl beolvasását, az </span></span></span></span></span><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$output</span></span><span
+lang=HU> lesz a tömörített fájl és a </span></span></span></span></span><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$gzipStream</span></span><span
+lang=HU> pedig a kettő között tölti át a tömörített adatot. Az adatfolyamok
+olvasását végző </span></span></span></span></span><span style='mso-bookmark:
+_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:
+_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Read</span></span><span
+lang=HU>, és írását végző </span></span></span></span></span><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Write</span></span><span
+lang=HU> metódusok hasonlóan működnek. Rendelkezésükre kell bocsátani egy
+bájttömböt, ami lehet kisebb, mint a teljes adatfolyam (itt most én - az
+egyszerűség kedvéért – 1MB-os puffert választottam). Ezek után egy </span></span></span></span></span><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>while</span></span><span
+lang=HU> ciklusban, e puffer felhasználásával történik az adatfolyam kezelése.
+Kiolvasok mindig egy puffernyit a bemeneti adatfolyamból, illetve ha már a vége
+felé közeledek, akkor lehet, hogy kevesebbet. Ezt a </span></span></span></span></span><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Read</span></span><span
+lang=HU> visszatérési értékeként kapott tényleges beolvasott bájtok számát
+tartalmazó </span></span></span></span></span><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$byteCount</span></span><span
+lang=HU> változó adja meg. Ezt a puffert aztán átadom a gzip adatfolyamnak, ami
+a belsejében már a tömörített adatot adja át a fájlnak, ezzel már ott nekünk
+nem is kell foglalkozni. Amit az adatfolyamoknak akár </span></span></span></span></span><span
+style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Read</span></span><span
+lang=HU>, akár </span></span></span></span></span><span style='mso-bookmark:
+_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:
+_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Write</span></span><span
+lang=HU> jelleggel átadunk puffert, azt ő magába olvasztja. A paramétereik
+között látható 0 érték tehát nem az ő adattartalmuk pozíciójára utal, hanem
+mindig a pufferéra, azt meg mindig az elejétől kell átadni, nem akarunk
+kihagyni soha akár egy bájtot se.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU>A kicsomagolást végző nagyon
+hasonló az előzőhöz, csak éppen a tömörítésből kicsomagolás lesz:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:blue'>function</span><span
+lang=HU style='color:black'> Decompress-Gzip<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'>{<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:blue'>param</span><span
+lang=HU style='color:black'><o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>(<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>        </span>[</span><span lang=HU style='color:
+teal'>String</span><span lang=HU style='color:black'>]</span><span lang=HU
+style='color:purple'>$GZipFilePath</span><span lang=HU style='color:black'>, <o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>        </span>[</span><span lang=HU style='color:
+teal'>String</span><span lang=HU style='color:black'>]</span><span lang=HU
+style='color:purple'>$outFilePath</span><span lang=HU style='color:black'> <o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>)<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:purple'>$inputstream</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> <b>New-Object</b> </span><span lang=HU
+style='color:maroon'>System.IO.FileStream</span><span lang=HU style='color:
+black'> </span><span lang=HU style='color:purple'>$GZipFilePath</span><span
+lang=HU style='color:black'>, ([</span><span lang=HU style='color:teal'>IO.FileMode</span><span
+lang=HU style='color:black'>]::</span><span lang=HU style='color:saddlebrown'>Open</span><span
+lang=HU style='color:black'>), ([</span><span lang=HU style='color:teal'>IO.FileAccess</span><span
+lang=HU style='color:black'>]::</span><span lang=HU style='color:saddlebrown'>Read</span><span
+lang=HU style='color:black'>), ([</span><span lang=HU style='color:teal'>IO.FileShare</span><span
+lang=HU style='color:black'>]::</span><span lang=HU style='color:saddlebrown'>Read</span><span
+lang=HU style='color:black'>)<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:purple'>$outputstream</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> <b>New-Object</b> </span><span lang=HU
+style='color:maroon'>System.IO.FileStream</span><span lang=HU style='color:
+black'> </span><span lang=HU style='color:purple'>$outFilePath</span><span
+lang=HU style='color:black'>, ([</span><span lang=HU style='color:teal'>IO.FileMode</span><span
+lang=HU style='color:black'>]::</span><span lang=HU style='color:saddlebrown'>Create</span><span
+lang=HU style='color:black'>), ([</span><span lang=HU style='color:teal'>IO.FileAccess</span><span
+lang=HU style='color:black'>]::</span><span lang=HU style='color:saddlebrown'>Write</span><span
+lang=HU style='color:black'>)<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:purple'>$buffer</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> <b>New-Object</b> byte[](1mb)<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:purple'>$gzipStream</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> <b>New-Object</b> </span><span lang=HU
+style='color:maroon'>System.IO.Compression.GzipStream</span><span lang=HU
+style='color:black'> </span><span lang=HU style='color:purple'>$inputstream</span><span
+lang=HU style='color:black'>, ([</span><span lang=HU style='color:teal'>IO.Compression.CompressionMode</span><span
+lang=HU style='color:black'>]::</span><span lang=HU style='color:saddlebrown'>DeCompress</span><span
+lang=HU style='color:black'>)<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:blue'>while</span><span
+lang=HU style='color:black'> (</span><span lang=HU style='color:purple'>$bytesRead</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$GzipStream</span><span
+lang=HU style='color:black'>.Read(</span><span lang=HU style='color:purple'>$buffer</span><span
+lang=HU style='color:black'>, 0, 1mb)){<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>         </span></span><span lang=HU style='color:
+purple'>$OutputStream</span><span lang=HU style='color:black'>.Write(</span><span
+lang=HU style='color:purple'>$buffer</span><span lang=HU style='color:black'>,
+0, </span><span lang=HU style='color:purple'>$bytesread</span><span lang=HU
+style='color:black'>)<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>}<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:purple'>$gzipStream</span><span
+lang=HU style='color:black'>.Close()<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:purple'>$outputstream</span><span
+lang=HU style='color:black'>.close()<o:p></o:p></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc197149408'><span style='mso-bookmark:_Toc197149347'><span
+style='mso-bookmark:_Toc197149276'><span style='mso-bookmark:_Toc189542109'><span
+lang=HU style='color:black'>}</span></span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU>Az előző példákban én fájlokat
+használtam adattárolásra. A fájlok azért jók, mert megőrzik adattartalmukat
+hosszútávon is, és elég nagy tárolókapacitás áll általában rendelkezésünkre. Ha
+viszont nincs ezen előnyökre szükségünk, azaz ha csak átmenetileg akarunk
+adatokat tárolni és nem is olyan irtózatosan nagy mennyiségűt (a fizikai
+memóriához viszonyítva), akkor jól jöhet nekünk a memóriában tárolt adatfolyam
+is. Ez a </span></span></span></span></span><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>System.IO.MemoryStream</span></span><span
+lang=HU> osztály. Szemben a tömbökkel, a memória-adatfolyamokat is ugyanúgy „szakaszosan”
+tudjuk írni és olvasni, azaz nem kell megadni előre a méretüket, dinamikusan
+bővülnek. Ugyan a tömbök bizonyos típusait is lehet újabb elemekkel bővíteni,
+de a memória-adatfolyamok kezelése sokkal hatékonyabb ebből a szempontból.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc197149408'><span
+style='mso-bookmark:_Toc197149347'><span style='mso-bookmark:_Toc197149276'><span
+style='mso-bookmark:_Toc189542109'><span lang=HU>A memória-adatfolyam kezelése
+majdnem ugyanúgy történik, mint a fájloké, csak itt nem kell megadni elérési
+utat és nem kell a megosztással sem bajlódni. Vigyázzunk azonban a
+használatával, hogy ne nagyon haladjuk meg a benne tárolt adatmennyiséggel a
+rendelkezésre álló memória méretét, mert akkor a gépünk intenzív lapozó fájl
+használatba kezd, amivel végeredményben majdnem oda jutunk, mintha
+fájl-adatfolyamokat használnánk, de ráadásul a futó egyéb processzeink elől is
+elvesszük a memóriát, ami az ő teljesítményüket negatívan befolyásolja.</span></span></span></span></span></p>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

@@ -1,0 +1,110 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>4.1.1 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><a name="_Toc204716542"></a><a
+name="_Toc209116085"><span style='mso-bookmark:_Toc204716542'>
+<span lang=HU>Workflow
+alapok</span></span></a></h3>
+
+<p class=Szveg><span lang=HU>A WWF lehetővé teszi, hogy munkafolyamatokat
+hajtsunk végre erre felkészített alkalmazásokban (host processzekben). Jelen
+esetben ez az alkalmazás a PowerShell. Jól szemlélteti a résztvevő
+komponenseket az alábbi ábra:</span></p>
+
+<p class=Kp>
+</p>
+
+<p class=MsoCaption>
+<span lang=HU><span
+style='mso-no-proof:yes'>146</span></span>
+<span
+lang=HU>. ábra A workflow elhelyezkedése <br>
+(forrás: https://msdn.microsoft.com/en-us/library/vstudio/aa349006(v=vs.90).aspx)</span></p>
+
+<p class=SzvegCxSpFirst><span lang=HU>A workflow-kban nem parancsokat, hanem
+tevékenységeket (</span><span class=EnglishChar><span style='mso-bidi-font-family:
+"Times New Roman"'>activity</span></span><span lang=HU>) hajtunk végre. A
+tevékenységek eredményét a workflow elmentheti, így a folyamat megszakadása
+esetén, ha azt újraindítjuk, akkor folytatható a folyamat a megszakadási
+ponttól. Mi határozhatjuk meg, hogy mikor iktatunk be olyan ellenőrzési
+pontokat (</span><span class=EnglishChar><span style='mso-bidi-font-family:
+"Times New Roman"'>checkpoint</span></span><span lang=HU>), amelyekhez
+újraindítás esetén szeretnénk visszatérni. Kérhetjük azt is, hogy minden
+tevékenység után a WWF automatikusan készítsen ellenőrzési pontot, illetve
+bizonyos tevékenységek esetében a workflow maga illeszt be ilyen ellenőrzési
+pontot, mint például a gép újraindításakor.</span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU>A tevékenységeket végezhetjük sorban és
+párhuzamosan is. A soros végrehajtás teljesen hasonló a függvényeknél látott
+végrehajtási módhoz. A párhuzamos végrehajtás natívan nem érhető el a
+PowerShell függvényekben, csak ha héttérbeli folyamatokat (</span><span
+class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>job</span></span><span
+lang=HU>) készítünk, vagy </span><span class=EnglishChar><span
+style='mso-bidi-font-family:"Times New Roman"'>Runspace</span></span><span
+lang=HU> objektumokkal mi magunk valósítjuk meg a többszálú működést.</span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU>A workflow-kban tehát tevékenységeket
+hajtunk végre, még akkor is, ha látszólag PowerShell cmdleteket írunk. Ezeknek
+a tevékenységeknek két csoportja van, de sajnos ez nem látszik kívülről, és
+elég nehéz kideríteni, hogy egy adott sor melyik csoportba is tartozik. Az
+egyik csoportba az „igazi” workflow tevékenységek tartoznak. Ez azt jelenti,
+hogy PowerShell alkotói létrehozták a cmdletnek megfelelő natív workflow
+tevékenységet. Ilyen például a </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Get-WmiObject</span></span><span
+lang=HU>, vagy a </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Get-Service</span></span><span
+lang=HU>. Az alap PowerShell modulok elég sok cmdletje tartozik ebben
+acsportba, de nem mindegyik.</span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU>A másik csoportba tartozik az összes
+többi cmdlet és kifejezés. Ilyenkor egy speciális, „Jolly Joker” tevékenység
+fut le, ami valójában a PowerShell egy példányát hívja meg és átadja ennek a
+kifejezést. Ezt explitit módon mi magunk is meg tudjuk tenni ha a
+kifejezésünket beágyazzuk egy </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>inlinescript</span></span><span
+lang=HU> blokkba, de natív tevékenységek nélküli cmdleteknél és egyéb
+kifejezéseknél maga a parancsértelmező implit módon is így tesz.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>Nézzük tehát az elméleti háttér után a
+gyakorlatot!</span></p>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

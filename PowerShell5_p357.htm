@@ -1,0 +1,2142 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>3.4.1 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><a name="_Toc204716533"></a><a
+name="_Toc209116076"><span style='mso-bookmark:_Toc204716533'>
+<span lang=HU>Jelszó
+létrehozása (GenerateComplexPassword)</span></span></a></h3>
+
+<p class=SzvegCxSpFirst><span lang=HU>Rengeteg jelszógeneráló PowerShell
+függvényt találni az interneten, de igazán olyat nem találtam, ami nekem
+tetszene, így készítettem egyet magamnak. Nem vagyok titkosítási szakember, így
+nem tudom megítélni, hogy mennyire biztonságosak az így generált jelszavak, de
+kiindulásnak mindenképpen jók szerintem.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>Nézzük, mik az én elvárásaim:</span></p>
+
+<p class=BulletSzvegCxSpFirst style='mso-list:l7 level1 lfo5'>
+<span
+lang=HU>Legyen kimondható, azaz például a „</span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>z!1rwteqwwuhd5</span></span><span
+lang=HU>” nem ilyen</span></p>
+
+<p class=BulletSzvegCxSpMiddle style='mso-list:l7 level1 lfo5'>
+<span
+lang=HU>Ne legyenek benne összekeverhető karakterek, azaz például 0 és O (ez
+most itt egy nulla és egy nagy O betű), meg I l (nagy i és kis L)</span></p>
+
+<p class=BulletSzvegCxSpMiddle style='mso-list:l7 level1 lfo5'>
+<span
+lang=HU>Lehessen pszeudo-véletlen jelszót is generálni, azaz egy adott bemeneti
+szöveghez ugyanazt a jelszót generálja, ezt meg lehessen „sózni”, azaz bele
+lehessen keverni egy olyan adatot, aminek hiányában hiába ismert az algoritmus,
+mégsem lehet visszafejteni ezt az pszeudo-véletlen jelszót</span></p>
+
+<p class=BulletSzvegCxSpMiddle style='margin-left:0cm;mso-add-space:auto;
+text-indent:0cm;mso-list:none'><span lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=BulletSzvegCxSpLast style='margin-left:0cm;mso-add-space:auto;
+text-indent:0cm;mso-list:none'><span lang=HU>Nézzük az első verziót, egyelőre
+még pszeudo és só nélkül:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:darkblue;mso-ansi-language:
+EN-US'>function</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'> GenerateComplexPassword1 {</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:darkblue;mso-ansi-language:
+EN-US'>param</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>(</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:deepskyblue;
+mso-ansi-language:EN-US'>validaterange</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:purple;mso-ansi-language:EN-US'>9</span><span style='color:darkgray;
+mso-ansi-language:EN-US'>,</span><span style='color:purple;mso-ansi-language:
+EN-US'>30</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'>)</span><span style='color:darkgray;mso-ansi-language:EN-US'>][</span><span
+style='color:teal;mso-ansi-language:EN-US'>System.UInt16</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>]</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$length</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:purple;mso-ansi-language:EN-US'>15</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>)<span style='mso-spacerun:yes'>   </span></span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$sublength</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>math</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]::</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'>Ceiling(</span><span style='color:darkgray;mso-ansi-language:EN-US'>[</span><span
+style='color:teal;mso-ansi-language:EN-US'>math</span><span style='color:darkgray;
+mso-ansi-language:EN-US'>]::</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>Sqrt(</span><span style='color:orangered;mso-ansi-language:
+EN-US'>$length</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>))</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$seed</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-join</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> (</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>char</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>[]]</span><span style='color:darkred;mso-ansi-language:EN-US'>&quot;abcdefghijklmnopqrstuvwxyz0123456789-&quot;</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>|</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>                </span></span><span
+style='color:blue;mso-ansi-language:EN-US'>Get-Random</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-Count</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> (</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$sublength</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>*</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:purple;mso-ansi-language:EN-US'>2</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>)) </span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'> </span></span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$first</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>int</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>[]][</span><span style='color:teal;mso-ansi-language:EN-US'>char</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[]]</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$seed</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>+</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;abcdefghijklmnopqrstuvwxyzabcd&quot;</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>)</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>Substring(</span><span
+style='color:purple;mso-ansi-language:EN-US'>0</span><span style='color:darkgray;
+mso-ansi-language:EN-US'>,</span><span style='color:orangered;mso-ansi-language:
+EN-US'>$sublength</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>)</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$extstr</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;123456789012345678901234567890&quot;</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>+</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$seed</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$second</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>int</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>[]][</span><span style='color:teal;mso-ansi-language:EN-US'>char</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[]]</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$extstr</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>Substring((</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$extstr</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>Length </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$sublength</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>)</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>,</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$sublength</span><span style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-US'>)</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$nums</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkblue;mso-ansi-language:EN-US'>foreach</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$e</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkblue;mso-ansi-language:EN-US'>in</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$first</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>){</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>                </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>for</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$i</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$sublength</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-</span><span style='color:purple;
+mso-ansi-language:EN-US'>1</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>; </span><span style='color:orangered;mso-ansi-language:
+EN-US'>$i</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'> </span><span style='color:darkgray;mso-ansi-language:EN-US'>-ge</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:purple;mso-ansi-language:EN-US'>0</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>; </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$i</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>--</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>){</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>                   
+</span></span><span style='color:orangered;mso-ansi-language:EN-US'>$e</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-bxor</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$second</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$i</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>               
+</span>}</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>            </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>for</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$i</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:purple;mso-ansi-language:EN-US'>0</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>; </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$i</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-lt</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$length</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>; </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$i</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>++</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>){</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$nums</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$i</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'> </span><span style='color:darkgray;mso-ansi-language:EN-US'>=</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$nums</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$i</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'> </span><span style='color:darkgray;mso-ansi-language:EN-US'>%</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:purple;mso-ansi-language:EN-US'>20</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>function</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> sa {</span><span
+style='color:darkblue;mso-ansi-language:EN-US'>param</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$x</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>) </span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>(</span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;aeiouaeiouaeiouaeiou&quot;</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-split</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;(?&lt;=.)(?=.)&quot;</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>)</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$x</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>function</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> sb {</span><span
+style='color:darkblue;mso-ansi-language:EN-US'>param</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$x</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>) </span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>(</span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;bcdfghjkmnpqrstvwxyz&quot;</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-split</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;(?&lt;=.)(?=.)&quot;</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>)</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$x</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>function</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> la {</span><span
+style='color:darkblue;mso-ansi-language:EN-US'>param</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$x</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>) </span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>(</span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;aeuaeuaeuaeuaeuaeuae&quot;</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>ToUpper() </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-split</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;(?&lt;=.)(?=.)&quot;</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>)</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$x</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>function</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> lb {</span><span
+style='color:darkblue;mso-ansi-language:EN-US'>param</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$x</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>) </span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>(</span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;bcdfghjkmnpqrstvwxyz&quot;</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>ToUpper() </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-split</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;(?&lt;=.)(?=.)&quot;</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>)</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$x</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>function</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> n {</span><span
+style='color:darkblue;mso-ansi-language:EN-US'>param</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$x</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>) </span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>(</span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;12345678912345678912&quot;</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-split</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;(?&lt;=.)(?=.)&quot;</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>)</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$x</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>function</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> s {</span><span
+style='color:darkblue;mso-ansi-language:EN-US'>param</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$x</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>) </span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>(</span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;!@#$%*-+!@#$%*-+!@#$&quot;</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-split</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;(?&lt;=.)(?=.)&quot;</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>)</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$x</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$rest1</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:purple;mso-ansi-language:EN-US'>1</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>+</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>math</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]::</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'>Ceiling((</span><span style='color:orangered;mso-ansi-language:EN-US'>$length</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:purple;mso-ansi-language:EN-US'>4</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>) </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>/</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:purple;mso-ansi-language:EN-US'>2</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>)</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$chars</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> @(</span><span
+style='color:blue;mso-ansi-language:EN-US'>lb</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$nums</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:purple;
+mso-ansi-language:EN-US'>0</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'>)</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$chars</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>+=</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkblue;mso-ansi-language:EN-US'>switch</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:purple;mso-ansi-language:EN-US'>1</span><span style='color:darkgray;
+mso-ansi-language:EN-US'>..</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>(</span><span style='color:orangered;mso-ansi-language:
+EN-US'>$rest1</span><span style='color:darkgray;mso-ansi-language:EN-US'>-</span><span
+style='color:purple;mso-ansi-language:EN-US'>1</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>)){</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>            </span>{</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$_</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>%</span><span style='color:purple;
+mso-ansi-language:EN-US'>2</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>}<span style='mso-spacerun:yes'>    </span>{</span><span
+style='color:blue;mso-ansi-language:EN-US'>sa</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$nums</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$_</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'>}</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>            </span>{</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>!</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$_</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>%</span><span style='color:purple;
+mso-ansi-language:EN-US'>2</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>)} {</span><span style='color:blue;mso-ansi-language:
+EN-US'>sb</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'> </span><span style='color:orangered;mso-ansi-language:EN-US'>$nums</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$_</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'>}</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$chars</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>+=</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:blue;mso-ansi-language:EN-US'>s</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$nums</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$rest1</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$chars</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>+=</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:blue;mso-ansi-language:EN-US'>la</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$nums</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$rest1</span><span style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-US'> </span><span style='color:darkgray;
+mso-ansi-language:EN-US'>+</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'> </span><span style='color:purple;mso-ansi-language:
+EN-US'>1</span><span style='color:darkgray;mso-ansi-language:EN-US'>]</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$chars</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>+=</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkblue;mso-ansi-language:EN-US'>switch</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:purple;mso-ansi-language:EN-US'>1</span><span style='color:darkgray;
+mso-ansi-language:EN-US'>..</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>(</span><span style='color:orangered;mso-ansi-language:
+EN-US'>$length</span><span style='color:darkgray;mso-ansi-language:EN-US'>-</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$rest1</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-</span><span style='color:purple;
+mso-ansi-language:EN-US'>3</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>)){</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>            </span>{</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$_</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>%</span><span style='color:purple;
+mso-ansi-language:EN-US'>2</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>}<span style='mso-spacerun:yes'>    </span>{</span><span
+style='color:blue;mso-ansi-language:EN-US'>sb</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$nums</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$rest1</span><span style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-US'> </span><span style='color:darkgray;
+mso-ansi-language:EN-US'>+</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'> </span><span style='color:orangered;mso-ansi-language:
+EN-US'>$_</span><span style='color:darkgray;mso-ansi-language:EN-US'>]</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>            </span>{</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>!</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$_</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>%</span><span style='color:purple;
+mso-ansi-language:EN-US'>2</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>)} {</span><span style='color:blue;mso-ansi-language:
+EN-US'>sa</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'> </span><span style='color:orangered;mso-ansi-language:EN-US'>$nums</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$rest1</span><span style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-US'> </span><span style='color:darkgray;
+mso-ansi-language:EN-US'>+</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'> </span><span style='color:orangered;mso-ansi-language:
+EN-US'>$_</span><span style='color:darkgray;mso-ansi-language:EN-US'>]</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$chars</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>+=</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:blue;mso-ansi-language:EN-US'>n</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$nums</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$length</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>-</span><span style='color:purple;mso-ansi-language:EN-US'>1</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>]</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$chars</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-join</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;&quot;</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span lang=HU><span
+style='mso-spacerun:yes'> </span>Hogyan is működik ez? Az egésznek az alapja a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$nums</span></span><span
+lang=HU> változó értékadásánál van középtájon. Itt a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$first</span></span><span
+lang=HU> és </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>$second</span></span><span lang=HU> tömbökben található
+számokat </span><span class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>XOR</span></span><span
+lang=HU>-olom össze, mintha két focicsapat tagjai kezet fognának egymással.
+Minden kézfogás eredményez egy számot a két fél kezének a </span><span
+class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>XOR</span></span><span
+lang=HU>-olásából. <span style='mso-spacerun:yes'> </span>A </span><span
+class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>XOR</span></span><span
+lang=HU>, azaz a „kizáró vagy” olyan művelet, aminek az eredményéből nem lehet
+visszafejteni az eredeti adatokat, csak ha vagy az első, vagy a második
+argumentumot ismerjük. Viszont ekkor ki tudjuk számolni a másik argumentumot.</span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU>A jelszó hossza </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$length</span></span><span
+lang=HU> lesz. Ahhoz, hogy ennyi kézfogás szülessen, a csapatoknak legalább
+négyzetgyök </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>$length</span></span><span lang=HU> tagja kell legyen, ez a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$sublength</span></span><span
+lang=HU>. A </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>$seed</span></span><span lang=HU> egy </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$sublength</span></span><span
+lang=HU> duplája hosszú véletlen karakterekből álló szöveg. Miért szöveg a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$seed</span></span><span
+lang=HU>, és miért nem számok tömbje? Azért, mert már gondolok a
+pszeudo-véletlen jelszavakra és ott majd a </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>$seed</span></span><span
+lang=HU>-et paraméternek fogjuk megadni és egy csomó számot sokkal nehezebb
+lenne begépelni, mint egy 9-30 karakter hosszúságú szöveget.</span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU>Szóval a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$seed</span></span><span
+lang=HU> első feléből képzem a </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$first</span></span><span
+lang=HU>, azaz az első csapatot, a második csapat, a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$second</span></span><span
+lang=HU> meg a </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>$seed</span></span><span lang=HU> második feléből lesz.
+Ezután jönnek a kézfogások (</span><span class=EnglishChar><span
+style='mso-bidi-font-family:"Times New Roman"'>XOR</span></span><span lang=HU>),
+aminek az eredménye a </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$nums</span></span><span
+lang=HU>-ba kerül. Mivel a nekem olyan számok kellenek, amik kevesebbek, mint
+20, így mindegyiken végzek egy 20-as maradékos osztást.</span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU>Miután kimondható jelszavakat szeretnék,
+ezért magánhangzókat és mássalhangzókat váltakozva szeretnék a jelszóba tenni,
+valamint kell nekem külön kisbetű, nagybetű, szám és szimbólum is. Ezek
+generálására külön függvényeket definiáltam, rövid névvel, hogy ne kelljen
+sokat gépelni, amikor meghívom őket. Az „</span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>sa</span></span><span
+lang=HU>” kisbetűs magánhangzókat, az „</span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>sb</span></span><span
+lang=HU>” kisbetűs mássalhangzókat, az „</span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>la</span></span><span
+lang=HU>”, „</span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>lb</span></span><span lang=HU>” nagybetűs magán- és
+mássalhangzókat, az „</span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>n</span></span><span lang=HU>”
+egy számot, az „</span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>s</span></span><span lang=HU>” egy szimbólumot fog adni.</span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU>A jelszó két félből fog állni, az eleje
+nagybetűs mássalhangzóval kezdődik, majd felváltva kisbetűs magánhangzók és
+mássalhangzók. Majd a felénél lesz egy szimbólum. A második fele nagybetűs
+magánhangzóval kezdődik, majd felváltva mássalhangzó-magánhangzó, végén meg egy
+szám.</span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU>A </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>$rest1</span></span><span
+lang=HU> adja meg, hogy hány karakternél van a jelszó fele. Ez ugye egy kis
+kerekítést is igényel. Ezután már csak össze kell rakni a karamtereket, minden
+egyes szám a </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>$nums</span></span><span lang=HU>-ban a megfelelő rövid nevű
+függvény segítségével kiad egy-egy karaktert. A két </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>switch</span></span><span
+lang=HU> kifejezés adja felváltva az magán- és mássalhangzókat. A legvégén még
+egy számjegy és az egész összefűzve szöveggé a kimenet.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>Nézzük, hogyan néznek ki ezek a véletlen
+jelszavak:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; .
+C:\PSKönyv\Projektek\Vegyes\GenerateComplexPassword1.ps1</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; 1..10 |
+ForEach-Object {GenerateComplexPassword1 -length 9}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Fihu!Ava1</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Jega+Esa3</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Xuka%Eke3</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Pire-Esi2</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Giki@Ecu8</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Cozi!Epa4</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Hepu#Uqo8</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Qesu%Udi5</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Hiyi$Ewe6</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Kisu@Uto2</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; 1..10 |
+ForEach-Object {GenerateComplexPassword1}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Qobexad%Epucij5</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Kesenoq$Aficat4</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Tocacit@Abovun7</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Cojojuc#Uhiduq4</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Kajuvit%Afedat7</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Wuqeqeg!Ayihax7</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Jepuyuy%Arebok3</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Magajep-Epijir1</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Deguder%Ekuneh3</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Cujoxad@Uqorir2</span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span lang=HU>Egész jópofa szörnyneveket lehetne
+ezekből kreálni a <span class=SzvegChar><i><span style='mso-bidi-font-family:
+"Times New Roman"'>Gyűrűk ura</span></i></span> egy újabb kötetébe! <i>Jega</i>
+és <i>Kajuvit</i>! <i>Giki</i> és <i>Arebok</i>! </span><span lang=HU
+style='font-family:Wingdings;mso-ascii-font-family:Calibri;mso-hansi-font-family:
+Calibri;mso-char-type:symbol;mso-symbol-font-family:Wingdings'><span
+style='mso-char-type:symbol;mso-symbol-font-family:Wingdings'>J</span></span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>Az első verziójú függvényt egészítsük ki a
+sózási lehetőséggel és ne csak véletlenül generálódó szöveg lehessen a jelszó
+alapja, azaz a </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>$seed</span></span><span lang=HU>, hanem lehessen ezt
+paraméterként is megadni:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:darkblue;mso-ansi-language:
+EN-US'>function</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'> GenerateComplexPassword {</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:darkblue;mso-ansi-language:
+EN-US'>param</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>(</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>string</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'> </span><span style='color:orangered;mso-ansi-language:EN-US'>$seed</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>,</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>string</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'> </span><span style='color:orangered;mso-ansi-language:EN-US'>$salt</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>,</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:deepskyblue;
+mso-ansi-language:EN-US'>validaterange</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:purple;mso-ansi-language:EN-US'>9</span><span style='color:darkgray;
+mso-ansi-language:EN-US'>,</span><span style='color:purple;mso-ansi-language:
+EN-US'>30</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'>)</span><span style='color:darkgray;mso-ansi-language:EN-US'>][</span><span
+style='color:teal;mso-ansi-language:EN-US'>System.UInt16</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>]</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$length</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:purple;mso-ansi-language:EN-US'>15</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>)<span style='mso-spacerun:yes'>   </span></span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$sublength</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>math</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]::</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'>Ceiling(</span><span style='color:darkgray;mso-ansi-language:EN-US'>[</span><span
+style='color:teal;mso-ansi-language:EN-US'>math</span><span style='color:darkgray;
+mso-ansi-language:EN-US'>]::</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>Sqrt(</span><span style='color:orangered;mso-ansi-language:
+EN-US'>$length</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>))</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>if</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$seed</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-and</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$seed</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>Length </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-lt</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$sublength</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>*</span><span style='color:purple;
+mso-ansi-language:EN-US'>2</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>){</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span></span><span
+style='color:blue;mso-ansi-language:EN-US'>Write-Error</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;The length of seed must be
+at least </span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'>$(</span><span style='color:orangered;mso-ansi-language:EN-US'>$sublength</span><span
+style='color:darkred;mso-ansi-language:EN-US'> </span><span style='color:darkgray;
+mso-ansi-language:EN-US'>*</span><span style='color:darkred;mso-ansi-language:
+EN-US'> </span><span style='color:purple;mso-ansi-language:EN-US'>2</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>)</span><span
+style='color:darkred;mso-ansi-language:EN-US'> characters long if the password
+length is </span><span style='color:orangered;mso-ansi-language:EN-US'>$length</span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-ErrorAction</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> Stop</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>if</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>!</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$seed</span><span style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-US'>){</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$seed</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-join</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> (</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>char</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>[]]</span><span style='color:darkred;mso-ansi-language:EN-US'>&quot;abcdefghijklmnopqrstuvwxyz0123456789-&quot;</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>|</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>                   
+</span></span><span style='color:blue;mso-ansi-language:EN-US'>Get-Random</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-Count</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> (</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$sublength</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>*</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:purple;mso-ansi-language:EN-US'>2</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>)) </span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>if</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$salt</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>){</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>if</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$salt</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>Length </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-gt</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$length</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>){</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>            </span></span><span
+style='color:blue;mso-ansi-language:EN-US'>Write-Error</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;Length of salt must not be
+longer than the length of the password to be generated!&quot;</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:navy;mso-ansi-language:EN-US'>-ErrorAction</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> Stop</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$i</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:purple;mso-ansi-language:EN-US'>1</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>while</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$salt</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>Length </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-lt</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$length</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>){</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>            </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$salt</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>+=</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-join</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> @(</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>char</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>[]][</span><span style='color:teal;mso-ansi-language:EN-US'>int</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[]]</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>int</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>[]][</span><span style='color:teal;mso-ansi-language:EN-US'>char</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[]]</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$salt</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>|</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:blue;mso-ansi-language:EN-US'>ForEach-Object</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> {</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$_</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>+</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$i</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>})) </span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>            </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$i</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>++</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$salt</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> (</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$salt</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>*</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> (</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>math</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]::</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'>Ceiling(</span><span style='color:orangered;mso-ansi-language:EN-US'>$length</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>/</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$salt</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>Length)))</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>substring(</span><span
+style='color:purple;mso-ansi-language:EN-US'>0</span><span style='color:darkgray;
+mso-ansi-language:EN-US'>,</span><span style='color:orangered;mso-ansi-language:
+EN-US'>$length</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>)</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'> </span></span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$first</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>int</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>[]][</span><span style='color:teal;mso-ansi-language:EN-US'>char</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[]]</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$seed</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>)</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>Substring(</span><span
+style='color:purple;mso-ansi-language:EN-US'>0</span><span style='color:darkgray;
+mso-ansi-language:EN-US'>,</span><span style='color:orangered;mso-ansi-language:
+EN-US'>$sublength</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>)</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$second</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>int</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>[]][</span><span style='color:teal;mso-ansi-language:EN-US'>char</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[]]</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$seed</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>Substring((</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$seed</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>Length </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$sublength</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>)</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>,</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$sublength</span><span style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-US'>)</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$nums</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkblue;mso-ansi-language:EN-US'>foreach</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$e</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkblue;mso-ansi-language:EN-US'>in</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$first</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>){</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>                </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>for</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$i</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$sublength</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-</span><span style='color:purple;
+mso-ansi-language:EN-US'>1</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>; </span><span style='color:orangered;mso-ansi-language:
+EN-US'>$i</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'> </span><span style='color:darkgray;mso-ansi-language:EN-US'>-ge</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:purple;mso-ansi-language:EN-US'>0</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>; </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$i</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>--</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>){</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>                   
+</span></span><span style='color:orangered;mso-ansi-language:EN-US'>$e</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-bxor</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$second</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$i</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>               
+</span>}</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>            </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>for</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$i</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:purple;mso-ansi-language:EN-US'>0</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>; </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$i</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-lt</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$length</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>; </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$i</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>++</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>){</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>if</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$salt</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>){</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>            </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$nums</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$i</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'> </span><span style='color:darkgray;mso-ansi-language:EN-US'>=</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$nums</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$i</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'> </span><span style='color:darkgray;mso-ansi-language:EN-US'>-bxor</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>int</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>][</span><span style='color:teal;mso-ansi-language:EN-US'>char</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>]</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$salt</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>[</span><span style='color:orangered;mso-ansi-language:EN-US'>$i</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>]</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$nums</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$i</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'> </span><span style='color:darkgray;mso-ansi-language:EN-US'>=</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$nums</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$i</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'> </span><span style='color:darkgray;mso-ansi-language:EN-US'>%</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:purple;mso-ansi-language:EN-US'>20</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>function</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> sa {</span><span
+style='color:darkblue;mso-ansi-language:EN-US'>param</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$x</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>) </span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>(</span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;aeiouaeiouaeiouaeiou&quot;</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-split</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;(?&lt;=.)(?=.)&quot;</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>)</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$x</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>function</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> sb {</span><span
+style='color:darkblue;mso-ansi-language:EN-US'>param</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$x</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>) </span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>(</span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;bcdfghjkmnpqrstvwxyz&quot;</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-split</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;(?&lt;=.)(?=.)&quot;</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>)</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$x</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>function</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> la {</span><span
+style='color:darkblue;mso-ansi-language:EN-US'>param</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$x</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>) </span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>(</span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;aeuaeuaeuaeuaeuaeuae&quot;</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>ToUpper() </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-split</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;(?&lt;=.)(?=.)&quot;</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>)</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$x</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>function</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> lb {</span><span
+style='color:darkblue;mso-ansi-language:EN-US'>param</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$x</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>) </span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>(</span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;bcdfghjkmnpqrstvwxyz&quot;</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>.</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>ToUpper() </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-split</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;(?&lt;=.)(?=.)&quot;</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>)</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$x</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>function</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> n {</span><span
+style='color:darkblue;mso-ansi-language:EN-US'>param</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$x</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>) </span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>(</span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;12345678912345678912&quot;</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-split</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;(?&lt;=.)(?=.)&quot;</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>)</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$x</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:darkblue;mso-ansi-language:EN-US'>function</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> s {</span><span
+style='color:darkblue;mso-ansi-language:EN-US'>param</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$x</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>) </span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>(</span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;!@#$%*-+!@#$%*-+!@#$&quot;</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-split</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;(?&lt;=.)(?=.)&quot;</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>)</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$x</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$rest1</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:teal;
+mso-ansi-language:EN-US'>math</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]::</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'>Ceiling(</span><span style='color:orangered;mso-ansi-language:EN-US'>$length</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>/</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:purple;mso-ansi-language:EN-US'>2</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>) </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:purple;mso-ansi-language:EN-US'>1</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$chars</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>=</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> @(</span><span
+style='color:blue;mso-ansi-language:EN-US'>lb</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$nums</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:purple;
+mso-ansi-language:EN-US'>0</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'>)</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$chars</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>+=</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkblue;mso-ansi-language:EN-US'>switch</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:purple;mso-ansi-language:EN-US'>1</span><span style='color:darkgray;
+mso-ansi-language:EN-US'>..</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>(</span><span style='color:orangered;mso-ansi-language:
+EN-US'>$rest1</span><span style='color:darkgray;mso-ansi-language:EN-US'>-</span><span
+style='color:purple;mso-ansi-language:EN-US'>1</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>)){</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>            </span>{</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$_</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>%</span><span style='color:purple;
+mso-ansi-language:EN-US'>2</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>}<span style='mso-spacerun:yes'>    </span>{</span><span
+style='color:blue;mso-ansi-language:EN-US'>sa</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$nums</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$_</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'>}</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>            </span>{</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>!</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$_</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>%</span><span style='color:purple;
+mso-ansi-language:EN-US'>2</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>)} {</span><span style='color:blue;mso-ansi-language:
+EN-US'>sb</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'> </span><span style='color:orangered;mso-ansi-language:EN-US'>$nums</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$_</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'>}</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$chars</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>+=</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:blue;mso-ansi-language:EN-US'>s</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$nums</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$rest1</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>]</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$chars</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>+=</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:blue;mso-ansi-language:EN-US'>la</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$nums</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$rest1</span><span style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-US'> </span><span style='color:darkgray;
+mso-ansi-language:EN-US'>+</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'> </span><span style='color:purple;mso-ansi-language:
+EN-US'>1</span><span style='color:darkgray;mso-ansi-language:EN-US'>]</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$chars</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>+=</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkblue;mso-ansi-language:EN-US'>switch</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:purple;mso-ansi-language:EN-US'>1</span><span style='color:darkgray;
+mso-ansi-language:EN-US'>..</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>(</span><span style='color:orangered;mso-ansi-language:
+EN-US'>$length</span><span style='color:darkgray;mso-ansi-language:EN-US'>-</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$rest1</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-</span><span style='color:purple;
+mso-ansi-language:EN-US'>3</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>)){</span><span style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>            </span>{</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$_</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>%</span><span style='color:purple;
+mso-ansi-language:EN-US'>2</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>}<span style='mso-spacerun:yes'>    </span>{</span><span
+style='color:blue;mso-ansi-language:EN-US'>sb</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$nums</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$rest1</span><span style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-US'> </span><span style='color:darkgray;
+mso-ansi-language:EN-US'>+</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'> </span><span style='color:orangered;mso-ansi-language:
+EN-US'>$_</span><span style='color:darkgray;mso-ansi-language:EN-US'>]</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>            </span>{</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>!</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'>(</span><span
+style='color:orangered;mso-ansi-language:EN-US'>$_</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>%</span><span style='color:purple;
+mso-ansi-language:EN-US'>2</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'>)} {</span><span style='color:blue;mso-ansi-language:
+EN-US'>sa</span><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-US'> </span><span style='color:orangered;mso-ansi-language:EN-US'>$nums</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$rest1</span><span style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-US'> </span><span style='color:darkgray;
+mso-ansi-language:EN-US'>+</span><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'> </span><span style='color:orangered;mso-ansi-language:
+EN-US'>$_</span><span style='color:darkgray;mso-ansi-language:EN-US'>]</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>        </span>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$chars</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>+=</span><span style='color:
+black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:blue;mso-ansi-language:EN-US'>n</span><span style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:orangered;mso-ansi-language:EN-US'>$nums</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>[</span><span style='color:orangered;
+mso-ansi-language:EN-US'>$length</span><span style='color:darkgray;mso-ansi-language:
+EN-US'>-</span><span style='color:purple;mso-ansi-language:EN-US'>1</span><span
+style='color:darkgray;mso-ansi-language:EN-US'>]</span><span style='mso-ansi-language:
+EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span></span><span
+style='color:orangered;mso-ansi-language:EN-US'>$chars</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkgray;mso-ansi-language:EN-US'>-join</span><span
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'> </span><span
+style='color:darkred;mso-ansi-language:EN-US'>&quot;&quot;</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-US'>}</span><span
+style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span lang=HU>Lett tehát két új paraméterünk, a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$seed</span></span><span
+lang=HU> és a </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>$salt</span></span><span lang=HU>. Elsőként, ha megadunk </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$seed</span></span><span
+lang=HU>-et, akkor arra van egy minimális megkövetelt hossz, ha azt nem
+teljesíti, akkor a függvény hibával leáll. Ha nem adunk meg paraméterként </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$seed</span></span><span
+lang=HU>-et, akkor a korábbi módon ő generál nekünk egyet véletlenül.</span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU>Ha </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>$salt</span></span><span
+lang=HU>-ot is megadunk, akkor arra egy maximális hossz van követelményként,
+azaz nem lehet hosszabb, mint a generálandó jelszó hossza. Ha rövidebb ennél,
+akkor a függvény megnöveli olyan módon, hogy az eredeti </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$salt</span></span><span
+lang=HU> karaktereit eggyel eltolja és ezt hozzátoldja. Mindezt egészen addig
+csinálja, amíg nem kapjuk meg a kívánt hosszat. Például, ha 15 karakteres a
+kért jelszó, de csak azt adjuk meg „sónak”, hogy „abc”, akkor belül ő erre
+egészíti ki azt: </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>abcbcdcdedefdef</span></span><span
+lang=HU>.</span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU>Az így képzett só akkor kerül bele az
+„ételbe”, amikor a </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$seed</span></span><span
+lang=HU>-ből kijövő számokat össze-XOR-oltük és utána egy 0 és 20 közötti
+számmá alakítjuk 20-as maradékos osztással. Merthogy itt még ezelőtt a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$salt</span></span><span
+lang=HU> karaktereiből képzett számmal össze-XOR-oljuk.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>Nézzük, hogyan működik most a függvényünk:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt;
+GenerateComplexPassword -seed &quot;Ez egy kiindulás&quot;</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Tuconad+Afowad1 </span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt;
+GenerateComplexPassword -seed &quot;Ez egy kiindulás&quot; -salt kakukk</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Sijuyad@Aforif1</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt;
+GenerateComplexPassword -seed &quot;Ez egy kiindulás&quot; -salt blabla</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Garicax#Anisat7</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU style='font-size:9.5pt;line-height:120%;
+font-family:"Lucida Sans Typewriter";mso-bidi-font-family:"Lucida Sans Typewriter"'><span
+style='mso-spacerun:yes'> </span>Látható, hogy nagyon más lesz a jelszó, ha használunk
+sót, és akkor is nagyon más lesz, ha más a </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>$salt</span></span><span
+lang=HU style='font-size:9.5pt;line-height:120%;font-family:"Lucida Sans Typewriter";
+mso-bidi-font-family:"Lucida Sans Typewriter"'>.<o:p></o:p></span></p>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

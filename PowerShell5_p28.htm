@@ -1,0 +1,340 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>1.2.12 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><span style='mso-bookmark:_Toc189542083'><a
+name="_Toc197149147"></a><a name="_Toc204716094"></a><a name="_Toc209115637"><span
+style='mso-bookmark:_Toc204716094'><span style='mso-bookmark:_Toc197149147'>
+<span lang=HU>Kifejezés-
+és parancsfeldolgozás</span></span></span></a></span></h3>
+
+<p class=Szveg><span lang=HU>A PowerShell két különböző üzemmódban képes
+értelmezni a beírt szöveget – kifejezés és parancs üzemmódban. Kifejezés
+üzemmódban a shell a legtöbb magas szintű programnyelvhez hasonlóan viselkedik:
+a számokat számnak tekinti, a karakterláncokat idézőjelek közé kell tennünk,
+stb. Kifejezések például a következők:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>2+2</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&quot;Helló&quot; + &quot;
+világ!&quot;</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Parancs üzemmódban a karakterláncokhoz nincs
+szükség idézőjelekre, mivel a shell a változókon és a zárójelben lévő
+kifejezéseken kívül mindent karakterláncnak tekint. Ilyen módon értelmezi a
+parancsfeldolgozó az alábbi utasításokat:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>write-host 2+2</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>copy-item egyik.txt
+masik.txt</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Most már csak azt kellene tudnunk, hogy pontosan
+mi az, aminek hatására a PowerShell egyik vagy másik üzemmódot választja a
+parancsunk értelmezésére. Az üzemmódot az első beolvasott token (vagyis
+értelmezhető parancsdarab) fogja meghatározni az alábbiaknak megfelelően:</span></p>
+
+<p class=BulletSzvegCxSpFirst style='mso-list:l7 level1 lfo5'>
+<span
+lang=HU>Kifejezés üzemmódba vált a PowerShell, ha a beírt szöveg számmal (vagy
+egy pont karaktert követő számmal), idézőjelek közé tett karakterlánccal, vagy
+$ jellel kezdődik.</span></p>
+
+<p class=BulletSzvegCxSpLast style='mso-list:l7 level1 lfo5'>
+<span
+lang=HU>Parancs üzemmódba vált a PowerShell, ha a beírt szöveg bármilyen
+betűvel, a </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>&amp;</span></span>
+
+<span lang=HU><span
+style='mso-spacerun:yes'> </span>karakterrel, egy pont utáni szóközzel, vagy
+pont utáni betűvel kezdődik.</span></p>
+
+<p class=Szveg><span lang=HU>A két üzemmód vegyes használatát zárójelezéssel
+érhetjük el, a zárójelek közötti szövegre minden esetben újra megtörténik az
+üzemmód meghatározása a fenti szempontok szerint.</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; 2+2</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>4</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Write-Host 2+2</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>2+2</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Write-Host
+(2+2)</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>4</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; (Get-Date).Year
++ 3</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>2010</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt;
+&quot;Get-Date&quot;</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Get-Date</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt;
+&amp;&quot;Get-Date&quot;</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>2007. július 11. 15:37:51</span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span lang=HU>A fenti példákon jól látható a két
+üzemmód közötti különbség és az üzemmód váltás kényszerítése. Az első utasítást
+a PowerShell kifejezés üzemmódban értelmezte, elvégezte a műveletet és kiírta
+az eredményt. A második sor egy cmdlet nevével, vagyis betűvel kezdődik, ennek
+hatására aktiválódik a parancs üzemmód, és a shell már nem adja össze a két
+számot, egyszerű karakterláncként (pedig nincs idézőjelek között!) olvassa be.
+A harmadik sor betűvel kezdődik (parancs üzemmód), de a zárójelek miatt később
+újra megtörténik az üzemmód meghatározása, és a zárójelben lévő számok hatására
+a PowerShell az összeadás erejéig kifejezés üzemmódra vált. Az negyedik sorban
+a zárójeles szövegre parancs üzemmód indul, így a cmdlet kimenete kerül a
+teljes kifejezésbe. Az ötödik sorban egy karakterláncot adunk meg (ami éppen
+egy cmdlet neve), de az idézőjelek miatt a PowerShell kifejezés üzemmódra vált,
+így nem ismeri fel a cmdletet, a nevet egyszerű karakterláncnak tekinti. Az
+utolsó sorban a &amp; karakter segítségével lefuttatjuk a karakterláncot,
+vagyis parancs üzemmódra kényszerítjük a shellt. </span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>Ha meg<b style='mso-bidi-font-weight:normal'>
+akarjuk</b> számolni, hogy hány parancs (cmdlet) van a PowerShellben, akkor ezt
+nagyon egyszerűen megtehetjük. A cmdletek listáját a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Get-Command</span></span><span
+lang=HU> adja vissza egy objektumcsoport képében, a .NET-ben pedig minden
+objektumcsoporthoz tartozik egy </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Count</span></span><span
+lang=HU> tulajdonság, amely az elemek számát adja vissza. Vagyis:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[25] PS C:\&gt;
+get-command.Count</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:red'>The term 'get-command.Count' is not recognized as the
+name of a cmdlet, functi<o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:red'>on, script file, or operable program. Check the
+spelling of the name, or if a<o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:red'>path was included, verify that the path is correct
+and try again.<o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:red'>At line:1 char:18<o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:red'>+ get-command.Count &lt;&lt;&lt;&lt;<o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:red'><span style='mso-spacerun:yes'>    </span>+
+CategoryInfo<span style='mso-spacerun:yes'>          </span>: ObjectNotFound:
+(get-command.Count:String) [],<o:p></o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:red'><span style='mso-spacerun:yes'>  
+</span>CommandNotFoundException<o:p></o:p></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:red'><span style='mso-spacerun:yes'>    </span>+
+FullyQualifiedErrorId : CommandNotFoundException<o:p></o:p></span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>A hibaüzenetből megtudhatjuk, hogy nem sikerült a
+„</span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>Get-Command.Count</span></span><span lang=HU>” utasítást
+végrehajtani, ahogyan az várható is volt. Természetesen nem egyszerre kellene
+végrehajtani az egész parancsot, hanem elsőként csak a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Get-Command</span></span><span
+lang=HU>-nak kellene lefutnia, ezután pedig a kimeneten megjelenő gyűjteményre
+kellene </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>Count</span></span><span lang=HU>-ot kérni. Ezt az alábbi
+szintaktika szerint érhetjük el:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[26] PS C:\&gt;
+(get-command).Count</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>410</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Láttuk a fenti példákban, hogy a PowerShell a
+cmdletek paramétereit alapvetően szövegként értelmezi (parancsmód), kivéve a
+változókat:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt;
+$bla=&quot;PowerShell&quot;</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Write-Output
+$bla</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PowerShell</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Sőt! Ilyenkor még a változó metódusaira és
+tulajdonságaira is lehet hivatkozni különösebb trükközés nélkül:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Write-Output
+$bla.Length</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>10</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Write-Output
+$bla.split(&quot;S&quot;)</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Power</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>hell</span></p>
+
+</div>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

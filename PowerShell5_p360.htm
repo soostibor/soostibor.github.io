@@ -1,0 +1,1754 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>3.4.4 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><a name="_Toc204716536"></a><a
+name="_Toc209116079"></a><a name="_Ref204715372"><span style='mso-bookmark:
+_Toc209116079'><span style='mso-bookmark:_Toc204716536'>
+<span lang=HU>Objektumok
+tulajdonságainak kiolvasása</span></span></span></a><span style='mso-bookmark:
+_Toc209116079'><span style='mso-bookmark:_Toc204716536'><span lang=HU>
+(Get-Property)</span></span></span></h3>
+
+<p class=Szveg><span lang=HU>Lehetnek olyan objektumaink, amik elég mély
+tulajdonság-hierarchiát tartalmaznak, például REST API hívások eredményei
+gyakran ilyenek. Viszont ezek az objektumok eléggé változékony szerkezetet
+mutathatnak: egy </span><span class=EnglishChar><span style='mso-bidi-font-family:
+"Times New Roman"'>service desk</span></span><span lang=HU> rendszerből
+lekérdezett kérés objektuma tartalmazhat különböző típusú és számú elemet, így
+ha „</span><span class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>strict
+mode</span></span><span lang=HU>” kompatibilis módon akarjuk megvizsgálni egyes
+mélyen fekvő tulajdonságok jelenlétét és értékét, akkor elég hosszú </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>IF</span></span><span
+lang=HU> feltétel-láncot kell használjunk. Nézzünk egy bonyolultabb hashtáblát:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'>$ticket </span><span lang=EN-GB
+style='color:dimgray;mso-ansi-language:EN-GB'>=</span><span lang=EN-GB
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'> @{</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>   
+</span>Number </span><span lang=EN-GB style='color:dimgray;mso-ansi-language:
+EN-GB'>=</span><span lang=EN-GB style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-GB'> </span><span lang=EN-GB style='color:darkred;
+mso-ansi-language:EN-GB'>&quot;REQ1234&quot;</span><span lang=EN-GB
+style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>   
+</span>Approver </span><span lang=EN-GB style='color:dimgray;mso-ansi-language:
+EN-GB'>=</span><span lang=EN-GB style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-GB'> @{</span><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>       
+</span>Name </span><span lang=EN-GB style='color:dimgray;mso-ansi-language:
+EN-GB'>=</span><span lang=EN-GB style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-GB'> </span><span lang=EN-GB style='color:darkred;
+mso-ansi-language:EN-GB'>&quot;Tibor Soós&quot;</span><span lang=EN-GB
+style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>       
+</span>EmployeeId </span><span lang=EN-GB style='color:dimgray;mso-ansi-language:
+EN-GB'>=</span><span lang=EN-GB style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-GB'> </span><span lang=EN-GB style='color:purple;
+mso-ansi-language:EN-GB'>99123</span><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>       
+</span>Manager </span><span lang=EN-GB style='color:dimgray;mso-ansi-language:
+EN-GB'>=</span><span lang=EN-GB style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-GB'> @{</span><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>           
+</span>Name </span><span lang=EN-GB style='color:dimgray;mso-ansi-language:
+EN-GB'>=</span><span lang=EN-GB style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-GB'> </span><span lang=EN-GB style='color:darkred;
+mso-ansi-language:EN-GB'>&quot;Ferenc Főnök&quot;</span><span lang=EN-GB
+style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>           
+</span>EmployeeID </span><span lang=EN-GB style='color:dimgray;mso-ansi-language:
+EN-GB'>=</span><span lang=EN-GB style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-GB'> </span><span lang=EN-GB style='color:purple;
+mso-ansi-language:EN-GB'>87871</span><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>       
+</span>}</span><span lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>    </span>}</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>   
+</span>items </span><span lang=EN-GB style='color:dimgray;mso-ansi-language:
+EN-GB'>=</span><span lang=EN-GB style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-GB'> @(</span><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>       
+</span>@{</span><span lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>           
+</span>Number </span><span lang=EN-GB style='color:dimgray;mso-ansi-language:
+EN-GB'>=</span><span lang=EN-GB style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-GB'> </span><span lang=EN-GB style='color:darkred;
+mso-ansi-language:EN-GB'>&quot;RITM332211&quot;</span><span lang=EN-GB
+style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>           
+</span>Description </span><span lang=EN-GB style='color:dimgray;mso-ansi-language:
+EN-GB'>=</span><span lang=EN-GB style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-GB'> </span><span lang=EN-GB style='color:darkred;
+mso-ansi-language:EN-GB'>&quot;Valami jó&quot;</span><span lang=EN-GB
+style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>           
+</span>ItemCost </span><span lang=EN-GB style='color:dimgray;mso-ansi-language:
+EN-GB'>=</span><span lang=EN-GB style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-GB'> @{</span><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                </span>Price </span><span lang=EN-GB
+style='color:dimgray;mso-ansi-language:EN-GB'>=</span><span lang=EN-GB
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'> </span><span
+lang=EN-GB style='color:purple;mso-ansi-language:EN-GB'>1234</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                </span>Currency </span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>=</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:darkred;mso-ansi-language:EN-GB'>&quot;HUF&quot;</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>           
+</span>}</span><span lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>       
+</span>}</span><span lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>,</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+@{</span><span lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>           
+</span>Number </span><span lang=EN-GB style='color:dimgray;mso-ansi-language:
+EN-GB'>=</span><span lang=EN-GB style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-GB'> </span><span lang=EN-GB style='color:darkred;
+mso-ansi-language:EN-GB'>&quot;RITM332212&quot;</span><span lang=EN-GB
+style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>           
+</span>Description </span><span lang=EN-GB style='color:dimgray;mso-ansi-language:
+EN-GB'>=</span><span lang=EN-GB style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-GB'> </span><span lang=EN-GB style='color:darkred;
+mso-ansi-language:EN-GB'>&quot;Ingyenes&quot;</span><span lang=EN-GB
+style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>           
+</span>ItemCost </span><span lang=EN-GB style='color:dimgray;mso-ansi-language:
+EN-GB'>=</span><span lang=EN-GB style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-GB'> $null</span><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>       
+</span>}</span><span lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>    </span>)</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-GB'>}</span><span lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Látható, hogy az első elem az </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>items</span></span><span
+lang=HU>-ben rendelkezik költséggel (</span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>ItemCost</span></span><span
+lang=HU>), de a második elem nem. Ha ezt egy szkriptben próbáljuk megvizsgálni,
+ráadásul </span><span class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>strict
+mode</span></span><span lang=HU>-dal (lásd </span>
+<span lang=HU>2.4.6.2
+</span>
+<span lang=HU> </span>
+<span lang=HU>Lépésenkénti
+végrehajtás és szigorú változókezelés (set-psdebug, set-strictmode)
+</span>
+<span lang=HU>), akkor
+hibát kapunk:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Set-StrictMode
+-Version latest</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt;
+$ticket.items[1].ItemCost.Price</span></p>
+
+<p class=HibaKdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU>The property 'Price' cannot be found on this object. Verify that the
+property</span></p>
+
+<p class=HibaKdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><span style='mso-spacerun:yes'> </span>exists.</span></p>
+
+<p class=HibaKdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU>At line:1 char:1</span></p>
+
+<p class=HibaKdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU>+ $ticket.items[1].ItemCost.Price</span></p>
+
+<p class=HibaKdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU>+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</span></p>
+
+<p class=HibaKdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><span style='mso-spacerun:yes'>    </span>+ CategoryInfo<span
+style='mso-spacerun:yes'>          </span>: NotSpecified: (:) [],
+PropertyNotFoundExceptio</span></p>
+
+<p class=HibaKdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><span style='mso-spacerun:yes'>   </span>n</span></p>
+
+<p class=HibaKdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><span style='mso-spacerun:yes'>    </span>+ FullyQualifiedErrorId :
+PropertyNotFoundStrict</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU><span style='mso-spacerun:yes'> </span>Ahhoz, hogy
+elkerüljük az ilyen jellegű hibát és tűrje a szkriptünk a szigorú üzemmódot ezt
+az </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>If</span></span><span lang=HU> feltételrendszert kellene
+használjuk:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=Kd style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt;
+if($ticket.ContainsKey('items') -and $ticket.items.count -ge 2 -and
+$ticket.items[1] -and $ticket.items[1].ContainsKey('ItemCost') -and
+$ticket.items[1].ItemCost -and
+$ticket.items[1].ItemCost.ContainsKey('Price')){$ticket.items[1].ItemCost.Price}</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Ez ugye nem ad vissza semmit, mert ennek az
+elemnek nincs ára, de ellenpróbaként nézzük meg az első elem árát hogyan
+tudnánk kiolvasni:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt;
+if($ticket.ContainsKey('items') -and $ticket.items.count -ge 1 -and
+$ticket.items[0] -and $ticket.items[0].ContainsKey('ItemCost') -and
+$ticket.items[0].ItemCost -and
+$ticket.items[0].ItemCost.ContainsKey('Price')){$ticket.items[0].ItemCost.Price}</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>1234</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Nem túl egyszerű, és ezek a kifejezések nehezen
+módosíthatók. Na pont ezért csináltam a </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>Get-Property</span></span><span
+lang=HU> függvényt:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:darkblue;mso-ansi-language:
+EN-GB'>function</span><span lang=EN-GB style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-GB'> Get-Property {</span><span lang=EN-GB
+style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:darkgreen;
+mso-ansi-language:EN-GB'>&lt;#<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:darkgreen;
+mso-ansi-language:EN-GB'>.Synopsis<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:darkgreen;
+mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>   </span>Returns the
+value of object(s) that is available under the path(s) specified.<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:darkgreen;
+mso-ansi-language:EN-GB'>.DESCRIPTION<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:darkgreen;
+mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>   </span>This function
+gets the value of a property or key under a hierarchy of properties and keys
+and/or under the index of collections.<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:darkgreen;
+mso-ansi-language:EN-GB'>.EXAMPLE<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:darkgreen;
+mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>   
+</span>Get-ChildItem C:\Windows\system32\*.exe | Get-Property -PropPath
+&quot;VersionInfo.CompanyName&quot;, &quot;PSDrive.Provider.Name&quot;
+-ObjectNameProperty Name<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:darkgreen;
+mso-ansi-language:EN-GB'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:darkgreen;
+mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>    </span>Gets the
+VersionInfo.CompanyName and PSDrive.Provider.Name properties of all EXE files
+under c:\windows\system32 folder. The result will have the Name of each files
+under the Object column.<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:darkgreen;
+mso-ansi-language:EN-GB'>.EXAMPLE<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:darkgreen;
+mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>   </span>$h = @{Name =
+&quot;MyHashTable&quot;; Array = @{n = 'First'; data = 'Text1'}, @{n =
+'Second'; data = 'Text2'}}; Get-Property -Object $h -PropPath 'Array[1].data'
+-ValueOnly<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:darkgreen;
+mso-ansi-language:EN-GB'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:darkgreen;
+mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>   </span>In this
+example we get the 'Text2' from hashtable $h. In this case the -PropPath
+contains an index as well and because we used the -ValueOnly switch only the
+value of 'data' is returned.<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:darkgreen;
+mso-ansi-language:EN-GB'>.INPUTS<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:darkgreen;
+mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>   </span>hashtables or
+psobjects<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:darkgreen;
+mso-ansi-language:EN-GB'>.OUTPUTS<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:darkgreen;
+mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>   </span>Collection of
+custom objects having an Object, PropertyPath, PropertyExists and Value
+properties, or only the value of the addressed property if the -ValueOnly
+switch is used.<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:darkgreen;
+mso-ansi-language:EN-GB'>#&gt;</span><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:dimgray;mso-ansi-language:
+EN-GB'>[</span><span lang=EN-GB style='color:deepskyblue;mso-ansi-language:
+EN-GB'>cmdletbinding</span><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'>()</span><span lang=EN-GB style='color:
+dimgray;mso-ansi-language:EN-GB'>]</span><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:darkblue;mso-ansi-language:
+EN-GB'>param</span><span lang=EN-GB style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-GB'>(</span><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>    </span></span><span
+lang=EN-GB style='color:darkgreen;mso-ansi-language:EN-GB'># Input object to
+get its property</span><span lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>    </span></span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>[</span><span
+lang=EN-GB style='color:deepskyblue;mso-ansi-language:EN-GB'>Parameter</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>(Mandatory
+</span><span lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>=</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$true</span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>,</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+ValueFromPipeline </span><span lang=EN-GB style='color:dimgray;mso-ansi-language:
+EN-GB'>=</span><span lang=EN-GB style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-GB'> </span><span lang=EN-GB style='color:#A82D00;
+mso-ansi-language:EN-GB'>$true</span><span lang=EN-GB style='color:black;
+mso-color-alt:windowtext;mso-ansi-language:EN-GB'>)</span><span lang=EN-GB
+style='color:dimgray;mso-ansi-language:EN-GB'>]</span><span lang=EN-GB
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'> </span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>[</span><span
+lang=EN-GB style='color:#006161;mso-ansi-language:EN-GB'>object</span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>[]]</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$Object</span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>,</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>    </span></span><span
+lang=EN-GB style='color:darkgreen;mso-ansi-language:EN-GB'># Path(s) of the
+value to query. This path is the full path to the value, including property
+names and key names and indexes.</span><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>    </span></span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>[</span><span
+lang=EN-GB style='color:deepskyblue;mso-ansi-language:EN-GB'>Parameter</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>(Mandatory
+</span><span lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>=</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$true</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>)</span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>]</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>[</span><span
+lang=EN-GB style='color:#006161;mso-ansi-language:EN-GB'>string</span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>[]]</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$PropPath</span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>,</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>    </span></span><span
+lang=EN-GB style='color:darkgreen;mso-ansi-language:EN-GB'># Property or key
+that can be used to reference the object. If not specified then the resullt of
+the ToString() method will be used.</span><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>    </span></span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>[</span><span
+lang=EN-GB style='color:#006161;mso-ansi-language:EN-GB'>string</span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>]</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$ObjectNameProperty</span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>,</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>    </span></span><span
+lang=EN-GB style='color:darkgreen;mso-ansi-language:EN-GB'># Return only the
+addressed property/key value, not the complete custom object.</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>    </span></span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>[</span><span
+lang=EN-GB style='color:#006161;mso-ansi-language:EN-GB'>switch</span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>]</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$ValueOnly</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'>)</span><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='mso-ansi-language:EN-GB'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:darkblue;mso-ansi-language:
+EN-GB'>process</span><span lang=EN-GB style='color:black;mso-color-alt:windowtext;
+mso-ansi-language:EN-GB'>{</span><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>    </span></span><span
+lang=EN-GB style='color:darkblue;mso-ansi-language:EN-GB'>foreach</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>(</span><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$obj</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:darkblue;mso-ansi-language:EN-GB'>in</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$Object</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>){</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>       
+</span></span><span lang=EN-GB style='color:darkblue;mso-ansi-language:EN-GB'>if</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>(</span><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$null</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>-eq</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$obj</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>){</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>           
+</span></span><span lang=EN-GB style='color:darkblue;mso-ansi-language:EN-GB'>continue</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>       
+</span>}</span><span lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='mso-ansi-language:EN-GB'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>       
+</span></span><span lang=EN-GB style='color:darkblue;mso-ansi-language:EN-GB'>foreach</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>(</span><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$pp</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:darkblue;mso-ansi-language:EN-GB'>in</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$PropPath</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>){</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>           
+</span></span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$props</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>=</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$pp</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>-split</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:darkred;mso-ansi-language:EN-GB'>&quot;\.|(?&lt;=.)(?=\[)&quot;</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='mso-ansi-language:EN-GB'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>           
+</span></span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$currentObj</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>=</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$obj</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='mso-ansi-language:EN-GB'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>           
+</span></span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$exists</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>=</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$true</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='mso-ansi-language:EN-GB'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>           
+</span></span><span lang=EN-GB style='color:darkblue;mso-ansi-language:EN-GB'>foreach</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>(</span><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$p</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:darkblue;mso-ansi-language:EN-GB'>in</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$props</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>){</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                </span></span><span lang=EN-GB
+style='color:darkblue;mso-ansi-language:EN-GB'>if</span><span lang=EN-GB
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>(</span><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$p</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>-match</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:darkred;mso-ansi-language:EN-GB'>&quot;\[(\d+)\]&quot;</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>){</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                    </span></span><span lang=EN-GB
+style='color:#A82D00;mso-ansi-language:EN-GB'>$index</span><span lang=EN-GB
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'> </span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>=</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>[</span><span
+lang=EN-GB style='color:#006161;mso-ansi-language:EN-GB'>int</span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>]</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$Matches</span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>[</span><span
+lang=EN-GB style='color:purple;mso-ansi-language:EN-GB'>1</span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>]</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                </span>}</span><span lang=EN-GB
+style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                </span></span><span lang=EN-GB
+style='color:darkblue;mso-ansi-language:EN-GB'>elseif</span><span lang=EN-GB
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>(</span><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$p</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>-match</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:darkred;mso-ansi-language:EN-GB'>'\[[&quot;'']([^&quot;'']+)[&quot;'']\]'</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>){</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                    </span></span><span lang=EN-GB
+style='color:#A82D00;mso-ansi-language:EN-GB'>$p</span><span lang=EN-GB
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'> </span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>=</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$p</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>-replace</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:darkred;mso-ansi-language:EN-GB'>'\[[&quot;'']([^&quot;'']+)[&quot;'']\]'</span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>,</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:darkred;mso-ansi-language:EN-GB'>'$1'</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                    </span></span><span lang=EN-GB
+style='color:#A82D00;mso-ansi-language:EN-GB'>$index</span><span lang=EN-GB
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'> </span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>=</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$null</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                </span>}</span><span lang=EN-GB
+style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                </span></span><span lang=EN-GB
+style='color:darkblue;mso-ansi-language:EN-GB'>else</span><span lang=EN-GB
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>{</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                    </span></span><span lang=EN-GB
+style='color:#A82D00;mso-ansi-language:EN-GB'>$index</span><span lang=EN-GB
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'> </span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>=</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$null</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                    </span></span><span lang=EN-GB
+style='color:darkblue;mso-ansi-language:EN-GB'>if</span><span lang=EN-GB
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>(</span><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$p</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>-match</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:darkred;mso-ansi-language:EN-GB'>'^([''&quot;]).*\1$'</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>){</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                        </span></span><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$p</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>=</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$p</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>-replace</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:darkred;mso-ansi-language:EN-GB'>&quot;^.(.*).$&quot;</span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>,</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:darkred;mso-ansi-language:EN-GB'>'$1'</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                    </span>}</span><span lang=EN-GB
+style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                </span>}</span><span lang=EN-GB
+style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='mso-ansi-language:EN-GB'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                </span></span><span lang=EN-GB
+style='color:darkblue;mso-ansi-language:EN-GB'>if</span><span lang=EN-GB
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>(</span><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$null</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>-ne</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$index</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>){</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                    </span></span><span lang=EN-GB
+style='color:darkblue;mso-ansi-language:EN-GB'>if</span><span lang=EN-GB
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>(</span><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$currentObj</span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>.</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>count
+</span><span lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>-gt</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$index</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>){</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                        </span></span><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$currentObj</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>=</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$currentObj</span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>[</span><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$index</span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>]</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                    </span>}</span><span lang=EN-GB
+style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                    </span></span><span lang=EN-GB
+style='color:darkblue;mso-ansi-language:EN-GB'>else</span><span lang=EN-GB
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>{</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                        </span></span><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$currentObj</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>=</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$null</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                        </span></span><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$exists</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>=</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$false</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                        </span></span><span
+lang=EN-GB style='color:darkblue;mso-ansi-language:EN-GB'>break</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                    </span>}<span
+style='mso-spacerun:yes'>                    </span></span><span lang=EN-GB
+style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                </span>}</span><span lang=EN-GB
+style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                </span></span><span lang=EN-GB
+style='color:darkblue;mso-ansi-language:EN-GB'>elseif</span><span lang=EN-GB
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>(</span><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$null</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>-ne</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$currentObj</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>-and</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+(((</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$currentObj</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>-is</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>[</span><span
+lang=EN-GB style='color:#006161;mso-ansi-language:EN-GB'>hashtable</span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>]</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>-or</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$currentObj</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>-is</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>[</span><span
+lang=EN-GB style='color:#006161;mso-ansi-language:EN-GB'>System.Collections.Specialized.OrderedDictionary</span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>]</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>)
+</span><span lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>-and</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$currentObj</span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>.</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>containskey(</span><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$p</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>))
+</span><span lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>-or</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+(</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$currentObj</span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>.</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>psobject</span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>.</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>properties</span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>.</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>count
+</span><span lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>-and</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$currentObj</span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>.</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>psobject</span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>.</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>properties</span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>.</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>name
+</span><span lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>-contains</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$p</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>))){</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                    </span></span><span lang=EN-GB
+style='color:#A82D00;mso-ansi-language:EN-GB'>$currentObj</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>=</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$currentObj</span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>.</span><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$p</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                    </span></span><span lang=EN-GB
+style='color:darkblue;mso-ansi-language:EN-GB'>if</span><span lang=EN-GB
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>(</span><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$null</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>-eq</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$currentObj</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>){</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                        </span></span><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$exists</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>=</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$false</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                        </span></span><span
+lang=EN-GB style='color:darkblue;mso-ansi-language:EN-GB'>break</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                    </span>}</span><span lang=EN-GB
+style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                </span>}</span><span lang=EN-GB
+style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                </span></span><span lang=EN-GB
+style='color:darkblue;mso-ansi-language:EN-GB'>else</span><span lang=EN-GB
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>{</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                    </span></span><span lang=EN-GB
+style='color:#A82D00;mso-ansi-language:EN-GB'>$exists</span><span lang=EN-GB
+style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'> </span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>=</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$false</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                    </span></span><span lang=EN-GB
+style='color:#A82D00;mso-ansi-language:EN-GB'>$currentObj</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>=</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$null</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                    </span></span><span lang=EN-GB
+style='color:darkblue;mso-ansi-language:EN-GB'>break</span><span lang=EN-GB
+style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                </span>}</span><span lang=EN-GB
+style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>           
+</span>}</span><span lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='mso-ansi-language:EN-GB'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>           
+</span></span><span lang=EN-GB style='color:darkblue;mso-ansi-language:EN-GB'>if</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>(</span><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$ValueOnly</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>){</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                </span></span><span lang=EN-GB
+style='color:#A82D00;mso-ansi-language:EN-GB'>$currentObj</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>           
+</span>}</span><span lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>           
+</span></span><span lang=EN-GB style='color:darkblue;mso-ansi-language:EN-GB'>else</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>{</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                </span></span><span lang=EN-GB
+style='color:dimgray;mso-ansi-language:EN-GB'>[</span><span lang=EN-GB
+style='color:#006161;mso-ansi-language:EN-GB'>pscustomobject</span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>]</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>@{</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                    </span>Object </span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>=</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:darkblue;mso-ansi-language:EN-GB'>if</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>(</span><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$ObjectNameProperty</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>){</span><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$obj</span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>.</span><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$ObjectNameProperty</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>}</span><span
+lang=EN-GB style='color:darkblue;mso-ansi-language:EN-GB'>else</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>{</span><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$obj</span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>.</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>tostring()}</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                    </span>PropertyPath </span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>=</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$pp</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                    </span>PropertyExists </span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>=</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$exists</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                    </span>Value </span><span
+lang=EN-GB style='color:dimgray;mso-ansi-language:EN-GB'>=</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>
+</span><span lang=EN-GB style='color:darkblue;mso-ansi-language:EN-GB'>if</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>(</span><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$exists</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>){</span><span
+lang=EN-GB style='color:#A82D00;mso-ansi-language:EN-GB'>$currentObj</span><span
+lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:EN-GB'>}</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span
+style='mso-spacerun:yes'>                </span>}</span><span lang=EN-GB
+style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>           
+</span>}</span><span lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>       
+</span>}</span><span lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'><span style='mso-spacerun:yes'>    </span>}</span><span
+lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=EN-GB style='color:black;mso-color-alt:
+windowtext;mso-ansi-language:EN-GB'>}</span><span lang=EN-GB style='mso-ansi-language:
+EN-GB'><o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span lang=EN-GB style='color:black;mso-color-alt:windowtext;mso-ansi-language:
+EN-GB'>}</span><span lang=EN-GB style='mso-ansi-language:EN-GB'><o:p></o:p></span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Nézzük ennek a használatát a fenti problémára:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Get-Property
+-Object $ticket -PropPath &quot;items[1].ItemCost.Price&quot;</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Object<span
+style='mso-spacerun:yes'>                       </span>PropertyPath<span
+style='mso-spacerun:yes'>            </span>PropertyExists Value</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>------<span
+style='mso-spacerun:yes'>                       </span>------------<span
+style='mso-spacerun:yes'>            </span>-------------- -----</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>System.Collections.Hashtable
+items[1].ItemCost.Price<span style='mso-spacerun:yes'>          </span>False</span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span lang=HU>A visszatérési érték egy egyedi objektum.
+Az első oszlopban alaphelyzetben az objektum sztring reprezentációja szerepel.
+A második oszlopban a tulajdonság elérési útja, a harmadik oszlop egy
+igaz/hamis mező, ami jelzi, hogy létezik-e ez az elérési út, a negyedik meg a
+tulajdonság értéke. Ez a második elemre (1-es index) természetesen ez üres.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>Az első elemre már kicsit más az eredmény:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Get-Property
+-Object $ticket -PropPath &quot;items[0].ItemCost.Price&quot;</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Object<span
+style='mso-spacerun:yes'>                       </span>PropertyPath<span
+style='mso-spacerun:yes'>            </span>PropertyExists Value</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>------<span
+style='mso-spacerun:yes'>                       </span>------------<span
+style='mso-spacerun:yes'>            </span>-------------- -----</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>System.Collections.Hashtable
+items[0].ItemCost.Price<span style='mso-spacerun:yes'>          
+</span>True<span style='mso-spacerun:yes'>  </span>1234</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Itt már létezik ez az elérési út és van érték is.
+Ha csak az értékre vagyunk kíváncsiak, akkor használhatjuk a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>-ValueOnly</span></span><span
+lang=HU> kapcsolót:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Get-Property
+-Object $ticket -PropPath &quot;items[0].ItemCost.Price&quot; -ValueOnly</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>1234</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU><span style='mso-spacerun:yes'> </span>Ha az első
+oszlopban valami értelmesebb információt szeretnénk látni, akkor hivatkozhatunk
+egy olyan tulajdonságra, ahol valami értelmesebb azonosító van, pl. a jegynek a
+száma (</span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>Number</span></span><span lang=HU>): </span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Get-Property
+-Object $ticket -PropPath &quot;items[0].ItemCost.Price&quot;
+-ObjectNameProperty Number</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Object<span
+style='mso-spacerun:yes'>  </span>PropertyPath<span
+style='mso-spacerun:yes'>            </span>PropertyExists Value</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>------<span
+style='mso-spacerun:yes'>  </span>------------<span
+style='mso-spacerun:yes'>            </span>-------------- -----</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>REQ1234
+items[0].ItemCost.Price<span style='mso-spacerun:yes'>          
+</span>True<span style='mso-spacerun:yes'>  </span>1234</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>A </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>-PropPath</span></span><span
+lang=HU>-nak nem is csak egy, hanem több elérési utat is adhatunk:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Get-Property
+-Object $ticket -PropPath Approver.Manager.Name, items[1].ItemCost.Price,
+items[0].ItemCost.Price, items[2], items[0].ItemCost</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Object<span
+style='mso-spacerun:yes'>                       </span>PropertyPath<span
+style='mso-spacerun:yes'>            </span>PropertyExists Value</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>------<span
+style='mso-spacerun:yes'>                       </span>------------<span
+style='mso-spacerun:yes'>            </span>-------------- -----</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>System.Collections.Hashtable
+Approver.Manager.Name<span style='mso-spacerun:yes'>             </span>True
+Ferenc...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>System.Collections.Hashtable
+items[1].ItemCost.Price<span style='mso-spacerun:yes'>          </span>False</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>System.Collections.Hashtable
+items[0].ItemCost.Price<span style='mso-spacerun:yes'>           </span>True
+1234</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>System.Collections.Hashtable
+items[2]<span style='mso-spacerun:yes'>                         </span>False</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>System.Collections.Hashtable
+items[0].ItemCost<span style='mso-spacerun:yes'>                 </span>True
+{Price...</span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span lang=HU>Végig szigorú módban voltam, de mégsem
+kaptam egyszer sem hibát, annak ellenére, hogy hivatkoztam nemlétező indexre is
+(</span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>items[2]</span></span><span lang=HU>), a nemlétező
+tulajdonság mellett is.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>Ez a függvény támogatja a hashtábla
+kulcsainak indexszerű hivatkozását is:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Get-Property
+-Object $ticket -PropPath &quot;['items'][0]['ItemCost']['Price']&quot;</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Object<span
+style='mso-spacerun:yes'>                       </span>PropertyPath<span
+style='mso-spacerun:yes'>                      </span>PropertyExists</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>------<span
+style='mso-spacerun:yes'>                       </span>------------<span
+style='mso-spacerun:yes'>                      </span>--------------</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>System.Collections.Hashtable
+['items'][0]['ItemCost']['Price']<span style='mso-spacerun:yes'>          
+</span>True</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Természetesen támogatja ez a függvény a csőből
+való táplálást is:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Get-ChildItem
+C:\Windows\*.exe | Get-Property -PropPath &quot;VersionInfo.CompanyName&quot;,
+&quot;PSDrive.Provider.Name&quot; -ObjectNameProperty Name</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Object<span
+style='mso-spacerun:yes'>       </span>PropertyPath<span
+style='mso-spacerun:yes'>            </span>PropertyExists Value</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>------<span
+style='mso-spacerun:yes'>       </span>------------<span
+style='mso-spacerun:yes'>            </span>-------------- -----</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>bfsvc.exe<span
+style='mso-spacerun:yes'>    </span>VersionInfo.CompanyName<span
+style='mso-spacerun:yes'>           </span>True Microsoft Corporation</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>bfsvc.exe<span
+style='mso-spacerun:yes'>    </span>PSDrive.Provider.Name<span
+style='mso-spacerun:yes'>             </span>True FileSystem</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>explorer.exe
+VersionInfo.CompanyName<span style='mso-spacerun:yes'>           </span>True
+Microsoft Corporation</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>explorer.exe
+PSDrive.Provider.Name<span style='mso-spacerun:yes'>             </span>True
+FileSystem</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>HelpPane.exe
+VersionInfo.CompanyName<span style='mso-spacerun:yes'>           </span>True
+Microsoft Corporation</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>HelpPane.exe
+PSDrive.Provider.Name<span style='mso-spacerun:yes'>             </span>True
+FileSystem</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>hh.exe<span
+style='mso-spacerun:yes'>       </span>VersionInfo.CompanyName<span
+style='mso-spacerun:yes'>           </span>True Microsoft Corporation</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>hh.exe<span
+style='mso-spacerun:yes'>       </span>PSDrive.Provider.Name<span
+style='mso-spacerun:yes'>             </span>True FileSystem</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>notepad.exe<span
+style='mso-spacerun:yes'>  </span>VersionInfo.CompanyName<span
+style='mso-spacerun:yes'>           </span>True Microsoft Corporation</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>notepad.exe<span
+style='mso-spacerun:yes'>  </span>PSDrive.Provider.Name<span
+style='mso-spacerun:yes'>             </span>True FileSystem</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>regedit.exe<span
+style='mso-spacerun:yes'>  </span>VersionInfo.CompanyName<span
+style='mso-spacerun:yes'>           </span>True Microsoft Corporation</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>regedit.exe<span
+style='mso-spacerun:yes'>  </span>PSDrive.Provider.Name<span
+style='mso-spacerun:yes'>             </span>True FileSystem</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>splwow64.exe
+VersionInfo.CompanyName<span style='mso-spacerun:yes'>           </span>True
+Microsoft Corporation</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>splwow64.exe
+PSDrive.Provider.Name<span style='mso-spacerun:yes'>             </span>True
+FileSystem</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>winhlp32.exe
+VersionInfo.CompanyName<span style='mso-spacerun:yes'>           </span>True
+Microsoft Corporation</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>winhlp32.exe
+PSDrive.Provider.Name<span style='mso-spacerun:yes'>             </span>True
+FileSystem</span></p>
+
+</div>
+
+<p class=Szveg><span lang=HU>Itt tehát több objektumra futtattuk a függvényt,
+objektumonként meg több tulajdonságra.</span></p>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

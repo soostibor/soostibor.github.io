@@ -1,0 +1,109 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>2.32 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h2 style='mso-list:l1 level2 lfo1'><a name="_Toc204716509"></a><a
+name="_Toc209116052"><span style='mso-bookmark:_Toc204716509'>
+<span lang=HU>Többszálú
+végrehajtás</span></span></a></h2>
+
+<p class=SzvegCxSpFirst><span lang=HU>Érdekes módon a PowerShell alatt
+meghúzódó .NET keretrendszer rendelkezik olyan osztályokkal, melyek lehetővé
+teszik a többszálú végrehajtást, bár ez még távolról sincs még a PowerShell
+szintjére felemelve, eléggé rejtett módon érhető ez a hasznos lehetőség. Mindez
+a <a href="http://powershell.com">http://powershell.com</a> weboldal, illetve Dr.
+Tobias Weltner (PowerShell MVP) jóvoltából most már számomra és mindenki más számára
+is hozzáférhető tudás.</span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU>Tudjuk már, hogy a PowerShell
+segítségével akár nagytömegű objektumon tudunk műveletet végezni, akár a
+hagyományos </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>foreach</span></span><span lang=HU> ciklus, vagy a
+csővezeték-szerű működést megvalósító </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>ForEach-Object</span></span><span
+lang=HU> cmdlet segítségével is. Ezekkel az a baj, hogy ha az 1000 objektum
+feldolgozása közben egyik-másik feldolgozása több időt vesz igénybe, akkor az
+az egész feldolgozás befejezését késlelteti. Ezzel szemben, ha párhuzamosan
+tudjuk a műveleteket elvégezni, akkor a befejezés ideje ideális esetben annyiad
+része lesz a korábbiaknak, ahány szálon tudjuk futtatni a feldolgozást. Persze
+a helyzet általában nem ideális, hiszen a processzorunk teljesítménye általában
+nem növelhető a szálak számával egyenes arányban és a többszálúság kezelése
+némi „</span><span class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>overhead</span></span><span
+lang=HU>”-et is jelent, de ha például távoli gépekkel kommunikálunk a
+feldolgozás során, amelyekre várni kell, akkor már jelentősen közeledhetünk az
+ideális gyorsulás felé.</span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU>Az egyik lehetőség a többszálúságra a
+háttérben futtatás, amit az </span>
+<i
+style='mso-bidi-font-style:normal'><span lang=HU>1.11
+</span></i>
+<i
+style='mso-bidi-font-style:normal'><span lang=HU> </span></i>
+<i
+style='mso-bidi-font-style:normal'><span lang=HU>Futtatás háttérben és távol
+</span></i>
+<span
+lang=HU> fejezetben már láthattunk is. Ilyenkor ahogy egy ’<i style='mso-bidi-font-style:
+normal'>job</i>’-ot elindítunk, nem kell megvárni a teljes végrehajtást, hanem
+már rögtön indíthatjuk a következőt. Persze egy-egy háttérfolyamat létrehozása
+is jelentős időbe telik (néhány másodperc), plusz a háttérfolyamatokhoz az
+adatok átadása és visszavétele is igényel feldolgozást (szerializáció –
+deszerializáció), így csak akkor éri meg ezzel élni, ha maga a feladat ennél
+jelentősebb ideig tart. </span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU>Az is gondot okoz a háttérfolyamatoknál,
+hogy nem tudjuk őket indításuk után vezérelni. Azaz dilemmába esünk, hogy egy
+1000 elemes feldolgozásnál hány háttérfolyamatot is indítsunk? Valószínű
+1000-et nem érdemes, 1-nél meg nincs is szükség háttérfolyamatra. Azaz az
+ideális valahol a kettő között van. Mondjuk, legyen 10 párhuzamos szálunk, azaz
+10 háttérfolyamatunk, de nekünk kell már indításkor szétosztani a
+munkadarabokat a 10 feldolgozóegységünk között. Rossz esetben az egyik egység
+kapja a legmunkaigényesebb 100 munkadarabot, így a többi már rég kész lesz és
+unatkozik, amikor ezek feldolgozása még jócskán folyik.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>Az ideális a ’</span><span
+class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>throttling</span></span><span
+lang=HU>’ mechanizmus lenne, azaz egy közös sorban várnak a munkadarabok, és az
+aktuális mindig az éppen felszabaduló feldolgozó egységhez kerül. Szerencsére
+ez is megoldható a többszálúságot biztosító osztályok segítségével.</span></p>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

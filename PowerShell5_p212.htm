@@ -1,0 +1,893 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>2.6.14 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><a name="_Toc204716374"></a><a
+name="_Toc209115917"><span style='mso-bookmark:_Toc204716374'>
+<span lang=HU>Csatlakozások,
+összeköttetések és szimbólikus kapcsolatok (hard link, soft link (junction) és symbolic
+link)</span></span></a><span lang=HU> </span></span></span></h3>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU>PowerShell 5.0-tól kezdődően
+lehetőségünk van külső parancssori eszközök nélkül is az NTFS fájlrendszer
+rejtélyes átjáróit, kapcsolatait kezelni. Elsőként emlékeztetőül egy kis
+összefoglaló a különböző kapcsolati típusokról:</span></span></span></p>
+
+<table class=LightList-Accent11 border=1 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none;mso-border-alt:solid windowtext .5pt;
+ mso-yfti-tbllook:1184;mso-padding-alt:0cm 5.4pt 0cm 5.4pt;mso-border-insideh:
+ .5pt solid windowtext;mso-border-insidev:.5pt solid windowtext'>
+ <tr style='mso-yfti-irow:-1;mso-yfti-firstrow:yes;mso-yfti-lastfirstrow:yes'>
+  <td width=164 valign=top style='width:123.15pt;border:solid windowtext 1.0pt;
+  mso-border-alt:solid windowtext .5pt;background:#4F81BD;mso-background-themecolor:
+  accent1;padding:0cm 5.4pt 0cm 5.4pt'><span style='mso-bookmark:_Toc189542102'><span
+  style='mso-bookmark:_Toc189542104'></span></span>
+  <p class=SzvegCxSpMiddle style='text-indent:0cm;mso-yfti-cnfc:5'><span
+  style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><b><span
+  lang=HU style='color:white;mso-themecolor:background1'><o:p>&nbsp;</o:p></span></b></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'></span></span>
+  <td width=164 valign=top style='width:123.2pt;border:solid windowtext 1.0pt;
+  border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+  solid windowtext .5pt;background:#4F81BD;mso-background-themecolor:accent1;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=SzvegCxSpMiddle style='text-indent:0cm;mso-yfti-cnfc:1'><span
+  style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><b><span
+  lang=HU style='color:white;mso-themecolor:background1'>Hard Link<o:p></o:p></span></b></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'></span></span>
+  <td width=164 valign=top style='width:123.2pt;border:solid windowtext 1.0pt;
+  border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+  solid windowtext .5pt;background:#4F81BD;mso-background-themecolor:accent1;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=SzvegCxSpMiddle align=left style='text-align:left;text-indent:0cm;
+  mso-yfti-cnfc:1'><span style='mso-bookmark:_Toc189542102'><span
+  style='mso-bookmark:_Toc189542104'><b><span lang=HU style='color:white;
+  mso-themecolor:background1'>Soft Link (Junction, Reparse Point)<o:p></o:p></span></b></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'></span></span>
+  <td width=164 valign=top style='width:123.2pt;border:solid windowtext 1.0pt;
+  border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+  solid windowtext .5pt;background:#4F81BD;mso-background-themecolor:accent1;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=SzvegCxSpLast style='text-indent:0cm;mso-yfti-cnfc:1'><span
+  style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><b><span
+  lang=HU style='color:white;mso-themecolor:background1'>Symbolic Link<o:p></o:p></span></b></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'></span></span>
+ </tr>
+ <tr style='mso-yfti-irow:0'>
+  <td width=164 valign=top style='width:123.15pt;border-top:none;border-left:
+  solid #4F81BD 1.0pt;mso-border-left-themecolor:accent1;border-bottom:solid #4F81BD 1.0pt;
+  mso-border-bottom-themecolor:accent1;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid #4F81BD 1.0pt;mso-border-top-themecolor:accent1;
+  mso-border-alt:solid #4F81BD 1.0pt;mso-border-themecolor:accent1;mso-border-right-alt:
+  solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=SzvegCxSpFirst style='text-indent:0cm;mso-yfti-cnfc:68'><span
+  style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><b><span
+  lang=HU>Követelmények<o:p></o:p></span></b></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'></span></span>
+  <td width=164 valign=top style='width:123.2pt;border-top:none;border-left:
+  none;border-bottom:solid #4F81BD 1.0pt;mso-border-bottom-themecolor:accent1;
+  border-right:solid windowtext 1.0pt;mso-border-top-alt:solid #4F81BD 1.0pt;
+  mso-border-top-themecolor:accent1;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-top-alt:#4F81BD 1.0pt;mso-border-top-themecolor:accent1;
+  mso-border-left-alt:windowtext .5pt;mso-border-bottom-alt:#4F81BD 1.0pt;
+  mso-border-bottom-themecolor:accent1;mso-border-right-alt:windowtext .5pt;
+  mso-border-style-alt:solid;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=SzvegCxSpMiddle style='text-indent:0cm;mso-yfti-cnfc:64'><span
+  style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+  lang=HU>A cél objektum (fájl) ugyanazon a köteten kell legyen</span></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'></span></span>
+  <td width=164 valign=top style='width:123.2pt;border-top:none;border-left:
+  none;border-bottom:solid #4F81BD 1.0pt;mso-border-bottom-themecolor:accent1;
+  border-right:solid windowtext 1.0pt;mso-border-top-alt:solid #4F81BD 1.0pt;
+  mso-border-top-themecolor:accent1;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-top-alt:#4F81BD 1.0pt;mso-border-top-themecolor:accent1;
+  mso-border-left-alt:windowtext .5pt;mso-border-bottom-alt:#4F81BD 1.0pt;
+  mso-border-bottom-themecolor:accent1;mso-border-right-alt:windowtext .5pt;
+  mso-border-style-alt:solid;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=SzvegCxSpMiddle style='text-indent:0cm;mso-yfti-cnfc:64'><span
+  style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+  lang=HU>A cél objektum (könyvtár) ugyanazon a gépen kell legyen</span></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'></span></span>
+  <td width=164 valign=top style='width:123.2pt;border-top:none;border-left:
+  none;border-bottom:solid #4F81BD 1.0pt;mso-border-bottom-themecolor:accent1;
+  border-right:solid #4F81BD 1.0pt;mso-border-right-themecolor:accent1;
+  mso-border-top-alt:solid #4F81BD 1.0pt;mso-border-top-themecolor:accent1;
+  mso-border-left-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=SzvegCxSpLast style='text-indent:0cm;mso-yfti-cnfc:64'><span
+  style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+  lang=HU>Bárhol lehet a cél objektum, relatív vagy abszolút elérési úttal vagy
+  UNC eléréssel hálózati megosztás is</span></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'></span></span>
+ </tr>
+ <tr style='mso-yfti-irow:1'>
+  <td width=164 valign=top style='width:123.15pt;border:solid windowtext 1.0pt;
+  border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=SzvegCxSpFirst style='text-indent:0cm;mso-yfti-cnfc:4'><span
+  style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><b><span
+  lang=HU>Amikor a Windows Explorerből töröljük a kapcsolatot jelző objektumot<o:p></o:p></span></b></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'></span></span>
+  <td width=164 valign=top style='width:123.2pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=SzvegCxSpMiddle style='text-indent:0cm'><span style='mso-bookmark:
+  _Toc189542102'><span style='mso-bookmark:_Toc189542104'><span lang=HU>A fájl
+  tartalma megmarad, amíg legalább egy </span></span></span><span
+  style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+  class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>hard
+  link</span></span><span lang=HU>-et mutat a fájlra. Utána az adat is
+  törlődik.</span></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'></span></span>
+  <td width=164 valign=top style='width:123.2pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=SzvegCxSpMiddle style='text-indent:0cm'><span style='mso-bookmark:
+  _Toc189542102'><span style='mso-bookmark:_Toc189542104'><span lang=HU>A cél
+  könyvtár érintetlen marad.</span></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'></span></span>
+  <td width=164 valign=top style='width:123.2pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=SzvegCxSpLast style='text-indent:0cm'><span style='mso-bookmark:
+  _Toc189542102'><span style='mso-bookmark:_Toc189542104'><span lang=HU>A cél
+  objektum érintetlen marad.</span></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'></span></span>
+ </tr>
+ <tr style='mso-yfti-irow:2'>
+  <td width=164 valign=top style='width:123.15pt;border-top:none;border-left:
+  solid #4F81BD 1.0pt;mso-border-left-themecolor:accent1;border-bottom:solid #4F81BD 1.0pt;
+  mso-border-bottom-themecolor:accent1;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid #4F81BD 1.0pt;mso-border-top-themecolor:accent1;
+  mso-border-alt:solid #4F81BD 1.0pt;mso-border-themecolor:accent1;mso-border-right-alt:
+  solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=SzvegCxSpFirst style='text-indent:0cm;mso-yfti-cnfc:68'><span
+  style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><b><span
+  lang=HU>Amikor a cél objektumot elmozgatjuk<o:p></o:p></span></b></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'></span></span>
+  <td width=164 valign=top style='width:123.2pt;border-top:none;border-left:
+  none;border-bottom:solid #4F81BD 1.0pt;mso-border-bottom-themecolor:accent1;
+  border-right:solid windowtext 1.0pt;mso-border-top-alt:solid #4F81BD 1.0pt;
+  mso-border-top-themecolor:accent1;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-top-alt:#4F81BD 1.0pt;mso-border-top-themecolor:accent1;
+  mso-border-left-alt:windowtext .5pt;mso-border-bottom-alt:#4F81BD 1.0pt;
+  mso-border-bottom-themecolor:accent1;mso-border-right-alt:windowtext .5pt;
+  mso-border-style-alt:solid;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=SzvegCxSpMiddle style='text-indent:0cm;mso-yfti-cnfc:64'><span
+  style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+  lang=HU>A csatolás továbbra is érvényes lesz.</span></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'></span></span>
+  <td width=164 valign=top style='width:123.2pt;border-top:none;border-left:
+  none;border-bottom:solid #4F81BD 1.0pt;mso-border-bottom-themecolor:accent1;
+  border-right:solid windowtext 1.0pt;mso-border-top-alt:solid #4F81BD 1.0pt;
+  mso-border-top-themecolor:accent1;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-top-alt:#4F81BD 1.0pt;mso-border-top-themecolor:accent1;
+  mso-border-left-alt:windowtext .5pt;mso-border-bottom-alt:#4F81BD 1.0pt;
+  mso-border-bottom-themecolor:accent1;mso-border-right-alt:windowtext .5pt;
+  mso-border-style-alt:solid;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=SzvegCxSpMiddle style='text-indent:0cm;mso-yfti-cnfc:64'><span
+  style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+  lang=HU>A csatolás érvénytelen lesz.</span></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'></span></span>
+  <td width=164 valign=top style='width:123.2pt;border-top:none;border-left:
+  none;border-bottom:solid #4F81BD 1.0pt;mso-border-bottom-themecolor:accent1;
+  border-right:solid #4F81BD 1.0pt;mso-border-right-themecolor:accent1;
+  mso-border-top-alt:solid #4F81BD 1.0pt;mso-border-top-themecolor:accent1;
+  mso-border-left-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=SzvegCxSpLast style='text-indent:0cm;mso-yfti-cnfc:64'><span
+  style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+  lang=HU>A csatolás érvénytelen lesz.</span></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'></span></span>
+ </tr>
+ <tr style='mso-yfti-irow:3'>
+  <td width=164 valign=top style='width:123.15pt;border:solid windowtext 1.0pt;
+  border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=SzvegCxSpFirst style='text-indent:0cm;mso-yfti-cnfc:4'><span
+  style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><b><span
+  lang=HU>Fájlokra v. könytárakra mutathat<o:p></o:p></span></b></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'></span></span>
+  <td width=164 valign=top style='width:123.2pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=SzvegCxSpMiddle style='text-indent:0cm'><span style='mso-bookmark:
+  _Toc189542102'><span style='mso-bookmark:_Toc189542104'><span lang=HU>Csak
+  fájlokra</span></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'></span></span>
+  <td width=164 valign=top style='width:123.2pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=SzvegCxSpMiddle style='text-indent:0cm'><span style='mso-bookmark:
+  _Toc189542102'><span style='mso-bookmark:_Toc189542104'><span lang=HU>Csak
+  könyvtárakra</span></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'></span></span>
+  <td width=164 valign=top style='width:123.2pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=SzvegCxSpLast style='text-indent:0cm'><span style='mso-bookmark:
+  _Toc189542102'><span style='mso-bookmark:_Toc189542104'><span lang=HU>Fájlra
+  és könyvtárra is</span></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'></span></span>
+ </tr>
+ <tr style='mso-yfti-irow:4;mso-yfti-lastrow:yes'>
+  <td width=164 valign=top style='width:123.15pt;border-top:none;border-left:
+  solid #4F81BD 1.0pt;mso-border-left-themecolor:accent1;border-bottom:solid #4F81BD 1.0pt;
+  mso-border-bottom-themecolor:accent1;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid #4F81BD 1.0pt;mso-border-top-themecolor:accent1;
+  mso-border-alt:solid #4F81BD 1.0pt;mso-border-themecolor:accent1;mso-border-right-alt:
+  solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=SzvegCxSpFirst style='text-indent:0cm;mso-yfti-cnfc:68'><span
+  style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><b><span
+  lang=HU>Egyéb jellegzetesség<o:p></o:p></span></b></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'></span></span>
+  <td width=164 valign=top style='width:123.2pt;border-top:none;border-left:
+  none;border-bottom:solid #4F81BD 1.0pt;mso-border-bottom-themecolor:accent1;
+  border-right:solid windowtext 1.0pt;mso-border-top-alt:solid #4F81BD 1.0pt;
+  mso-border-top-themecolor:accent1;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-top-alt:#4F81BD 1.0pt;mso-border-top-themecolor:accent1;
+  mso-border-left-alt:windowtext .5pt;mso-border-bottom-alt:#4F81BD 1.0pt;
+  mso-border-bottom-themecolor:accent1;mso-border-right-alt:windowtext .5pt;
+  mso-border-style-alt:solid;padding:0cm 5.4pt 0cm 5.4pt'><span
+  style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'></span></span>
+  <p class=SzvegCxSpMiddle style='text-indent:0cm;mso-yfti-cnfc:64'><span
+  style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+  lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'></span></span>
+  <td width=164 valign=top style='width:123.2pt;border-top:none;border-left:
+  none;border-bottom:solid #4F81BD 1.0pt;mso-border-bottom-themecolor:accent1;
+  border-right:solid windowtext 1.0pt;mso-border-top-alt:solid #4F81BD 1.0pt;
+  mso-border-top-themecolor:accent1;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-top-alt:#4F81BD 1.0pt;mso-border-top-themecolor:accent1;
+  mso-border-left-alt:windowtext .5pt;mso-border-bottom-alt:#4F81BD 1.0pt;
+  mso-border-bottom-themecolor:accent1;mso-border-right-alt:windowtext .5pt;
+  mso-border-style-alt:solid;padding:0cm 5.4pt 0cm 5.4pt'><span
+  style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'></span></span>
+  <p class=SzvegCxSpMiddle style='text-indent:0cm;mso-yfti-cnfc:64'><span
+  style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+  lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'></span></span>
+  <td width=164 valign=top style='width:123.2pt;border-top:none;border-left:
+  none;border-bottom:solid #4F81BD 1.0pt;mso-border-bottom-themecolor:accent1;
+  border-right:solid #4F81BD 1.0pt;mso-border-right-themecolor:accent1;
+  mso-border-top-alt:solid #4F81BD 1.0pt;mso-border-top-themecolor:accent1;
+  mso-border-left-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=SzvegCxSpMiddle style='text-indent:0cm;mso-yfti-cnfc:64'><span
+  style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+  lang=HU>Relatív hivatkozás is engedélyezett</span></span></span></p>
+  <p class=SzvegCxSpLast style='text-indent:0cm;mso-yfti-cnfc:64'><span
+  style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+  lang=HU>Rendszergazda jogosultság szükséges a létrehozásához</span></span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'></span></span>
+ </tr>
+</table>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc189542104'><span lang=HU><span style='mso-spacerun:yes'> </span>Mindegyik
+kapcsolati típust hasonló módon lehet létrehozni. Elsőként nézzünk egy hard
+link létrehozását:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; New-Item -Path
+C:\PowerShell\Links -Name hardlink.txt -ItemType hardlin</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>k -Value
+C:\PowerShell\Links\Target\célfájl.txt</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>Directory: C:\PowerShell\Links</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Mode<span
+style='mso-spacerun:yes'>                </span>LastWriteTime<span
+style='mso-spacerun:yes'>         </span>Length Name</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>                </span>-------------<span
+style='mso-spacerun:yes'>         </span>------ ----</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>-a---l<span
+style='mso-spacerun:yes'>      </span>2016.02.28.<span
+style='mso-spacerun:yes'>     </span>18:49<span
+style='mso-spacerun:yes'>             </span>15 hardlink.txt</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc189542104'><span lang=HU>Látható, hogy az „igazi” </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>célfájl.txt</span></span><span
+lang=HU>-re mutató </span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>hardlink.txt</span></span><span
+lang=HU> névvel hoztam létre a csatlakozást. Igazából a hard linkek esetében
+nincs is értelme „igazi” meg „nem igazi” fájlokról beszélni, minden
+fájlbejegyzés egyenrangú, láthatjuk is a méretnél is, hogy 15 bájt méretűnek
+látjuk ezt az objektumot. Ennek ellenére látunk egy „l” betűt a </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Mode</span></span><span
+lang=HU> oszlopban, de ha lekérdezzük az fájl attribútumait, akkor ott nem
+látunk semmi „hard linkségre” utaló információt:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Get-Item
+C:\PowerShell\Links\hardlink2.txt | ft name, Attributes</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>          </span>Attributes</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>          </span>----------</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>hardlink.txt<span
+style='mso-spacerun:yes'>     </span>Archive</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc189542104'><span lang=HU>Viszont újabb tulajdonságokat is találunk a
+fájloknál PowerShell 5.0-tól kezdődően:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Get-Item
+C:\PowerShell\Links\hardlink.txt | ft name, target, linktype</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>          </span>Target<span
+style='mso-spacerun:yes'>                                   </span>LinkType</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>          </span>------<span
+style='mso-spacerun:yes'>                                   </span>--------</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>hardlink.txt<span
+style='mso-spacerun:yes'>  </span>{C:\PowerShell\Links\Target\célfájl.txt}
+HardLink</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc189542104'><span lang=HU>Ha azt mondtam, hogy a hard linkek egyenrangúak az
+eredeti fájlbejegyzéssel, akkor ez a </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Target</span></span><span
+lang=HU> és </span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>LinkType</span></span><span
+lang=HU> tulajdonság honnan jön? Ezeket a </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>GetFileInformationByHandle</span></span><span
+lang=HU> Win32 API hívás deríti ki valószínűleg a háttérben, és ha megnézzük az
+„eredeti” fájlt, ott ugyanezen adatok tükörképét látjuk:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Get-Item
+C:\PowerShell\Links\Target\célfájl.txt | ft name, target, link</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>type</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>        </span>Target<span
+style='mso-spacerun:yes'>                              </span>LinkType</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>        </span>------<span
+style='mso-spacerun:yes'>                              </span>--------</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>célfájl.txt
+{C:\PowerShell\Links\hardlink.txt}<span style='mso-spacerun:yes'> 
+</span>HardLink</span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU>A </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Target</span></span><span
+lang=HU> tulajdonságban látjuk tehát az összes többi hivatkozást ugyanerre a
+fájlra.</span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU>A könyvtárak becsatolása
+sokkal egyszerűbb történet. A csatolás létrehozása nagyon hasonló a hard
+linkhez, csak az </span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>ItemType</span></span><span
+lang=HU> itt </span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>junction</span></span><span
+lang=HU>: </span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; New-Item -Path
+C:\PowerShell\Links -Name junctionkönyvtár -ItemType jun</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ction -Value
+C:\PowerShell\Links\Target</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>Directory: C:\PowerShell\Links</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Mode<span
+style='mso-spacerun:yes'>                </span>LastWriteTime<span
+style='mso-spacerun:yes'>         </span>Length Name</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>                </span>-------------<span
+style='mso-spacerun:yes'>         </span>------ ----</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>d----l<span
+style='mso-spacerun:yes'>      </span>2016.02.28.<span
+style='mso-spacerun:yes'>     </span>19:09<span
+style='mso-spacerun:yes'>                </span>junctionkönyvtár</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc189542104'><span lang=HU>Az elem tulajdonságai is hasonlóak:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; Get-Item
+C:\PowerShell\Links\junctionkönyvtár | ft name, Target, LinkTy</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>pe</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>             </span>Target<span
+style='mso-spacerun:yes'>                       </span>LinkType</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>             </span>------<span
+style='mso-spacerun:yes'>                       </span>--------</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>junctionkönyvtár
+{C:\PowerShell\Links\Target} Junction</span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU>Míg a hard linkeknél a </span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Target</span></span><span
+lang=HU> több elemből is állhat, ha ugyanarra a fájlra több hard link is mutat,
+addig a </span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span class=EnglishChar><span
+style='mso-bidi-font-family:"Times New Roman"'>junction</span></span><span
+lang=HU>-nél mindig csak egy </span></span></span><span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Target</span></span><span
+lang=HU> lesz. </span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc189542104'><span lang=HU>A szimbolikus kapcsolatok is
+hasonlóak a csatolásokhoz, itt fájlokhoz és könyvtárakhoz is létrehozhatunk
+kapcsolatokat:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; New-Item -Path
+C:\PowerShell\Links -Name symlink.txt -ItemType symbolic</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>link -Value
+C:\PowerShell\Links\Target\célfájl.txt</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>Directory: C:\PowerShell\Links</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Mode<span
+style='mso-spacerun:yes'>                </span>LastWriteTime<span
+style='mso-spacerun:yes'>         </span>Length Name</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>                </span>-------------<span
+style='mso-spacerun:yes'>         </span>------ ----</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>-a---l<span
+style='mso-spacerun:yes'>      </span>2016.02.28.<span
+style='mso-spacerun:yes'>     </span>19:10<span
+style='mso-spacerun:yes'>              </span>0 symlink.txt</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; New-Item -Path
+C:\PowerShell\Links -Name symlinkkönyvtár -ItemType symb</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>oliclink -Value
+C:\PowerShell\Links\Target</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>Directory: C:\PowerShell\Links</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Mode<span
+style='mso-spacerun:yes'>                </span>LastWriteTime<span
+style='mso-spacerun:yes'>         </span>Length Name</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>                </span>-------------<span
+style='mso-spacerun:yes'>         </span>------ ----</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>d----l<span
+style='mso-spacerun:yes'>      </span>2016.02.28.<span
+style='mso-spacerun:yes'>     </span>19:10<span
+style='mso-spacerun:yes'>                </span>symlinkkönyvtár</span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc189542104'><span lang=HU>Az új tulajdonságok is teljesen a vártnak
+megfelelően alakulnak:</span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; dir
+C:\PowerShell\Links\sym* | ft name, Target, LinkType</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>            </span>Target<span
+style='mso-spacerun:yes'>                                   </span>LinkType</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>            </span>------<span
+style='mso-spacerun:yes'>                                   </span>--------</span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>symlinkkönyvtár
+{C:\PowerShell\Links\Target}<span style='mso-spacerun:yes'>            
+</span>SymbolicLink</span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc189542104'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>symlink.txt<span
+style='mso-spacerun:yes'>     </span>{C:\PowerShell\Links\Target\célfájl.txt}
+SymbolicLink</span></span></span></p>
+
+</div>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

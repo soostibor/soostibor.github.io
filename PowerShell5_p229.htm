@@ -1,0 +1,384 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>2.11 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h2 style='mso-list:l1 level2 lfo1'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:_Toc197149342'><span
+style='mso-bookmark:_Toc197149254'><a name="_Toc204716393"></a><a
+name="_Toc209115936"><span style='mso-bookmark:_Toc204716393'>
+<span lang=HU>Biztonságos
+szövegek (SecureString)</span></span></a></span></span></span></span></h2>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:_Toc197149342'><span
+style='mso-bookmark:_Toc197149254'><span lang=HU>Az előző fejezetben láthattuk
+a </span></span></span></span></span><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:_Toc197149342'><span
+style='mso-bookmark:_Toc197149254'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>ConvertTo-SecureSting</span></span><span
+lang=HU> cmdlet alkalmazását u.n. SecureString típusú adatok létrehozására.
+Erre minden olyan esetben szükség lehet, amikor egy cmdlet ilyen típusú
+paramétert vár, általában hitelesítési adatok jelszavának megadásához. De nem
+csak erre használható, hanem például jelszavak sima szövegként történő tárolásához
+képest kicsit biztonságosabb tárolására is. Erre szükségünk lehet olyan
+esetben, amikor az automatizáltan futtatott szkriptünknek valamilyen más
+felhasználó nevében kell egy tevékenységet elvégeznie és ilyenkor nincs
+lehetőségünk a jelszó megadására, hanem a szkriptnek kell valahonnan, például
+egy fájlból, ezt megszereznie.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpMiddle><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:_Toc197149342'><span
+style='mso-bookmark:_Toc197149254'><span lang=HU>A </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>ConvertTo-SecureString</span></span><span
+lang=HU> amikor titkosítja a paraméterként átadott szöveget, akkor a
+titkosításhoz egy, az adott géphez kötődő kulcsot használ. Ezt azért fontos
+tudni, mert ha az így titkosított szöveget egy másik gépen akarjuk visszafejteni,
+akkor az a másik kulcs miatt nem fog sikerülni. Így, ha a hordozhatóság is
+szempont, akkor a </span></span></span></span></span><span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:
+_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>-key</span></span><span
+lang=HU> paraméternek átadott valamilyen ismert kulccsal kell titkosítanunk. Ez
+a kulcs lehet 16, 24 vagy 32 bájtot tartalmazó tömb.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpMiddle><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:_Toc197149342'><span
+style='mso-bookmark:_Toc197149254'><span lang=HU>Az alábbi </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Encrypt-String</span></span><span
+lang=HU> függvényben a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$key</span></span><span
+lang=HU> kulcsot 16 véletlen számból (bájtból) hoztam létre, amit Base64
+kódolással szövegként történő tárolásra alkalmassá tettem (</span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$keybase64string</span></span><span
+lang=HU>). Miután 16 byte hosszúságú adat Base64 kódolása után az utolsó két
+karakter két egyenlőségjel lesz, ezért azokat lecsippentem, hogy a végső
+titkosított szövegben ne legyen ennyire látható, hogy ott egy Base64 szöveg
+vége lapul.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpMiddle><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:_Toc197149342'><span
+style='mso-bookmark:_Toc197149254'><span lang=HU>Ezután a paraméterként átadott
+SecureString-é alakítom. Ez egy bináris adat, amit nem lehet szövegként kiírni
+fájlban, így használom a </span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>ConvertFrom-SecureString</span></span><span
+lang=HU> cmdletet, hogy ebből a bináris adatból szöveget állítsak elő. </span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:_Toc197149342'><span
+style='mso-bookmark:_Toc197149254'><span lang=HU>A legvégén a kulcs base64
+szövegét és a SecureString szövegét összefűzöm, ez lesz a függvényem kimenete:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:_Toc197149342'><span
+style='mso-bookmark:_Toc197149254'><a name="_Hlk164845093"><span lang=HU
+style='color:darkblue'>function</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> Encrypt-String (</span><span lang=HU
+style='color:orangered'>$string</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>){</span></a></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:_Toc197149342'><span
+style='mso-bookmark:_Toc197149254'><span style='mso-bookmark:_Hlk164845093'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:orangered'>$key</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:purple'>1</span><span lang=HU
+style='color:darkgray'>..</span><span lang=HU style='color:purple'>16</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>|</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:blue'>ForEach-Object</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> {</span><span lang=HU
+style='color:darkgray'>[</span><span lang=HU style='color:teal'>byte</span><span
+lang=HU style='color:darkgray'>]</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> (</span><span lang=HU style='color:blue'>Get-Random</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:navy'>-Minimum</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:purple'>1</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:navy'>-Maximum</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:purple'>256</span><span lang=HU
+style='color:black;mso-color-alt:windowtext'>)}</span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:_Toc197149342'><span
+style='mso-bookmark:_Toc197149254'><span style='mso-bookmark:_Hlk164845093'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:orangered'>$keybase64string</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:darkgray'>[</span><span lang=HU
+style='color:teal'>System.Convert</span><span lang=HU style='color:darkgray'>]::</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ToBase64String(</span><span
+lang=HU style='color:orangered'>$key</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>)</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Substring(</span><span
+lang=HU style='color:purple'>0</span><span lang=HU style='color:darkgray'>,</span><span
+lang=HU style='color:purple'>22</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>)</span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:_Toc197149342'><span
+style='mso-bookmark:_Toc197149254'><span style='mso-bookmark:_Hlk164845093'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:_Toc197149342'><span
+style='mso-bookmark:_Toc197149254'><span style='mso-bookmark:_Hlk164845093'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:orangered'>$ss</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:blue'>ConvertTo-SecureString</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:orangered'>$string</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:navy'>-Force</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:navy'>-AsPlainText</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:_Toc197149342'><span
+style='mso-bookmark:_Toc197149254'><span style='mso-bookmark:_Hlk164845093'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:orangered'>$encodedss</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:orangered'>$ss</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>|</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:blue'>ConvertFrom-SecureString</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:navy'>-Key</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:orangered'>$key</span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:_Toc197149342'><span
+style='mso-bookmark:_Toc197149254'><span style='mso-bookmark:_Hlk164845093'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:orangered'>$keybase64string</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkgray'>+</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> </span><span lang=HU style='color:orangered'>$encodedss</span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+style='mso-bookmark:_Hlk164845093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>}</span></span></span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:_Toc197149342'><span
+style='mso-bookmark:_Toc197149254'><span style='mso-bookmark:_Hlk164845093'><span
+lang=HU>A visszaalakító </span></span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+style='mso-bookmark:_Hlk164845093'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Decrypt-String</span></span><span
+lang=HU> függvényem ezeket a lépéseket visszafelé végzi el. Elsőként
+leválasztja a titkosított szöveg első 22 karakterét, majd visszapótolja a két
+egyenlőségjelet, ez a visszafejtéshez szükséges kulcs Base64 kódolt változata.
+A maradék lesz a titkosított szöveg.</span></span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:_Toc197149342'><span
+style='mso-bookmark:_Toc197149254'><span style='mso-bookmark:_Hlk164845093'><span
+lang=HU>A kulcsot visszakonvertálom Base64-ből, a titkosított szöveget meg a </span></span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+style='mso-bookmark:_Hlk164845093'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>ConvertTo-SecureString</span></span><span
+lang=HU>-el visszaalakítom </span></span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+style='mso-bookmark:_Hlk164845093'><span class=EnglishChar><span
+style='mso-bidi-font-family:"Times New Roman"'>SecureString</span></span><span
+lang=HU>-é a kulcs segítségével. Ebből, az előző fejezet trükkjével megkapható
+az eredeti jelszó:</span></span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:_Toc197149342'><span
+style='mso-bookmark:_Toc197149254'><span style='mso-bookmark:_Hlk164845093'><span
+lang=HU style='color:darkblue'>function</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'> </span><span lang=HU style='color:blueviolet'>Decrypt-String</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> ($encryptedstring){</span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:_Toc197149342'><span
+style='mso-bookmark:_Toc197149254'><span style='mso-bookmark:_Hlk164845093'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>$keybase64 </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> $encryptedstring</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>substring(</span><span
+lang=HU style='color:purple'>0</span><span lang=HU style='color:darkgray'>,</span><span
+lang=HU style='color:purple'>22</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>) </span><span lang=HU style='color:darkgray'>+</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:darkred'>&quot;==&quot;</span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:_Toc197149342'><span
+style='mso-bookmark:_Toc197149254'><span style='mso-bookmark:_Hlk164845093'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>$encryptedstring </span><span lang=HU
+style='color:darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> $encryptedstring</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>substring(</span><span
+lang=HU style='color:purple'>22</span><span lang=HU style='color:darkgray'>,</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>$encryptedstring</span><span
+lang=HU style='color:darkgray'>.</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>length</span><span lang=HU style='color:darkgray'>-</span><span
+lang=HU style='color:purple'>22</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>)</span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:_Toc197149342'><span
+style='mso-bookmark:_Toc197149254'><span style='mso-bookmark:_Hlk164845093'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>$key </span><span lang=HU style='color:
+darkgray'>=</span><span lang=HU style='color:black;mso-color-alt:windowtext'> </span><span
+lang=HU style='color:darkgray'>[</span><span lang=HU style='color:teal'>System.Convert</span><span
+lang=HU style='color:darkgray'>]::</span><span lang=HU style='color:black;
+mso-color-alt:windowtext'>FromBase64String($keybase64)</span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:_Toc197149342'><span
+style='mso-bookmark:_Toc197149254'><span style='mso-bookmark:_Hlk164845093'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>$ss </span><span lang=HU style='color:darkgray'>=</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:blue'>Convertto-SecureString</span><span lang=HU style='color:
+black;mso-color-alt:windowtext'> $encryptedstring </span><span lang=HU
+style='color:navy'>-Key</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'> $key</span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:_Toc197149342'><span
+style='mso-bookmark:_Toc197149254'><span style='mso-bookmark:_Hlk164845093'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Toc197149403'><span style='mso-bookmark:_Toc197149342'><span
+style='mso-bookmark:_Toc197149254'><span style='mso-bookmark:_Hlk164845093'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>    </span>(</span><span lang=HU style='color:blue'>New-Object</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'> </span><span lang=HU
+style='color:blueviolet'>System.Management.Automation.PSCredential</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>(</span><span lang=HU
+style='color:darkred'>'dummy'</span><span lang=HU style='color:darkgray'>,</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>$ss))</span><span lang=HU
+style='color:darkgray'>.</span><span lang=HU style='color:black;mso-color-alt:
+windowtext'>GetNetworkCredential()</span><span lang=HU style='color:darkgray'>.</span><span
+lang=HU style='color:black;mso-color-alt:windowtext'>password</span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Toc197149403'><span
+style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:_Toc197149254'><span
+style='mso-bookmark:_Hlk164845093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>}</span></span></span></span></span></span></p>
+
+</div>
+
+<span style='mso-bookmark:_Hlk164845093'></span>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:
+_Toc197149403'><span style='mso-bookmark:_Toc197149342'><span style='mso-bookmark:
+_Toc197149254'><span lang=HU><span style='mso-spacerun:yes'> </span>Természetesen
+ez a módszer távolról sem tökéletes módszer jelszavak biztonságos tárolására,
+de mindenképpen jobb annál, mintha szabad szövegként tárolnánk azokat. Ha a
+fenti módszerrel tároljuk a jelszót egy fájlban, érdemes még NTFS
+jogosultságokkal leszűkíteni, hogy ki az, aki ezt a fájlt olvasni tudja és
+ezzel a védelemmel kiegészítve a jelszó „elrejtését” már kellő biztonságot kaphatunk.</span></span></span></span></span></p>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

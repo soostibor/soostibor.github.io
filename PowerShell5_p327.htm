@@ -1,0 +1,357 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>2.30.1 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><a name="_Toc204716503"></a><a
+name="_Toc209116046"><span style='mso-bookmark:_Toc204716503'>
+<span lang=HU>Első példa
+részletesen: ablakok elrejtése és visszaállítása</span></span></a></h3>
+
+<p class=Kp>
+ <img src="PowerShell5_files/image164.png">
+</p>
+
+<p class=MsoCaption>
+<span lang=HU><span
+style='mso-no-proof:yes'>142</span></span>
+<span
+lang=HU>. ábra A ShowWindow leírása a PInvoke oldalon</span></p>
+
+<p class=Szveg><span lang=HU>A fenti ábrán például a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>ShowWindow</span></span><span
+lang=HU> funkció meghívását lehetővé tevő definíciós részt látjuk. Ezt a
+következőképpen kell PowerShell alá betenni:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:purple'>$code</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> '[DllImport(&quot;user32.dll&quot;)]</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[return: MarshalAs(UnmanagedType.Bool)]</span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);'<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><b><span lang=HU style='color:cadetblue'>Add-Type</span></b><span lang=HU
+style='color:black'> </span><i><span lang=HU style='color:cadetblue'>-memberDefinition</span></i><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$code</span><span
+lang=HU style='color:black'> </span><i><span lang=HU style='color:cadetblue'>-name</span></i><span
+lang=HU style='color:black'> NativeMethod </span><i><span lang=HU
+style='color:cadetblue'>-namespace</span></i><span lang=HU style='color:black'>
+Win32<o:p></o:p></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span lang=HU>A </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>$code</span></span><span
+lang=HU> változóhoz rendelem hozzá a PInvoke oldalról bemásolt kódot, és itt a
+következő apró módosításokat kellett elvégeznem. Először is az exportált
+függvény <span class=HiddenChar><i style='mso-bidi-font-style:normal'><span
+style='mso-bidi-font-family:"Times New Roman"'>public</span></i></span> kell,
+hogy legyen. Másrészt a weboldalon látható, a függvény második paraméterének
+típusa egy </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>ShowWindowCommands</span></span><span lang=HU> típus nincs
+számunkra definiálva, de észrevehetjük, hogy ez valószínűleg egy felsorolás
+adattípus, tehát azt helyettesíthetjük az <span class=HiddenChar><i
+style='mso-bidi-font-style:normal'><span style='mso-bidi-font-family:"Times New Roman"'>int</span></i></span>-tel.</span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU>Ezek után az </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Add-Type</span></span>
+
+<span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdlettel ezt hozzáadhatjuk a PowerShell
+környezetünkhöz, mint egy típus, és hogy hivatkozni is tudjunk rá el kell látni
+egy tetszőleges névvel és névtérrel.</span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU>A szkript további részében fény derül
+arra a </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>Hide-Window</span></span><span lang=HU> és a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Restore-Window</span></span><span
+lang=HU> függvényeknél, hogyan is kell ezután azt a típust munkára fogni. De
+előtte meg kell győződni, hogy az összes bemeneti adattal rendelkezünk-e, ami a
+</span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>ShowWindow</span></span><span
+lang=HU> metódus paramétereként majd kell. A </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>Get-Process</span></span><span
+lang=HU> kimeneteként adódó processz objektumoknak van </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>MainWindowHandle</span></span><span
+lang=HU> tulajdonságunk, viszont én olyan ablak elrejtő és helyreállító
+függvényt akarok, ami csak az adott felhasználó nevében futó processzekre lehet
+meghívni, és persze csak olyanokra, amelyeknek van ablakuk, azaz az ablakuknak
+van címsoruk. </span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>Így a szkript első néhány sorában ezeket a
+processzeket szűröm, ki és teszem hozzá a tulajdonost tartalmazó attribútumot,
+az egészet eltárolom a </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$procs</span></span><span
+lang=HU> változóba.</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:purple'>$procs</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><b><span lang=HU style='color:cadetblue'>Get-Process</span></b><span
+lang=HU style='color:black'> | ?{</span><span lang=HU style='color:purple'>$_</span><span
+lang=HU style='color:black'>.mainwindowtitle} |<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><b><span lang=HU style='color:cadetblue'>%</span></b><span
+lang=HU style='color:black'>{</span><span lang=HU style='color:purple'>$p</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>=</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$_</span><span
+lang=HU style='color:black'>; [</span><span lang=HU style='color:teal'>wmi</span><span
+lang=HU style='color:black'>] &quot;Win32_Process.Handle=&quot;&quot;$($_.id)&quot;&quot;&quot;
+} | <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>        </span></span><b><span lang=HU
+style='color:cadetblue'>Add-Member</span></b><span lang=HU style='color:black'>
+</span><i><span lang=HU style='color:cadetblue'>-MemberType</span></i><span
+lang=HU style='color:black'> scriptproperty </span><i><span lang=HU
+style='color:cadetblue'>-Name</span></i><span lang=HU style='color:black'> Owner
+</span><i><span lang=HU style='color:cadetblue'>-Value</span></i><span lang=HU
+style='color:black'> {&quot;$($this.getowner().domain)\$($this.getowner().user)&quot;}
+</span><i><span lang=HU style='color:cadetblue'>-PassThru</span></i><span
+lang=HU style='color:black'> |<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>            </span></span><b><span lang=HU
+style='color:cadetblue'>%</span></b><span lang=HU style='color:black'>{</span><b><span
+lang=HU style='color:cadetblue'>Add-Member</span></b><span lang=HU
+style='color:black'> </span><i><span lang=HU style='color:cadetblue'>-InputObject</span></i><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$_</span><span
+lang=HU style='color:black'> </span><i><span lang=HU style='color:cadetblue'>-MemberType</span></i><span
+lang=HU style='color:black'> noteproperty </span><i><span lang=HU
+style='color:cadetblue'>-name</span></i><span lang=HU style='color:black'> MainWindowHandle
+</span><i><span lang=HU style='color:cadetblue'>-Value</span></i><span lang=HU
+style='color:black'> </span><span lang=HU style='color:purple'>$p</span><span
+lang=HU style='color:black'>.</span><span lang=HU style='color:saddlebrown'>mainwindowhandle</span><span
+lang=HU style='color:black'> </span><i><span lang=HU style='color:cadetblue'>-PassThru</span></i><span
+lang=HU style='color:black'>} |<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>            </span></span><b><span lang=HU
+style='color:cadetblue'>%</span></b><span lang=HU style='color:black'>{</span><b><span
+lang=HU style='color:cadetblue'>Add-Member</span></b><span lang=HU
+style='color:black'> </span><i><span lang=HU style='color:cadetblue'>-InputObject</span></i><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$_</span><span
+lang=HU style='color:black'> </span><i><span lang=HU style='color:cadetblue'>-MemberType</span></i><span
+lang=HU style='color:black'> noteproperty </span><i><span lang=HU
+style='color:cadetblue'>-name</span></i><span lang=HU style='color:black'> MainWindowTitle
+</span><i><span lang=HU style='color:cadetblue'>-Value</span></i><span lang=HU
+style='color:black'> </span><span lang=HU style='color:purple'>$p</span><span
+lang=HU style='color:black'>.</span><span lang=HU style='color:saddlebrown'>mainwindowtitle</span><span
+lang=HU style='color:black'> </span><i><span lang=HU style='color:cadetblue'>-PassThru</span></i><span
+lang=HU style='color:black'>} |<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>            </span>?{</span><span lang=HU
+style='color:purple'>$_</span><span lang=HU style='color:black'>.owner </span><span
+lang=HU style='color:red'>-eq</span><span lang=HU style='color:black'> &quot;$($env:userdomain)\$($env:USERNAME)&quot;}
+| <o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>                </span></span><b><span lang=HU
+style='color:cadetblue'>Select-Object</span></b><span lang=HU style='color:
+black'> </span><i><span lang=HU style='color:cadetblue'>-Property</span></i><span
+lang=HU style='color:black'> name, owner, processid, mainwindowhandle, mainwindowtitle
+<o:p></o:p></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span lang=HU>Ezután jönnek azok a függvénydefiníciók,
+amely igazából fontos számunkra. Ugyanaz majdnem a kettő, csak más második
+paraméterrel hívjuk meg a </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>ShowWindow</span></span><span
+lang=HU> metódust. A 0 jelenti az elrejtést, az 5 a helyreállítást. </span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>Nézzük meg, hogy pontosan hogyan is kell
+ezek után ezt a metódust meghívni! Látható, hogy az </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Add-Type</span></span><span
+lang=HU>-nál megadott névtéren belüli típusról van szó: </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>[Win32.NativeMethod]</span></span><span
+lang=HU>, és ennek statikus metódusa a </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>ShowWindow</span></span><span
+lang=HU>:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:blue'>function</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:cadetblue'>Hide-Window</span><span
+lang=HU style='color:black'> (</span><span lang=HU style='color:purple'>$expression</span><span
+lang=HU style='color:black'>){<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:purple'>$procs</span><span
+lang=HU style='color:black'> | ?{</span><span lang=HU style='color:purple'>$_</span><span
+lang=HU style='color:black'> | </span><b><span lang=HU style='color:cadetblue'>select-object</span></b><span
+lang=HU style='color:black'> </span><i><span lang=HU style='color:cadetblue'>-property</span></i><span
+lang=HU style='color:black'> name, processid | </span><b><span lang=HU
+style='color:cadetblue'>Out-String</span></b><span lang=HU style='color:black'>
+| ?{</span><span lang=HU style='color:purple'>$_</span><span lang=HU
+style='color:black'> </span><span lang=HU style='color:red'>-match</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$expression</span><span
+lang=HU style='color:black'>}} | </span><b><span lang=HU style='color:cadetblue'>%</span></b><span
+lang=HU style='color:black'>{<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>        </span>[</span><span lang=HU style='color:
+teal'>void</span><span lang=HU style='color:black'>]
+([Win32.NativeMethod]::ShowWindow(</span><span lang=HU style='color:purple'>$_</span><span
+lang=HU style='color:black'>.mainwindowhandle,0))<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>}<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'>}<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><o:p>&nbsp;</o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:blue'>function</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:cadetblue'>Restore-Window</span><span
+lang=HU style='color:black'> (</span><span lang=HU style='color:purple'>$expression</span><span
+lang=HU style='color:black'>){<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span></span><span lang=HU style='color:purple'>$procs</span><span
+lang=HU style='color:black'> | ?{</span><span lang=HU style='color:purple'>$_</span><span
+lang=HU style='color:black'> | </span><b><span lang=HU style='color:cadetblue'>select-object</span></b><span
+lang=HU style='color:black'> </span><i><span lang=HU style='color:cadetblue'>-property</span></i><span
+lang=HU style='color:black'> name, processid | </span><b><span lang=HU
+style='color:cadetblue'>Out-String</span></b><span lang=HU style='color:black'>
+| ?{</span><span lang=HU style='color:purple'>$_</span><span lang=HU
+style='color:black'> </span><span lang=HU style='color:red'>-match</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$expression</span><span
+lang=HU style='color:black'>}} | </span><b><span lang=HU style='color:cadetblue'>%</span></b><span
+lang=HU style='color:black'>{<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>        </span>[</span><span lang=HU style='color:
+teal'>void</span><span lang=HU style='color:black'>]
+([Win32.NativeMethod]::ShowWindow(</span><span lang=HU style='color:purple'>$_</span><span
+lang=HU style='color:black'>.mainwindowhandle,5))<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span lang=HU style='color:black'><span
+style='mso-spacerun:yes'>    </span>}<o:p></o:p></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span lang=HU style='color:black'>}<o:p></o:p></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span lang=HU>Egy pici trükközés van a processzek kiválasztását
+illetően, hogy akár a processz neve vagy a processzazonosító is lehessen az
+ablak hivatkozása.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>Ezek után így lehet ezt a függvénypárt
+meghívni:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[5] PS C:\&gt; Hide-Window
+outlook</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[6] PS C:\&gt;
+Restore-Window outlook</span></p>
+
+</div>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

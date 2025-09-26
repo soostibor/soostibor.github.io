@@ -1,0 +1,1033 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>2.27.2 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><a name="_Toc204716489"></a><a
+name="_Toc209116032"><span style='mso-bookmark:_Toc204716489'>
+<span lang=HU>Keresés az
+XML adatok között (Select-XML és az XPath)</span></span></a></span></span></span></span></h3>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU>Hatoljunk kicsit mélyebbre az
+XML adatok kezelésének néhány fontos módszerébe. Elsőként nézzük, hogyan lehet
+adatokat megkeresni az XML formátumban tárolt adatok között.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU>Vegyünk egy nagyon egyszerű
+XML adathalmazt, amelyben egy modern zöldséges tárolja a kínált gyümölcsökkel
+kapcsolatos legfontosabb adatokat:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&lt;gyümölcsök&gt;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:1'>     </span>&lt;gyümölcs
+adat=&quot;valami&quot;&gt;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:2'>          </span>&lt;fajta&gt;körte&lt;/fajta&gt;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:2'>          </span>&lt;szín&gt;sárga&lt;/szín&gt;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:2'>          </span>&lt;ár&gt;210&lt;/ár&gt;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:1'>     </span>&lt;/gyümölcs&gt;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:1'>     </span>&lt;gyümölcs&gt;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:2'>          </span>&lt;fajta&gt;alma&lt;/fajta&gt;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:2'>          </span>&lt;szín&gt;piros&lt;/szín&gt;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:2'>          </span>&lt;ár&gt;180&lt;/ár&gt;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:1'>     </span>&lt;/gyümölcs&gt;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:1'>     </span>&lt;gyümölcs&gt;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:2'>          </span>&lt;fajta&gt;szőlő&lt;/fajta&gt;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:2'>          </span>&lt;szín&gt;kék&lt;/szín&gt;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:2'>          </span>&lt;ár&gt;600&lt;/ár&gt;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:1'>     </span>&lt;/gyümölcs&gt;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:1'>     </span>&lt;gyümölcs&gt;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:2'>          </span>&lt;fajta&gt;barack&lt;/fajta&gt;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:2'>          </span>&lt;szín&gt;piros-sárga&lt;/szín&gt;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:2'>          </span>&lt;ár&gt;330&lt;/ár&gt;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:2'>          </span>&lt;egyéb&gt;magbaváló&lt;/egyéb&gt;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:1'>     </span>&lt;/gyümölcs&gt;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:1'>     </span>&lt;gyümölcskosár&gt;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span><span style='mso-tab-count:
+1'> </span>&lt;gyümölcs&gt;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span><span style='mso-tab-count:
+2'>      </span>&lt;fajta&gt;kivi&lt;/fajta&gt;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span><span style='mso-tab-count:
+1'> </span>&lt;/gyümölcs&gt;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span><span style='mso-tab-count:
+1'> </span>&lt;gyümölcs&gt;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span><span style='mso-tab-count:
+2'>      </span>&lt;fajta&gt;ananász&lt;/fajta&gt;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span><span style='mso-tab-count:
+1'> </span>&lt;/gyümölcs&gt;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-spacerun:yes'>    </span><span style='mso-tab-count:
+1'> </span>&lt;ár&gt;1200&lt;/ár&gt;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:1'>     </span>&lt;/gyümölcskosár&gt;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>&lt;/gyümölcsök&gt;</span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:
+_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:
+_Toc189542110'><span lang=HU>Látható, hogy vannak különálló gyümölcsök és
+gyümölcskosár részeként kapható gyümölcsök is. A szokásos módon beolvasom a
+fájlt és konvertálom XML adattípussá:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[13] PS C:\&gt; $x = [xml]
+(Get-Content C:\_munka\powershell\OnLineTananyag\gyümöl</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>csök1.xml)</span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:
+_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:
+_Toc189542110'><span lang=HU>A gyümölcsök felsorolása az eddigi tudásunk
+alapján így nézne ki:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[14] PS C:\&gt;
+$x.gyümölcsök.gyümölcs</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>adat<span
+style='mso-spacerun:yes'>                </span>fajta<span
+style='mso-spacerun:yes'>               </span>szín<span
+style='mso-spacerun:yes'>                </span>ár</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>                </span>-----<span
+style='mso-spacerun:yes'>               </span>----<span
+style='mso-spacerun:yes'>                </span>--</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>valami<span
+style='mso-spacerun:yes'>              </span>körte<span
+style='mso-spacerun:yes'>               </span>sárga<span
+style='mso-spacerun:yes'>               </span>210</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                    </span>alma<span
+style='mso-spacerun:yes'>                </span>piros<span
+style='mso-spacerun:yes'>               </span>180</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                    </span>szőlő<span
+style='mso-spacerun:yes'>               </span>kék<span
+style='mso-spacerun:yes'>                 </span>600</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                    </span>barack<span
+style='mso-spacerun:yes'>              </span>piros-sárga<span
+style='mso-spacerun:yes'>         </span>330</span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:
+_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:
+_Toc189542110'><span lang=HU>Azonban ebben csak a különálló gyümölcsök
+szerepelnek, a gyümölcskosár részeként elérhető gyümölcsök nem. Hogyan lehetne
+egyszerűen az összes gyümölcsöt felderíteni ebben az adathalmazban? Erre
+megoldást a </span></span></span></span></span><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Select-XML</span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'></span></span></span></span>
+<span style='mso-bookmark:
+_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:
+_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdlet és benne az </span></span></span></span></span><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>XPath</span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'></span></span></span></span>
+<span style='mso-bookmark:
+_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:
+_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span lang=HU><span
+style='mso-spacerun:yes'> </span>kifejezések megadásának lehetősége ad:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[15] PS C:\&gt; $x |
+Select-Xml -XPath &quot;//gyümölcs&quot;</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Node<span
+style='mso-spacerun:yes'>                       </span>Path<span
+style='mso-spacerun:yes'>                      </span>Pattern</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>                       </span>----<span
+style='mso-spacerun:yes'>                      </span>-------</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>gyümölcs<span
+style='mso-spacerun:yes'>                   </span>InputStream<span
+style='mso-spacerun:yes'>               </span>//gyümölcs</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>gyümölcs<span
+style='mso-spacerun:yes'>                   </span>InputStream<span
+style='mso-spacerun:yes'>               </span>//gyümölcs</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>gyümölcs<span
+style='mso-spacerun:yes'>                   </span>InputStream<span
+style='mso-spacerun:yes'>               </span>//gyümölcs</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>gyümölcs<span
+style='mso-spacerun:yes'>                   </span>InputStream<span
+style='mso-spacerun:yes'>               </span>//gyümölcs</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>gyümölcs<span
+style='mso-spacerun:yes'>                   </span>InputStream<span
+style='mso-spacerun:yes'>               </span>//gyümölcs</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>gyümölcs<span
+style='mso-spacerun:yes'>                   </span>InputStream<span
+style='mso-spacerun:yes'>               </span>//gyümölcs</span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:
+_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:
+_Toc189542110'><span lang=HU>Ez még nem tűnik annyira meggyőzőnek, de csak
+azért nem, mert a kimeneten egy összetett objektumgyűjteményt kapunk. A
+tényleges adatblokk a Node tulajdonság alatt húzódik meg, így fejtsük ki ezt:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[16] PS C:\&gt; $x |
+Select-Xml -XPath &quot;//gyümölcs&quot; | Select-Object -ExpandPropert</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>y node</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>adat<span
+style='mso-spacerun:yes'>                </span>fajta<span
+style='mso-spacerun:yes'>               </span>szín<span
+style='mso-spacerun:yes'>                </span>ár</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>                </span>-----<span
+style='mso-spacerun:yes'>               </span>----<span
+style='mso-spacerun:yes'>                </span>--</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>valami<span
+style='mso-spacerun:yes'>              </span>körte<span
+style='mso-spacerun:yes'>               </span>sárga<span
+style='mso-spacerun:yes'>               </span>210</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                    </span>alma<span
+style='mso-spacerun:yes'>                </span>piros<span
+style='mso-spacerun:yes'>               </span>180</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                    </span>szőlő<span
+style='mso-spacerun:yes'>               </span>kék<span
+style='mso-spacerun:yes'>                 </span>600</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                    </span>barack<span
+style='mso-spacerun:yes'>              </span>piros-sárga<span
+style='mso-spacerun:yes'>         </span>330</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                    </span>kivi</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                    </span>ananász</span></span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU>Itt már látható, hogy tényleg
+az össze gyümölcsöt megkaptuk, a gyümölcskosár részeként megadottakat is.
+Ugyanezt a tulajdonság-megszólító jelölésrendszerrel nem tudtuk volna elérni.
+Az XPath tehát az XML adatok speciális lekérdező nyelve. A per-jelnek nagyon
+fontos szerepe van ebben a jelölésrendszerben, amit majd a későbbi példákban is
+látni fogunk. Itt a dupla per-jel azt jelenti, hogy bármelyik beágyazottsági
+szinten található gyümölcsöket keressük. Nagyon fontos, hogy az XPath
+kis-nagybetű érzékeny, így itt a ’gyümölcs’ nem véletlenül kisbetűs.</span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU>Ha csak a legfelső szint
+gyümölcsi érdekelnek, akkor ehhez így juthatunk el XPath-szal:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[17] PS C:\&gt; $x |
+Select-Xml -XPath &quot;gyümölcsök/gyümölcs&quot; | Select-Object -Expa</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ndProperty node</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>adat<span
+style='mso-spacerun:yes'>                </span>fajta<span
+style='mso-spacerun:yes'>               </span>szín<span
+style='mso-spacerun:yes'>                </span>ár</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>                </span>-----<span
+style='mso-spacerun:yes'>               </span>----<span
+style='mso-spacerun:yes'>                </span>--</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>valami<span
+style='mso-spacerun:yes'>              </span>körte<span
+style='mso-spacerun:yes'>               </span>sárga<span
+style='mso-spacerun:yes'>               </span>210</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                    </span>alma<span
+style='mso-spacerun:yes'>                </span>piros<span
+style='mso-spacerun:yes'>               </span>180</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                    </span>szőlő<span
+style='mso-spacerun:yes'>               </span>kék<span
+style='mso-spacerun:yes'>                 </span>600</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                    </span>barack<span
+style='mso-spacerun:yes'>              </span>piros-sárga<span
+style='mso-spacerun:yes'>         </span>330</span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:
+_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:
+_Toc189542110'><span lang=HU>De ennél természetesen jóval bonyolultabb dolgokat
+is tudunk művelni XPath segítségével. Például azokat a gyümölcsöket keresem,
+amiknek van ára:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[18] PS C:\&gt; $x |
+Select-Xml -XPath &quot;//gyümölcs[ár]&quot; | Select-Object -ExpandPro</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>perty node</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>adat<span
+style='mso-spacerun:yes'>                </span>fajta<span
+style='mso-spacerun:yes'>               </span>szín<span
+style='mso-spacerun:yes'>                </span>ár</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>                </span>-----<span
+style='mso-spacerun:yes'>               </span>----<span
+style='mso-spacerun:yes'>                </span>--</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>valami<span
+style='mso-spacerun:yes'>              </span>körte<span
+style='mso-spacerun:yes'>               </span>sárga<span
+style='mso-spacerun:yes'>               </span>210</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                    </span>alma<span
+style='mso-spacerun:yes'>                </span>piros<span
+style='mso-spacerun:yes'>               </span>180</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                    </span>szőlő<span
+style='mso-spacerun:yes'>               </span>kék<span
+style='mso-spacerun:yes'>                 </span>600</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>                    </span>barack<span
+style='mso-spacerun:yes'>              </span>piros-sárga<span
+style='mso-spacerun:yes'>         </span>330</span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:
+_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:
+_Toc189542110'><span lang=HU>Látszik, hogy a kivi és az ananász nem jött ki
+eredményként, hiszen azoknak nincs ára. A szögletes zárójelekben tehát azt
+lehet megadni, hogy ’van valamije’ a keresett objektumnak, azaz jelen esetben
+gyümölcsöket akarunk az eredményhalmazban látni, de olyanokat, amelyeknek van
+ára. Itt még tovább is mehetünk, azaz például keresem a 600 forintos
+gyümölcsöket:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[19] PS C:\&gt; $x |
+Select-Xml -XPath &quot;//gyümölcs[ár=600]&quot; | Select-Object -Expan</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>dProperty node</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>fajta<span
+style='mso-spacerun:yes'>                      </span>szín<span
+style='mso-spacerun:yes'>                      </span>ár</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>-----<span
+style='mso-spacerun:yes'>                      </span>----<span
+style='mso-spacerun:yes'>                      </span>--</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>szőlő<span
+style='mso-spacerun:yes'>                      </span>kék<span
+style='mso-spacerun:yes'>                       </span>600</span></span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU>Természetesen az egyenlőségjel
+mellett a többi összehasonlító operátort is lehet használni. </span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU>Eddig az XML csomópontokkal,
+’node’-okkal dolgoztunk. Az XML-ben lehetnek még attribútum jellegű adatok is.
+A példafájlomban egy ilyet tettem be:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>…</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc197149409'><span
+style='mso-bookmark:_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span
+style='mso-bookmark:_Toc189542110'><span lang=HU style='color:black;mso-color-alt:
+windowtext'><span style='mso-tab-count:1'>     </span>&lt;gyümölcs
+adat=&quot;valami&quot;&gt;</span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>…</span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:
+_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:
+_Toc189542110'><span lang=HU>Az XPath kifejezésekkel ezekre is tudunk szűrni.
+Például azokat a gyümölcsöket keresem, amelyeknek van bármilyen attribútuma:</span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[20] PS C:\&gt; $x |
+Select-Xml -XPath &quot;//gyümölcs[@*]&quot; | %{$_.node}</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>adat<span
+style='mso-spacerun:yes'>                </span>fajta<span
+style='mso-spacerun:yes'>               </span>szín<span
+style='mso-spacerun:yes'>                </span>ár</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>                </span>-----<span
+style='mso-spacerun:yes'>               </span>----<span
+style='mso-spacerun:yes'>                </span>--</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>valami<span
+style='mso-spacerun:yes'>              </span>körte<span
+style='mso-spacerun:yes'>               </span>sárga<span
+style='mso-spacerun:yes'>               </span>210</span></span></span></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:
+_Toc197149348'><span style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:
+_Toc189542110'><span lang=HU>Az XPath szintaxisban a ’@’ jel utal az
+attribútumra, és a már ismert szögletes zárójel jelzi a birtokviszonyt. Az
+XPath tárháza természetesen itt még nem ér véget, különösebb magyarázat nélkül
+nézzünk néhány lehetőséget, azt hiszem a példák magukért beszélnek: </span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'># Azokat keresem,
+amelyeknek 600 az ára vagy van attribútumuk</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>$x | Select-Xml -XPath
+&quot;//gyümölcs[ár=600 or @*]&quot; | %{$_.node}</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'># Van adat attribútuma</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>$x | Select-Xml -XPath
+&quot;//gyümölcs[@adat]&quot; | %{$_.node}</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'># adat = 'valami' (CASE SENSITIVE)</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>$x | Select-Xml -XPath
+&quot;//gyümölcs[@adat='valami']&quot;</span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU><o:p>&nbsp;</o:p></span></span></span></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'># Ár nagyobb, mint 300</span></span></span></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc197149409'><span style='mso-bookmark:_Toc197149348'><span
+style='mso-bookmark:_Toc197149277'><span style='mso-bookmark:_Toc189542110'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>$x | Select-Xml -XPath
+&quot;//gyümölcs[ár &gt; 300]&quot; | %{$_.node}</span></span></span></span></span></p>
+
+</div>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

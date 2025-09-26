@@ -1,0 +1,367 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>1.2.1 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><a name="_Toc197149135"></a><a
+name="_Toc204716081"></a><a name="_Toc209115624"><span style='mso-bookmark:
+_Toc204716081'><span style='mso-bookmark:_Toc197149135'>
+<span lang=HU>Architektúra</span></span></span></a></h3>
+
+<p class=SzvegCxSpFirst><span lang=HU>A PowerShell tehát a .NET Frameworkre
+épül, a PowerShell 2.0-hoz a 2.0-ás .NET Framework szükséges, de a PowerShell
+ISE futtatásához szükséges a .NET 3.51 kiegészítő csomag is. A PowerShell 3 a
+.NET 4.0-át igényli, a PowerShell 4.0 és 5.0 pedig a .NET 4.5-ös verziót. A
+PowerShell 7-hez Windows-on nem kell különösebb egyéb előfeltétel a PowerShell
+5-höz képest.</span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU>Ez .NET-re épülés számos előnnyel jár, főleg,
+ha azt is tudjuk, hogy a PowerShell objektumokkal dolgozik. Pl. a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>dir</span></span>
+
+<span lang=HU><span
+style='mso-spacerun:yes'> </span>parancsot futtatva nem egyszerűen egy
+karaktersorozatot kapunk vissza válaszként, hanem a fájlok, alkönyvtárak
+objektumainak halmazát, un. </span><span class=EnglishChar><span
+style='mso-bidi-font-family:"Times New Roman"'>collection</span></span><span
+lang=HU>-t, gyűjteményt.</span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU>Tehát két megjegyzendő fogalom:
+OBJEKTUM, GYŰJTEMÉNY!</span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU>Mi az, hogy objektum</span>
+
+<span
+lang=HU>? Olyan képződmény, amely tulajdonság</span>
+
+<span
+lang=HU>okkal (</span><span class=EnglishChar><span style='mso-bidi-font-family:
+"Times New Roman"'>property</span></span><span lang=HU>) és meghívható metódus</span>
+
+<span
+lang=HU>okkal (</span><span class=EnglishChar><span style='mso-bidi-font-family:
+"Times New Roman"'>method</span></span><span lang=HU>) rendelkezik. </span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU>A hagyományos shellek (command.com,
+cmd.exe, bash, stb.) mindegyikét karakterlánc-orientáltnak nevezhetjük; a
+parancsok bemenete és kimenete (néhány speciális esetet nem számítva)
+karakterláncokból áll. Például a cmd.exe esetén a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>dir
+</span></span><span lang=HU>parancs kimenete valóban és pontosan az a fájl- és
+mappalistát leíró karaktersorozat, amely a képernyőn megjelenik, se több, se
+kevesebb. Ez bizonyos szempontból jó, hiszen így azt látjuk, amit kapunk.
+Másrészről viszont csak azt kapjuk, amit látunk, ez pedig sajnos nem túl sok. A
+PowerShell adatkezelése azonban alapjaiban különbözik ettől; az egyes parancsok
+bemenete és kimenete is .NET osztályokon alapuló objektumokból
+(objektumreferenciákból) áll, vagyis a kiírtakon kívül tartalmazza a .NET
+objektum számtalan egyéb tulajdonságát is. Amint láthattuk, a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>dir</span></span><span
+lang=HU> parancs kimenete itt is a képernyőre kiírt fájl és mappalistának
+tűnik, de ez csak egyszerű érzéki csalódás, a kimenet valójában egy </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>System.IO.DirectoryInfo</span></span><span
+lang=HU> és </span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>System.IO.FileInfo</span></span><span lang=HU> osztályú
+objektumokból álló gyűjtemény. Mivel azonban az objektumok nem alkalmasak
+emberi fogyasztásra, képernyőn való megjelenítésük természetesen szöveges
+formában, legfontosabb (illetve kiválasztott) jellemzőik felsorolásával
+történik.</span></p>
+
+<p class=SzvegCxSpMiddle><span lang=HU>A fentiekből nyilvánvalóan következik az
+objektumorientált megközelítés két fontos előnye; egyrészt a parancsok kimenete
+rengeteg információt tartalmaz, amelyeket szükség esetén felhasználhatunk,
+másrészt nincs szükség szövegfeldolgozó parancsok és eszközök használatára, ha
+a kimenetként kapott adathalmazból csak egy meghatározott információdarabra van
+szükségünk, mivel minden egyes adatmező egyszerűen a nevére való hivatkozással,
+önállóan is lekérdezhető. Képzeljük el például, hogy a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>dir</span></span><span
+lang=HU> parancs által produkált fenti listából szövegfeldolgozó parancsokkal
+kell kiválasztanunk azokat a fájlokat (mappákat nem), amelyek 2007. április
+12-e után módosultak. Jaj. Persze megoldható a feladat, de helyesen fog lefutni
+az a szkript egy német nyelvű Windowson is? (És akkor például a kínai nyelvű
+rendszerekről még nem is beszéltünk.) Ha viszont a kimenet objektumokból áll,
+akkor természetesen egyáltalán nincs szükség a megjelenő szöveg feldolgozására,
+mert minden egyes objektum „tudja” magáról, hogy ő fájl, vagy mappa, és az
+operációs rendszer nyelvétől függetlenül, </span><span class=KdInlineChar><span
+lang=HU style='mso-bidi-font-family:"Times New Roman"'>DateTime</span></span><span
+lang=HU> objektumként adja vissza az utolsó módosításának idejét.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>Most egyelőre - különösebb magyarázat
+nélkül - nézzük, hogy egy fájl milyen objektumjellemzőkkel, tagjellemzőkkel (</span><span
+class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>member</span></span><span
+lang=HU>) bír, a </span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>get-member</span></span><span
+lang=HU> cmdlet futtatásával:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[2] PS C:\&gt; get-item
+szamok.txt | get-member</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'><span
+style='mso-spacerun:yes'>   </span>TypeName: System.IO.FileInfo</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU><o:p>&nbsp;</o:p></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>                      </span>MemberType<span
+style='mso-spacerun:yes'>     </span>Definition</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>----<span
+style='mso-spacerun:yes'>                      </span>----------<span
+style='mso-spacerun:yes'>     </span>----------</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>AppendText<span
+style='mso-spacerun:yes'>                </span>Method<span
+style='mso-spacerun:yes'>         </span>System.IO.StreamWriter AppendTe...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>CopyTo<span
+style='mso-spacerun:yes'>                    </span>Method<span
+style='mso-spacerun:yes'>         </span>System.IO.FileInfo CopyTo(Strin...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Create<span
+style='mso-spacerun:yes'>                    </span>Method<span
+style='mso-spacerun:yes'>         </span>System.IO.FileStream Create()</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Delete<span
+style='mso-spacerun:yes'>                    </span>Method<span
+style='mso-spacerun:yes'>         </span>System.Void Delete()</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>MoveTo<span
+style='mso-spacerun:yes'>                    </span>Method<span
+style='mso-spacerun:yes'>         </span>System.Void MoveTo(String destF...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Attributes<span
+style='mso-spacerun:yes'>                </span>Property<span
+style='mso-spacerun:yes'>       </span>System.IO.FileAttributes Attrib...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>CreationTime<span
+style='mso-spacerun:yes'>              </span>Property<span
+style='mso-spacerun:yes'>       </span>System.DateTime CreationTime {g...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>CreationTimeUtc<span
+style='mso-spacerun:yes'>           </span>Property<span
+style='mso-spacerun:yes'>       </span>System.DateTime CreationTimeUtc...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Directory<span
+style='mso-spacerun:yes'>                 </span>Property<span
+style='mso-spacerun:yes'>       </span>System.IO.DirectoryInfo Directo...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>DirectoryName<span
+style='mso-spacerun:yes'>             </span>Property<span
+style='mso-spacerun:yes'>       </span>System.String DirectoryName {get;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Exists<span
+style='mso-spacerun:yes'>                    </span>Property<span
+style='mso-spacerun:yes'>       </span>System.Boolean Exists {get;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Extension<span
+style='mso-spacerun:yes'>                 </span>Property<span
+style='mso-spacerun:yes'>       </span>System.String Extension {get;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>FullName<span
+style='mso-spacerun:yes'>                  </span>Property<span
+style='mso-spacerun:yes'>       </span>System.String FullName {get;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>IsReadOnly<span
+style='mso-spacerun:yes'>                </span>Property<span
+style='mso-spacerun:yes'>       </span>System.Boolean IsReadOnly {get;...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>LastAccessTime<span
+style='mso-spacerun:yes'>            </span>Property<span
+style='mso-spacerun:yes'>       </span>System.DateTime LastAccessTime ...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>LastAccessTimeUtc<span
+style='mso-spacerun:yes'>         </span>Property<span
+style='mso-spacerun:yes'>       </span>System.DateTime LastAccessTimeU...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>LastWriteTime<span
+style='mso-spacerun:yes'>             </span>Property<span
+style='mso-spacerun:yes'>       </span>System.DateTime LastWriteTime {...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>LastWriteTimeUtc<span
+style='mso-spacerun:yes'>          </span>Property<span
+style='mso-spacerun:yes'>       </span>System.DateTime LastWriteTimeUt...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Length<span
+style='mso-spacerun:yes'>                    </span>Property<span
+style='mso-spacerun:yes'>       </span>System.Int64 Length {get;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Name<span
+style='mso-spacerun:yes'>                      </span>Property<span
+style='mso-spacerun:yes'>       </span>System.String Name {get;}</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>BaseName<span
+style='mso-spacerun:yes'>                  </span>ScriptProperty System.Object
+BaseName {get=[Sy...</span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>Mode<span
+style='mso-spacerun:yes'>                      </span>ScriptProperty
+System.Object Mode {get=$catr =...</span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>ReparsePoint<span
+style='mso-spacerun:yes'>              </span>ScriptProperty System.Object
+ReparsePoint {get...</span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span lang=HU>Mint ahogy egy fájltól elvárhatjuk,
+másolhatjuk (</span><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>CopyTo</span></span><span lang=HU>), törölhetjük (</span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Delete</span></span><span
+lang=HU>) és egy csomó jellemzőjét kiolvashatjuk: utolsó hozzáférés idejét (</span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>LastAccessTime</span></span><span
+lang=HU>) és hosszát (</span><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Length</span></span><span
+lang=HU>). Azaz ezekhez a tevékenységekhez nem kell külső program, még csak
+külön PowerShell parancs sem feltétlenül kellene, maga az objektum tudja
+ezeket.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>Pl. a törlés: </span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=Kd style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>[3] PS C:\&gt; (get-item
+szamok.txt).Delete()</span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span lang=HU>A kényelmesebb használat érdekében
+azonban a leggyakoribb műveletekre van PowerShell parancs is, ezeket látni
+fogjuk később.</span></p>
+
+<p class=SzvegCxSpLast><span lang=HU>Visszatérve pl. a </span><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>dir</span></span><span
+lang=HU> parancs futtatására, általában egy könyvtárban nem egy fájl vagy
+alkönyvtár van, hanem több. Ebben az esetben a PowerShell a parancs
+végrehajtása során egy un. </span><span class=EnglishChar><span
+style='mso-bidi-font-family:"Times New Roman"'>collection</span></span><span
+lang=HU>-t, azaz egy objektumhalmazt, objektumgyűjteményt vagy más kifejezéssel
+objektumtömböt kapunk vissza. Ennek a halmaznak ráadásul nem feltétlenül kell
+egyforma típusú elemekből állnia, mint ahogy egy könyvtárban is lehetnek fájlok
+is és alkönyvtárak is. A PowerShell az ilyen </span><span class=EnglishChar><span
+style='mso-bidi-font-family:"Times New Roman"'>collection</span></span><span
+lang=HU>-ök, azaz gyűjtemények feldolgozására nagyon sok praktikus, nyelvi
+szintű támogatást ad, amit a későbbiekben látni fogunk.</span></p>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

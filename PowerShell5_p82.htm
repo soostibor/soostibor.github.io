@@ -1,0 +1,979 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>1.6.4 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><span style='mso-bookmark:_Toc189542093'><span
+style='mso-bookmark:_Toc197149193'><a name="_Toc204716203"></a><a
+name="_Toc209115746"><span style='mso-bookmark:_Toc204716203'>
+<span lang=HU>Változók láthatósága
+(scope)</span></span></a></span></span></h3>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542093'><span lang=HU>A
+PowerShellben a változóknak van szabályozható láthatóságuk (</span></span><span
+style='mso-bookmark:_Toc189542093'><span class=EnglishChar><span
+style='mso-bidi-font-family:"Times New Roman"'>scope</span></span><span
+lang=HU>). Az alapszabály, hogy egy adott környezetben létrehozott változók az
+alkörnyezetekben is láthatók. Környezet maga a PowerShell konzol, egy függvény,
+egy script. Ahogy ezeket egymásból meghívjuk generálódnak az al-, al-, …
+környezetek. A PowerShell konzol az un. „</span></span><span style='mso-bookmark:
+_Toc189542093'><span class=EnglishChar><span style='mso-bidi-font-family:"Times New Roman"'>global</span></span><span
+lang=HU>” környezet, az összes többi, innen hívott függvény vagy szkript ennek
+alkörnyezete.</span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542093'><span lang=HU>Nézzük
+az egyszerű láthatóság alapesetét:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[1] PS I:\&gt;$a = &quot;valami&quot;</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[2] PS I:\&gt;function fv{$a}</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[3] PS I:\&gt;fv</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>valami</span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542093'><span lang=HU>[1]-ben
+létrehoztam egy </span></span><span style='mso-bookmark:_Toc189542093'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$a</span></span><span
+lang=HU> változót, [2]-ben egy nagyon egyszerű függvényt, ami csak annyit
+csinál, hogy visszaadja </span></span><span style='mso-bookmark:_Toc189542093'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$a</span></span><span
+lang=HU>-t, majd [3]-ban meghívtam ezt az </span></span><span style='mso-bookmark:
+_Toc189542093'><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>fv</span></span><span lang=HU> nevű függvényt. Az eredmény
+látható: a függvény „látta” </span></span><span style='mso-bookmark:_Toc189542093'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$a</span></span><span
+lang=HU>-t, ki tudta írni a tartalmát.</span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542093'><span lang=HU>Nézzünk
+egy kicsit bonyolultabb esetet, mi van akkor, ha a függvényemnek is van egy </span></span><span
+style='mso-bookmark:_Toc189542093'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$a</span></span><span lang=HU>
+változója:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[6] PS I:\&gt;$a = &quot;valami&quot;</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[7] PS I:\&gt;function fv1{$a=&quot;másvalami&quot;;$a}</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[8] PS I:\&gt;fv1</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>másvalami</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[9] PS I:\&gt;$a</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>valami</span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542093'><span lang=HU>[7]-ben
+az </span></span><span style='mso-bookmark:_Toc189542093'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>fv1</span></span><span
+lang=HU> függvényem definiál egy </span></span><span style='mso-bookmark:_Toc189542093'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$a</span></span><span
+lang=HU>-t, majd ki is írja. [8]-ban meg is kaptam a „belső” </span></span><span
+style='mso-bookmark:_Toc189542093'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$a</span></span><span lang=HU>
+eredményét, de ettől függetlenül [9]-ben a „</span></span><span
+style='mso-bookmark:_Toc189542093'><span class=EnglishChar><span
+style='mso-bidi-font-family:"Times New Roman"'>global</span></span><span
+lang=HU>” környezetből nézve az </span></span><span style='mso-bookmark:_Toc189542093'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$a</span></span><span
+lang=HU> továbbra is az, ami volt. Azaz a gyerek környezet nem hat vissza a
+szülőre.</span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542093'><span lang=HU>Ha
+szükségünk van külön a szülő változójára is a függvényen belül, akkor ezt meg
+tudjuk tenni a </span></span><span style='mso-bookmark:_Toc189542093'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>get-variable</span></span></span>
+<span
+style='mso-bookmark:_Toc189542093'></span>
+<span
+style='mso-bookmark:_Toc189542093'><span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdlet </span></span><span style='mso-bookmark:
+_Toc189542093'><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>–scope</span></span></span>
+<span
+style='mso-bookmark:_Toc189542093'></span>
+<span
+style='mso-bookmark:_Toc189542093'><span lang=HU><span
+style='mso-spacerun:yes'> </span>paraméterének beállításával. A „</span></span><span
+style='mso-bookmark:_Toc189542093'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>-scope 0</span></span><span
+lang=HU>” jelenti a saját környezetet, </span></span><span style='mso-bookmark:
+_Toc189542093'><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>„-scope 1</span></span><span lang=HU>” jelenti a
+szülőkörnyezetet, „</span></span><span style='mso-bookmark:_Toc189542093'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>-scope
+2</span></span><span lang=HU>” jelentené a nagyszülőt és így tovább:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[11] PS I:\&gt;function fv2{$a=&quot;másvalami&quot;;$a;
+get-variable a -scope 0}</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[12] PS I:\&gt;fv2</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>másvalami</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Name<span style='mso-spacerun:yes'>                          
+</span>Value</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>----<span style='mso-spacerun:yes'>                          
+</span>-----</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>a<span style='mso-spacerun:yes'>                             
+</span>másvalami</span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542093'><span lang=HU>[11]-ben
+a saját </span></span><span style='mso-bookmark:_Toc189542093'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$a</span></span><span
+lang=HU>-t írja ki a </span></span><span style='mso-bookmark:_Toc189542093'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>get-variable</span></span><span
+lang=HU>, a következő példában pedig a szülő </span></span><span
+style='mso-bookmark:_Toc189542093'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$a</span></span><span lang=HU>
+változóját:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[14] PS I:\&gt;function fv2{$a=&quot;másvalami&quot;;$a;
+get-variable a -scope 1}</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[15] PS I:\&gt;fv2</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>másvalami</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Name<span style='mso-spacerun:yes'>                          
+</span>Value</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>----<span style='mso-spacerun:yes'>                          
+</span>-----</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>a<span style='mso-spacerun:yes'>                             
+</span>valami</span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542093'><span lang=HU>A gyerek
+környezet függvénye meg is tudja változtatni a szülő környezet változóját, ha a
+</span></span><span style='mso-bookmark:_Toc189542093'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>set&#8209;variable</span></span></span>
+<span style='mso-bookmark:_Toc189542093'></span>
+<span
+style='mso-bookmark:_Toc189542093'><span lang=HU><span
+style='mso-spacerun:yes'> </span>cmdlet ugyanilyen </span></span><span
+style='mso-bookmark:_Toc189542093'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>–scope</span></span><span
+lang=HU> paraméterét megadjuk:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[17] PS I:\&gt;function fv3{$a=&quot;másvalami&quot;;$a;
+(get-variable a -scope 1).value; set-variable a -scope 1 -value
+&quot;változás&quot;}</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[18] PS I:\&gt;fv3</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>másvalami</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>valami</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[19] PS I:\&gt;$a</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>változás</span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542093'><span lang=HU>Itt
+a </span></span><span style='mso-bookmark:_Toc189542093'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>fv3</span></span><span
+lang=HU> függvényben vége felé megváltoztatom a szülő </span></span><span
+style='mso-bookmark:_Toc189542093'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$a</span></span><span lang=HU>
+változóját „változás”-ra.</span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542093'><span lang=HU>A
+0 és a legfelső környezetre némiképp egyszerűbb szintaxissal is hivatkozhatunk:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[25] PS I:\&gt;$c=1</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[26] PS I:\&gt;function kie{$c=2; &quot;Én
+c-m:$local:c&quot;;&quot;Te c-d:$global:c&quot;}</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[27] PS I:\&gt;kie</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Én c-m:2</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Te c-d:1</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[28] PS I:\&gt;function ront{$c=2; $local:c=3;$global:c=4;&quot;Én
+c-m:$local:c&quot;;&quot;Te c-d:$global:c&quot;}</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[29] PS I:\&gt;ront</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Én c-m:3</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Te c-d:4</span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542093'><span lang=HU>Egyébként
+vigyázni kell nagyon a függvényekkel! Az alábbi kis példában, ha a programozó
+abból a feltételezésből indul ki, hogy a </span></span><span style='mso-bookmark:
+_Toc189542093'><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>$b</span></span><span lang=HU> az úgyis 0 kezdetben, így a </span></span><span
+style='mso-bookmark:_Toc189542093'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$b=$b+5</span></span><span
+lang=HU> értéke 5 lesz, akkor nagyot fog csalódni:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[21] PS I:\&gt;$b=10</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[22] PS I:\&gt;function elront{$b=$b+5; $b}</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[23] PS I:\&gt;elront</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>15</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[24] PS I:\&gt;$b</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>10</span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542093'><span lang=HU>Mi
+történt itt? A láthatóság miatt az </span></span><span style='mso-bookmark:
+_Toc189542093'><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>elront</span></span><span lang=HU> függvényben az értékadás
+jobb oldalán szereplő </span></span><span style='mso-bookmark:_Toc189542093'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$b</span></span><span
+lang=HU> az a szülő </span></span><span style='mso-bookmark:_Toc189542093'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$b</span></span><span
+lang=HU>-je, a bal oldali </span></span><span style='mso-bookmark:_Toc189542093'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$b
+</span></span><span lang=HU>már a függvény belső </span></span><span
+style='mso-bookmark:_Toc189542093'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$b</span></span><span lang=HU>-je.
+Tehát – bár a nevük ugyanaz – tárhely szempontjából különbözőek.</span></span></p>
+
+<div style='mso-element:para-border-div;border:double windowtext 5.25pt;
+border-bottom:none;mso-border-top-alt:thin-thick-large-gap windowtext 5.25pt;
+mso-border-left-alt:thin-thick-large-gap windowtext 5.25pt;mso-border-right-alt:
+thin-thick-large-gap windowtext 5.25pt;padding:1.0pt 4.0pt 0cm 4.0pt;
+background:#C6D9F1;mso-background-themecolor:text2;mso-background-themetint:
+51;margin-left:14.2pt;margin-right:14.2pt'>
+
+<p class=Megjegyzs style='margin-top:12.0pt;margin-right:0cm;margin-bottom:
+0cm;margin-left:0cm;margin-bottom:.0001pt;mso-add-space:auto;background:#C6D9F1;
+mso-background-themecolor:text2;mso-background-themetint:51'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Tipp</span></span></p>
+
+</div>
+
+<div style='mso-element:para-border-div;border:double windowtext 5.25pt;
+border-top:none;mso-border-left-alt:thin-thick-large-gap windowtext 5.25pt;
+mso-border-bottom-alt:thin-thick-large-gap windowtext 5.25pt;mso-border-right-alt:
+thin-thick-large-gap windowtext 5.25pt;padding:0cm 4.0pt 1.0pt 4.0pt;
+margin-left:14.2pt;margin-right:14.2pt'>
+
+<p class=Megjegyezs2 style='margin-top:0.0pt;margin-right:0cm;margin-bottom:
+0cm;margin-left:0cm;margin-bottom:.0001pt;mso-add-space:auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU>A függvények belső változóit
+mindig értékadás után kezdjük el használni, nehogy tévedésből a szülő környezet
+által definiált ugyanolyan nevű változó értékével kezdjünk el dolgozni.</span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542093'><span lang=HU>Ha nem
+szeretnénk, hogy egy változónkhoz valamelyik gyerek környezet hozzáférhessen,
+akkor nyilvánítsuk privátnak ezt a változót:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[32] PS I:\&gt;$private:priv=1</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[33] PS I:\&gt;function latom{&quot;Privát: $priv&quot;}</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[34] PS I:\&gt;latom</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Privát:</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[35] PS I:\&gt;$priv</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>1</span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542093'><span lang=HU>Ha
+egy függvénynek mégis ennek értékével kell dolgoznia, akkor természetesen
+paraméterátadással ez megtehető minden további nélkül, lényeg az, hogy a privát
+változókat a gyerek környezet nem fogja tudni a szülő tudta nélkül
+megváltoztatni.</span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542093'><span lang=HU>Azonban
+azért így sem lehetünk teljes biztonságban, hiszen a </span></span><span
+style='mso-bookmark:_Toc189542093'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>get-variable</span></span><span
+lang=HU> és </span></span><span style='mso-bookmark:_Toc189542093'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>set-variable</span></span><span
+lang=HU> cmdletekkel még a privát változókat is elérhetjük:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[36] PS C:\&gt; $private:priv=1</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[37] PS C:\&gt; function latom{&quot;Privát: $((get-variable priv
+-scope 1).value)&quot;}</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[38] PS C:\&gt; latom</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Privát: 1</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[39] PS C:\&gt; function ront{set-variable priv -scope 1 -value 99}</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[40] PS C:\&gt; ront</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[41] PS C:\&gt; $priv</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>99</span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542093'><span lang=HU>A
+fenti példában láthatjuk, hogy annak ellenére, hogy privátnak definiáltam a </span></span><span
+style='mso-bookmark:_Toc189542093'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$priv</span></span><span
+lang=HU> változómat, ennek ellenére a </span></span><span style='mso-bookmark:
+_Toc189542093'><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>latom</span></span><span lang=HU> függvényem is el tudta
+érni a </span></span><span style='mso-bookmark:_Toc189542093'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>get-variable</span></span><span
+lang=HU> segítségével, sőt, a </span></span><span style='mso-bookmark:_Toc189542093'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>ront</span></span><span
+lang=HU> függvényem még meg is tudta változtatni az értékét.</span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542093'><span lang=HU>Nézzünk
+további lehetőségeket! Definiáltam egy </span></span><span style='mso-bookmark:
+_Toc189542093'><span class=KdInlineChar><span lang=HU style='mso-bidi-font-family:
+"Times New Roman"'>scope</span></span><span lang=HU> nevű függvényt, amellyel
+az „aa” betűkkel kezdődő nevű, helyi változónak látszó változókat listázom ki:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[44] PS C:\&gt; function scope {get-variable aa* -Scope local}</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[45] PS C:\&gt; scope</span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542093'><span lang=HU>Ez
+alaphelyzetben nem ad találatot. Most definiálok egy </span></span><span
+style='mso-bookmark:_Toc189542093'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$aa_felső</span></span><span
+lang=HU> változót, nézzük sajátjának tekinti-e a függvényem:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[47] PS C:\&gt; $aa_felső = 1</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[48] PS C:\&gt; scope</span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542093'><span lang=HU>Ez sem
+adott találatot. Most szintén a PowerShell legfelsőbb szintjén definiálok egy
+újabb változót, de egy speciális opció, az </span></span><span
+style='mso-bookmark:_Toc189542093'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>AllScope</span></span><span
+lang=HU> megadásával:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[50] PS C:\&gt; New-Variable -Name aa_mindenütt -Value 2 -Option
+AllScope</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[51] PS C:\&gt; scope</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Name<span style='mso-spacerun:yes'>                          
+</span>Value</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>----<span style='mso-spacerun:yes'>                          
+</span>-----</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>aa_mindenütt<span style='mso-spacerun:yes'>                  
+</span>2</span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542093'><span lang=HU>Ebből az
+látható, hogy a függvény is sajátjának érzi az </span></span><span
+style='mso-bookmark:_Toc189542093'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$aa_mindenütt</span></span><span
+lang=HU> változót! Olyannyira, hogy meg is lehet változtatni az értékét
+függvényből is:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[53] PS C:\&gt; function scope-allscope {$aa_mindenütt++}</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[54] PS C:\&gt; scope-allscope</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[55] PS C:\&gt; $aa_mindenütt</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>3</span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542093'><span lang=HU>És
+természetesen ha egy függvény definiál egy ugyanilyen nevű változót, akkor az
+nem újként jön létre, hanem a korábban létrehozott kap új értéket:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[56] PS C:\&gt; function scope-újmindenütt {$aa_mindenütt = 10}</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[57] PS C:\&gt; scope-újmindenütt</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[58] PS C:\&gt; $aa_mindenütt</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>10</span></span></p>
+
+</div>
+
+<h4 style='mso-list:l1 level4 lfo1'><span style='mso-bookmark:_Toc189542093'><a
+name="_Toc204716204"></a><a name="_Toc209115747"><span style='mso-bookmark:
+_Toc204716204'>
+<span
+lang=HU>Privát, privát, privát</span></span></a></span></h4>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542093'><span lang=HU>Egy </span></span><span
+style='mso-bookmark:_Toc189542093'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Private</span></span><span
+lang=HU> felhasználást láttunk már, de nézzük ezt egy picit részletesebben.
+Amit korábban mutattam, a </span></span><span style='mso-bookmark:_Toc189542093'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$Private:változó</span></span><span
+lang=HU> formátumban azt a </span></span><span style='mso-bookmark:_Toc189542093'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>New-Variable</span></span><span
+lang=HU> cmdlettel is természetesen el lehet érni:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[26] PS C:\&gt; New-Variable -name titkos -Value &quot;titok&quot;
+-Option private</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[27] PS C:\&gt; $titkos</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>titok</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[28] PS C:\&gt; function miez {$titkos}</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[29] PS C:\&gt; miez</span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542093'><span lang=HU>A fenti
+példában a </span></span><span style='mso-bookmark:_Toc189542093'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$titok</span></span><span
+lang=HU> változó alapban nem látható a gyerekkörnyezetként létrejövő
+függvényemben. Miután a TAB-kiegészítés is függvényként fut, ezért az ilyen
+változók neveit nem lehet kiegészíttetni sem. Viszont a </span></span><span
+style='mso-bookmark:_Toc189542093'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>Get-Variable</span></span><span
+lang=HU> látja a saját scope-jában:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[30] PS C:\&gt; Get-Variable ti*</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Name<span style='mso-spacerun:yes'>                          
+</span>Value</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>----<span style='mso-spacerun:yes'>                          
+</span>-----</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>titkos<span style='mso-spacerun:yes'>                        
+</span>titok</span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542093'><span lang=HU>Viszont
+van egy másik </span></span><span style='mso-bookmark:_Toc189542093'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Private</span></span><span
+lang=HU> beállítás is, ez nem </span></span><span style='mso-bookmark:_Toc189542093'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>-option</span></span><span
+lang=HU>, hanem </span></span><span style='mso-bookmark:_Toc189542093'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>–visibility</span></span><span
+lang=HU>:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[31] PS C:\&gt; New-Variable -name titkos2 -Value
+&quot;titok2&quot; -Visibility private</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[32] PS C:\&gt; function miez {$titkos2}</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[33] PS C:\&gt; miez</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>titok2</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[34] PS C:\&gt; Get-Variable ti*</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Name<span style='mso-spacerun:yes'>                          
+</span>Value</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>----<span style='mso-spacerun:yes'>                          
+</span>-----</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>titkos<span style='mso-spacerun:yes'>                        
+</span>titok</span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542093'><span lang=HU>Látható,
+hogy az így felvett változó már láthatóság szempontjából elérhető egy
+al-scope-ból, de a </span></span><span style='mso-bookmark:_Toc189542093'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>Get&#8209;Variable</span></span><span
+lang=HU> nem látja. És most jön a meglepetés:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>[36] PS C:\&gt; $titkos2</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:red'>Cannot
+access the variable '$titkos2' because it is a private variable<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:red'>At line:1
+char:9<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:red'>+ $titkos2
+&lt;&lt;&lt;&lt;<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:red'><span
+style='mso-spacerun:yes'>    </span>+ CategoryInfo<span
+style='mso-spacerun:yes'>          </span>: PermissionDenied: (titkos2:String)
+[], SessionS<o:p></o:p></span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:red'><span
+style='mso-spacerun:yes'>   </span>tateException<o:p></o:p></span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:red'><span
+style='mso-spacerun:yes'>    </span>+ FullyQualifiedErrorId : VariableIsPrivate<o:p></o:p></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542093'><span lang=HU>A saját
+scope-ból nem szólítható meg. Ennek értelme nem a globális scope-ban van, hanem
+majd a következő fejezet végén nyer értelmet, és majd a modulok tárgyalásánál.</span></span></p>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

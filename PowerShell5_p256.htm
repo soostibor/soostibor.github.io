@@ -1,0 +1,517 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>NetStat</title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref194559516'><span style='mso-bookmark:_Ref194559499'><span
+style='mso-bookmark:_Toc189542107'><span style='mso-bookmark:_Ref208567045'><span
+style='mso-bookmark:_Ref208567030'><span style='mso-bookmark:_Ref208117450'><span
+style='mso-bookmark:_Ref208117447'><span style='mso-bookmark:_Toc197149406'><span
+style='mso-bookmark:_Toc197149345'><span style='mso-bookmark:_Toc197149264'><a
+name="_Toc204716425"></a><a name="_Toc209115968"><span style='mso-bookmark:
+_Toc204716425'>
+<span
+lang=HU>NetStat</span></span></a></span></span></span></span></span></span></span></span></span></span></span></h3>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref194559516'><span style='mso-bookmark:_Ref194559499'><span
+style='mso-bookmark:_Toc189542107'><span style='mso-bookmark:_Ref208567045'><span
+style='mso-bookmark:_Ref208567030'><span style='mso-bookmark:_Ref208117450'><span
+style='mso-bookmark:_Ref208117447'><span style='mso-bookmark:_Toc197149406'><span
+style='mso-bookmark:_Toc197149345'><span style='mso-bookmark:_Toc197149264'><span
+lang=HU>Nézzük, hogy a </span></span></span></span></span></span></span></span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref194559516'><span
+style='mso-bookmark:_Ref194559499'><span style='mso-bookmark:_Toc189542107'><span
+style='mso-bookmark:_Ref208567045'><span style='mso-bookmark:_Ref208567030'><span
+style='mso-bookmark:_Ref208117450'><span style='mso-bookmark:_Ref208117447'><span
+style='mso-bookmark:_Toc197149406'><span style='mso-bookmark:_Toc197149345'><span
+style='mso-bookmark:_Toc197149264'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>NetStat</span></span><span
+lang=HU> eszközt hogyan lehet „felturbózni”. Miután ennek nincs CSV kimenete,
+ezért egy rőfös regex kifejezéssel kell szétszedni a kimenetet értelmes
+adatblokkokra. Az egyszerűség kedvéért csak a TCP kapcsolatokat mérem fel a
+kapcsolatot kezdeményező processz azonosítójával együtt. Itt most nem tűztem ki
+célul, hogy az összes funkcióját átültessem PowerShell alá, de a legfontosabb
+kettőt igen. A </span></span></span></span></span></span></span></span></span></span></span></span><span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref194559516'><span
+style='mso-bookmark:_Ref194559499'><span style='mso-bookmark:_Toc189542107'><span
+style='mso-bookmark:_Ref208567045'><span style='mso-bookmark:_Ref208567030'><span
+style='mso-bookmark:_Ref208117450'><span style='mso-bookmark:_Ref208117447'><span
+style='mso-bookmark:_Toc197149406'><span style='mso-bookmark:_Toc197149345'><span
+style='mso-bookmark:_Toc197149264'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>&#8209;resolvenames</span></span><span
+lang=HU> kapcsolóval feladatom az IP címeket hostnévvé és az ismert portokat az
+ő nevükre, enélkül nem. </span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p class=SzvegCxSpMiddle><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref194559516'><span style='mso-bookmark:_Ref194559499'><span
+style='mso-bookmark:_Toc189542107'><span style='mso-bookmark:_Ref208567045'><span
+style='mso-bookmark:_Ref208567030'><span style='mso-bookmark:_Ref208117450'><span
+style='mso-bookmark:_Ref208117447'><span style='mso-bookmark:_Toc197149406'><span
+style='mso-bookmark:_Toc197149345'><span style='mso-bookmark:_Toc197149264'><span
+lang=HU>A plusz, amit hozzápakolok, a processzek neve és az őket futtató
+account neve. Ugyan a NetStat maga is fel tudja oldani a processzazonosítókat
+processznevekké, de ezeket a neveket a hálózati kapcsolatok adatai alatt
+jeleníti meg, amit elég nehézkes lenne objektumosítani a kapcsolati adatokkal
+együtt és amúgy is hiányozna a processz tulajdonosának a neve.</span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref194559516'><span style='mso-bookmark:_Ref194559499'><span
+style='mso-bookmark:_Toc189542107'><span style='mso-bookmark:_Ref208567045'><span
+style='mso-bookmark:_Ref208567030'><span style='mso-bookmark:_Ref208117450'><span
+style='mso-bookmark:_Ref208117447'><span style='mso-bookmark:_Toc197149406'><span
+style='mso-bookmark:_Toc197149345'><span style='mso-bookmark:_Toc197149264'><span
+lang=HU>Mindezek figyelembe vételével a megoldásom a következő függvény lett:</span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref194559516'><span style='mso-bookmark:_Ref194559499'><span
+style='mso-bookmark:_Toc189542107'><span style='mso-bookmark:_Ref208567045'><span
+style='mso-bookmark:_Ref208567030'><span style='mso-bookmark:_Ref208117450'><span
+style='mso-bookmark:_Ref208117447'><span style='mso-bookmark:_Toc197149406'><span
+style='mso-bookmark:_Toc197149345'><span style='mso-bookmark:_Toc197149264'><span
+lang=HU style='color:blue'>function</span><span lang=HU style='color:black'> get-netstat
+{<o:p></o:p></span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref194559516'><span style='mso-bookmark:_Ref194559499'><span
+style='mso-bookmark:_Toc189542107'><span style='mso-bookmark:_Ref208567045'><span
+style='mso-bookmark:_Ref208567030'><span style='mso-bookmark:_Ref208117450'><span
+style='mso-bookmark:_Ref208117447'><span style='mso-bookmark:_Toc197149406'><span
+style='mso-bookmark:_Toc197149345'><span style='mso-bookmark:_Toc197149264'><span
+lang=HU style='color:blue'>param</span><span lang=HU style='color:black'> (<o:p></o:p></span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref194559516'><span style='mso-bookmark:_Ref194559499'><span
+style='mso-bookmark:_Toc189542107'><span style='mso-bookmark:_Ref208567045'><span
+style='mso-bookmark:_Ref208567030'><span style='mso-bookmark:_Ref208117450'><span
+style='mso-bookmark:_Ref208117447'><span style='mso-bookmark:_Toc197149406'><span
+style='mso-bookmark:_Toc197149345'><span style='mso-bookmark:_Toc197149264'><span
+lang=HU style='color:black'><span style='mso-spacerun:yes'>    </span>[</span><span
+lang=HU style='color:teal'>switch</span><span lang=HU style='color:black'>] </span><span
+lang=HU style='color:purple'>$resolvenames</span><span lang=HU
+style='color:black'><o:p></o:p></span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref194559516'><span style='mso-bookmark:_Ref194559499'><span
+style='mso-bookmark:_Toc189542107'><span style='mso-bookmark:_Ref208567045'><span
+style='mso-bookmark:_Ref208567030'><span style='mso-bookmark:_Ref208117450'><span
+style='mso-bookmark:_Ref208117447'><span style='mso-bookmark:_Toc197149406'><span
+style='mso-bookmark:_Toc197149345'><span style='mso-bookmark:_Toc197149264'><span
+lang=HU style='color:black'>)<o:p></o:p></span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref194559516'><span style='mso-bookmark:_Ref194559499'><span
+style='mso-bookmark:_Toc189542107'><span style='mso-bookmark:_Ref208567045'><span
+style='mso-bookmark:_Ref208567030'><span style='mso-bookmark:_Ref208117450'><span
+style='mso-bookmark:_Ref208117447'><span style='mso-bookmark:_Toc197149406'><span
+style='mso-bookmark:_Toc197149345'><span style='mso-bookmark:_Toc197149264'><span
+lang=HU style='color:black'><span style='mso-spacerun:yes'>    </span></span><span
+lang=HU style='color:blue'>if</span><span lang=HU style='color:black'>(</span><span
+lang=HU style='color:purple'>$resolvenames</span><span lang=HU
+style='color:black'>){<o:p></o:p></span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref194559516'><span style='mso-bookmark:_Ref194559499'><span
+style='mso-bookmark:_Toc189542107'><span style='mso-bookmark:_Ref208567045'><span
+style='mso-bookmark:_Ref208567030'><span style='mso-bookmark:_Ref208117450'><span
+style='mso-bookmark:_Ref208117447'><span style='mso-bookmark:_Toc197149406'><span
+style='mso-bookmark:_Toc197149345'><span style='mso-bookmark:_Toc197149264'><span
+lang=HU style='color:black'><span style='mso-spacerun:yes'>        </span></span><span
+lang=HU style='color:purple'>$cmd</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:red'>=</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:maroon'>&quot;netstat<span style='mso-spacerun:yes'> 
+</span>-p tcp -f -o&quot;</span><span lang=HU style='color:black'><o:p></o:p></span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref194559516'><span style='mso-bookmark:_Ref194559499'><span
+style='mso-bookmark:_Toc189542107'><span style='mso-bookmark:_Ref208567045'><span
+style='mso-bookmark:_Ref208567030'><span style='mso-bookmark:_Ref208117450'><span
+style='mso-bookmark:_Ref208117447'><span style='mso-bookmark:_Toc197149406'><span
+style='mso-bookmark:_Toc197149345'><span style='mso-bookmark:_Toc197149264'><span
+lang=HU style='color:black'><span style='mso-spacerun:yes'>    </span>}<o:p></o:p></span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref194559516'><span style='mso-bookmark:_Ref194559499'><span
+style='mso-bookmark:_Toc189542107'><span style='mso-bookmark:_Ref208567045'><span
+style='mso-bookmark:_Ref208567030'><span style='mso-bookmark:_Ref208117450'><span
+style='mso-bookmark:_Ref208117447'><span style='mso-bookmark:_Toc197149406'><span
+style='mso-bookmark:_Toc197149345'><span style='mso-bookmark:_Toc197149264'><span
+lang=HU style='color:black'><span style='mso-spacerun:yes'>    </span></span><span
+lang=HU style='color:blue'>else</span><span lang=HU style='color:black'>{<o:p></o:p></span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref194559516'><span style='mso-bookmark:_Ref194559499'><span
+style='mso-bookmark:_Toc189542107'><span style='mso-bookmark:_Ref208567045'><span
+style='mso-bookmark:_Ref208567030'><span style='mso-bookmark:_Ref208117450'><span
+style='mso-bookmark:_Ref208117447'><span style='mso-bookmark:_Toc197149406'><span
+style='mso-bookmark:_Toc197149345'><span style='mso-bookmark:_Toc197149264'><span
+lang=HU style='color:black'><span style='mso-spacerun:yes'>        </span></span><span
+lang=HU style='color:purple'>$cmd</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:red'>=</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:maroon'>&quot;netstat<span style='mso-spacerun:yes'> 
+</span>-p tcp -n -o&quot;</span><span lang=HU style='color:black'><o:p></o:p></span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref194559516'><span style='mso-bookmark:_Ref194559499'><span
+style='mso-bookmark:_Toc189542107'><span style='mso-bookmark:_Ref208567045'><span
+style='mso-bookmark:_Ref208567030'><span style='mso-bookmark:_Ref208117450'><span
+style='mso-bookmark:_Ref208117447'><span style='mso-bookmark:_Toc197149406'><span
+style='mso-bookmark:_Toc197149345'><span style='mso-bookmark:_Toc197149264'><span
+lang=HU style='color:black'><span style='mso-spacerun:yes'>    </span>}<o:p></o:p></span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref194559516'><span style='mso-bookmark:_Ref194559499'><span
+style='mso-bookmark:_Toc189542107'><span style='mso-bookmark:_Ref208567045'><span
+style='mso-bookmark:_Ref208567030'><span style='mso-bookmark:_Ref208117450'><span
+style='mso-bookmark:_Ref208117447'><span style='mso-bookmark:_Toc197149406'><span
+style='mso-bookmark:_Toc197149345'><span style='mso-bookmark:_Toc197149264'><span
+lang=HU style='color:black'><span style='mso-spacerun:yes'>    </span></span><span
+lang=HU style='color:purple'>$regex</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:red'>=</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:maroon'>&quot;\s+(?&lt;protocol&gt;\w+)\s+(?&lt;LocalAddress&gt;[\d\.]+):?(?&lt;LocalPort&gt;\S+)\s+(?&lt;TargetHost&gt;[^:]+):(?&lt;TargetPort&gt;\S+)\s+(?&lt;State&gt;\S+)\s+(?&lt;PID&gt;\d+)&quot;</span><span
+lang=HU style='color:black'><o:p></o:p></span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref194559516'><span style='mso-bookmark:_Ref194559499'><span
+style='mso-bookmark:_Toc189542107'><span style='mso-bookmark:_Ref208567045'><span
+style='mso-bookmark:_Ref208567030'><span style='mso-bookmark:_Ref208117450'><span
+style='mso-bookmark:_Ref208117447'><span style='mso-bookmark:_Toc197149406'><span
+style='mso-bookmark:_Toc197149345'><span style='mso-bookmark:_Toc197149264'><span
+lang=HU style='color:black'><span style='mso-spacerun:yes'>    </span></span><span
+lang=HU style='color:purple'>$result</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:red'>=</span><span lang=HU style='color:black'> <b>Invoke-Expression</b>
+</span><span lang=HU style='color:purple'>$cmd</span><span lang=HU
+style='color:black'><o:p></o:p></span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref194559516'><span style='mso-bookmark:_Ref194559499'><span
+style='mso-bookmark:_Toc189542107'><span style='mso-bookmark:_Ref208567045'><span
+style='mso-bookmark:_Ref208567030'><span style='mso-bookmark:_Ref208117450'><span
+style='mso-bookmark:_Ref208117447'><span style='mso-bookmark:_Toc197149406'><span
+style='mso-bookmark:_Toc197149345'><span style='mso-bookmark:_Toc197149264'><span
+lang=HU style='color:black'><span style='mso-spacerun:yes'>    </span></span><span
+lang=HU style='color:purple'>$procs</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:red'>=</span><span lang=HU style='color:black'> @{}<o:p></o:p></span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref194559516'><span style='mso-bookmark:_Ref194559499'><span
+style='mso-bookmark:_Toc189542107'><span style='mso-bookmark:_Ref208567045'><span
+style='mso-bookmark:_Ref208567030'><span style='mso-bookmark:_Ref208117450'><span
+style='mso-bookmark:_Ref208117447'><span style='mso-bookmark:_Toc197149406'><span
+style='mso-bookmark:_Toc197149345'><span style='mso-bookmark:_Toc197149264'><span
+lang=HU style='color:black'><span style='mso-spacerun:yes'>    </span><b>Get-WmiObject</b>
+<i>-Class</i> </span><span lang=HU style='color:maroon'>win32_process</span><span
+lang=HU style='color:black'> | <o:p></o:p></span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref194559516'><span style='mso-bookmark:_Ref194559499'><span
+style='mso-bookmark:_Toc189542107'><span style='mso-bookmark:_Ref208567045'><span
+style='mso-bookmark:_Ref208567030'><span style='mso-bookmark:_Ref208117450'><span
+style='mso-bookmark:_Ref208117447'><span style='mso-bookmark:_Toc197149406'><span
+style='mso-bookmark:_Toc197149345'><span style='mso-bookmark:_Toc197149264'><span
+lang=HU style='color:black'><span style='mso-spacerun:yes'>        </span><b>%</b>{<b>Add-Member</b>
+<i>-InputObject</i> </span><span lang=HU style='color:purple'>$_</span><span
+lang=HU style='color:black'> <i>-MemberType</i> </span><span lang=HU
+style='color:maroon'>noteproperty</span><span lang=HU style='color:black'> <i>-Name</i>
+</span><span lang=HU style='color:maroon'>owner</span><span lang=HU
+style='color:black'> <i>-Value</i> </span><span lang=HU style='color:maroon'>&quot;$($_.getowner().domain)\$($_.getowner().user)&quot;</span><span
+lang=HU style='color:black'> <i>-PassThru</i>} |<o:p></o:p></span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref194559516'><span style='mso-bookmark:_Ref194559499'><span
+style='mso-bookmark:_Toc189542107'><span style='mso-bookmark:_Ref208567045'><span
+style='mso-bookmark:_Ref208567030'><span style='mso-bookmark:_Ref208117450'><span
+style='mso-bookmark:_Ref208117447'><span style='mso-bookmark:_Toc197149406'><span
+style='mso-bookmark:_Toc197149345'><span style='mso-bookmark:_Toc197149264'><span
+lang=HU style='color:black'><span style='mso-spacerun:yes'>            </span><b>%</b>{</span><span
+lang=HU style='color:purple'>$procs</span><span lang=HU style='color:black'>.(</span><span
+lang=HU style='color:purple'>$_</span><span lang=HU style='color:black'>.processid)
+</span><span lang=HU style='color:red'>=</span><span lang=HU style='color:black'>
+</span><span lang=HU style='color:purple'>$_</span><span lang=HU
+style='color:black'>}<o:p></o:p></span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref194559516'><span style='mso-bookmark:_Ref194559499'><span
+style='mso-bookmark:_Toc189542107'><span style='mso-bookmark:_Ref208567045'><span
+style='mso-bookmark:_Ref208567030'><span style='mso-bookmark:_Ref208117450'><span
+style='mso-bookmark:_Ref208117447'><span style='mso-bookmark:_Toc197149406'><span
+style='mso-bookmark:_Toc197149345'><span style='mso-bookmark:_Toc197149264'><span
+lang=HU style='color:black'><o:p>&nbsp;</o:p></span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref194559516'><span style='mso-bookmark:_Ref194559499'><span
+style='mso-bookmark:_Toc189542107'><span style='mso-bookmark:_Ref208567045'><span
+style='mso-bookmark:_Ref208567030'><span style='mso-bookmark:_Ref208117450'><span
+style='mso-bookmark:_Ref208117447'><span style='mso-bookmark:_Toc197149406'><span
+style='mso-bookmark:_Toc197149345'><span style='mso-bookmark:_Toc197149264'><span
+lang=HU style='color:black'><span style='mso-spacerun:yes'>    </span></span><span
+lang=HU style='color:purple'>$result</span><span lang=HU style='color:black'> |
+?{</span><span lang=HU style='color:purple'>$_</span><span lang=HU
+style='color:black'> </span><span lang=HU style='color:red'>-and</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:purple'>$_</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:red'>-ne</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:maroon'>&quot;Active
+Connections&quot;</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:red'>-and</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:purple'>$_</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:red'>-notmatch</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:maroon'>&quot;proto\s&quot;</span><span lang=HU
+style='color:black'>} | <b>%</b>{<o:p></o:p></span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref194559516'><span style='mso-bookmark:_Ref194559499'><span
+style='mso-bookmark:_Toc189542107'><span style='mso-bookmark:_Ref208567045'><span
+style='mso-bookmark:_Ref208567030'><span style='mso-bookmark:_Ref208117450'><span
+style='mso-bookmark:_Ref208117447'><span style='mso-bookmark:_Toc197149406'><span
+style='mso-bookmark:_Toc197149345'><span style='mso-bookmark:_Toc197149264'><span
+lang=HU style='color:black'><span style='mso-spacerun:yes'>        </span></span><span
+lang=HU style='color:blue'>if</span><span lang=HU style='color:black'>(</span><span
+lang=HU style='color:purple'>$_</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:red'>-match</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:purple'>$regex</span><span lang=HU style='color:black'>){<o:p></o:p></span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref194559516'><span style='mso-bookmark:_Ref194559499'><span
+style='mso-bookmark:_Toc189542107'><span style='mso-bookmark:_Ref208567045'><span
+style='mso-bookmark:_Ref208567030'><span style='mso-bookmark:_Ref208117450'><span
+style='mso-bookmark:_Ref208117447'><span style='mso-bookmark:_Toc197149406'><span
+style='mso-bookmark:_Toc197149345'><span style='mso-bookmark:_Toc197149264'><span
+lang=HU style='color:black'><span style='mso-spacerun:yes'>            </span><b>New-Object</b>
+<i>-TypeName</i> </span><span lang=HU style='color:maroon'>PSObject</span><span
+lang=HU style='color:black'> <i>-Property</i> </span><span lang=HU
+style='color:purple'>$matches</span><span lang=HU style='color:black'> | <b>Select-Object</b>
+<i>-Property</i> </span><span lang=HU style='color:maroon'>*</span><span
+lang=HU style='color:black'> <i>-ExcludeProperty</i> 0 | <b>%</b>{<o:p></o:p></span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref194559516'><span style='mso-bookmark:_Ref194559499'><span
+style='mso-bookmark:_Toc189542107'><span style='mso-bookmark:_Ref208567045'><span
+style='mso-bookmark:_Ref208567030'><span style='mso-bookmark:_Ref208117450'><span
+style='mso-bookmark:_Ref208117447'><span style='mso-bookmark:_Toc197149406'><span
+style='mso-bookmark:_Toc197149345'><span style='mso-bookmark:_Toc197149264'><span
+lang=HU style='color:black'><span style='mso-spacerun:yes'>               
+</span><b>Add-Member</b> <i>-InputObject</i> </span><span lang=HU
+style='color:purple'>$_</span><span lang=HU style='color:black'> <i>-MemberType</i>
+</span><span lang=HU style='color:maroon'>noteproperty</span><span lang=HU
+style='color:black'> <i>-Name</i> </span><span lang=HU style='color:blue'>Process</span><span
+lang=HU style='color:black'> <i>-Value</i> </span><span lang=HU
+style='color:purple'>$procs</span><span lang=HU style='color:black'>.([</span><span
+lang=HU style='color:teal'>uint32</span><span lang=HU style='color:black'>] </span><span
+lang=HU style='color:purple'>$_</span><span lang=HU style='color:black'>.PID).name
+-PassThru |<o:p></o:p></span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref194559516'><span style='mso-bookmark:_Ref194559499'><span
+style='mso-bookmark:_Toc189542107'><span style='mso-bookmark:_Ref208567045'><span
+style='mso-bookmark:_Ref208567030'><span style='mso-bookmark:_Ref208117450'><span
+style='mso-bookmark:_Ref208117447'><span style='mso-bookmark:_Toc197149406'><span
+style='mso-bookmark:_Toc197149345'><span style='mso-bookmark:_Toc197149264'><span
+lang=HU style='color:black'><span style='mso-spacerun:yes'>                   
+</span><b>Add-Member</b> <i>-MemberType</i> </span><span lang=HU
+style='color:maroon'>noteproperty</span><span lang=HU style='color:black'> <i>-Name</i>
+</span><span lang=HU style='color:maroon'>Owner</span><span lang=HU
+style='color:black'> <i>-Value</i> </span><span lang=HU style='color:purple'>$procs</span><span
+lang=HU style='color:black'>.([</span><span lang=HU style='color:teal'>uint32</span><span
+lang=HU style='color:black'>] </span><span lang=HU style='color:purple'>$_</span><span
+lang=HU style='color:black'>.PID).owner -PassThru<o:p></o:p></span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref194559516'><span style='mso-bookmark:_Ref194559499'><span
+style='mso-bookmark:_Toc189542107'><span style='mso-bookmark:_Ref208567045'><span
+style='mso-bookmark:_Ref208567030'><span style='mso-bookmark:_Ref208117450'><span
+style='mso-bookmark:_Ref208117447'><span style='mso-bookmark:_Toc197149406'><span
+style='mso-bookmark:_Toc197149345'><span style='mso-bookmark:_Toc197149264'><span
+lang=HU style='color:black'><span style='mso-spacerun:yes'>            </span>}<o:p></o:p></span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref194559516'><span style='mso-bookmark:_Ref194559499'><span
+style='mso-bookmark:_Toc189542107'><span style='mso-bookmark:_Ref208567045'><span
+style='mso-bookmark:_Ref208567030'><span style='mso-bookmark:_Ref208117450'><span
+style='mso-bookmark:_Ref208117447'><span style='mso-bookmark:_Toc197149406'><span
+style='mso-bookmark:_Toc197149345'><span style='mso-bookmark:_Toc197149264'><span
+lang=HU style='color:black'><span style='mso-spacerun:yes'>        </span>}<o:p></o:p></span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref194559516'><span style='mso-bookmark:_Ref194559499'><span
+style='mso-bookmark:_Toc189542107'><span style='mso-bookmark:_Ref208567045'><span
+style='mso-bookmark:_Ref208567030'><span style='mso-bookmark:_Ref208117450'><span
+style='mso-bookmark:_Ref208117447'><span style='mso-bookmark:_Toc197149406'><span
+style='mso-bookmark:_Toc197149345'><span style='mso-bookmark:_Toc197149264'><span
+lang=HU style='color:black'><span style='mso-spacerun:yes'>    </span>} <o:p></o:p></span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref194559516'><span
+style='mso-bookmark:_Ref194559499'><span style='mso-bookmark:_Toc189542107'><span
+style='mso-bookmark:_Ref208567045'><span style='mso-bookmark:_Ref208567030'><span
+style='mso-bookmark:_Ref208117450'><span style='mso-bookmark:_Ref208117447'><span
+style='mso-bookmark:_Toc197149406'><span style='mso-bookmark:_Toc197149345'><span
+style='mso-bookmark:_Toc197149264'><span lang=HU style='color:black'>}</span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref194559516'><span style='mso-bookmark:_Ref194559499'><span
+style='mso-bookmark:_Toc189542107'><span style='mso-bookmark:_Ref208567045'><span
+style='mso-bookmark:_Ref208567030'><span style='mso-bookmark:_Ref208117450'><span
+style='mso-bookmark:_Ref208117447'><span style='mso-bookmark:_Toc197149406'><span
+style='mso-bookmark:_Toc197149345'><span style='mso-bookmark:_Toc197149264'><span
+lang=HU>A trükk itt az, hogy külön kigyűjtöm a processzeket a WMI segítségével
+egy hashtáblába, a kulcs a processzazonosító, így az adott NetStat kimeneti
+sorhoz elég könnyű hozzárántani a processz nevét és tulajdonosát.</span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref194559516'><span style='mso-bookmark:_Ref194559499'><span
+style='mso-bookmark:_Toc189542107'><span style='mso-bookmark:_Ref208567045'><span
+style='mso-bookmark:_Ref208567030'><span style='mso-bookmark:_Ref208117450'><span
+style='mso-bookmark:_Ref208117447'><span style='mso-bookmark:_Toc197149406'><span
+style='mso-bookmark:_Toc197149345'><span style='mso-bookmark:_Toc197149264'><span
+lang=HU>Nézzük, milyen kimenetet kapunk, persze ilyen keskeny nézetben nem sok
+látszik az adatokból, így inkább mindez GridView-ban:</span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p class=Kp>
+ <img src="PowerShell5_files/image150.png">
+</p>
+
+<p class=MsoCaption><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref194559516'><span style='mso-bookmark:_Ref194559499'><span
+style='mso-bookmark:_Toc189542107'><span style='mso-bookmark:_Ref208567045'><span
+style='mso-bookmark:_Ref208567030'><span style='mso-bookmark:_Ref208117450'><span
+style='mso-bookmark:_Ref208117447'><span style='mso-bookmark:_Toc197149406'><span
+style='mso-bookmark:_Toc197149345'><span style='mso-bookmark:_Toc197149264'></span></span></span></span></span></span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref194559516'><span
+style='mso-bookmark:_Ref194559499'><span style='mso-bookmark:_Toc189542107'><span
+style='mso-bookmark:_Ref208567045'><span style='mso-bookmark:_Ref208567030'><span
+style='mso-bookmark:_Ref208117450'><span style='mso-bookmark:_Ref208117447'><span
+style='mso-bookmark:_Toc197149406'><span style='mso-bookmark:_Toc197149345'><span
+style='mso-bookmark:_Toc197149264'><span lang=HU><span style='mso-no-proof:
+yes'>128</span></span></span></span></span></span></span></span></span></span></span></span></span>
+<span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Ref194559516'><span style='mso-bookmark:
+_Ref194559499'><span style='mso-bookmark:_Toc189542107'><span style='mso-bookmark:
+_Ref208567045'><span style='mso-bookmark:_Ref208567030'><span style='mso-bookmark:
+_Ref208117450'><span style='mso-bookmark:_Ref208117447'><span style='mso-bookmark:
+_Toc197149406'><span style='mso-bookmark:_Toc197149345'><span style='mso-bookmark:
+_Toc197149264'><span lang=HU>. ábra Get-NetStat IP címekkel és portszámokkal</span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p class=Kp>
+ <img src="PowerShell5_files/image151.png">
+</p>
+
+<p class=MsoCaption><span style='mso-bookmark:_Toc189542102'><span
+style='mso-bookmark:_Ref194559516'><span style='mso-bookmark:_Ref194559499'><span
+style='mso-bookmark:_Toc189542107'><span style='mso-bookmark:_Ref208567045'><span
+style='mso-bookmark:_Ref208567030'><span style='mso-bookmark:_Ref208117450'><span
+style='mso-bookmark:_Ref208117447'><span style='mso-bookmark:_Toc197149406'><span
+style='mso-bookmark:_Toc197149345'><span style='mso-bookmark:_Toc197149264'></span></span></span></span></span></span></span></span></span></span></span>
+<span
+style='mso-bookmark:_Toc189542102'><span style='mso-bookmark:_Ref194559516'><span
+style='mso-bookmark:_Ref194559499'><span style='mso-bookmark:_Toc189542107'><span
+style='mso-bookmark:_Ref208567045'><span style='mso-bookmark:_Ref208567030'><span
+style='mso-bookmark:_Ref208117450'><span style='mso-bookmark:_Ref208117447'><span
+style='mso-bookmark:_Toc197149406'><span style='mso-bookmark:_Toc197149345'><span
+style='mso-bookmark:_Toc197149264'><span lang=HU><span style='mso-no-proof:
+yes'>129</span></span></span></span></span></span></span></span></span></span></span></span></span>
+<span style='mso-bookmark:
+_Toc189542102'><span style='mso-bookmark:_Ref194559516'><span style='mso-bookmark:
+_Ref194559499'><span style='mso-bookmark:_Toc189542107'><span style='mso-bookmark:
+_Ref208567045'><span style='mso-bookmark:_Ref208567030'><span style='mso-bookmark:
+_Ref208117450'><span style='mso-bookmark:_Ref208117447'><span style='mso-bookmark:
+_Toc197149406'><span style='mso-bookmark:_Toc197149345'><span style='mso-bookmark:
+_Toc197149264'><span lang=HU>. ábra Get-NetStat gép- és portnevekkel</span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>

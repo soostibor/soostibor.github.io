@@ -1,0 +1,345 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml xml:lang="hu" lang="hu""
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="PowerShell5_files/filelist.xml">
+<link rel=Edit-Time-Data href="PowerShell5_files/editdata.mso">
+<link rel=OLE-Object-Data href="PowerShell5_files/oledata.mso">
+
+
+<title>1.7.2 </title>
+
+
+<link rel=dataStoreItem href="PowerShell5_files/item0001.xml"
+target="PowerShell5_files/props002.xml">
+<link rel=themeData href="PowerShell5_files/themedata.thmx">
+<link rel=colorSchemeMapping href="PowerShell5_files/colorschememapping.xml">
+
+
+
+
+<link rel="StyleSheet" href="PowerShell5.css">
+
+
+
+
+
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:35.4pt;word-wrap:
+break-word'>
+
+<h3 style='mso-list:l1 level3 lfo1'><span style='mso-bookmark:_Toc189542093'><a
+name="_Toc179036967"></a><a name="_Toc197149205"></a><a name="_Toc204716216"></a><a
+name="_Toc209115759"><span style='mso-bookmark:_Toc204716216'><span
+style='mso-bookmark:_Toc197149205'><span style='mso-bookmark:_Toc179036967'>
+<span lang=HU>Változók
+kiszippantása a szkriptekből (dot sourcing)</span></span></span></span></a></span></h3>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542093'><span lang=HU>A
+függvényeknél már látott, de a scripteknél még gyakrabban alkalmazott
+dotsourcing lehetőséget elevenítsük fel ismét. Ehhez hasonló szolgáltatással
+korábban (cmd, VBScript, stb.) egyáltalán nem találkozhattunk. Készítsük el a
+következő szkriptet, akár a Notepad segítségével:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>$a = &quot;egyik-&quot;</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>$b = &quot;másik&quot;</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>$c = $a + $b</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>&quot;`$c = $c&quot;</span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542093'><span lang=HU>Mentsük
+el a fájlt, mondjuk a </span></span><span style='mso-bookmark:_Toc189542093'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>c:\scripts</span></span><span
+lang=HU> mappába </span></span><span style='mso-bookmark:_Toc189542093'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>source.ps1</span></span><span
+lang=HU> néven! Ezután futtassuk le az elkészült szkriptet, ami kiírja a </span></span><span
+style='mso-bookmark:_Toc189542093'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$c</span></span><span lang=HU>
+változó tartalmát, majd a szkript lefutása után nézzük meg, milyen érték van a </span></span><span
+style='mso-bookmark:_Toc189542093'><span class=KdInlineChar><span lang=HU
+style='mso-bidi-font-family:"Times New Roman"'>$c</span></span><span lang=HU>
+változóban! A helyes tipp az, hogy semmilyen. Ez így természetes, a szkript és
+a konzol külön munkamenetnek tekintendő, a szkript a konzol „gyerekkörnyezete”,
+a konzol ezért nem éri el a gyereke adatait.</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>PS C:\&gt; c:\scripts\source.ps1</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>$c = egyik-másik</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>PS C:\&gt; $c</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>PS C:\&gt;</span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542093'><span lang=HU>Eddig
+tehát tulajdonképpen semmi meglepőt nem tapasztaltunk, inkább az lett volna
+furcsa, ha nem így van. Ha azonban a korában látott „dotsourcing” (</span></span>
+<span
+style='mso-bookmark:_Toc189542093'><span lang=HU><i style='mso-bidi-font-style:
+normal'>1.6.5</i>
+</span></span>
+<span
+style='mso-bookmark:_Toc189542093'><span lang=HU><i style='mso-bidi-font-style:
+normal'> </i></span></span>
+<span
+style='mso-bookmark:_Toc189542093'><span lang=HU><i style='mso-bidi-font-style:
+normal'>Függvények láthatósága, „dotsourcing”</i>
+</span></span>
+<span
+style='mso-bookmark:_Toc189542093'><span lang=HU> fejezet) módon indítjuk el
+szkriptünket, akkor a függvényeknél már látottaknak megfelelően a változó
+elérhetővé válik:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;page-break-after:avoid;background:#F2F2F2;mso-shading:windowtext;
+mso-pattern:gray-5 auto'><span style='mso-bookmark:_Toc189542093'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; .
+c:\scripts\source.ps1</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;page-break-after:avoid;background:#F2F2F2;mso-shading:windowtext;
+mso-pattern:gray-5 auto'><span style='mso-bookmark:_Toc189542093'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>$c = egyik-másik</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;page-break-after:avoid;background:#F2F2F2;mso-shading:windowtext;
+mso-pattern:gray-5 auto'><span style='mso-bookmark:_Toc189542093'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>PS C:\&gt; $c</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>egyik-másik</span></span></p>
+
+</div>
+
+<p class=SzvegCxSpFirst><span style='mso-bookmark:_Toc189542093'><span lang=HU>A
+konzol munkamenet, a globális scope „tudja”, hogy mi volt a változó értéke a
+szkriptben, ami már réges-rég véget ért. Ez a jelenség a függvényeknél már
+megismert „dotsourcing</span></span>
+<span
+style='mso-bookmark:_Toc189542093'></span>
+<span
+style='mso-bookmark:_Toc189542093'><span lang=HU>”, amelynek hatására a szkript
+valamennyi változója az őt meghívó környezet változójává alakult, jelen esetben
+globálissá vált, vagyis minden munkamenet (így a konzol és más szkriptek is)
+elérhetik, felhasználhatják és megváltoztathatják a bennük tárolt értékeket még
+akkor is, amikor az őket létrehozó munkamenet (vagyis a szkript) már bezárult.</span></span></p>
+
+<p class=SzvegCxSpMiddle><span style='mso-bookmark:_Toc189542093'><span
+lang=HU>Talán ez már nyilvánvaló, hogy milyen hasznos ez a lehetőség, hiszen így
+a szkript által lekérdezett, létrehozott adatszerkezetek (például egy
+adatbázisból, vagy az Active Directoryból származó adathalmaz) a szkript
+lefuttatása után interaktív üzemmódban is listázhatók, feldolgozhatók. Vagyis
+egyszerre élvezhetjük a szkript- és az interaktív üzemmód előnyeit. Ha egy
+feladat egyik részét inkább szkriptként érdemes elkészíteni, de más részeknél
+egyszerűbb az interaktív üzemmód használata, akkor bátran használhatjuk ezt a
+lehetőséget, mindent olyan módon végezhetünk el, ahogy az a legkedvezőbb.</span></span></p>
+
+<p class=SzvegCxSpLast><span style='mso-bookmark:_Toc189542093'><span lang=HU>Még
+egy dolog jegyzendő meg itt. Nézzünk egy olyan szkriptet, ami tartalmaz még egy
+függvénydefiníciót is:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 3.0pt;
+mso-border-alt:wave windowtext 3.0pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;
+background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51;margin-left:8.5pt;margin-right:8.5pt'>
+
+<p class=KikopizhatCxSpFirst style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542093'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>param (</span><span
+lang=HU style='color:purple'>$x</span><span lang=HU style='color:black'>)<o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542093'><span
+lang=HU style='color:purple'>$a</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:red'>=</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:maroon'>&quot;Ez a script változója&quot;</span><span
+lang=HU style='color:black'><o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542093'><span
+lang=HU style='color:black;mso-color-alt:windowtext'>function </span><span
+lang=HU style='color:cadetblue'>belsőfv</span><span lang=HU style='color:black'>
+(</span><span lang=HU style='color:purple'>$y</span><span lang=HU
+style='color:black'>)<o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542093'><span
+lang=HU style='color:black'>{<o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542093'><span
+lang=HU style='color:black'><span style='mso-tab-count:1'>     </span></span><span
+lang=HU style='color:purple'>$a</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:red'>=</span><span lang=HU style='color:black'> </span><span
+lang=HU style='color:maroon'>&quot;Ez a fv változója&quot;</span><span lang=HU
+style='color:black'><o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542093'><span
+lang=HU style='color:black'><span style='mso-tab-count:1'>     </span></span><span
+lang=HU style='color:purple'>$x</span><span lang=HU style='color:black'><o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542093'><span
+lang=HU style='color:black'><span style='mso-tab-count:1'>     </span></span><span
+lang=HU style='color:purple'>$y</span><span lang=HU style='color:black'><o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542093'><span
+lang=HU style='color:black'><span style='mso-tab-count:1'>     </span></span><span
+lang=HU style='color:purple'>$a</span><span lang=HU style='color:black'><o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542093'><span
+lang=HU style='color:black'><span style='mso-tab-count:1'>     </span></span><span
+lang=HU style='color:purple'>$script:a</span><span lang=HU style='color:black'><o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542093'><span
+lang=HU style='color:black'><span style='mso-tab-count:1'>     </span></span><span
+lang=HU style='color:purple'>$global:a</span><span lang=HU style='color:black'><o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542093'><span
+lang=HU style='color:black'>}<o:p></o:p></span></span></p>
+
+<p class=KikopizhatCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;
+mso-add-space:auto;background:#FDE9D9;mso-background-themecolor:accent6;
+mso-background-themetint:51'><span style='mso-bookmark:_Toc189542093'><span
+lang=HU style='color:black'><o:p>&nbsp;</o:p></span></span></p>
+
+<p class=KikopizhatCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#FDE9D9;mso-background-themecolor:accent6;mso-background-themetint:
+51'><span style='mso-bookmark:_Toc189542093'><span lang=HU style='color:cadetblue'>belsőfv</span><span
+lang=HU style='color:black'> </span><span lang=HU style='color:maroon'>&quot;Y
+értéke&quot;<o:p></o:p></span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542093'><span lang=HU>Ebben a
+szkriptben minden jó van: átadott paraméter, belső változó, függvénydefiníció,
+a függvénynek saját változója. Ráadásul „a” nevű változó mindenütt lehet.
+Definiálok tehát egy „külső” </span></span><span style='mso-bookmark:_Toc189542093'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$a</span></span><span
+lang=HU> változót és futtatom a szkriptet egy átadott paraméterrel:</span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
+padding:4.0pt 4.0pt 4.0pt 4.0pt;mso-border-shadow:yes;background:#F2F2F2;
+mso-shading:windowtext;mso-pattern:gray-5 auto;margin-left:8.5pt;margin-right:
+8.5pt'>
+
+<p class=KdCxSpFirst style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>PS C:\&gt; $a = &quot;Globális A&quot;</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>PS C:\&gt; .\_munka\scriptscope.ps1 &quot;Ez az X értéke&quot;</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Ez az X értéke</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Y értéke</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Ez a fv változója</span></span></p>
+
+<p class=KdCxSpMiddle style='margin:0cm;margin-bottom:.0001pt;mso-add-space:
+auto;background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Ez a script változója</span></span></p>
+
+<p class=KdCxSpLast style='margin:0cm;margin-bottom:.0001pt;mso-add-space:auto;
+background:#F2F2F2;mso-shading:windowtext;mso-pattern:gray-5 auto'><span
+style='mso-bookmark:_Toc189542093'><span lang=HU style='color:black;mso-color-alt:
+windowtext'>Globális A</span></span></p>
+
+</div>
+
+<p class=Szveg><span style='mso-bookmark:_Toc189542093'><span lang=HU>Látható,
+hogy minden szint </span></span><span style='mso-bookmark:_Toc189542093'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>$a</span></span><span
+lang=HU> változóját meg tudtam jeleníteni. A szkriptnek tehát van egy külön
+érvényességi területe, ez pedig a </span></span><span style='mso-bookmark:_Toc189542093'><span
+class=KdInlineChar><span lang=HU style='mso-bidi-font-family:"Times New Roman"'>script</span></span><span
+lang=HU>.</span></span></p>
+
+<P><P><BR><BR><P class=MsoNormal style="text-align:center;font-size:10"><a href="http://www.technoriversoft.com/wordtohtmlconversion.html">Word To HTML Converter</a>
+
+</body>
+
+</html>
